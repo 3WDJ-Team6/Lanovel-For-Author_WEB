@@ -1,8 +1,11 @@
 ### npm install -g bower
 
+npm install -g bower-installer
+
 ### bower install <package>
 
 bower install jquery -save
+bower-installer - 지정된 path로 설치한 파일을 넣는 과정
 
 #### installs the project dependencies listed in bower.json
 
