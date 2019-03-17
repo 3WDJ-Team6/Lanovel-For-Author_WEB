@@ -63,7 +63,4 @@
   <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
   <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 
-  <!-- Custom scripts for this template -->
-  <script src="{{asset('js/clean-blog.min.js')}}"></script>
-
   @endsection
