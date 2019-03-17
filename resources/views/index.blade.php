@@ -49,18 +49,10 @@
             on September 24, 2019</p>
         </div>
         <hr>
-       
-
         <!-- Pager -->
 
       </div>
     </div>
   </div>
-
-
-
-  <!-- Bootstrap core JavaScript -->
-  <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
-  <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 
   @endsection
