@@ -26,7 +26,7 @@ class FileController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'image' => 'required|image|max:2048'
+            'image' => 'required|image|max:16384'
         ]);
 
         if ($request->hasFile('image')) {
