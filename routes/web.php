@@ -5,11 +5,14 @@
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| WEB Route는 WEB 미들웨어를 사용하고
+| API Route는 API 미들웨어를 사용한다.
+| 웹 미들웨어는 CSRF 보호 및 세션과 같은 항목이 포함된다.
+| API Route는 상태 비저장(stateless)고 WEB Route는 (stateful)이다.
+|
 |
 */
+
 
 Route::get('/', function () {
     return view('index');
@@ -21,4 +24,4 @@ Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destr
 
 # auth # make:auth로 생성 
 Route::get('/home', 'HomeController@index')->name('home');
-Auth::routes(); //로그인에 관한 모든 기능 연결 
+
