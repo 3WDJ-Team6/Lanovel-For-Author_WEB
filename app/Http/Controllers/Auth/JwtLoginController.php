@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 class JwtLoginController extends Controller
 {
+    # api route login with jwt
     // public function login(Request $request)
     // {
 

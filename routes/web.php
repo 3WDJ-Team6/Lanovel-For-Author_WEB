@@ -14,7 +14,7 @@
 Route::get('/', function () {
     return view('index');
 });
-
+#
 # aws s3 ssset upload 기능  
 Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
 Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함

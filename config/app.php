@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     |
     */
-
+    #
     'log' => env('APP_LOG', 'daily'),
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
     'name' => env('APP_NAME', 'Laravel'),

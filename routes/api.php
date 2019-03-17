@@ -19,6 +19,7 @@ use App\Http\Controllers\Auth\JwtLoginController;
 // });
 
 #Jwt token Login add
+#
 
 Route::group([
     'namespace' => 'Auth',
