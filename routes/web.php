@@ -24,4 +24,5 @@ Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destr
 
 # auth # make:auth로 생성 
 Route::get('/home', 'HomeController@index')->name('home');
-
+Auth::routes(); //로그인에 관한 모든 기능 연결
+Route::view('editor', 'editor/tool/editor');
