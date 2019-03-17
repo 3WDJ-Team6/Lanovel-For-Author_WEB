@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'web', # default : web -> api
         'passwords' => 'users',
     ],
 
@@ -35,14 +35,14 @@ return [
     |
     */
 
-    'guards' => [
+    'guards' => [   # 인증방식 session -> jwt token 
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'token',    #token -> jwt
             'provider' => 'users',
         ],
     ],
