@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e182752300acf9acb469584bfed5e5c2",
+    "content-hash": "3ff17d836bff5cfad01a1652f9062a08",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1047,6 +1047,70 @@
             "time": "2018-12-12T13:12:06+00:00"
         },
         {
+            "name": "laravel/socialite",
+            "version": "v4.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/socialite.git",
+                "reference": "0bb624e7e52c1858240c783a5418b8dcc5a7c2d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/0bb624e7e52c1858240c783a5418b8dcc5a7c2d1",
+                "reference": "0bb624e7e52c1858240c783a5418b8dcc5a7c2d1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "~6.0",
+                "illuminate/contracts": "~5.7.0|~5.8.0",
+                "illuminate/http": "~5.7.0|~5.8.0",
+                "illuminate/support": "~5.7.0|~5.8.0",
+                "league/oauth1-client": "~1.0",
+                "php": "^7.1.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "~1.0",
+                "phpunit/phpunit": "~7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Socialite\\SocialiteServiceProvider"
+                    ],
+                    "aliases": {
+                        "Socialite": "Laravel\\Socialite\\Facades\\Socialite"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Socialite\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel wrapper around OAuth 1 & OAuth 2 libraries.",
+            "homepage": "https://laravel.com",
+            "keywords": [
+                "laravel",
+                "oauth"
+            ],
+            "time": "2019-03-15T12:39:01+00:00"
+        },
+        {
             "name": "laravel/tinker",
             "version": "v1.0.8",
             "source": {
@@ -1344,6 +1408,69 @@
             ],
             "description": "An adapter decorator to enable meta-data caching.",
             "time": "2018-07-09T20:51:04+00:00"
+        },
+        {
+            "name": "league/oauth1-client",
+            "version": "1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/oauth1-client.git",
+                "reference": "fca5f160650cb74d23fc11aa570dd61f86dcf647"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/oauth1-client/zipball/fca5f160650cb74d23fc11aa570dd61f86dcf647",
+                "reference": "fca5f160650cb74d23fc11aa570dd61f86dcf647",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9",
+                "phpunit/phpunit": "^4.0",
+                "squizlabs/php_codesniffer": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\OAuth1\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Corlett",
+                    "email": "bencorlett@me.com",
+                    "homepage": "http://www.webcomm.com.au",
+                    "role": "Developer"
+                }
+            ],
+            "description": "OAuth 1.0 Client Library",
+            "keywords": [
+                "Authentication",
+                "SSO",
+                "authorization",
+                "bitbucket",
+                "identity",
+                "idp",
+                "oauth",
+                "oauth1",
+                "single sign on",
+                "trello",
+                "tumblr",
+                "twitter"
+            ],
+            "time": "2016-08-17T00:36:58+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1971,6 +2098,43 @@
             "time": "2016-01-26T13:27:02+00:00"
         },
         {
+            "name": "pouu69/kakao-api",
+            "version": "1.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pouu69/KakaoApi.git",
+                "reference": "e247bf9278242facd99214b13c516b21532ba9e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pouu69/KakaoApi/zipball/e247bf9278242facd99214b13c516b21532ba9e1",
+                "reference": "e247bf9278242facd99214b13c516b21532ba9e1",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.0",
+                "php": ">=5.5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "pouu69\\KakaoApi\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KwanUng",
+                    "email": "pouu69@gmail.com"
+                }
+            ],
+            "description": "kakao api for laravel 5",
+            "time": "2016-11-23T04:32:41+00:00"
+        },
+        {
             "name": "psr/cache",
             "version": "1.0.1",
             "source": {
@@ -2405,6 +2569,95 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "socialiteproviders/kakao",
+            "version": "v4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Kakao.git",
+                "reference": "5491c5f0e198fca502e1bb8316b29983981fd53e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Kakao/zipball/5491c5f0e198fca502e1bb8316b29983981fd53e",
+                "reference": "5491c5f0e198fca502e1bb8316b29983981fd53e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "socialiteproviders/manager": "~2.0 || ~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Kakao\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Doojin So",
+                    "email": "sodoojin@gmail.com"
+                }
+            ],
+            "description": "Kakao OAuth2 Provider for Laravel Socialite",
+            "time": "2018-06-20T11:00:41+00:00"
+        },
+        {
+            "name": "socialiteproviders/manager",
+            "version": "v3.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Manager.git",
+                "reference": "58b72a667da292a1d0a0b1e6e9aeda4053617030"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Manager/zipball/58b72a667da292a1d0a0b1e6e9aeda4053617030",
+                "reference": "58b72a667da292a1d0a0b1e6e9aeda4053617030",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/socialite": "~3.0|~4.0",
+                "php": "^5.6 || ^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.4",
+                "phpunit/phpunit": "^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SocialiteProviders\\Manager\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Manager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andy Wendt",
+                    "email": "andy@awendt.com"
+                },
+                {
+                    "name": "Anton Komarev",
+                    "email": "a.komarev@cybercog.su"
+                }
+            ],
+            "description": "Easily add new or override built-in providers in Laravel Socialite.",
+            "time": "2019-01-16T07:58:54+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
