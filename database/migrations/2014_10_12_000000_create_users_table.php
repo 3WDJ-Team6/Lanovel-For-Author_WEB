@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->integer('roles')->default(1)->comment("역할");
             $table->boolean('adult_certification')->default(false)->comment("성인인증여부");
             $table->integer('phone_number')->nullable()->comment("휴대전화번호");
+
             $table->rememberToken();
             $table->timestamps();
         });

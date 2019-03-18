@@ -7,6 +7,7 @@ use AWS;
 
 # aws를 이용하여 문자 보내기 
 # handle부분을 글이 댓글이 달릴 때 호출 (sns 수신 여부)
+# php artisan send:sms +82전화번호 할말 (띄워쓰기X)
 
 class SendSms extends Command
 {
