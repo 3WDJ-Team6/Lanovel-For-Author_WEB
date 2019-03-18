@@ -14,9 +14,17 @@ use App\CommentOfWork;
 use App\CommentOfIllustration;
 use App\WorkList;
 use App\PushAlarm;
+
+use App\SubscribeOrInterest;
+use App\ChatRoom;
+use App\RecommendOfWork;
+use App\BuyerOfIllustration;
+
 use Tymon\JWTAuth\Contracts\JWTSubject; # Update User model
 
 use Illuminate\Notifications\Notifiable; # 비밀번호 변경 메일을 위해 필요한 trait
+
+
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable; # 라라벨 인증
 
@@ -131,8 +139,34 @@ class User extends Authenticatable #implements JWTSubject
         return $this->hasMany('App\PushAlarm');
     }
 
-    // Jwt module not used
+    /**
+     * 하나의 회원은 여러 구독 및 관심 테이블을 가질 수 있다.
+     */
+    public function subscribe_or_interests(){
+        return $this->hasMany('App\SubscribeOrInterest');
+    }
 
+    /**
+     * 하나의 회원은 여러 채팅방을 가질 수 있다.
+     */
+    public function chat_room(){
+        return $this->hasMany('App\ChatRoom');
+    }
+    
+    /**
+     * 하나의 회원은 여러 추천 테이블을 갖는다.
+     */
+    public function recommend_of_works(){
+        return $this->hasMany('App\RecommendOfWork');
+    }
+
+    /**
+     * 하나의 회원은 여러 일러스트 구매 테이블을 갖는다.
+     */
+    public function buyer_of_illustrations(){
+        return $this->hasMany('App\BuyerOfIllustration');
+    }
+}
     public function getJWTIdentifier()
     {
         return $this->getKey();
