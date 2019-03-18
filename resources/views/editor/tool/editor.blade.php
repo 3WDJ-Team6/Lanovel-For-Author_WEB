@@ -2,7 +2,7 @@
 
 @section('header')
 <header>
-<div class="nav">
+    <div class="nav">
         <div class="nav-bar">
             <ul>
                 <li class="nav-btn" onmouseover="">ILLUSTORE</li>
@@ -14,7 +14,7 @@
                 <li class="nav-btn">발행</li>
             </ul>
         </div>
-</div>
+    </div>
 </header>
 @endsection
 
@@ -32,4 +32,4 @@
         </div>
     </div>
 </div>
-@endsection
+@endsection 

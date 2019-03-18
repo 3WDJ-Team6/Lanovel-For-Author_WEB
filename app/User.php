@@ -133,36 +133,33 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany('App\PushAlarm');
     }
-
     /**
      * 하나의 회원은 여러 구독 및 관심 테이블을 가질 수 있다.
      */
-    public function subscribe_or_interests()
-    {
-        return $this->hasMany('App\SubscribeOrInterest');
+    public function subscribe_or_interests(){
+        return  $this->hasMany('App\SubscribeOrInterest');
     }
 
     /**
      * 하나의 회원은 여러 채팅방을 가질 수 있다.
      */
-    public function chat_room()
-    {
-        return $this->hasMany('App\ChatRoom');
+    public function chat_room(){
+        return  $this->hasMany('App\ChatRoom');
     }
-
+    
     /**
      * 하나의 회원은 여러 추천 테이블을 갖는다.
      */
-    public function recommend_of_works()
-    {
-        return $this->hasMany('App\RecommendOfWork');
+    public function recommend_of_works(){
+        return  $this->hasMany('App\RecommendOfWork');
     }
 
     /**
      * 하나의 회원은 여러 일러스트 구매 테이블을 갖는다.
      */
-    public function buyer_of_illustrations()
-    {
-        return $this->hasMany('App\BuyerOfIllustration');
+    public function buyer_of_illustrations(){
+        return  $this->hasMany('App\BuyerOfIllustration');
     }
 }
+
+ 
