@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWorkListsTable extends Migration
+class CreateSubscribeOrInterestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateWorkListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('work_lists', function (Blueprint $table) {
+        Schema::create('subscribe_or_interests', function (Blueprint $table) {
             $table->integer('num_of_work')->comment("작품번호")->unsigned();
             $table->foreign('num_of_work')
                   ->references('num')->on('works')
@@ -24,9 +24,8 @@ class CreateWorkListsTable extends Migration
                   ->references('id')->on('users')
                   ->onDelete('cascade');
 
-            $table->boolean('accept_request')->default(0)->comment("작업참가여부");
+            $table->Boolean('role_of_work')->comment("구독or관심작품구분");
             $table->timestamps();
-            $table->string('last_time_of_working')->comment("작업최종수정시간");
         });
     }
 
@@ -37,6 +36,6 @@ class CreateWorkListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('work_lists');
+        Schema::dropIfExists('subscribe_or_interests');
     }
 }
