@@ -13,15 +13,10 @@ use App\CommentOfWork;
 use App\CommentOfIllustration;
 use App\WorkList;
 use App\PushAlarm;
-<<<<<<< HEAD
 use App\SubscribeOrInterest;
 use App\ChatRoom;
 use App\RecommendOfWork;
 use App\BuyerOfIllustration;
-=======
-use Tymon\JWTAuth\Contracts\JWTSubject; # Update User model
-
->>>>>>> 75d7e6b26b630e0c7cf69a85228236394942ad61
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -52,63 +47,72 @@ class User extends Authenticatable implements JWTSubject
      * 하나의 회원은 여러 작품을 가질 수 있다.
      * 하나의 작품은 여러 회원을 가질 수 있다.
      */
-    public function works(){
+    public function works()
+    {
         return $this->belongsToMany('App\Work');
     }
 
     /**
      * 하나의 회원은 하나의 뷰어 설정을 갖는다.
      */
-    public function viewer(){
+    public function viewer()
+    {
         return $this->hasOne('App\View');
     }
-    
+
     /**
      * 하나의 회원은 여러 메시지를 가질 수 있다.
      */
-    public function messages(){
+    public function messages()
+    {
         return $this->hasMany('App\Message');
     }
 
     /**
      * 하나의 회원은 여러 팔로잉 회원을 가질 수 있다.
      */
-    public function followings(){
+    public function followings()
+    {
         return $this->hasMany('App\Following');
     }
 
     /**
      * 하나의 회원은 여러 일러스트 신청을 할 수 있다.
      */
-    public function request_of_illustrations(){
+    public function request_of_illustrations()
+    {
         return $this->hasMany('App\RequestOfIllustration');
     }
 
     /**
      * 하나의 회원은 여러 일러스트를 가질 수 있다.
      */
-    public function illustration_lists(){
+    public function illustration_lists()
+    {
         return $this->hasMany('App\IllustrationList');
     }
 
     /**
      * 하나의 회원은 여러 리뷰를 쓸 수 있다.
      */
-    public function reviews(){
+    public function reviews()
+    {
         return $this->hasMany('App\Review');
     }
 
     /**
      * 하나의 회원은 작품에 여러 댓글을 쓸 수 있다.
      */
-    public function comment_of_works(){
+    public function comment_of_works()
+    {
         return $this->hasMany('App\CommentOfWork');
     }
 
     /**
      * 하나의 회원은 일러스트에 여러 댓글을 쓸 수 있다.
      */
-    public function comment_of_illustrations(){
+    public function comment_of_illustrations()
+    {
         return $this->hasMany('App\CommentOfIllustration');
     }
 
@@ -117,56 +121,48 @@ class User extends Authenticatable implements JWTSubject
      * 하나의 작품 리스트는 여러 회원을 포함할 수 있다.
      * 회원 : 작품 리스트 = 일 : 다
      */
-    public function work_lists(){
+    public function work_lists()
+    {
         return $this->belongsTo('App\WorkList');
     }
 
     /**
      * 하나의 회원은 여러 푸쉬알람을 가질 수 있다.
      */
-    public function push_alarms(){
+    public function push_alarms()
+    {
         return $this->hasMany('App\PushAlarm');
     }
 
-<<<<<<< HEAD
     /**
      * 하나의 회원은 여러 구독 및 관심 테이블을 가질 수 있다.
      */
-    public function subscribe_or_interests(){
+    public function subscribe_or_interests()
+    {
         return $this->hasMany('App\SubscribeOrInterest');
     }
 
     /**
      * 하나의 회원은 여러 채팅방을 가질 수 있다.
      */
-    public function chat_room(){
+    public function chat_room()
+    {
         return $this->hasMany('App\ChatRoom');
     }
-    
+
     /**
      * 하나의 회원은 여러 추천 테이블을 갖는다.
      */
-    public function recommend_of_works(){
+    public function recommend_of_works()
+    {
         return $this->hasMany('App\RecommendOfWork');
     }
 
     /**
      * 하나의 회원은 여러 일러스트 구매 테이블을 갖는다.
      */
-    public function buyer_of_illustrations(){
+    public function buyer_of_illustrations()
+    {
         return $this->hasMany('App\BuyerOfIllustration');
     }
 }
-=======
-// Jwt module not used
-
-    public function getJWTIdentifier()
-    {
-        return $this->getKey();
-    }
-    public function getJWTCustomClaims()
-    {
-        return [];
-    }
-}
->>>>>>> 75d7e6b26b630e0c7cf69a85228236394942ad61
