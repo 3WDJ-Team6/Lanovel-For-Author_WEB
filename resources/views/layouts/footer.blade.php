@@ -1,5 +1,5 @@
 <div class="clearfix" style="text-align:center;">
-    <a class="btn btn-primary" href="#">Asset store &rarr;</a>
+    <a class="btn btn-primary" href="#">Illustore store &rarr;</a>
   </div>
 
   <!-- Footer -->
