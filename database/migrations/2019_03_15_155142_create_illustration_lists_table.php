@@ -25,7 +25,6 @@ class CreateIllustrationListsTable extends Migration
             $table->string('thumbnail')->nullable()->comment("썸네일");
             $table->integer('price_of_illustration')->comment("일러스트가격");
             $table->integer('hits_of_illustration')->comment("조회수");
-            $table->double('grade_of_illustration')->comment("평점");
             $table->integer('is_series')->default(0)->comment("시리즈여부");
             $table->integer('num_of_series')->default(1)->comment("시리즈내번호");
             $table->string('position_of_illustration')->comment("일러스트위치");
