@@ -7,8 +7,6 @@
         <div class="right-box">
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-
-
                 <img src="image/editor_logo.png" alt="logo" width="100%" style="margin-bottom: 50px">
 
                 <input placeholder=" ID" id="id" type="id" class="login{{ $errors->has('id') ? ' is-invalid' : '' }}" name="email" value="{{ old('id') }}" required autofocus>

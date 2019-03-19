@@ -21,6 +21,18 @@ class LoginController extends Controller
     |
     */
 
+    public function store()
+    {
+        //로그인 검증
+        return redirect()->intended('board'); // 로그인 하면 내가 요청했던 곳으로 감
+    }
+
+    public function destroy()
+    {
+        auth()->logout();
+        return redirect('/')->with('message', 'ありがとうございました。');
+    }
+
     use AuthenticatesUsers;
 
     protected $redirectTo = '/';
@@ -42,7 +54,6 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         #$user = User::where('email', $request->email)->first();
-        return "qwre";
         $credentials = $request->only('email', 'password'); //회원 정보중 email, password만 가져옴
         // return $credentials;
 
