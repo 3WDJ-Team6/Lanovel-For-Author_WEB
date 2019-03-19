@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Hash;
 use App\Work;
 use App\Viewer;
 use App\Message;
@@ -13,35 +14,31 @@ use App\CommentOfWork;
 use App\CommentOfIllustration;
 use App\WorkList;
 use App\PushAlarm;
-use App\SubscribeOrInterest;
-use App\ChatRoom;
-use App\RecommendOfWork;
-use App\BuyerOfIllustration;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject; # Update User model
 
-class User extends Authenticatable implements JWTSubject
+use Illuminate\Notifications\Notifiable; # 비밀번호 변경 메일을 위해 필요한 trait
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable; # 라라벨 인증
+
+
+class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'nickname', 'password', 'profile_photo', 'introduction_message', 'roles' #'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
+    # 쿼리 결과에서 제외할 칼럼들 (사용 안하는 칼럼)
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getAuthPassword()
+    {
+        // bcrypt 비교를 하지 않기 위해 강제로 해시를 생성한다.
+        return Hash::make($this->password);
+    }
 
     /**
      * 하나의 회원은 여러 작품을 가질 수 있다.
@@ -133,33 +130,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany('App\PushAlarm');
     }
-    /**
-     * 하나의 회원은 여러 구독 및 관심 테이블을 가질 수 있다.
-     */
-    public function subscribe_or_interests(){
-        return  $this->hasMany('App\SubscribeOrInterest');
-    }
-
-    /**
-     * 하나의 회원은 여러 채팅방을 가질 수 있다.
-     */
-    public function chat_room(){
-        return  $this->hasMany('App\ChatRoom');
-    }
-    
-    /**
-     * 하나의 회원은 여러 추천 테이블을 갖는다.
-     */
-    public function recommend_of_works(){
-        return  $this->hasMany('App\RecommendOfWork');
-    }
-
-    /**
-     * 하나의 회원은 여러 일러스트 구매 테이블을 갖는다.
-     */
-    public function buyer_of_illustrations(){
-        return  $this->hasMany('App\BuyerOfIllustration');
-    }
 }
-
- 

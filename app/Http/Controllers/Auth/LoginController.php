@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,6 +20,18 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
+
+    public function store()
+    {
+        //로그인 검증
+        return redirect()->intended('/'); // 로그인 하면 내가 요청했던 곳으로 감
+    }
+
+    public function destroy()
+    {
+        auth()->logout();
+        return redirect('/')->with('message', 'ありがとうございました。');
+    }
 
     use AuthenticatesUsers;
 
@@ -42,21 +54,18 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         #$user = User::where('email', $request->email)->first();
-        return "qwre";
         $credentials = $request->only('email', 'password'); //회원 정보중 email, password만 가져옴
-        // return $credentials;
+
+        return $credentials;
 
         if (Auth::attempt($credentials)) {  //로그인 성공시
-            return "로그인 성공";
+            echo "<script> alert('로그인 되었습니다.'); </script>";
+            return redirect('/')->with('status', '로그인 되었습니다.');
             #redirect('/');
         } else {                            //로그인 실패시
-            return "존재하지 않는 아이디 이거나 비밀번호를 확인 해 주세요!";
+            echo "<script>alert('존재하지 않는 아이디 이거나 비밀번호를 확인 해 주세요!');
+            history.back();</script>";
             #redirect('/')->with('message', '존재하지 않는 아이디 이거나 비밀번호를 확인 해 주세요!');
         }
-        // $creds = $request->only(['email', 'password']);
-        // if (!$token = auth()->attempt($creds)) { // 이 메서드가 실행되면 jwt-auth 패키지를 통해 실행됨.
-        //     return response()->json(['error' => 'Incorrect email/password'], 401);  // 토큰 없으면 401(Unauthorized)페이지 반환.
-        // }
-        // return response()->json(['token' => $token]);   //인증완료시 JWT TOKEN 반환.
     }
 }

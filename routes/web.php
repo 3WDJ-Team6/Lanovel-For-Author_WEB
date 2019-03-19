@@ -50,14 +50,4 @@ Route::view('editor', 'editor/tool/editor');
 # kakao login
 Route::get('loginForKakao', 'Auth\KakaoLoginController@index');
 Route::get('auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
-Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
-
-Route::get('episode', function () {
-
-    $episode = array(
-        ['title' => 'title'],
-        ['number' => 'number'],
-        ['data' => 'data']
-    );
-    return response()->json($episode, 200);
-});
+Route::get('auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
