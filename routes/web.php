@@ -50,5 +50,4 @@ Route::view('editor', 'editor/tool/editor');
 # kakao login
 Route::get('loginForKakao', 'Auth\KakaoLoginController@index');
 Route::get('auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
-Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
-
+Route::get('auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');

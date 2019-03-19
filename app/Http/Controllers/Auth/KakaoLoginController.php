@@ -25,19 +25,18 @@ class KakaoLoginController extends Controller
     public function handleProviderCallback()
     {
         //로그인 하면 실행되며 로그인을 처리해  줌
-        $kaUser = Socialite::driver('kakao')->user();
+        $kaUser = Socialite::driver('kakao')->stateless()->user();
 
         // return response()->json($kaUser, 200, [], JSON_PRETTY_PRINT); //어떤값이 오는지 확인
 
-        $password = $kaUser->token;    //password
-        $id = $kaUser->getId();     //id
+        $password = $kaUser->token;            //password
+        $id = $kaUser->getId();                //id
 
-        // return response()->json($password, 200, [], JSON_PRETTY_PRINT); //어떤값이 오는지 확인
+        $nickname = $kaUser->getNickName();    // 프로필 명
+        $profile_photo = $kaUser->getAvatar(); // 프로필 사진
 
-        $nickname = $kaUser->getNickName();
-        $profile_photo = $kaUser->getAvatar();
-
-        if (!User::all()->where('email', $id)->first()) { //DB에 있는 email과 카카오톡에서 가져온 id가 없다면 생성
+        # DB의 email과 카톡에서 가져온 비교, 없다면 생성
+        if (!User::all()->where('email', $id)->first()) {
 
             // $user = new User();                              
             user::create([   //가져온 값으로 회원가입 시킴
@@ -58,20 +57,15 @@ class KakaoLoginController extends Controller
             $oldImg = User::where('email', "$id")->value('profile_photo');
             User::where('profile_photo', "$oldImg")->update(['profile_photo' => "$profile_photo"]);
         }
-
-        // if (user::all()->where('email', $id)->first()){ // 방금 받은 토큰으로 저장
-        //     user::where('email', $id)->update(['password'=>$token]);   //이메일이 kaid인 값의 비번을 업데이트
-        // }else{
-        // }
-
         //회원가입 후 로그인 
 
         if (\Auth::attempt(['email' => $id, 'password' => $newPass])) {    // DB에 있는 토큰과 비교후 로그인
             // Authentication passed...
             echo "<script> alert('로그인 되었습니다.'); </script>";
-            // return redirect('/');
+            return redirect('/')->with('status', '로그인 되었습니다.');
         } else {
-            echo "<script>alert('로그인에 실패하였습니다.');</script>";
+            echo "<script>alert('로그인에 실패하였습니다.');
+            history.back();</script>";
             // return redirect()->intended('board');
         }
     }

@@ -5,7 +5,7 @@
 <div class="container">
     <div class="overlay">
         <div class="right-box">
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ url('login') }}">
                 @csrf
                 <img src="image/editor_logo.png" alt="logo" width="100%" style="margin-bottom: 50px">
 
