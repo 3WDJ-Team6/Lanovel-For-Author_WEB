@@ -26,7 +26,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $fillable = [
-        'email', 'nickname', 'password', 'profile_photo', 'introduction_message', 'roles' #'password',
+        'email', 'nickname', 'password', 'profile_photo', 'introduction_message', 'roles'
     ];
 
     # 쿼리 결과에서 제외할 칼럼들 (사용 안하는 칼럼)
