@@ -19,25 +19,21 @@ use App\Http\Controllers\Auth\JwtLoginController;
 // });
 
 #Jwt token Login add
-#
 
-Route::group([
-    'namespace' => 'Auth',
-    'middleware' => 'api',
-    'prefix' => 'password'
-], function () {
-    Route::post('/login', [
-        'as' => 'auth.login',
-        'uses' => 'Auth\JwtLoginController@login'
-    ]);
+# https://gracefullight.github.io/2017/11/03/Laravel-5-5-JWT-Auth-Guide/
 
-    Route::post('/posts', [
-        'as' => 'posts.index',
-        'uses' => 'Auth\PostController@index'
-    ]);
+// Route::group(['middleware' => 'auth:api'], function () {
+//     Route::get('member/logout', 'MemberController@logout');
+//     Route::get('member/me', 'MemberController@me');
+// });
 
-    Route::get('/refresh', 'Auth/JwtLoginController@refresh');
-});
+//     Route::post('/posts', [
+//         'as' => 'posts.index',
+//         'uses' => 'Auth\PostController@index'
+//     ]);
+
+//     Route::get('/refresh', 'Auth/JwtLoginController@refresh');
+// });
 
 
 
