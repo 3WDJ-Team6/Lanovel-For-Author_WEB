@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 	<title> </title>
 	<!-- Latest compiled and minified CSS -->
 	@yield('styles')
@@ -41,7 +43,7 @@
 	<footer>
 		@include('layouts.footer')
 	</footer>
-    
-    
+
 </body>
-</html>
+
+</html> 

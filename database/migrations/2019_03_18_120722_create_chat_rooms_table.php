@@ -14,7 +14,7 @@ class CreateChatRoomsTable extends Migration
     public function up()
     {
         Schema::create('chat_rooms', function (Blueprint $table) {
-            $table->increments('num')->comment("채팅방번호");
+            // $table->increments('num')->comment("채팅방번호");
 
             $table->integer('num_of_work')->comment("작품번호")->unsigned();
             $table->foreign('num_of_work')

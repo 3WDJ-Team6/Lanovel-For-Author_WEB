@@ -1,28 +1,31 @@
 /* login_ */
 body {
-    background: url("/image/maain.png");
     height: 100%;
     width: 100%;
-  }
-.overlay{
+}
+
+.overlay {
+
     position: absolute;
     background-color: #bababa;
-    background-color: rgba( 255, 255, 255, 0.5 );
+    background-color: rgba(255, 255, 255, 0.5);
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
 }
+
 .right-box {
     float: right;
     height: 100%;
     width: 50%;
     background-color: #ffffff;
-    background-color: rgba( 255, 255, 255, 0.5 );
+    background-color: rgba(255, 255, 255, 0.5);
     padding-top: 10%;
     padding-left: 10%;
     padding-right: 10%;
 }
+
 .login {
     border: 5px solid;
     border-color: rgba(30, 132, 228);
@@ -31,6 +34,7 @@ body {
     width: 100%;
     font-size: 30px;
 }
+
 .login-btn {
     font-size: 20px;
     font-weight: 800;
@@ -42,8 +46,9 @@ body {
     border: 0;
     float: right;
     margin-left: 100%;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
 }
+
 .invis-btn {
     float: right;
     border: 0;

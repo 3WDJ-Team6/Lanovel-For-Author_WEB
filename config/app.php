@@ -165,7 +165,13 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
+        pouu69\KakaoApi\KakaoServiceProvider::class, //kakao
+
+        Laravel\Passport\PassportServiceProvider::class, # API 인증 composer require laravel/passport
+
 
     ],
 
@@ -220,6 +226,9 @@ return [
         'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 
+        #socialite kakaotalk
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Kakao' => pouu69\KakaoApi\Facade\KakaoFacade::class,   //kakao Facade 등록 
     ],
 
 ];

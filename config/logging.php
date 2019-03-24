@@ -5,6 +5,7 @@ use Monolog\Handler\SyslogUdpHandler;
 
 //++++++++ 추가
 // console 실행 여부 판단해서 채널 분리
+
 $log_channel =  env('LOG_CHANNEL', 'stack');
 if ($app->runningInConsole()) {
     $log_channel = 'cli';
@@ -44,7 +45,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily'], #defualt single
         ],
 
         'single' => [
@@ -57,7 +58,7 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => 'debug',
-            'days' => 7,
+            'days' => 14,
         ],
 
         'slack' => [
