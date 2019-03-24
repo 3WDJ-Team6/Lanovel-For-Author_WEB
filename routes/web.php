@@ -60,8 +60,25 @@ Auth::routes(); //로그인에 관한 모든 기능 연결
 Route::view('test', 'auth/testlogin');
 
 Route::view('editor', 'editor/tool/editor');
+Route::get('editor_ep', function () {
 
+    $episode = [
+        [
+            'title' => '첫번째 죽음',
+            'number' => '1',
+            'data' => 'data'
+        ],
+        [
+            'title' => '12살 시절로',
+            'number' => '2',
+            'data' => 'data'
+        ],
+    ];
+        
+    return view('editor.tool.editor_ep')->with('episode', $episode);
+});
 # kakao login
 Route::get('loginForKakao', 'Auth\KakaginoLoController@index');
 Route::get('auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
 Route::get('auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
+

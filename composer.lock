@@ -8,6 +8,7 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
+
             "version": "3.90.6",
             "source": {
                 "type": "git",
@@ -18,6 +19,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4206c43ef904b24bc63680256e9f425cf32d53a1",
                 "reference": "4206c43ef904b24bc63680256e9f425cf32d53a1",
+
                 "shasum": ""
             },
             "require": {
@@ -3669,7 +3671,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
