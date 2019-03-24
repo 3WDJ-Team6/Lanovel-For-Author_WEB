@@ -2,6 +2,14 @@
 
 @section('content')
 
+<script langauge="javascript">
+  function popup(){
+      var url="popup";
+      var option="width=600, height=300, top=100"
+      window.open(url, "", option);
+  }
+</script>
+
   <!-- Main Content -->
   <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
     <!-- Material inline 1 -->
@@ -9,6 +17,12 @@
 
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto" style="margin-top:50px; margin-bottom:50px;">
+        <div class="post-preview">
+        <h3 class="post-subtitle">
+          <a href="javascript:popup()" target="_blank">목차 추가</a>
+        </h3>
+        </div>
+        <hr>
         <div class="post-preview" >
           <a href={{url('editor/tool/editor')}}>
             <h3 class="post-subtitle">
