@@ -31,14 +31,23 @@
 
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="post-preview">
+          <div class="post-preview">
+              <a href="{{url('editor/main/book_add')}}">
+                <h3 class="post-title" style="margin-top:30px; margin-bottom:30px;">
+                  <img src="{{asset('image/aaa.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
+                  작품추가
+                </h3>
+          </div>
+            <hr>
+          <div class="post-preview">
           <a href="{{url('editor/main/list')}}">
-            <h2 class="post-title" style="margin-top:50px">
+            <h3 class="post-title" style="margin-top:30px; margin-bottom:30px;">
+              <img src="{{asset('image/logo.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
               작품1
-            </h2>
-            <h3 class="post-subtitle">
-              Problems look mighty small from 150 miles up
             </h3>
+            <h4 class="post-subtitle">
+              Problems look mighty small from 150 miles up
+            </h4>
           </a>
           <p class="post-meta">Posted by
             <a href="{{url('editor/main/graph')}}">Start Bootstrap</a>
@@ -47,12 +56,13 @@
         <hr>
         <div class="post-preview">
           <a href={{url('editor/main/list')}}>
-            <h2 class="post-title" style="margin-top:100px">
+            <h3 class="post-title" style="margin-top:30px; margin-bottom:30px;">
+              <img src="{{asset('image/logo.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
               작품2
-            </h2>
-            <h3 class="post-subtitle">
-              Problems look mighty small from 150 miles up
             </h3>
+            <h4 class="post-subtitle">
+              Problems look mighty small from 150 miles up
+            </h4>
           </a>
           <p class="post-meta">Posted by
             <a href="#">Start Bootstrap</a>
@@ -61,12 +71,13 @@
         <hr>
         <div class="post-preview">
           <a href={{url('editor/main/list')}}>
-            <h2 class="post-title" style="margin-top:100px">
+            <h3 class="post-title" style="margin-top:30px; margin-bottom:30px;">
+              <img src="{{asset('image/logo.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
               작품3
-            </h2>
-            <h3 class="post-subtitle">
-              Problems look mighty small from 150 miles up
             </h3>
+            <h4 class="post-subtitle">
+              Problems look mighty small from 150 miles up
+            </h4>
           </a>
           <p class="post-meta">Posted by
             <a href="#">Start Bootstrap</a>

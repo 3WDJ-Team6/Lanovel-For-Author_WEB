@@ -34,6 +34,16 @@ Route::get('editor/tool/editor', function () {
     return view('editor.tool.editor');
 });
 
+Route::get('editor/main/book_add', function () {
+    return view('editor.main.book_add');
+});
+
+Route::get('editor/main/popup', function () {
+    return view('editor.main.popup');
+});
+
+
+
 #
 # aws s3 ssset upload 기능  
 Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
@@ -43,3 +53,4 @@ Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destr
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes(); //로그인에 관한 모든 기능 연결
 Route::view('editor', 'editor/tool/editor');
+Route::view('graph3', 'editor/main/graph3');
