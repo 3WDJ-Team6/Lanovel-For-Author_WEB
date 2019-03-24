@@ -1,19 +1,19 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Hash;
-use App\Work;
-use App\Viewer;
-use App\Message;
-use App\Following;
-use App\RequestOfIllustration;
-use App\IllustrationList;
-use App\Review;
-use App\CommentOfWork;
-use App\CommentOfIllustration;
-use App\WorkList;
-use App\PushAlarm;
+use App\Models\Work;
+use App\Models\Viewer;
+use App\Models\Message;
+use App\Models\Following;
+use App\Models\RequestOfIllustration;
+use App\Models\IllustrationList;
+use App\Models\Review;
+use App\Models\CommentOfWork;
+use App\Models\CommentOfIllustration;
+use App\Models\WorkList;
+use App\Models\PushAlarm;
 use Tymon\JWTAuth\Contracts\JWTSubject; # Update User model
 
 use Illuminate\Notifications\Notifiable; # 비밀번호 변경 메일을 위해 필요한 trait

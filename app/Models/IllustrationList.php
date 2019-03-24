@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\User;
-use App\CommentOfIllustration;
-use App\Grade;
-use App\BuyerOfIllustration;
-use App\CategoryIllustration;
+use App\Models\User;
+use App\Models\CommentOfIllustration;
+use App\Models\Grade;
+use App\Models\BuyerOfIllustration;
+use App\Models\CategoryIllustration;
 use Illuminate\Database\Eloquent\Model;
 
 class IllustrationList extends Model

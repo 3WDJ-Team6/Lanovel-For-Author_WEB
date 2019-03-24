@@ -1,18 +1,20 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\User;
-use App\Review;
-use App\CommentOfWork;
-use App\WorkList;
-use App\PushAlarm;
-use App\SubscribeOrInterest;
-use App\ChatRoom;
-use App\RecommendOfWork;
-use App\Grade;
-use App\CategoryWork;
-use App\Contract;
+use App\Models\User;
+use App\Models\Review;
+use App\Models\CommentOfWork;
+use App\Models\WorkList;
+use App\Models\PushAlarm;
+use App\Models\SubscribeOrInterest;
+use App\Models\ChatRoom;
+use App\Models\RecommendOfWork;
+use App\Models\Grade;
+use App\Models\CategoryWork;
+use App\Models\Contract;
+use App\Models\PeriodOfWork;
+use App\Models\ChapterOfWork;
 use Illuminate\Database\Eloquent\Model;
 
 class Work extends Model
@@ -98,5 +100,19 @@ class Work extends Model
      */
     public function contract(){
         return $this->hasOne('App\Contract');
+    }
+
+    /**
+     * 하나의 작품은 하나의 연재 주기를 가질 수 있다.
+     */
+    public function period_of_work(){
+        return $this->hasOne('App\PeriodOfWork');
+    }
+
+    /**
+     * 하나의 작품은 여러 챕터를 가질 수 있다.
+     */
+    public function chapter_of_works(){
+        return $this->hasMany('App\ChapterOfWork');
     }
 }

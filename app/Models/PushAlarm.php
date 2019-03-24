@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\User;
-use App\Work;
+use App\Models\User;
+use App\Models\Work;
 use Illuminate\Database\Eloquent\Model;
 
 class PushAlarm extends Model

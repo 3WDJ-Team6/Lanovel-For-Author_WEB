@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\IllustrationList;
+use App\Models\IllustrationList;
 use Illuminate\Database\Eloquent\Model;
 
 class CategoryIllustration extends Model

@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Work;
+use App\Models\Work;
 use Illuminate\Database\Eloquent\Model;
 
 class CategoryWork extends Model
@@ -13,6 +13,6 @@ class CategoryWork extends Model
      * 하나의 작품은 여러개의 카테고리를 갖는다.
      */
     public function work(){
-        return $this->belongsTo('App\Work');
+        return $this->belongsTo('App\Models\Work');
     }
 }
