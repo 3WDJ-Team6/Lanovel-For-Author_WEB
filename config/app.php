@@ -170,6 +170,8 @@ return [
         \SocialiteProviders\Manager\ServiceProvider::class,
         pouu69\KakaoApi\KakaoServiceProvider::class, //kakao
 
+        Laravel\Passport\PassportServiceProvider::class, # API 인증 composer require laravel/passport
+
 
     ],
 

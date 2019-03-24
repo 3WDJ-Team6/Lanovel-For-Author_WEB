@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use PHPUnit\Util\Json;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,14 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/test2', function () {
+    if (Auth::user()) {
+        return "asdasd";
+    } else {
+        return "fuc";
+    }
+});
+
 Route::get('editor/main/graph', function () {
     return view('editor.main.graph');
 });
@@ -38,13 +47,18 @@ Route::get('editor/tool/editor', function () {
 });
 
 #
-# aws s3 ssset upload 기능  
+# aws s3 asset upload 기능  
 Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
 Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
+Route::get('ft', 'Storage\FileController@ft')->name('ft');
 
 # authoriztion # make:auth로 생성 
 Route::get('/home', 'HomeController@index')->name('home');
+
 Auth::routes(); //로그인에 관한 모든 기능 연결
+
+Route::view('test', 'auth/testlogin');
+
 Route::view('editor', 'editor/tool/editor');
 Route::get('editor_ep', function () {
 
@@ -64,7 +78,7 @@ Route::get('editor_ep', function () {
     return view('editor.tool.editor_ep')->with('episode', $episode);
 });
 # kakao login
-Route::get('loginForKakao', 'Auth\KakaoLoginController@index');
+Route::get('loginForKakao', 'Auth\KakaginoLoController@index');
 Route::get('auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
 Route::get('auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
 

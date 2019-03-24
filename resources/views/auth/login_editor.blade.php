@@ -1,15 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <div class="container">
     <div class="overlay">
         <div class="right-box">
-            <form method="POST" action="{{ url('login') }}">
+            <form method="post" action="{{ route('login') }}">
                 @csrf
                 <img src="image/editor_logo.png" alt="logo" width="100%" style="margin-bottom: 50px">
 
-                <input placeholder=" ID" id="id" type="id" class="login{{ $errors->has('id') ? ' is-invalid' : '' }}" name="email" value="{{ old('id') }}" required autofocus>
+                <input placeholder="ID" id="email" type="email" class="login{{ $errors->has('id') ? ' is-invalid' : '' }}" name="email" value="{{ old('id') }}" required autofocus>
 
                 @if ($errors->has('email'))
                 <span class="invalid-feedback" role="alert">
@@ -40,6 +39,12 @@
 
                 <a class="invis-btn" href="">회원가입</a>
 
+            </form>
+            <form action="{{route('logout')}}" method="post">
+                @csrf
+                <button type="submit" class="login-btn">
+                    {{ __('로그아웃') }}
+                </button>
             </form>
         </div>
     </div>

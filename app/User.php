@@ -14,15 +14,19 @@ use App\CommentOfWork;
 use App\CommentOfIllustration;
 use App\WorkList;
 use App\PushAlarm;
+
 use Tymon\JWTAuth\Contracts\JWTSubject; # Update User model
 
 use Illuminate\Notifications\Notifiable; # 비밀번호 변경 메일을 위해 필요한 trait
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable; # 라라벨 인증
 
+# Trait 사용
+use App\Traits\ModelScopes;
 
 class User extends Authenticatable
 {
+    use ModelScopes;
     use Notifiable;
 
     protected $fillable = [

@@ -17,7 +17,12 @@
 </head>
 
 <body>
+
     <div class="container">
+        {{ Auth::user() }}
+        @if(Auth::check())
+        @else failed
+        @endif
         <div class="row pt-5">
             <div class="col-sm-12">
                 @if ($errors->any())
@@ -48,6 +53,7 @@
                                 <form action="{{ url('images/' . $image['name']) }}" method="POST">
                                     {{ csrf_field() }}
                                     {{ method_field('DELETE') }}
+                                    <!-- 메서드 스푸핑!! -->
                                     <button type="submit" class="btn btn-default">Remove</button>
                                 </form>
                             </div>
@@ -70,7 +76,6 @@
             <div class="col-sm-4">
                 <div class="card border-0 text-center">
                     <form action="{{ url('/images') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
-                        {{ csrf_field() }}
                         <div class="form-group">
                             <input type="file" name="image" id="image">
                         </div>
