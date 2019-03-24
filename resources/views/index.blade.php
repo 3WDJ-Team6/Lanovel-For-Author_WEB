@@ -2,13 +2,22 @@
 
 @section('content')
 
-@if (session('status'))
-<div class="alert alert-success">
-    {{ session('status') }}
-</div>
-@endif
 <!-- Main Content -->
 <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
+
+    @if(\Auth::check())
+    <p>check</p>
+    <p>{{ Auth::user() }}</p>
+    <div>
+        <a href="{{url('assets/upload')}}">asset upload</a>
+
+    </div>
+    @else
+    @endif
+    <div>
+        {{Auth::user()['nickname']}}
+    </div>
+    <input type="hidden" name="_token" value="{{ Session::token() }}">
     <!-- Material inline 1 -->
     <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;">
         <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;">
@@ -21,7 +30,6 @@
         <label class="form-check-label" for="materialInline3">완결작</label>
         <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;">
         <label class="form-check-label" for="materialInline3">협업중</label>
-
 
     </div>
     <div class="row">

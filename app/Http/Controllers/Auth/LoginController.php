@@ -29,8 +29,8 @@ class LoginController extends Controller
 
     public function destroy()
     {
-        auth()->logout();
-        return redirect('/')->with('message', 'ありがとうございました。');
+        Auth::logout();
+        return redirect('/')->with('message', '로그아웃 하였습니다.');
     }
 
     use AuthenticatesUsers;
@@ -38,7 +38,7 @@ class LoginController extends Controller
     protected $redirectTo = '/';
     // protected function redirectTo()
     // {
-    //     return '/';
+    //     return route('login');
     // }
 
     public function __construct()
@@ -46,26 +46,29 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function showLoginForm()
-    {
-        return view('auth.login');
-    }
-
     public function login(Request $request)
     {
+
+        # 로그아웃으로 조진다음 하자
         #$user = User::where('email', $request->email)->first();
         $credentials = $request->only('email', 'password'); //회원 정보중 email, password만 가져옴
 
-        return $credentials;
+        // dd(Auth::attempt($credentials)); // type 반환
 
+        //post방식에서 redirect 권장하지 않음
         if (Auth::attempt($credentials)) {  //로그인 성공시
-            echo "<script> alert('로그인 되었습니다.'); </script>";
-            return redirect('/')->with('status', '로그인 되었습니다.');
+
+            $user = Auth::user();
+            return view('index', ['user' => $user])->with('message', '로그인 되었습니다.');
+
             #redirect('/');
         } else {                            //로그인 실패시
-            echo "<script>alert('존재하지 않는 아이디 이거나 비밀번호를 확인 해 주세요!');
-            history.back();</script>";
-            #redirect('/')->with('message', '존재하지 않는 아이디 이거나 비밀번호를 확인 해 주세요!');
+            return view('home')->with('message', '존재하지 않는 아이디 이거나 비밀번호를 확인 해 주세요!');
         }
+    }
+
+    public function showLoginForm()
+    {
+        return view('auth.login');
     }
 }
