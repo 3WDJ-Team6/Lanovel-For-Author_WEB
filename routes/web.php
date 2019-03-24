@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use PHPUnit\Util\Json;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,11 +22,19 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::get('/test2', function () {
+    if (Auth::user()) {
+        return "asdasd";
+    } else {
+        return "fuc";
+    }
+});
+
 Route::get('editor/main/graph', function () {
     return view('editor.main.graph');
 });
 
-Route::get('auth/login_editor', function () {
+Route::get('login/editor', function () {
     return view('auth.login_editor');
 });
 
@@ -30,16 +42,42 @@ Route::get('editor/main/list', function () {
     return view('editor/main/list');
 });
 
+Route::get('editor/tool/editor', function () {
+    return view('editor.tool.editor');
+});
+
+Route::get('editor/main/book_add', function () {
+    return view('editor.main.book_add');
+});
+
+Route::get('editor/main/popup', function () {
+    return view('editor.main.popup');
+});
+
+
+
 #
-# aws s3 ssset upload 기능  
+# aws s3 asset upload 기능  
 Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
 Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
+Route::get('ft', 'Storage\FileController@ft')->name('ft');
 
-# auth # make:auth로 생성 
+# authoriztion # make:auth로 생성 
 Route::get('/home', 'HomeController@index')->name('home');
+
 Auth::routes(); //로그인에 관한 모든 기능 연결
+
+Route::view('test', 'auth/testlogin');
+
 Route::view('editor', 'editor/tool/editor');
+<<<<<<< HEAD
 Route::get('editor', function () {
+=======
+
+Route::view('graph3', 'editor/main/graph3');
+
+Route::get('editor_ep', function () {
+>>>>>>> 17e7e5b7aa559c9a1304896111cb7f6a114df34c
 
     $episode = [
         [
@@ -54,7 +92,16 @@ Route::get('editor', function () {
         ],
     ];
         
+<<<<<<< HEAD
     return view('editor.tool.editor')->with('episode', $episode);
 });
 Route::get('res', 'ResourceController@index');
 Route::view('ep_add', 'editor/tool/episode_add');
+=======
+    return view('editor.tool.editor_ep')->with('episode', $episode);
+});
+# kakao login
+Route::get('loginForKakao', 'Auth\KakaginoLoController@index');
+Route::get('auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
+Route::get('auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
+>>>>>>> 17e7e5b7aa559c9a1304896111cb7f6a114df34c

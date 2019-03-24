@@ -4,23 +4,40 @@
     position: absolute;
     height: 100%;
     width: 100%;
+<<<<<<< HEAD:public/css/login_editor.css
   }
 .overlay{
     background-color: rgba( 255, 255, 255, 0.3 );
+=======
+}
+
+.overlay {
+
+    position: absolute;
+    background-color: #bababa;
+    background-color: rgba(255, 255, 255, 0.5);
+>>>>>>> 17e7e5b7aa559c9a1304896111cb7f6a114df34c:public/css/custom.css
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
 }
+
 .right-box {
     float: right;
     height: 100%;
     width: 50%;
+<<<<<<< HEAD:public/css/login_editor.css
     background-color: rgba( 255, 255, 255, 0.5 );
+=======
+    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.5);
+>>>>>>> 17e7e5b7aa559c9a1304896111cb7f6a114df34c:public/css/custom.css
     padding-top: 10%;
     padding-left: 10%;
     padding-right: 10%;
 }
+
 .login {
     border: 5px solid;
     border-color: rgba(30, 132, 228);
@@ -29,6 +46,7 @@
     width: 100%;
     font-size: 30px;
 }
+
 .login-btn {
     font-size: 20px;
     font-weight: 800;
@@ -40,8 +58,9 @@
     border: 0;
     float: right;
     margin-left: 100%;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
 }
+
 .invis-btn {
     float: right;
     border: 0;

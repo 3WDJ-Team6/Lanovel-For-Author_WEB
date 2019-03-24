@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Work;
+use App\Models\ContentOfWork;
+use Illuminate\Database\Eloquent\Model;
+
+class ChapterOfWork extends Model
+{
+    protected $table = "chapter_of_works";
+    public $timestamps = false;
+    protected $primaryKey = 'subtitle';
+    
+    /**
+     * 하나의 작품은 여러 챕터를 가질 수 있다.
+     */
+    public function work(){
+        return $this->belongsTo('App\Work');
+    }
+
+    /**
+     * 하나의 챕터는 여러 내용을 가질 수 있다.
+     */
+    
+    public function content_of_works()
+    {
+        return $this->hasMany('App\ContentOfWork');
+    }
+    
+}
