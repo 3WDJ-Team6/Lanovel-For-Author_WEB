@@ -14,7 +14,12 @@
                     </div>
                     @endif
 
-                    You are logged in!
+                    @if(Auth::user())
+                    {{Auth::user()['nickname']}}
+                    @else
+                    failed
+                    @endif
+
                 </div>
             </div>
         </div>
