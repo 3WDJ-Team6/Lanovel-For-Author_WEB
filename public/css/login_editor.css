@@ -4,19 +4,9 @@
     position: absolute;
     height: 100%;
     width: 100%;
-<<<<<<< HEAD:public/css/login_editor.css
   }
 .overlay{
     background-color: rgba( 255, 255, 255, 0.3 );
-=======
-}
-
-.overlay {
-
-    position: absolute;
-    background-color: #bababa;
-    background-color: rgba(255, 255, 255, 0.5);
->>>>>>> 17e7e5b7aa559c9a1304896111cb7f6a114df34c:public/css/custom.css
     top: 0;
     left: 0;
     height: 100%;
@@ -27,12 +17,7 @@
     float: right;
     height: 100%;
     width: 50%;
-<<<<<<< HEAD:public/css/login_editor.css
     background-color: rgba( 255, 255, 255, 0.5 );
-=======
-    background-color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.5);
->>>>>>> 17e7e5b7aa559c9a1304896111cb7f6a114df34c:public/css/custom.css
     padding-top: 10%;
     padding-left: 10%;
     padding-right: 10%;
