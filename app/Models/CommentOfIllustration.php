@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\User;
-use App\IllustrationList;
+use App\Models\User;
+use App\Models\IllustrationList;
 use Illuminate\Database\Eloquent\Model;
 
 class CommentOfIllustration extends Model

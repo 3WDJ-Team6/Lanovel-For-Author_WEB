@@ -1,7 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Models\User;
+use App\Models\Work;
 use Illuminate\Database\Eloquent\Model;
 
 class Rental extends Model

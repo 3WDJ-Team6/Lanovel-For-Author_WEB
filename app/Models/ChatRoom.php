@@ -1,13 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
+use App\Models\User;
+use App\Models\Work;
 use Illuminate\Database\Eloquent\Model;
 
 class ChatRoom extends Model
 {
     protected $table = 'chat_rooms';
-    protected $primaryKey = 'num';
+    // protected $primaryKey = 'num';
 
     /**
      * 하나의 회원은 여러 채팅방을 가질 수 있다.

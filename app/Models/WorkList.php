@@ -1,9 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Work;
-use App\User;
+use App\Models\Work;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class WorkList extends Model

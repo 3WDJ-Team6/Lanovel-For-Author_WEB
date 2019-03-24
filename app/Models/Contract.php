@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Work;
+use App\Models\Work;
 use Illuminate\Database\Eloquent\Model;
 
 class Contract extends Model

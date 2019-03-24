@@ -1,10 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use App\Work;
-use App\IllustrationList;
-use App\User;
+use App\Models\Work;
+use App\Models\IllustrationList;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Grade extends Model
