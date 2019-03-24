@@ -25,7 +25,7 @@ header li {
 
 /* content */
 .content {
-    padding: 3px;
+    padding: 5px;
 }
 .tool-bar {
     background-color: rgb(241, 241, 241);
@@ -68,63 +68,135 @@ header li {
 
 .area {
     border-left: 3px solid rgb(50, 186, 231);
-    border-bottom: 3.5px solid rgb(50, 186, 231);
-    border-right: 3.5px solid rgb(50, 186, 231);
+    border-bottom: 4px solid rgb(50, 186, 231);
+    border-right: 3px solid rgb(50, 186, 231);
     border-top: 0;
     background-color: white;
     width: 100%;
-    height: 505px;
+    height: 504px;
  
 }
-.ep_tem_area {
+.ep-tem-area {
+    background-color:  #23232e;
     border-right: 3.5px solid rgb(50, 186, 231);
     float: left;
     width: 33%;
     height: 502px;
+    color: #fff;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow-y:scroll;
+}
+
+.ep, .tem { 
+    width: auto;
+	height: auto;
+	max-height: fit-content;
+	position: relative;
+}
+
+.ep-title, .tem{
+    font-size: 2rem;
+    text-align: center;
+}
+.ep {
+    height: 100%;
+    -webkit-animation: showSlowlyElement 700ms;
+	animation: showSlowlyElement 700ms;
+}
+
+.ep-title {
+    height: 15%;
+}
+
+.ep-list{
+    background-color: rgba(55, 55, 67);
+    border-radius: 0.25em;
+    height: 70%;
+    padding: 8px;
+    overflow-y: scroll;
+    margin-bottom: 10px;
+}
+
+.ep-list:hover {
+    background-color: #454554;
+}
+
+.ep-btns {
+    width: 100%;
+    height: 15%;
+    position: absolute;
+
+}
+
+.ep-btns .ep-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+.ep-btn {
+    width: 29%;
+}
+
+.tem {
+    display: none;
+    -webkit-animation: showSlowlyElement 700ms;
+	animation: showSlowlyElement 700ms;
 }
 
 .textarea {
-    margin-top: 1px;
     margin-left: 6px;
     margin-right: 1px;
     width: 33%;
+    max-width: auto;
     height: 500px;
-    overflow-y:scroll;
+    overflow: scroll;
     float: left;
+    -webkit-animation: showSlowlyElement 400ms;
+	animation: showSlowlyElement 400ms;
+}
+
+p .thum-resize {
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
 
 .textarea p {
-    line-height: 7px;
+    line-height: 1rem;
+    margin-bottom: 0px;
+    font-size: 1.2em;
+    
 }
 
-.resource_area {
-    float: left;
+.resource-area {
+    background-color: #23232e;
+    float: right;
     border-left: 3.5px solid rgb(50, 186, 231);
     width: 33%;
     height: 502px;
-}
-.textarea ::-webkit-scrollbar {
-    width: 13px;
-
-}
-.textarea ::-webkit-scrollbar-track {
-    background-color: rgb(114, 219, 253);
-} /* the new scrollbar will have a flat appearance with the set background color */
-
-.textarea ::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.5); 
-} /* this will style the thumb, ignoring the track */
-
-.textarea ::-webkit-scrollbar-button {
-    background-color: rgb(35, 200, 255);
-} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
-
-.textarea ::-webkit-scrollbar-corner {
-    background-color: rgb(255, 255, 255);
+    overflow-y:scroll;
 }
 
-img {
-  margin: 10px
+.thum {
+    width: 100px;
+    height: 100px;
+    margin-top: 8px;
+    margin-left: 5px;
+    margin-right: 5px; 
+}
+
+.file {
+    object-fit: fill;
+}
+::-webkit-scrollbar {
+    display: none;
+
+}
+
+.close-modal {
+    display: none;
 }
 
 /* //content */

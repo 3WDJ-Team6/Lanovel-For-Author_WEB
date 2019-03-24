@@ -39,7 +39,7 @@ Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destr
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes(); //로그인에 관한 모든 기능 연결
 Route::view('editor', 'editor/tool/editor');
-Route::get('editor_ep', function () {
+Route::get('editor', function () {
 
     $episode = [
         [
@@ -54,5 +54,7 @@ Route::get('editor_ep', function () {
         ],
     ];
         
-    return view('editor.tool.editor_ep')->with('episode', $episode);
+    return view('editor.tool.editor')->with('episode', $episode);
 });
+Route::get('res', 'ResourceController@index');
+Route::view('ep_add', 'editor/tool/episode_add');
