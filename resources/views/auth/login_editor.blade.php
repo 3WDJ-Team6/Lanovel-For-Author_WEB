@@ -1,12 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container_bg">
     <div class="overlay">
         <div class="right-box">
             <form method="post" action="{{ route('login') }}">
                 @csrf
+<<<<<<< HEAD
+            <img src="{{asset('/image/editor_logo.png')}}" alt="logo" width="100%" style="margin-bottom: 50px">
+=======
                 <img src="image/editor_logo.png" alt="logo" width="100%" style="margin-bottom: 50px">
+>>>>>>> 17e7e5b7aa559c9a1304896111cb7f6a114df34c
 
                 <input placeholder="ID" id="email" type="email" class="login{{ $errors->has('id') ? ' is-invalid' : '' }}" name="email" value="{{ old('id') }}" required autofocus>
 
@@ -48,7 +52,6 @@
             </form>
         </div>
     </div>
-
 </div>
 
 <script>

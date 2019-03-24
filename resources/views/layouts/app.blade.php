@@ -12,11 +12,18 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+<<<<<<< HEAD
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="{{ asset('js/jquery/jquery.modal.min.js') }}" defer></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+=======
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/editor.js') }}" defer></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" defer></script>
 
 
+>>>>>>> 17e7e5b7aa559c9a1304896111cb7f6a114df34c
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -25,14 +32,20 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/login_editor.css') }}" rel="stylesheet">
     <link href="{{ asset('css/editor.css') }}" rel="stylesheet">
+<<<<<<< HEAD
+    <link href="{{ asset('css/res.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery.modal.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    
+=======
 
 
+>>>>>>> 17e7e5b7aa559c9a1304896111cb7f6a114df34c
 </head>
 
 <body>
-
     @yield('header')
 
     <main>
