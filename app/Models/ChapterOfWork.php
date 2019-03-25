@@ -11,21 +11,21 @@ class ChapterOfWork extends Model
     protected $table = "chapter_of_works";
     public $timestamps = false;
     protected $primaryKey = 'subtitle';
-    
+
     /**
      * 하나의 작품은 여러 챕터를 가질 수 있다.
      */
-    public function work(){
-        return $this->belongsTo('App\Work');
+    public function work()
+    {
+        return $this->belongsTo('App\Models\Work');
     }
 
     /**
      * 하나의 챕터는 여러 내용을 가질 수 있다.
      */
-    
+
     public function content_of_works()
     {
-        return $this->hasMany('App\ContentOfWork');
+        return $this->hasMany('App\Models\ContentOfWork');
     }
-    
 }

@@ -21,7 +21,8 @@ class EditController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function __construct(){
+    public function __construct()
+    {
         /**
          * 인증 된 사용자만 목차 리스트 및 에디터에 접근할 수 있다.
          */
@@ -37,7 +38,7 @@ class EditController extends Controller
         $content_of_works = ContentOfWork::select('content_of_works.subtitle_of_chapter', 'content_of_works.subsubtitle', 'content_of_works.created_at', 'content_of_works.updated_at');
 
         return view('editor.main.list')
-               ->with('content_of_works', $content_of_works);
+            ->with('content_of_works', $content_of_works);
     }
 
     /**
@@ -67,26 +68,26 @@ class EditController extends Controller
      */
     public function create()
     {
-         // works 테이블에서 작품번호, 제목을 받아온다.
-         $works = Work::select('works.num', 'works.work_title');
+        // works 테이블에서 작품번호, 제목을 받아온다.
+        $works = Work::select('works.num', 'works.work_title');
 
-         // worklists 테이블에서 해당 작품 번호의 작가 리스트(협업 멤버)를 받아온다.
-         $work_lists = WorkList::table('worklists')
-                      ->join('content_of_works','worklists.num_of_work','=','content_of_works.num')
-                      ->value('user_id');
- 
-         // template 테이블에서 템플릿 전부 받아온다.
-         $templates = Template::table('templates')->get();
+        // worklists 테이블에서 해당 작품 번호의 작가 리스트(협업 멤버)를 받아온다.
+        $work_lists = WorkList::table('worklists')
+            ->join('content_of_works', 'worklists.num_of_work', '=', 'content_of_works.num')
+            ->value('user_id');
 
-         // episode 테이블에서 해당 회차의 에피소드 제목을 전부 받아온다.
-         $episodes = Episode::table('episodes')
-                     ->join('content_of_works','content_of_works.subsubtitle','=','episodes.subsubtitle_of_content')
-                     ->value('episodes.episode_title');       
-         
-         // content_of_works 테이블에서 해당 작품 번호의 챕터 제목, 회차 제목을 받아온다.
-         $content_of_works = ContentOfWork::table('content_of_works')
-                             ->join('works','content_of_works.num_of_work','=','works.num')
-                             ->value('subtitle_of_chapter','subsubtitle');
+        // template 테이블에서 템플릿 전부 받아온다.
+        $templates = Template::table('templates')->get();
+
+        // episode 테이블에서 해당 회차의 에피소드 제목을 전부 받아온다.
+        $episodes = Episode::table('episodes')
+            ->join('content_of_works', 'content_of_works.subsubtitle', '=', 'episodes.subsubtitle_of_content')
+            ->value('episodes.episode_title');
+
+        // content_of_works 테이블에서 해당 작품 번호의 챕터 제목, 회차 제목을 받아온다.
+        $content_of_works = ContentOfWork::table('content_of_works')
+            ->join('works', 'content_of_works.num_of_work', '=', 'works.num')
+            ->value('subtitle_of_chapter', 'subsubtitle');
     }
 
     /**
@@ -104,11 +105,11 @@ class EditController extends Controller
 
         $content_of_works->subsubtitle = $request->subsubtitle;
         $content_of_works->content = $request->content;
-    
+
         $content_of_works->save();
 
         return view('editor.main.list')
-                         ->with('message',$title.'이 성공적으로 업로드 되었습니다.');
+            ->with('message', $title . '이 성공적으로 업로드 되었습니다.');
     }
 
     /**
@@ -118,9 +119,7 @@ class EditController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
-    {
-
-    }
+    { }
 
     /**
      * Show the form for editing the specified resource.
@@ -130,8 +129,7 @@ class EditController extends Controller
      */
     public function edit(Request $request, $content_of_works)
     {
-        $msg = ContentOfWork::where('subsubtitle',$content_of_works)->first();
-        
+        $msg = ContentOfWork::where('subsubtitle', $content_of_works)->first();
     }
 
     /**
@@ -153,7 +151,7 @@ class EditController extends Controller
         $content_of_works->update($request->all());
 
         return redirect()->route('editor.main.list')
-                         ->with('success','Content updated successfully.');
+            ->with('success', 'Content updated successfully.');
     }
 
     /**
@@ -167,6 +165,6 @@ class EditController extends Controller
         $content_of_works->delete();
 
         return redirect()->route('editor.main.list')
-                         ->with('success','Content deleted successfully.');
+            ->with('success', 'Content deleted successfully.');
     }
 }

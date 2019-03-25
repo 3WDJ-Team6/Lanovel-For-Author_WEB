@@ -9,15 +9,13 @@ class ContentOfWork extends Model
 {
     protected $table = "content_of_works";
     protected $primaryKey = "subsubtitle";
-    
+
 
     /**
      * 하나의 챕터는 여러 내용 테이블을 갖는다.
      */
     public function chapter_of_work()
     {
-        return $this->belongsTo('App\ChapterOfWork');
+        return $this->belongsTo('App\Models\ChapterOfWork');
     }
-    
-    
 }

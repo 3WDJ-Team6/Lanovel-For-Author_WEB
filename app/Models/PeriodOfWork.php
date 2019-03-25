@@ -13,7 +13,8 @@ class PeriodOfWork extends Model
     /**
      * 하나의 작품은 하나의 연재 주기를 가질 수 있다.
      */
-    public function work(){
-        return $this->belongsTo('App\Work');
+    public function work()
+    {
+        return $this->belongsTo('App\Models\Work');
     }
 }
