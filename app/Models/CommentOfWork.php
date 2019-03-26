@@ -14,14 +14,16 @@ class CommentOfWork extends Model
     /**
      * 하나의 회원은 여러 댓글을 달 수 있다.
      */
-    public function user(){
-        return $this->belongsTo('App\User');
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
     }
-    
+
     /**
      * 하나의 작품은 여러 댓글을 가질 수 있다.
      */
-    public function work(){
-        return $this->belongsTo('App\Work');
+    public function work()
+    {
+        return $this->belongsTo('App\Models\Work');
     }
 }

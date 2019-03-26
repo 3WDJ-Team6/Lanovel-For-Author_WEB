@@ -16,8 +16,6 @@ class ContentOfWork extends Model
      */
     public function chapter_of_work()
     {
-        return $this->belongsTo('App\ChapterOfWork');
+        return $this->belongsTo('App\Models\ChapterOfWork');
     }
-    
-    
 }

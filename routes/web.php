@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use PHPUnit\Util\Json;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -23,14 +21,6 @@ Route::get('/index', 'WorkOut\IndexController@index');
 Route::get('editor/main/book_add', 'WorkOut\IndexController@create');
 
 Route::post('/store','WorkOut\IndexController@store');
-
-Route::get('/test2', function () {
-    if (Auth::user()) {
-        return "asdasd";
-    } else {
-        return "fuc";
-    }
-});
 
 Route::get('editor/main/graph', function () {
     return view('editor.main.graph');
@@ -68,35 +58,32 @@ Route::get('ft', 'Storage\FileController@ft')->name('ft');
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes(); //로그인에 관한 모든 기능 연결
 
+
 Route::view('test', 'auth/testlogin');
 
 Route::view('editor', 'editor/tool/editor');
 Route::get('editor', function () {
-
-Route::view('graph3', 'editor/main/graph3');
-
-Route::get('editor_ep', function () {
-
-    $episode = [
-        [
-            'title' => '첫번째 죽음',
-            'number' => '1',
-            'data' => 'data'
-        ],
-        [
-            'title' => '12살 시절로',
-            'number' => '2',
-            'data' => 'data'
-        ],
-    ];
-        
-    return view('editor.tool.editor')->with('episode', $episode);
-});
-Route::get('res', 'ResourceController@index');
-Route::view('ep_add', 'editor/tool/episode_add');
+    Route::view('graph3', 'editor/main/graph3');
+    Route::get('editor_ep', function () {
+        $episode = [
+            [
+                'title' => '첫번째 죽음',
+                'number' => '1',
+                'data' => 'data'
+            ],
+            [
+                'title' => '12살 시절로',
+                'number' => '2',
+                'data' => 'data'
+            ],
+        ];
+        return view('editor.tool.editor')->with('episode', $episode);
+    });
+    Route::get('res', 'ResourceController@index');
+    Route::view('ep_add', 'editor/tool/episode_add');
     return view('editor.tool.editor_ep')->with('episode', $episode);
 });
 # kakao login
-Route::get('loginForKakao', 'Auth\KakaginoLoController@index');
+Route::get('loginForKakao', 'Auth\KakaoLoginController@index');
 Route::get('auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
 Route::get('auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');

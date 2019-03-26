@@ -3,22 +3,21 @@
 
 <head>
 
-	<title> </title>
-	<!-- Latest compiled and minified CSS -->
-	@yield('styles')
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+    <title> </title>
+    <!-- Latest compiled and minified CSS -->
+    @yield('styles')
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>lanoveProject</title>
 
-  <title>lanoveProject</title>
 
+    <!-- Custom fonts for this template -->
+    <link href="{{asset('fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
 
-  <!-- Custom fonts for this template -->
-  <link href="{{asset('fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
-  
-  <!-- Custom styles for this template -->
-  <link href="{{asset('css/clean-blog.min.css')}}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="{{asset('css/clean-blog.min.css')}}" rel="stylesheet">
 
     <!-- Bootstrap core CSS -->
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
@@ -26,23 +25,25 @@
     <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 
-  <!-- Custom scripts for this template -->
-  <script src="{{asset('js/clean-blog.min.js')}}"></script>
-    
+    <!-- Custom scripts for this template -->
+    <script src="{{asset('js/clean-blog.min.js')}}"></script>
+
 
 </head>
+
 <body>
-	<header>
-		@include('layouts.header')
-	</header>
 
-	<section>
-		@yield('content')
-	</section>
+    <header>
+        @include('layouts.header')
+    </header>
 
-	<footer>
-		@include('layouts.footer')
-	</footer>
+    <section>
+        @yield('content')
+    </section>
+
+    <footer>
+        @include('layouts.footer')
+    </footer>
 
 </body>
 

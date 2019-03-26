@@ -13,7 +13,8 @@ class Contract extends Model
     /**
      * 하나의 작품은 하나의 계약서를 갖는다.
      */
-    public function work(){
-        return $this->belongsTo('App\Work');
+    public function work()
+    {
+        return $this->belongsTo('App\Models\Work');
     }
 }

@@ -21,7 +21,8 @@ class EditController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function __construct(){
+    public function __construct()
+    {
         /**
          * 인증 된 사용자만 목차 리스트 및 에디터에 접근할 수 있다.
          */
@@ -37,7 +38,7 @@ class EditController extends Controller
         $content_of_works = ContentOfWork::select('content_of_works.subtitle_of_chapter', 'content_of_works.subsubtitle', 'content_of_works.created_at', 'content_of_works.updated_at');
 
         return view('editor.main.list')
-               ->with('content_of_works', $content_of_works);
+            ->with('content_of_works', $content_of_works);
     }
 
     /**
@@ -111,7 +112,7 @@ class EditController extends Controller
     public function store(Request $request)
     {
         $content_of_works->content = $request->content;
-    
+
         $content_of_works->save();
 
         return view('editor.main.list')
@@ -125,9 +126,7 @@ class EditController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
-    {
-
-    }
+    { }
 
     /**
      * 에디터 수정
@@ -149,7 +148,7 @@ class EditController extends Controller
         $content_of_works->content = $request->content;
         $content_of_works->save();
 
-        
+       
     }
 
     /**
@@ -171,7 +170,7 @@ class EditController extends Controller
         $content_of_works->update($request->all());
 
         return redirect()->route('editor.main.list')
-                         ->with('success','Content updated successfully.');
+            ->with('success', 'Content updated successfully.');
     }
 
     /**
@@ -185,6 +184,6 @@ class EditController extends Controller
         $content_of_works->delete();
 
         return redirect()->route('editor.main.list')
-                         ->with('success','Content deleted successfully.');
+            ->with('success', 'Content deleted successfully.');
     }
 }
