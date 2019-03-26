@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\User\Models::class, function (Faker $faker) {
     return [
         // 'id' => $faker->name,
         'email' => $faker->unique()->safeEmail,

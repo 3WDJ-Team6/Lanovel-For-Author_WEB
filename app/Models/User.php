@@ -37,9 +37,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
     public function getAuthPassword()
     {
         // bcrypt 비교를 하지 않기 위해 강제로 해시를 생성한다.
+        // attempt 메서드 사용시 해시안되있으면 내부적으로 오류남 3-26
         return Hash::make($this->password);
     }
 
