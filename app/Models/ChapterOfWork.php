@@ -10,7 +10,7 @@ class ChapterOfWork extends Model
 {
     protected $table = "chapter_of_works";
     public $timestamps = false;
-    protected $primaryKey = 'subtitle';
+    protected $primaryKey = 'num';
     
     /**
      * 하나의 작품은 여러 챕터를 가질 수 있다.

@@ -16,11 +16,11 @@ class CreateEpisodesTable extends Migration
         Schema::create('episodes', function (Blueprint $table) {
             $table->increments('num')->comment("에피소드번호");
 
-            $table->string('subsubtitle_of_content')->comment("회차번호or제목");
-            $table->foreign('subsubtitle_of_content')
-                  ->references('subsubtitle')->on('content_of_works')
+            $table->integer('num_of_content')->comment("회차번호")->unsigned();
+            $table->foreign('num_of_content')
+                  ->references('num')->on('content_of_works')
                   ->onDelete('cascade')->onUpdate('cascade');
-                  
+
             $table->string('episode_title')->comment("에피소드제목");
             $table->timestamps();
         });

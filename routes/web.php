@@ -17,10 +17,12 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+// 작업방 메인 페이지
+Route::get('/index', 'WorkOut\IndexController@index');
+// 작품 추가 페이지
+Route::get('editor/main/book_add', 'WorkOut\IndexController@create');
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::post('/store','WorkOut\IndexController@store');
 
 Route::get('/test2', function () {
     if (Auth::user()) {
@@ -64,7 +66,6 @@ Route::get('ft', 'Storage\FileController@ft')->name('ft');
 
 # authoriztion # make:auth로 생성 
 Route::get('/home', 'HomeController@index')->name('home');
-
 Auth::routes(); //로그인에 관한 모든 기능 연결
 
 Route::view('test', 'auth/testlogin');

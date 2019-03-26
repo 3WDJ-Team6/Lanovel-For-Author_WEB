@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ContentOfWork extends Model
 {
     protected $table = "content_of_works";
-    protected $primaryKey = "subsubtitle";
+    protected $primaryKey = "num";
     
 
     /**

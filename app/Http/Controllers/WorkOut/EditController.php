@@ -67,6 +67,7 @@ class EditController extends Controller
      */
     public function create()
     {
+
          // works 테이블에서 작품번호, 제목을 받아온다.
          $works = Work::select('works.num', 'works.work_title');
 
@@ -87,28 +88,34 @@ class EditController extends Controller
          $content_of_works = ContentOfWork::table('content_of_works')
                              ->join('works','content_of_works.num_of_work','=','works.num')
                              ->value('subtitle_of_chapter','subsubtitle');
+
+
+        return view('editor.tool.editor')
+               ->with('content_of_works', $content_of_works)
+               ->with('works', $works)
+               ->with('work_lists', $work_lists)
+               ->with('templates', $templates)
+               ->with('episodes', $episodes);
+
     }
 
     /**
      * 에디터 저장
+     * 
+     * 테이블에는 글 내용만 저장되면 된다.
      * Store a newly created resource in storage.
-     * 
-     * 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $content_of_works = new ContentOfWork();
-
-        $content_of_works->subsubtitle = $request->subsubtitle;
         $content_of_works->content = $request->content;
     
         $content_of_works->save();
 
         return view('editor.main.list')
-                         ->with('message',$title.'이 성공적으로 업로드 되었습니다.');
+                         ->with('message',$subsubtitle.'이 성공적으로 업로드 되었습니다.');
     }
 
     /**
@@ -123,6 +130,10 @@ class EditController extends Controller
     }
 
     /**
+     * 에디터 수정
+     * 
+     * 최초 저장 이후 에디터에 접속하는 경우는 전부 에디터 수정이 된다.
+     * 필요한 정보 - 작품 제목, 챕터 제목, 회차 제목, 템플릿, 협업 멤버, 에피소드 목차, 글 내용
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -130,7 +141,14 @@ class EditController extends Controller
      */
     public function edit(Request $request, $content_of_works)
     {
-        $msg = ContentOfWork::where('subsubtitle',$content_of_works)->first();
+        $content_of_works = ContentOfWork::where('num', $request->num)->first();
+        $episodes = Episode::where('num', $request->num)->value('episode_title');
+        $templates = Template::where('subsubtitle',$content_of_works)->value('episode_title');
+        $episodes = Episode::where('subsubtitle',$content_of_works)->value('episode_title');
+
+        $content_of_works->content = $request->content;
+        $content_of_works->save();
+
         
     }
 
