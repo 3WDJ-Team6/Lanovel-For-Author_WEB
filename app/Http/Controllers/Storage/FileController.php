@@ -13,14 +13,14 @@ class FileController extends Controller
 
     public function __construct()
     {
-        //r eturn $this->middleware('guest'); //guest이외의 사람에게는 이 컨트롤러를 사용하지 못하게 만든다.
-        //return $this->middleware('auth');   //인증된 사용자만 이용할 수 있게 asset 업로드 사용할 수 있게, upload들어가면 url(login)이 실행됨.
+        return $this->middleware('auth');   # 인증된 사용자만 이용할 수 있게 , route(login)이 실행됨.
     }
 
     public function index()
     {
-        if (Auth::user()['role'] == 1) $role = "Author";
-        else if (Auth::user()['role'] == 2) $role = "Illustrator";
+        if (Auth::user()['roles'] === 2) $role = "Author";
+        else if (Auth::user()['roles'] === 3) $role = "Illustrator";
+        else redirect('/')->with('message', '잘못된 접근 입니다.');
 
         $url = 'https://s3.' . env('AWS_DEFAULT_REGION') . '.amazonaws.com/' . env('AWS_BUCKET') . '/';
         $imageUrl = Storage::disk('s3')->url('images' . '/');
@@ -46,8 +46,9 @@ class FileController extends Controller
 
     public function store(Request $request) //image 등록
     {
+        return $request;
         $this->validate($request, [ //|mimes:jpeg,png,jpg,gif,svg
-            'image' => 'required|image|max:16384'   # image파일만 + 16MB까지
+            'image' => 'required|image|max:16384',   # image파일만 + 16MB까지
         ]);
 
         if ($request->hasFile('image')) { # image 파일이 있으면

@@ -14,6 +14,10 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
+            // $table->increments('id');
+            // $table->string('name');
+            // $table->string('email')->unique();
+            // $table->timestamp('email_verified_at')->nullable();
             $table->increments('id')->comment("회원번호");
 
             $table->string('email')->unique()->comment("이메일");
