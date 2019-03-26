@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ContentOfWork extends Model
 {
     protected $table = "content_of_works";
-    protected $primaryKey = "subsubtitle";
-
+    protected $primaryKey = "num";
+    
 
     /**
      * 하나의 챕터는 여러 내용 테이블을 갖는다.
