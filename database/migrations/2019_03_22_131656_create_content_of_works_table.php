@@ -14,17 +14,19 @@ class CreateContentOfWorksTable extends Migration
     public function up()
     {
         Schema::create('content_of_works', function (Blueprint $table) {
-            $table->string('subsubtitle')->primary()->comment("회차번호or제목");
+            $table->increments('num')->comment("회차번호");
+            
+            $table->integer('num_of_chapter')->comment("챕터번호")->unsigned();
+            $table->foreign('num_of_chapter')
+                  ->references('num')->on('chapter_of_works')
+                  ->onDelete('cascade')->onUpdate('cascade');
 
             $table->integer('num_of_work')->comment("작품번호")->unsigned();
             $table->foreign('num_of_work')
                   ->references('num')->on('works')
                   ->onDelete('cascade')->onUpdate('cascade');
 
-            $table->string('subtitle_of_chapter')->comment("챕터제목or권수");
-            $table->foreign('subtitle_of_chapter')
-                  ->references('subtitle')->on('chapter_of_works')
-                  ->onDelete('cascade')->onUpdate('cascade');
+            $table->string('subsubtitle')->comment("회차제목or회차수");
             $table->text('content')->comment("내용");
             $table->timestamps();
         });

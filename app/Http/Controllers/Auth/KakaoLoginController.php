@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
-use App\User;
+use App\Models\User;
 use Kakao;
 
 class KakaoLoginController extends Controller
@@ -65,18 +65,11 @@ class KakaoLoginController extends Controller
         }
 
         # 회원가입 후 로그인 
-        $isLogin = Auth::attempt(['email' => $id, 'password' => $password]);
-
-
-
-        if ($isLogin) {    // DB에 있는 토큰과 비교후 로그인
-
+        if (Auth::attempt(['email' => $id, 'password' => $password])) {    // DB에 있는 토큰과 비교후 로그인
             \Log::debug("check = " . Auth::loginUsingId(Auth::id()));
-            // Auth::loginUsingId(Auth::id());
 
-            echo "<script> alert('로그인 되었습니다.'); </script>";
-            return view('index');
-
+            // echo "<script> alert('로그인 되었습니다.'); </script>";
+            return redirect('/')->with('message', 'Socialite 로그인 성공');
             // return view('index', ['user' => $kaUser])->with('message', '로그인 되었습니다.');
         } else {
             echo "<script>alert('로그인에 실패하였습니다.');

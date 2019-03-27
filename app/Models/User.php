@@ -20,9 +20,12 @@ use Illuminate\Notifications\Notifiable; # 비밀번호 변경 메일을 위해 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable; # 라라벨 인증
 
+# Trait 사용
+use App\Traits\ModelScopes;
 
 class User extends Authenticatable
 {
+    use ModelScopes;
     use Notifiable;
 
     protected $fillable = [
@@ -34,9 +37,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
     public function getAuthPassword()
     {
         // bcrypt 비교를 하지 않기 위해 강제로 해시를 생성한다.
+        // attempt 메서드 사용시 해시안되있으면 내부적으로 오류남 3-26
         return Hash::make($this->password);
     }
 
@@ -46,7 +54,7 @@ class User extends Authenticatable
      */
     public function works()
     {
-        return $this->belongsToMany('App\Work');
+        return $this->belongsToMany('App\Models\Work');
     }
 
     /**
@@ -54,7 +62,7 @@ class User extends Authenticatable
      */
     public function viewer()
     {
-        return $this->hasOne('App\View');
+        return $this->hasOne('App\Models\View');
     }
 
     /**
@@ -62,7 +70,7 @@ class User extends Authenticatable
      */
     public function messages()
     {
-        return $this->hasMany('App\Message');
+        return $this->hasMany('App\Models\Message');
     }
 
     /**
@@ -70,7 +78,7 @@ class User extends Authenticatable
      */
     public function followings()
     {
-        return $this->hasMany('App\Following');
+        return $this->hasMany('App\Models\Following');
     }
 
     /**
@@ -78,7 +86,7 @@ class User extends Authenticatable
      */
     public function request_of_illustrations()
     {
-        return $this->hasMany('App\RequestOfIllustration');
+        return $this->hasMany('App\Models\RequestOfIllustration');
     }
 
     /**
@@ -86,7 +94,7 @@ class User extends Authenticatable
      */
     public function illustration_lists()
     {
-        return $this->hasMany('App\IllustrationList');
+        return $this->hasMany('App\Models\IllustrationList');
     }
 
     /**
@@ -94,7 +102,7 @@ class User extends Authenticatable
      */
     public function reviews()
     {
-        return $this->hasMany('App\Review');
+        return $this->hasMany('App\Models\Review');
     }
 
     /**
@@ -102,7 +110,7 @@ class User extends Authenticatable
      */
     public function comment_of_works()
     {
-        return $this->hasMany('App\CommentOfWork');
+        return $this->hasMany('App\Models\CommentOfWork');
     }
 
     /**
@@ -110,7 +118,7 @@ class User extends Authenticatable
      */
     public function comment_of_illustrations()
     {
-        return $this->hasMany('App\CommentOfIllustration');
+        return $this->hasMany('App\Models\CommentOfIllustration');
     }
 
     /**
@@ -120,7 +128,7 @@ class User extends Authenticatable
      */
     public function work_lists()
     {
-        return $this->belongsTo('App\WorkList');
+        return $this->belongsTo('App\Models\WorkList');
     }
 
     /**
@@ -128,6 +136,6 @@ class User extends Authenticatable
      */
     public function push_alarms()
     {
-        return $this->hasMany('App\PushAlarm');
+        return $this->hasMany('App\Models\PushAlarm');
     }
 }
