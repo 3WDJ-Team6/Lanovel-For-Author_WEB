@@ -38,14 +38,14 @@ function readURL(input) {
                 <div class="form-content">
                                         
                     <div class="col-md-6">
-                            <form action="{{action('WorkOut\IndexController@store')}}" method="post">
+                            <form action="/store" method="post">
                                 <input type='file' id="upload_file" name="bookcover_of_work"/>
                                 <img id="blah" src="" alt="표지 추가" width="300" height="300" />
                     <div class="form-group">
-                        제목<input type="text" class="form-control" name="work_title" placeholder="70자 이내" value="" style="width:400px;" />
+                        제목<input type="text" class="form-control" name="work_title" placeholder="70자 이내" value="" style="width:400px;" required/>
                     </div>
                     <div class="form- group">
-                        태그<input type="text" class="form-control" name="tag" placeholder="#로맨스 #판타지" value="" style="width:400px;"/><br>
+                        태그<input type="text" class="form-control" name="tag" placeholder="#로맨스 #판타지" value="" style="width:400px;" required/><br>
                     </div>
                     <div class="form-group">
                         종류<br>
@@ -54,10 +54,10 @@ function readURL(input) {
                             <label><input type="radio" name="type_of_work" value="3" style="margin:10px;">단편</label>
                     </div>
                     <div class="form-group">
-                        가격<input type="text" class="form-control" name="rental_price" placeholder=" " value="" style="width:400px;"/>
+                        가격<input type="text" class="form-control" name="rental_price" placeholder=" " value="" style="width:400px;" required/>
                     </div>
                     <div class="form-group">
-                        작품 소개<input type="text" class="form-control" name="introduction_of_work" placeholder="제한 없음" value="" style="width:400px; height:100px;"/>
+                        작품 소개<input type="text" class="form-control" name="introduction_of_work" placeholder="제한 없음" value="" style="width:400px; height:100px;" required/>
                     </div>
                     <button type="submit" class="btnSubmit">등록</button>
                     <button type="button" class="btnSubmit" onclick="location.href='{{url('/')}}'">취소</button>

@@ -1,18 +1,18 @@
 @extends('layouts.app')
-
 @section('header')
 <header>
     <div class="nav">
         <div class="nav-bar">
-            <ul>
-                <li class="nav-btn">ILLUSTORE</li>
-                <li class="nav-btn">초대</li>
-                <li class="nav-btn">채팅</li>
-                <li class="nav-btn">멤버리스트</li>
-                <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
-                <li class="nav-btn">저장</li>
-                <li class="nav-btn">발행</li>
-            </ul>
+            <form action="/update" method="post">
+                <ul>
+                    <li class="nav-btn">ILLUSTORE</li>
+                    <li class="nav-btn">초대</li>
+                    <li class="nav-btn">채팅</li>
+                    <li class="nav-btn">멤버리스트</li>
+                    <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
+                    <li class="nav-btn"><button type="submit"> 저장 </button> </li>
+                    <li class="nav-btn">발행</li>
+                </ul>
         </div>
     </div>
 </header>
@@ -29,11 +29,12 @@
     <div class="area">
         <div class="ep-tem-area">
             <div class="ep">
-                <div class="ep-title">ep1. 첫번째 죽음</div>
+                <div class="ep-title">{{$content_of_works['subsubtitle']}}</div>
                 <div class="ep-list">
-                @foreach ($episode as $ep)
-                ep{{$ep['number']}}. {{$ep['title']}}<br>
-                @endforeach
+                    <!-- {{-- 회차 리스트 띄워주기 --}}  -->
+                    @foreach($content_lists as $row)
+                    - {{$row['subsubtitle']}}<br>
+                    @endforeach
                 </div>
                 <div class="ep-btns">
                     <span class="btn ep-btn" id="ep-add">에피소드 추가</span>
@@ -48,16 +49,19 @@
                 </div>
             </div>
         </div>
-        <div class="textarea" contentEditable="true" ondrop="drop(this, event)">
+        <div class="textarea" name="content" contentEditable="true" ondrop="drop(this, event)" name="content">
+            {{$content_of_works['content']}}
+            <!--
             <h3>
-                物語《ものがたり》を書《か》きましょう  
+                物語《ものがたり》を書《か》きましょう
             </h3>
             <p>
                 にこにこに
-            </p>
+            </p> -->
         </div>
+        </form>
         <div class="resource-area"></div>
     </div>
 </div>
 <script src="{{ asset('js/editor.js') }}" defer></script>
-@endsection
+@endsection 
