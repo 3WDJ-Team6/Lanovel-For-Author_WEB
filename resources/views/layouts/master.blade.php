@@ -5,12 +5,14 @@
 
     <title> </title>
     <!-- Latest compiled and minified CSS -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    @yield('head')
 
+    @yield('head')
+    
     <title>lanoveProject</title>
 
 
@@ -28,15 +30,13 @@
     <!-- Custom scripts for this template -->
     <script src="{{asset('js/clean-blog.min.js')}}"></script>
 
-    
-
-
 </head>
 
 <body>
     <header>
         @include('layouts.header')
     </header>
+
 
     <section>
         @yield('content')

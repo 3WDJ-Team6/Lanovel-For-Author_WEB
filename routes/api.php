@@ -13,13 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-# Route::middleware('auth:api')->get('/user', function (Request $request) {return $request->user();});
-
-#Jwt token Login add
-# https://gracefullight.github.io/2017/11/03/Laravel-5-5-JWT-Auth-Guide/
-
-// Route::Post('/loginpage', 'Auth/JwtLoginController@page');
-// Route::post('/login', 'Auth/JwtLoginController@login');
-// Route::middleware('jwt.auth')->get('users', function () {
-//     return auth('api')->user();
-// });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});

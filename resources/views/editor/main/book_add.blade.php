@@ -1,5 +1,6 @@
 @extends('layouts.master')
 
+<script src="{{asset('js/book_add.js')}}" defer></script>
 <script src="{{asset('js/book_add_image.js')}}" defer></script>
 <script src="{{asset('js/book_add_type.js')}}" defer></script>
 <script src="{{asset('js/book_add_cycle.js')}}" defer></script>
@@ -41,26 +42,26 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto" style="margin-top:50px; margin-bottom:50px;">
                 <div class="container">
-                    <form action="">
-                        <input type='file' id="upload_file" name="upload_file" />
+                    <form action="/store" method="post">
+                        <input type='file' id="upload_file" name="bookcover_of_work"/>
                         <img id="blah" src="" alt="표지 추가" width="300" height="300" />
                         <div class="form-group">
-                            제목<input type="text" class="form-control" placeholder="70자 이내" value=""
+                            제목<input type="text" name="work_title" class="form-control" placeholder="70자 이내" value=""
                                 style="width:400px;" />
                         </div>
                         <div class="form- group">
-                            태그<input type="text" class="form-control" placeholder="#로맨스 #판타지" value=""
+                            태그<input type="text" class="form-control" name="tag" placeholder="#로맨스 #판타지" value=""
                                 style="width:400px;" /><br>
                         </div>
 
                         <div class="radioArea">
                             종류<br>
                             <div class="form-group">
-                                <label><input type="radio" name="radio_T" id="changeRadio_T" value="1"
+                                <label><input type="radio" name="type_of_work" id="changeRadio_T" value="1"
                                         style="margin:10px;">단편</label>
-                                <label><input type="radio" name="radio_T" id="changeRadio_T" value="2"
+                                <label><input type="radio" name="type_of_work" id="changeRadio_T" value="2"
                                         style="margin:10px;">단행본</label>
-                                <label><input type="radio" name="radio_T" id="changeRadio_T" value="3"
+                                <label><input type="radio" name="type_of_work" id="changeRadio_T" value="3"
                                         style="margin:10px;">회차</label>
                             </div>
 
@@ -110,18 +111,35 @@
                         </div>
 
                         <div class="form-group">
-                            가격<input type="text" class="form-control" placeholder=" " value="" style="width:400px;" />
+                            가격<input type="text" class="form-control" name="rental_price" placeholder=" " value="" style="width:400px;" />
                         </div>
                         <div class="form-group">
-                            작품 소개<input type="text" class="form-control" placeholder="제한 없음" value=""
+                            작품 소개<input type="text" class="form-control" name="introduction_of_work" placeholder="제한 없음" value=""
                                 style="width:400px; height:100px;" />
                         </div>
-                        <button type="button" class="btnSubmit" onclick="location.href='{{url('/')}}'">등록</button>
+                        <button type="submit" class="btnSubmit">등록</button>
                         <button type="button" class="btnSubmit" onclick="location.href='{{url('/')}}'">취소</button>
                     </form>
                 </div>
             </div>
         </div>
+
+<script>
+$(function() {
+    $("#upload_file").on('change', function(){
+        
+        readURL(this);
+    });
+});
+function readURL(input) {
+    if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        }
+</script>
+
     </div>
 </div>
 
