@@ -100,8 +100,6 @@ Route::get('editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 // 에디터 내용 저장
 Route::post('/update', 'WorkOut\EditController@update');
 
-Route::view('graph3', 'editor/main/graph3');
-
 # kakao login
 Route::get('loginForKakao', 'Auth\KakaoLoginController@index');
 Route::get('auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');

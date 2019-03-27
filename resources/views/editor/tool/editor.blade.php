@@ -35,11 +35,10 @@
             <div class="ep">
                 <div class="ep-title">{{$content_of_works['subsubtitle']}}</div>
                 <div class="ep-list">
-
-                    <!-- {{-- 회차 리스트 띄워주기 --}}  -->8
+                    <!-- {{-- 회차 리스트 띄워주기 --}}  -->
+                    @foreach($content_lists as $row)
                     - {{$row['subsubtitle']}}<br>
                     @endforeach
-                    
                 </div>
                 <div class="ep-btns">
                     <span class="btn ep-btn" id="ep-add">에피소드 추가</span>
