@@ -16,6 +16,8 @@
     <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;"></div>
 
     <div class="row">
+
+   
         <div class="col-lg-8 col-md-10 mx-auto" style="margin-top:50px; margin-bottom:50px;">
             <!-- {{-- 새 회차 추가  --}} -->
             <div class="post-preview">
