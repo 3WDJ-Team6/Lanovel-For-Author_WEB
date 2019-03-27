@@ -5,7 +5,7 @@
 <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
 
     @if(\Auth::check())
-    <p>{{ Auth::user() }}</p>
+    {{--  <p>{{ Auth::user() }}</p>  --}}
     <div>
         <a href="{{url('assets/upload')}}">asset upload</a>
     </div>
@@ -47,15 +47,22 @@
     {{--  작품 출력 부분  --}}
     @foreach ($works as $row)
         <div class="post-preview">
-          <a href="{{url('editor/main/list')}}">
+        
+        {{--  연재 종류가 회차인 경우 회차 리스트로 바로 이동
+        @if ($row['type_of_work'] == 1)
+            <a href="{{url('editor/main/list')}}">
+        @else
+            <a href="{{url('/')}}">
+        @endif  --}}
+            <a href="{{url('editor/main/chapter')}}/{{$row['num']}}">
               <img src="{{asset('image/logo.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
               <div class="post-title" style="margin-top:30px; margin-bottom:30px; display:inline-flex;">
               {{$row['work_title']}}
               </div>
-          </a>
-          <p class="post-meta">tag : <br>type : {{$row['type_of_work']}} <br>cycle :{{$row['cycle_of_publish']}} <br>member :  <br>price : {{$row['buy_price']}},{{$row['rental_price']}}<br>Modification time : {{$row['updated_at']}}</p>
-          </div> 
-          <hr>
+            </a>
+            <p class="post-meta">tag : <br>type : {{$row['type_of_work']}} <br>cycle :{{$row['cycle_of_publish']}} <br>member :  <br>price : {{$row['buy_price']}},{{$row['rental_price']}}<br>Modification time : {{$row['updated_at']}}</p>
+            </div> 
+            <hr>
     @endforeach
 
     </div>

@@ -13,15 +13,16 @@
 <div class="container register-form">
 
     <div class="form-content">
-        <form action="{{url('addContent')}}/{{$num}}" method="post">
-            <div class="col-md-6">
+        <div class="col-md-6">
+            <form action="{{url('addChapter')}}/{{$num}}" method="post">
                 <div class="form-group">
-                    목차<input type="text" class="form-control" placeholder="" name="subsubtitle" style="width:400px;" />
+                    챕터<input type="text" class="form-control" placeholder="" value="" name="subtitle" style="width:400px;" />
                 </div>
-                <button type="submit" class="btnSubmit">수정</button>
+
+                <button type="submit" class="btnSubmit">추가</button>
                 <button type="button" class="btnSubmit" onclick="location.href='javascript:frameclose()'">취소</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 
 </div> 
