@@ -24,7 +24,7 @@
         </div>
         <hr>
         <div class="post-preview" >
-          <a href={{url('editor/tool/editor')}}>
+          <a href={{url('editor')}}>
             <h3 class="post-subtitle">
                 프롤로그
             </h3>
@@ -33,7 +33,7 @@
         </div>
         <hr>
         <div class="post-preview">
-          <a href={{url('editor/tool/editor')}}>
+          <a href={{url('editor')}}>
             <h3 class="post-subtitle">
                 목차1. 혜은이와 아이들
             </h3>
@@ -42,7 +42,7 @@
         </div>
         <hr>
         <div class="post-preview">
-          <a href={{url('editor/tool/editor')}}>
+          <a href={{url('editor')}}>
             <h3 class="post-subtitle">
                 목차2. 혜은이와 은채
             </h3>
@@ -51,7 +51,7 @@
         </div>
         <hr>
         <div class="post-preview">
-          <a href={{url('editor/tool/editor')}}>
+          <a href={{url('editor')}}>
             <h3 class="post-subtitle">
                 목차3. 혜은이와 홍기
             </h3>
@@ -60,7 +60,7 @@
         </div>
         <hr>
         <div class="post-preview">
-          <a href={{url('editor/tool/editor')}}>
+          <a href={{url('editor')}}>
             <h3 class="post-subtitle">
                 목차3. 혜은이와 민수
             </h3>
@@ -69,7 +69,7 @@
         </div>
         <hr>
         <div class="post-preview">
-          <a href={{url('editor/tool/editor')}}>
+          <a href={{url('editor')}}>
             <h3 class="post-subtitle">
                 목차2. 혜은이와 은광이와 형진이
             </h3>
