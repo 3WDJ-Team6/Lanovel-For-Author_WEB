@@ -151,7 +151,7 @@ class IndexController extends Controller
 
         // 제목, 종류, 가격(대여,구매), 작품소개, 북커버
         $works->work_title = $request->get('work_title');
-        $works->type_of_work = $request->get('type_of_work');
+        $works->type_of_work = $request->get('radio_T');
         $works->rental_price = $request->get('rental_price');
         $works->buy_price = 300;
         $works->hits_of_work = 0;
