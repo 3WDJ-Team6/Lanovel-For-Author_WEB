@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Auth;
 */
 
 // 작업방 메인 페이지
-// Route::get('/', function() {
-//     return view('index');
-// });
 
 Route::get('/', 'WorkOut\IndexController@index');
 
@@ -53,7 +50,6 @@ Route::get('/content_create/{num}', 'WorkOut\EditController@content_create');
 
 // 작품 회차 추가
 Route::post('/addContent/{num}', 'WorkOut\EditController@addContent');
-
 
 Route::get('editor/main/graph', function () {
     return view('editor.main.graph');
@@ -94,6 +90,7 @@ Auth::routes(); //로그인에 관한 모든 기능 연결
 Route::view('test', 'auth/testlogin');
 Route::view('editor', 'editor/tool/editor');
 
+
 Route::get('res', 'ResourceController@index');
 Route::view('ep_add', 'editor/tool/episode_add');
 
@@ -102,7 +99,6 @@ Route::get('editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 
 // 에디터 내용 저장
 Route::post('/update', 'WorkOut\EditController@update');
-
 
 # kakao login
 Route::get('loginForKakao', 'Auth\KakaoLoginController@index');
