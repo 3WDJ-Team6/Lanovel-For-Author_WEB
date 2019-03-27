@@ -7,7 +7,6 @@
         var url = "/chapter_create/" + num;
         var option = "width=600, height=300, top=100"
         window.open(url, "", option);
-
     }
 </script>
 

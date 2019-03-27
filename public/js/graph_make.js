@@ -4,29 +4,59 @@
 //     });
 //   });
 $(document).ready(function(){
+
+  function hideExclude＿graph(excludeId) {
+    $('#graph-box').children().each(function () {
+
+        $(this).hide();
+    });
+    //넘겨 받은 id 요소는 show
+    $("#" + excludeId).show();
+}
+
   $("#one-type").click(function(){
-        if($('div').hasClass('chartdiv2')){
-            $('.chartdiv2').hide();
-        }
-        $('.chartdiv').toggle();
+
+        $('#chartdiv').hideExclude();
+        $('#chartdiv2').hide();
+        $('#chartdiv3').hide();
+        
   });
+
+
+  // $("#sidenav").click(function(){
+    
+  //   var graphValue = $(this).val();
+
+  //   if(graphValue == "one") {
+  //       hideExclude("chartdiv");
+  //   }else if(graphValue == "bar") {
+  //       hideExclude("chartdiv2");
+  //   }else if(graphValue == "calculate") {
+  //       hideExclude("chartdiv3");
+  //   }
+
+});
+  $("#bar-type").click(function(){
+
+    if($('div').hasClass('chartdiv')){
+        $('#chartdiv').hide();
+    }
+
+      $('#chartdiv2').toggle();
+      $('#chartdiv1').hide();
+      $('#chartdiv3').hide();
+
 });
 
-$(document).ready(function(){
-    $("#bar-type").click(function(){
-        if($('div').hasClass('chartdiv')){
-            $('.chartdiv').hide();
-        }
-          $('#chartdiv2').toggle();
-    });
+  $("#calculate").click(function(){
+    if($('div').hasClass('chartdiv')){
+      $('#chartdiv').hide();
+  }
+
+      $('#chartdiv3').toggle();
+      $('#chartdiv1').hide();
+      $('#chartdiv2').hide();
   });
 
- $(document).ready(function(){
-    $("#calculate").click(function(){
-        if($('div').hasClass('chartdiv2')){
-          $('.chartdiv2').hide();
-        }
-          $('#chartdiv3').toggle();
-    });
-  });
+
 

@@ -1,58 +1,23 @@
 @extends('layouts.master')
-
-<style>
-    body {
-        font-family: "Lato", sans-serif;
-    }
-
-    .sidenav {
-        height: 500px;
-        width: 200px;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        overflow-x: hidden;
-    }
-
-    .sidenav a {
-        padding: 6px 6px 6px 32px;
-        text-decoration: none;
-        font-size: 25px;
-        color: #818181;
-        display: block;
-    }
-
-    .sidenav a:hover {
-        color: #f1f1f1;
-    }
-
-    #chartdiv,
-    #chartdiv2 {
-        width: 100%;
-        height: 500px;
-    }
-
-    #chartdiv2 {
-        display: none;
-    }
-
-</style>
-
+<head>
+<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+</head>
 @section('content')
 
+<link rel="stylesheet" href="{{asset('css/graph.css')}}">
 
 <!-- Main Content -->
-<div class="container" style="background-color:#45b4e61a; margin-top:70px;">
+<div class="container" style="background-color:#45b4e61a; margin-top:70px; height:700px;">
     <!-- Material inline 1 -->
     <div class="form-check form-check-inline"
-        style="width:100%; align-items: center; display: flex; justify-content: center;"></div>
+        style="width:100%;s align-items: center; display: flex; justify-content: center;"></div>
     <div class="row">
-        <div class="sidenav" style="margin-top:20px;">
-            <span class="btn" id="one-type">작품별 수익</span>
+        <div id="sidenav" style="margin-top:20px;">
+            <span class="btn" id="one-type" name="graph" value="one">작품별 수익</span>
             <hr>
-            <span class="btn" id="bar-type">날짜별 수익</a>
-                <hr>
-                <span class="btn" id="calculate">정산</a>
+            <span class="btn" id="bar-type" name="graph" value="bar">날짜별 수익</a></span>
+            <hr>
+            <span class="btn" id="calculate" name="graph" value="calculate">정산</a></span>
         </div>
 
         <div class="col-lg-8 col-md-10 mx-auto">
@@ -76,7 +41,7 @@
                 </label>
             </form>
 
-            <div class="graph-box" style="width:700px; height:400px;">
+            <div class="graph-box" id="graph-box" name="graph" style="width:700px; height:400px;">
                 <div id="chartdiv" class="chartdiv"></div>
                 <div id="chartdiv2" class="chartdiv2"></div>
                 <div id="chartdiv3" class="chartdiv3"></div>
