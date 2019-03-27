@@ -1,24 +1,11 @@
 @extends('layouts.master')
 
-<script src="{{asset('js/book_add.js')}}" defer></script>
 <script src="{{asset('js/book_add_image.js')}}" defer></script>
 <script src="{{asset('js/book_add_type.js')}}" defer></script>
 <script src="{{asset('js/book_add_cycle.js')}}" defer></script>
 <script src="{{asset('js/book_add_cycle_month.js')}}" defer></script>
 
-<script>
-    $( function() {
-      $( "#datepicker" ).datepicker();
-      $( "#anim" ).on( "change", function() {
-        $( "#datepicker" ).datepicker( "option", "showAnim", $( this ).val() );
-      });
-    } );
-    </script>
-
 @section('head')
-<head>
-
-
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -31,7 +18,6 @@
     #change_c {
         display: none;
     }
-
 </style>
 
 @endsection
@@ -42,27 +28,23 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto" style="margin-top:50px; margin-bottom:50px;">
                 <div class="container">
-                    <form action="/store" method="post">
-                        <input type='file' id="upload_file" name="bookcover_of_work"/>
+                    <form action="{{action('WorkOut\IndexController@store')}}" method="post">
+                        <input type='file' id="upload_file" name="bookcover_of_work" />
                         <img id="blah" src="" alt="표지 추가" width="300" height="300" />
                         <div class="form-group">
-                            제목<input type="text" name="work_title" class="form-control" placeholder="70자 이내" value=""
-                                style="width:400px;" />
+                            제목<input type="text" class="form-control" name="work_title" placeholder="70자 이내" value="" style="width:400px;" />
                         </div>
                         <div class="form- group">
-                            태그<input type="text" class="form-control" name="tag" placeholder="#로맨스 #판타지" value=""
-                                style="width:400px;" /><br>
+                            태그<input type="text" class="form-control" name="tag" placeholder="#로맨스 #판타지" value="" style="width:400px;" /><br>
                         </div>
 
                         <div class="radioArea">
                             종류<br>
                             <div class="form-group">
-                                <label><input type="radio" name="type_of_work" id="changeRadio_T" value="1"
-                                        style="margin:10px;">단편</label>
-                                <label><input type="radio" name="type_of_work" id="changeRadio_T" value="2"
-                                        style="margin:10px;">단행본</label>
-                                <label><input type="radio" name="type_of_work" id="changeRadio_T" value="3"
-                                        style="margin:10px;">회차</label>
+                                <!-- value 값 데려올 때 type_of_work 대신 radio_T를 써야한다 -->
+                                <label><input type="radio" name="radio_T" id="changeRadio_T" value="1" style="margin:10px;">단편</label>
+                                <label><input type="radio" name="radio_T" id="changeRadio_T" value="2" style="margin:10px;">단행본</label>
+                                <label><input type="radio" name="radio_T" id="changeRadio_T" value="3" style="margin:10px;">회차</label>
                             </div>
 
 
@@ -75,18 +57,14 @@
                                 {{-- 단행본, 회차 선택 시 --}}
                                 <div id="change2">
                                     연재방식<br>
-                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="2-1"
-                                            style="margin:10px;">주간</label>
-                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="2-2"
-                                            style="margin:10px;">월간</label>
+                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="2-1" style="margin:10px;">주간</label>
+                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="2-2" style="margin:10px;">월간</label>
                                 </div>
                                 {{-- 회차 선택 시 --}}
                                 <div id="change3">
                                     연재방식<br>
-                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="3-1"
-                                            style="margin:10px;">주간</label>
-                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="3-2"
-                                            style="margin:10px;">월간</label>
+                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="3-1" style="margin:10px;">주간</label>
+                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="3-2" style="margin:10px;">월간</label>
                                 </div>
                             </div>
 
@@ -95,13 +73,13 @@
 
                                 {{-- 주간 선택 시 --}}
                                 <div id="change_w">
-                                    <label>월</label><input type="checkbox" style="margin-right:10px;">
-                                    <label>화</label><input type="checkbox" style="margin-right:10px;">
-                                    <label>수</label><input type="checkbox" style="margin-right:10px;">
-                                    <label>목</label><input type="checkbox" style="margin-right:10px;">
-                                    <label>금</label><input type="checkbox" style="margin-right:10px;">
-                                    <label>토</label><input type="checkbox" style="margin-right:10px;">
-                                    <label>일</label><input type="checkbox" style="margin-right:10px;">
+                                    <label>월</label><input type="checkbox" name="cycle_of_work" value="월" style="margin-right:10px;">
+                                    <label>화</label><input type="checkbox" name="cycle_of_work" value="화" style="margin-right:10px;">
+                                    <label>수</label><input type="checkbox" name="cycle_of_work" value="수" style="margin-right:10px;">
+                                    <label>목</label><input type="checkbox" name="cycle_of_work" value="목" style="margin-right:10px;">
+                                    <label>금</label><input type="checkbox" name="cycle_of_work" value="금" style="margin-right:10px;">
+                                    <label>토</label><input type="checkbox" name="cycle_of_work" value="토" style="margin-right:10px;">
+                                    <label>일</label><input type="checkbox" name="cycle_of_work" value="일" style="margin-right:10px;">
                                 </div>
                                 {{-- 월간 선택 시 --}}
                                 <div id="change_c">
@@ -111,11 +89,10 @@
                         </div>
 
                         <div class="form-group">
-                            가격<input type="text" class="form-control" name="rental_price" placeholder=" " value="" style="width:400px;" />
+                            가격<input type="text" name="rental_price" class="form-control" placeholder=" " value="" style="width:400px;" />
                         </div>
                         <div class="form-group">
-                            작품 소개<input type="text" class="form-control" name="introduction_of_work" placeholder="제한 없음" value=""
-                                style="width:400px; height:100px;" />
+                            작품 소개<input type="text" name="introduction_of_work" class="form-control" placeholder="제한 없음" value="" style="width:400px; height:100px;" />
                         </div>
                         <button type="submit" class="btnSubmit">등록</button>
                         <button type="button" class="btnSubmit" onclick="location.href='{{url('/')}}'">취소</button>
@@ -123,24 +100,7 @@
                 </div>
             </div>
         </div>
-
-<script>
-$(function() {
-    $("#upload_file").on('change', function(){
-        
-        readURL(this);
-    });
-});
-function readURL(input) {
-    if (input.files && input.files[0]) {
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-            $('#blah').attr('src', e.target.result);
-        }
-</script>
-
     </div>
 </div>
 
-@endsection
+@endsection 
