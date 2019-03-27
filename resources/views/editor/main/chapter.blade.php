@@ -24,16 +24,16 @@
                 <h3 class="post-subtitle">
                     <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:130px;"
                         class="img-thumbnail">
-                    <a href="javascript:popup()" target="_blank">시리즈 추가</a>
+                    <a href="javascript:popup()" target="_blank">챕터 추가</a>
                 </h3>
             </div>
             <hr>
             <div class="post-preview">
                 <a href={{url('editor/main/list')}}>
                     <h3 class="post-subtitle">
-                        <img src="{{asset('image/book.png')}}" alt="표지1" style="width:130px; height:130px;"
+                        <img src="{{asset('image/script.png')}}" alt="표지1" style="width:130px; height:130px;"
                             class="img-thumbnail">
-                        1권
+                        1챕터
                     </h3>
                 </a>
                 <p class="post-meta">Posted by sunsilver on March 18, 2019</p>
@@ -42,9 +42,9 @@
             <div class="post-preview">
                 <a href={{url('editor/main/list')}}>
                     <h3 class="post-subtitle">
-                        <img src="{{asset('image/book.png')}}" alt="표지1" style="width:130px; height:130px;"
+                        <img src="{{asset('image/script.png')}}" alt="표지1" style="width:130px; height:130px;"
                             class="img-thumbnail">
-                        2권
+                        2챕터
                     </h3>
                 </a>
                 <p class="post-meta">Posted by sunsilver on March 18, 2019</p>

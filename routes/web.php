@@ -50,10 +50,23 @@ Route::get('editor/main/book_add', function () {
     return view('editor.main.book_add');
 });
 
-Route::get('editor/main/popup', function () {
-    return view('editor.main.popup');
+Route::get('editor/main/popup_list', function () {
+    return view('editor.main.popup_list');
 });
 
+Route::get('editor/main/popup_chapter', function () {
+    return view('editor.main.popup_chapter');
+});
+
+Route::get('editor/main/chapter', function () {
+    return view('editor.main.chapter');
+});
+
+Route::get('editor/main/series', function () {
+    return view('editor.main.series');
+});
+
+Route::view('graph3', 'editor/main/graph3');
 
 
 #
@@ -69,12 +82,10 @@ Auth::routes(); //로그인에 관한 모든 기능 연결
 
 Route::view('test', 'auth/testlogin');
 
+// Route::get('editor', function () {
+
 Route::view('editor', 'editor/tool/editor');
 Route::get('editor', function () {
-
-Route::view('graph3', 'editor/main/graph3');
-
-Route::get('editor_ep', function () {
 
     $episode = [
         [
@@ -93,8 +104,6 @@ Route::get('editor_ep', function () {
 });
 Route::get('res', 'ResourceController@index');
 Route::view('ep_add', 'editor/tool/episode_add');
-    return view('editor.tool.editor_ep')->with('episode', $episode);
-});
 # kakao login
 Route::get('loginForKakao', 'Auth\KakaginoLoController@index');
 Route::get('auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
