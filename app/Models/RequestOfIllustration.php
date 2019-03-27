@@ -13,7 +13,9 @@ class RequestOfIllustration extends Model
     /**
      * 하나의 회원은 여러 일러스트 신청을 할 수 있다.
      */
-    public function user(){
-        return $this->belongsTo('App\User');
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
     }
 }
+

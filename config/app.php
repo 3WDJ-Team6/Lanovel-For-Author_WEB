@@ -127,7 +127,6 @@ return [
          * Laravel Framework Service Providers...
          */
 
-        Aws\Laravel\AwsServiceProvider::class, #Aws Provider add
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -166,9 +165,13 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
+        Aws\Laravel\AwsServiceProvider::class, #Aws Provider add
+
+        #Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
         \SocialiteProviders\Manager\ServiceProvider::class,
-        pouu69\KakaoApi\KakaoServiceProvider::class, //kakao
+        pouu69\KakaoApi\KakaoServiceProvider::class, #kakao
 
         Laravel\Passport\PassportServiceProvider::class, # API 인증 composer require laravel/passport
 
@@ -223,8 +226,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'AWS' => Aws\Laravel\AwsFacade::class, #Aws add
         #Jwt service provider add
-        'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        #'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        #'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 
         #socialite kakaotalk
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,

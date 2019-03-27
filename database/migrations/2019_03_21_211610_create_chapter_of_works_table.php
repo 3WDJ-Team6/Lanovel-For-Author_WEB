@@ -14,14 +14,15 @@ class CreateChapterOfWorksTable extends Migration
     public function up()
     {
         Schema::create('chapter_of_works', function (Blueprint $table) {
-            $table->string('subtitle')->primary()->comment("챕터제목or권수");
+            $table->increments('num')->comment("챕터번호");
 
             $table->integer('num_of_work')->comment("작품번호")->unsigned();
             $table->foreign('num_of_work')
                   ->references('num')->on('works')
                   ->onDelete('cascade')->onUpdate('cascade');
             
-            $table->boolean('check_of_working')->default(0)->comment("작업상황여부");
+            $table->string('subtitle')->comment("챕터제목or권수");
+            $table->boolean('check_of_working')->default(0)->comment("작업상황");
         });
     }
 

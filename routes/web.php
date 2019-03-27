@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use PHPUnit\Util\Json;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -17,18 +15,12 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+// 작업방 메인 페이지
+Route::get('/index', 'WorkOut\IndexController@index');
+// 작품 추가 페이지
+Route::get('editor/main/book_add', 'WorkOut\IndexController@create');
 
-Route::get('/', function () {
-    return view('index');
-});
-
-Route::get('/test2', function () {
-    if (Auth::user()) {
-        return "asdasd";
-    } else {
-        return "fuc";
-    }
-});
+Route::post('/store','WorkOut\IndexController@store');
 
 Route::get('editor/main/graph', function () {
     return view('editor.main.graph');
@@ -77,8 +69,8 @@ Route::get('ft', 'Storage\FileController@ft')->name('ft');
 
 # authoriztion # make:auth로 생성 
 Route::get('/home', 'HomeController@index')->name('home');
-
 Auth::routes(); //로그인에 관한 모든 기능 연결
+
 
 Route::view('test', 'auth/testlogin');
 
@@ -104,7 +96,8 @@ Route::get('editor', function () {
 });
 Route::get('res', 'ResourceController@index');
 Route::view('ep_add', 'editor/tool/episode_add');
+
 # kakao login
-Route::get('loginForKakao', 'Auth\KakaginoLoController@index');
+Route::get('loginForKakao', 'Auth\KakaoLoginController@index');
 Route::get('auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
 Route::get('auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ContentOfWork extends Model
 {
     protected $table = "content_of_works";
-    protected $primaryKey = "subsubtitle";
+    protected $primaryKey = "num";
     
 
     /**
@@ -16,8 +16,6 @@ class ContentOfWork extends Model
      */
     public function chapter_of_work()
     {
-        return $this->belongsTo('App\ChapterOfWork');
+        return $this->belongsTo('App\Models\ChapterOfWork');
     }
-    
-    
 }
