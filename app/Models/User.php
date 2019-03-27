@@ -37,10 +37,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
     public function getAuthPassword()
     {
         // bcrypt 비교를 하지 않기 위해 강제로 해시를 생성한다.

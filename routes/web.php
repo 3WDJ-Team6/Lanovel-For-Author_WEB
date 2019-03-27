@@ -16,11 +16,12 @@ use Illuminate\Support\Facades\Auth;
 */
 
 // 작업방 메인 페이지
-Route::get('/index', 'WorkOut\IndexController@index');
+
+Route::get('/', 'WorkOut\IndexController@index');
 // 작품 추가 페이지
 Route::get('editor/main/book_add', 'WorkOut\IndexController@create');
 
-Route::post('/store','WorkOut\IndexController@store');
+Route::post('/store', 'WorkOut\IndexController@store');
 
 Route::get('editor/main/graph', function () {
     return view('editor.main.graph');
@@ -60,29 +61,10 @@ Auth::routes(); //로그인에 관한 모든 기능 연결
 
 
 Route::view('test', 'auth/testlogin');
-
 Route::view('editor', 'editor/tool/editor');
-Route::get('editor', function () {
-    Route::view('graph3', 'editor/main/graph3');
-    Route::get('editor_ep', function () {
-        $episode = [
-            [
-                'title' => '첫번째 죽음',
-                'number' => '1',
-                'data' => 'data'
-            ],
-            [
-                'title' => '12살 시절로',
-                'number' => '2',
-                'data' => 'data'
-            ],
-        ];
-        return view('editor.tool.editor')->with('episode', $episode);
-    });
-    Route::get('res', 'ResourceController@index');
-    Route::view('ep_add', 'editor/tool/episode_add');
-    return view('editor.tool.editor_ep')->with('episode', $episode);
-});
+Route::get('res', 'ResourceController@index');
+Route::view('ep_add', 'editor/tool/episode_add');
+
 # kakao login
 Route::get('loginForKakao', 'Auth\KakaoLoginController@index');
 Route::get('auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');

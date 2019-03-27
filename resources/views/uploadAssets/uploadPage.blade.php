@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>파일 업로드 테스트</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <style>
         body,
@@ -19,10 +20,7 @@
 <body>
 
     <div class="container">
-        {{ Auth::user() }}
-        @if(Auth::check())
-        @else failed
-        @endif
+        @if(Auth::check()) {{ Auth::user()['id'] }} {{ Auth::user()['email'] }} {{ Auth::user()['nickname'] }} @else @endif
         <div class="row pt-5">
             <div class="col-sm-12">
                 @if ($errors->any())
@@ -34,8 +32,7 @@
                         @endforeach
                     </ul>
                 </div>
-                @endif
-                @if (Session::has('success'))
+                @endif @if (Session::has('success'))
                 <div class="alert alert-info">
                     <button type="button" class="close" data-dismiss="alert">×</button>
                     <p>{{ Session::get('success') }}</p>
@@ -51,8 +48,7 @@
                             <img class="d-block w-100" src="{{ $image['src'] }}" alt="First slide">
                             <div class="carousel-caption">
                                 <form action="{{ url('images/' . $image['name']) }}" method="POST">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
+                                    {{ csrf_field() }} {{ method_field('DELETE') }}
                                     <!-- 메서드 스푸핑!! -->
                                     <button type="submit" class="btn btn-default">Remove</button>
                                 </form>
@@ -87,8 +83,10 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
 </body>
 
-</html> 
+</html>
