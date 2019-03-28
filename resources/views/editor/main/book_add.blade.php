@@ -94,6 +94,7 @@
                                 </div>
                                 <button type="submit" class="btnSubmit">등록</button>
                                 <button type="button" class="btnSubmit" onclick="location.href='{{url('/')}}'">취소</button>
+
                     </form>
                 </div>
             </div>
