@@ -2,13 +2,19 @@
 @section('header')
 <header>
     <div class="title-bar">
+
+    <span id="title">제목 - </span>
+        <span id="chapter">챕터</span>
+
         @foreach ($titles as $title)
         <a href="{{url('/')}}" id="title"><span id="work">{{$title['work_title']}}</span></a>
         <a href="{{url('editor/main/chapter')}}/{{$title['num']}}" <span id="chapter"> {{$title['subtitle']}} </span> @endforeach
+
     </div>
     <div class="nav">
         <div class="nav-bar">
             <form action="/update" method="post">
+                @csrf
                 <ul>
                     <li class="nav-btn">ILLUSTORE</li>
                     <li class="nav-btn">초대</li>
@@ -36,8 +42,10 @@
             <div class="ep">
                 <div class="ep-title">{{$content_of_works['subsubtitle']}}</div>
                 <div class="ep-list">
+
                     <!-- {{-- 회차 리스트 띄워주기 --}}  -->
                     @foreach($content_lists as $row) - {{$row['subsubtitle']}}<br> @endforeach
+
                 </div>
                 <div class="ep-btns">
                     <span class="btn ep-btn" id="ep-add">에피소드 추가</span>
@@ -68,14 +76,13 @@
         </div>
 
         <div class="textarea" name="content" contentEditable="true" ondrop="drop(this, event)" name="content">
-            {{$content_of_works['content']}}
-            <!--
-            <h3>
+            {{-- {{$content_of_works['content']}} --}}
+            <div class="select">
                 物語《ものがたり》を書《か》きましょう
-            </h3>
-            <p>
-                にこにこに
-            </p> -->
+            </div>
+            <div class="select">
+                物語《ものがたり》を書《か》きましょう
+            </div>
         </div>
         </form>
         <div class="resource-area"></div>
