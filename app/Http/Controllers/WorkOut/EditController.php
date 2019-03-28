@@ -203,6 +203,7 @@ class EditController extends Controller
 
         $num_of_now_chapter = $chapter_of_num_of_now_content->num_of_chapter;
 
+
         // 상단에 작품 제목이랑 챕터 제목을 띄워주는거.....
         $titles = Work::select(
             'chapter_of_works.subtitle',
@@ -264,5 +265,9 @@ class EditController extends Controller
 
         return redirect()->route('editor.main.list')
             ->with('success',  'Content deleted successfu lly.');
+    }
+    
+    public function res() {
+        return view('editor.tool.res');
     }
 }
