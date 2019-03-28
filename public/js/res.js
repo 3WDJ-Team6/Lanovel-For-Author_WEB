@@ -330,9 +330,9 @@ $(function(){
 					fileType = fileType[fileType.length-1];
 
 					icon = '<span class="icon file f-'+fileType+'">.'+fileType+'</span>';
-					thum = '<span class="thum file"><img src="' + f.path + '"class="thum"></img></span>';
+					thum = '<span class="thum file" ondragstart="dragStart(this, event)" draggable="true"><img src="' + f.path + '" class="thum" /></span>';
 
-					var file = $('<li class="files"><a href="'+ f.path+'" title="'+ f.path +'" class="files">'+thum+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></a></li>');
+					var file = $('<li class="files" title="'+ f.path +'">'+thum+'<span class="name">'+ name +'</span> <span class="details">'+fileSize+'</span></li>');
 					file.appendTo(fileList);
 				});
 

@@ -5,7 +5,7 @@
 <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
 
     @if(\Auth::check())
-    {{--  <p>{{ Auth::user() }}</p>  --}}
+    {{-- <p>{{ Auth::user() }}</p> --}}
     <div>
         <a href="{{url('assets/upload')}}">asset upload</a>
     </div>
@@ -15,7 +15,7 @@
     <div>
         {{Auth::user()['nickname']}}
     </div>
-    {{--  정렬 필터링  --}}
+    {{-- 정렬 필터링  --}}
     <input type="hidden" name="_token" value="{{ Session::token() }}">
 
     <!-- Material inline 1 -->
@@ -32,8 +32,9 @@
         <label class="form-check-label" for="materialInline5">협업중</label>
     </div>
 
-    {{--  새 작품 추가  --}}
+    {{-- 새 작품 추가  --}}
     <div class="row">
+
       <div class="col-lg-8 col-md-10 mx-auto">
         <div class="post-preview">
             <a href="{{url('editor/main/book_add')}}">
@@ -62,11 +63,32 @@
             </a>
             <p class="post-meta">tag : <br>type : {{$row['type_of_work']}} <br>cycle :{{$row['cycle_of_publish']}} <br>member :  <br>price : {{$row['buy_price']}},{{$row['rental_price']}}<br>Modification time : {{$row['updated_at']}}</p>
             </div> 
+
             <hr>
-    @endforeach
+
+            {{-- 작품 출력 부분  --}}
+            @foreach ($works as $row)
+            <div class="post-preview">
+
+                {{-- 연재 종류가 회차인 경우 회차 리스트로 바로 이동
+        @if ($row['type_of_work'] == 1)
+            <a href="{{url('editor/main/list')}}">
+                @else
+                <a href="{{url('/')}}">
+                    @endif --}}
+                    <a href="{{url('editor/main/chapter')}}/{{$row['num']}}">
+                        <img src="{{asset('image/logo.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
+                        <div class="post-title" style="margin-top:30px; margin-bottom:30px; display:inline-flex;">
+                            {{$row['work_title']}}
+                        </div>
+                    </a>
+                    <p class="post-meta">tag : <br>type : {{$row['type_of_work']}} <br>cycle :{{$row['cycle_of_publish']}} <br>member : <br>price : {{$row['buy_price']}},{{$row['rental_price']}}<br>Modification time : {{$row['updated_at']}}</p>
+            </div>
+            <hr>
+            @endforeach
+
+        </div>
 
     </div>
-
-            </div>
-        </div>
-        @endsection 
+</div>
+@endsection 
