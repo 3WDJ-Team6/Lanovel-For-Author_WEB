@@ -1,0 +1,123 @@
+/* 그림자 효과 */
+.shadow {
+      display: inline-block;
+      box-shadow: 0px 0px 20px -5px rgba(0, 0, 0, 0.8);
+}
+
+/* 이미지 안쪽으로 그림자 효과 주기 */
+.inshadow {
+    display: inline-block;
+    position: relative;
+}
+.inshadow:after { 
+    position: absolute;
+    display: block;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0 0 50px rgba(0.5, 0.5, 0.5, 0.5),
+        inset 0 0 100px rgba(0, 0, 0, 0.2);
+}
+
+/* 회전 */
+.spin {
+    display: inline-block;
+    transform: rotate(10deg);
+}
+
+/* 둥근 모서리 */
+.radius {
+    border-radius: 10px;
+}
+
+/* 타원 */
+.oval{
+    border-radius: 50%;
+}
+
+/* 원 */
+.circle{
+    position: relative;
+    display: inline-block;
+    background: center center no-repeat;
+    border-radius: 50%;
+    width: 50%;
+    height: 50%;
+}
+
+/* 오버랩 */
+.overlap {
+    display: inline-block;
+    position: relative;
+    z-index: 0;
+}
+.overlap:after {
+    position: absolute;
+    display: block;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transform: rotate(3deg); /* 회전효과 */
+    background: #fff;
+    z-index: -5;
+}
+
+/* 블러 */
+.blur {
+    display: inline-block;
+    position: relative;
+}
+.blur:after {
+    position: absolute;
+    display: block;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 
+      inset 0 0 20px #fff /* 배경과 같은 색 */,
+      inset 0 0 20px #fff,
+      inset 0 0 20px #fff,
+      inset 0 0 20px #fff;
+}
+
+/* 사진첩 */
+.album {
+    display: inline-block;
+    position: relative;
+    overflow: hidden; /* 불필요한 부분 가리기 */
+    padding: 6px; /* 6px정도 이미지 밖으로 표현 */
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+}
+
+.album:before,
+.album:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    width: 97px;
+    height: 50px;
+    background: #fff; /* 배경색과 같은 색 */
+    transform: rotate(-30deg);
+}
+.album:before {
+    box-shadow: 0 10px 8px -12px rgba(0, 0, 0, 0.8);
+    top: -24px;
+    bottom: auto;
+    right: auto;
+    left: -26px;
+ 
+}
+.album:after {
+    box-shadow: 0 -10px 10px -10px rgba(0, 0, 0, 0.7);
+    top: auto;
+    bottom: -22px;
+    right: -25px;
+    left: auto;
+}
