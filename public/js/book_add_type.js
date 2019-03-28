@@ -40,6 +40,12 @@ $(document).ready(function () {
     $("input[name=radio_T]").click(function () {
 
         var radioValue = $(this).val();
+        if (radioValue == "3") {
+            $('#rent').hide();
+        }
+
+    });
+
 
         if (radioValue == "3") {
             $('#rent').hide();
