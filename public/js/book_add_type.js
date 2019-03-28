@@ -27,15 +27,25 @@ $(document).ready(function () {
 
         if (radioValue == "1") {
             hideExclude("change1");
-        } else if (radioValue == "2" || radioValue == "3") {
+            hideExclude("rent");
+        } else if (radioValue == "2") {
             hideExclude("change2");
         } else if (radioValue == "3") {
             hideExclude("change3");
+
         }
 
     });
 
+    $("input[name=radio_T]").click(function () {
 
+        var radioValue = $(this).val();
+
+        if (radioValue == "3") {
+            $('#rent').hide();
+        }
+
+    });
 
 
 });
