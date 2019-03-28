@@ -21,6 +21,7 @@
 
             <div class="post-preview">
                 <h3 class="post-subtitle">
+                    <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:130px;" class="img-thumbnail">
                     <a href="javascript:popup({{$num}})" target="_blank">챕터 추가</a>
                 </h3>
             </div>
@@ -29,6 +30,7 @@
             <div class="post-preview">
                 <a href="{{url('editor/main/list')}}/{{$row['num']}}">
                     <h3 class="post-subtitle">
+                        <img src="{{asset('image/book.png')}}" alt="표지1" style="width:130px; height:130px;" class="img-thumbnail">
                         {{$row['subtitle']}}
                     </h3>
                 </a>
