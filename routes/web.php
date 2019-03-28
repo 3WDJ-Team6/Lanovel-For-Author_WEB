@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Auth;
 */
 
 // 작업방 메인 페이지
-// Route::get('/', function() {
-//     return view('index');
-// });
 
 Route::get('/', 'WorkOut\IndexController@index');
 
@@ -56,6 +53,7 @@ Route::post('/addContent/{num}', 'WorkOut\EditController@addContent');
 
 
 Route::get('/editor/main/graph', function () {
+
     return view('editor.main.graph');
 });
 
@@ -101,6 +99,8 @@ Route::get('/res', 'WorkOut\EditController@res');
 Route::post('/update', 'WorkOut\EditController@update');
 
 # kakao login
+
 Route::get('/loginForKakao', 'Auth\KakaoLoginController@index');
 Route::get('/auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
 Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
+

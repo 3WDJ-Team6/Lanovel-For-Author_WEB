@@ -60,6 +60,7 @@ class IndexController extends Controller
         // return $work_list;
 
         // SELECT * FROM works WHERE num IN (select num_of_work from work_lists WHERE user_id = '3' ;
+      
         $works = Work::select(
             'works.num',
             'works.work_title',
@@ -67,6 +68,7 @@ class IndexController extends Controller
             'works.rental_price',
             'works.buy_price',
             'works.status_of_work',
+
             'works.bookcover_of_work'
         )
             // 'period_of_works.cycle_of_publish',
@@ -99,6 +101,7 @@ class IndexController extends Controller
         // return $work_lists;
 
         //  $work_lists = WorkList::select('user_id')->get();
+
         // periods 테이블에서 해당 작품 번호의 연재 주기를 받아온다.
         // $period_of_works = PeriodOfWork::select('cycle_of_publish')->get();
         //    ->join('works','period_of_works.num_of_work','=','works.num')
@@ -124,6 +127,7 @@ class IndexController extends Controller
         // ->with('work_lists',$work_lists)
         // ->with('category_works',$category_works)
         // ->with('content_of_works',$content_of_works);
+
     }
 
     /**
@@ -153,6 +157,7 @@ class IndexController extends Controller
         $works->work_title = $request->get('work_title');
         $works->type_of_work = $request->get('radio_T');
         $works->rental_price = $request->get('rental_price');
+
         $works->buy_price = 300;
         $works->hits_of_work = 0;
         // $works->buy_price = $request->buy_price;
@@ -168,7 +173,9 @@ class IndexController extends Controller
         $work_lists->user_id = \Auth::user()['id'];
         $work_lists->save();
 
+
         $category_works = new CategoryWork();
+
         // 태그
         $category_works->num_of_work = $works->num;
         $category_works->tag = $request->get('tag');
@@ -217,6 +224,7 @@ class IndexController extends Controller
         $chapter_of_works->save();
 
         return redirect('editor.main.chapter' . $num)->with('message', 'success');
+
     }
 
     /**
