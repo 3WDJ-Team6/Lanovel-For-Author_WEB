@@ -26,10 +26,10 @@
         <label class="form-check-label" for="materialInline2">단행본</label>
         <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;">
         <label class="form-check-label" for="materialInline3">연재중</label>
-        <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;">
-        <label class="form-check-label" for="materialInline4">완결작</label>
-        <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;">
-        <label class="form-check-label" for="materialInline5">협업중</label>
+        <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;">
+        <label class="form-check-label" for="materialInline3">완결작</label>
+        <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;">
+        <label class="form-check-label" for="materialInline3">협업중</label>
     </div>
 
     {{--  새 작품 추가  --}}
@@ -38,7 +38,7 @@
         <div class="post-preview">
             <a href="{{url('editor/main/book_add')}}">
             <h3 class="post-title" style="margin-top:30px; margin-bottom:30px;">
-                <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
+                <img src="{{asset('image/aaa.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
                 작품추가
             </h3>
         </div>
