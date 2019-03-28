@@ -1,6 +1,5 @@
 <div class="file_con">
     <div class="filemanager">
-
         <div class="search">
             <input type="search" placeholder="Find a file.." />
         </div>

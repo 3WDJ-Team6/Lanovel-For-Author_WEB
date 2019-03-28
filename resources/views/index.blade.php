@@ -20,17 +20,17 @@
 
     <!-- Material inline 1 -->
     <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;">
-        <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;">
-        <label class="form-check-label" for="materialInline1">회차</label>
-        <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;">
-        <label class="form-check-label" for="materialInline2">단행본</label>
-        <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;">
-        <label class="form-check-label" for="materialInline3">연재중</label>
-        <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;">
-        <label class="form-check-label" for="materialInline3">완결작</label>
-        <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;">
-        <label class="form-check-label" for="materialInline3">협업중</label>
-    </div>
+            <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;">
+            <label class="form-check-label" for="materialInline1">회차</label>
+            <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;">
+            <label class="form-check-label" for="materialInline2">단행본</label>
+            <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;">
+            <label class="form-check-label" for="materialInline3">연재중</label>
+            <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;">
+            <label class="form-check-label" for="materialInline4">완결작</label>
+            <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;">
+            <label class="form-check-label" for="materialInline5">협업중</label>
+        </div>
 
     {{--  새 작품 추가  --}}
     <div class="row">

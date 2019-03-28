@@ -203,7 +203,6 @@ class EditController extends Controller
         )->where('content_of_works.num', '=', $num)->first();
 
         $num_of_now_chapter = $chapter_of_num_of_now_content->num_of_chapter;
-
         // 지금 이 num은 회차 번호이다... 회차 번호를 타고 가서 챕터 번호를 따와야 한다... 
         $content_lists = ContentOfWork::select(
             // 얘는 회차 번호
@@ -255,5 +254,9 @@ class EditController extends Controller
 
         return redirect()->route('editor.main.list')
             ->with('success', 'Content deleted successfully.');
+    }
+    
+    public function res() {
+        return view('editor.tool.res');
     }
 }

@@ -202,11 +202,11 @@ img.resize {
     position: relative;
 }
 
-.textarea p {
-    line-height: 1rem;
+.textarea .select {
+    line-height: 1.5rem;
     margin-top: 3px;
     margin-bottom: 0px;
-    font-size: 1.2em;
+    font-size: 1.35em;
     
 }
 
@@ -246,6 +246,10 @@ a:hover {
     text-decoration-line: none;
 }
 
-.ui-selecting { background: #FECA40; }
-.ui-selected { background: #F39814; color: white; }
+.ui-selecting {
+    border:2px solid rgb(153, 223, 255); 
+}
+.ui-selected {
+    border:2px solid rgb(48, 190, 255); 
+}
 /* //content */
