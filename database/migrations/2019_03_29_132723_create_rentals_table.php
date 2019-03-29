@@ -14,16 +14,18 @@ class CreateRentalsTable extends Migration
     public function up()
     {
         Schema::create('rentals', function (Blueprint $table) {
+            $table->increments('num')->comment("구매및대여번호");
+
             $table->integer('user_id')->comment("회원번호")->unsigned();
             $table->foreign('user_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
-            
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+
             $table->integer('num_of_work')->comment("작품번호")->unsigned();
             $table->foreign('num_of_work')
-                  ->references('num')->on('works')
-                  ->onDelete('cascade');
-            
+                ->references('num')->on('works')
+                ->onDelete('cascade');
+
             $table->integer('due_of_rental')->default(3)->comment("대여기간");
             $table->integer('chapter_of_work')->comment("회차,권");
 

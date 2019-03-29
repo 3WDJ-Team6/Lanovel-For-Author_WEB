@@ -1,14 +1,11 @@
-@extends('layouts.app') 
+@extends('layouts.app')
 @section('header')
 <header>
     <div class="title-bar">
 
-    <span id="title">제목 - </span>
-        <span id="chapter">챕터</span>
-
         @foreach ($titles as $title)
         <a href="{{url('/')}}" id="title"><span id="work">{{$title['work_title']}}</span></a>
-        <a href="{{url('editor/main/chapter')}}/{{$title['num']}}" <span id="chapter"> {{$title['subtitle']}} </span> @endforeach
+        <a href="{{url('editor/main/chapter')}}/{{$title['num']}}"> <span id="chapter"> {{$title['subtitle']}} </span> </a> @endforeach
 
     </div>
     <div class="nav">
@@ -21,14 +18,14 @@
                     <li class="nav-btn">채팅</li>
                     <li class="nav-btn">멤버리스트</li>
                     <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
-        <li class="nav-btn"><button type="submit"> 저장 </button> </li>
-        <li class="nav-btn">발행</li>
-        </ul>
-    </div>
+                    <li class="nav-btn"><button type="submit"> 저장 </button> </li>
+                    <li class="nav-btn">발행</li>
+                </ul>
+        </div>
     </div>
 </header>
 @endsection
- 
+
 @section('content')
 <div id="preview" class="modal">
     <p id="result"></p>
@@ -75,13 +72,9 @@
             </div>
         </div>
 
-        <div class="textarea" name="content" contentEditable="true" ondrop="drop(this, event)" name="content">
-            {{-- {{$content_of_works['content']}} --}}
+        <div class="textarea" contentEditable="true" ondrop="drop(this, event)">
             <div class="select">
-                物語《ものがたり》を書《か》きましょう
-            </div>
-            <div class="select">
-                物語《ものがたり》を書《か》きましょう
+                {{$content_of_works['content']}}
             </div>
         </div>
         </form>
@@ -89,4 +82,4 @@
     </div>
 </div>
 <script src="{{ asset('js/editor.js') }}" defer></script>
-@endsection
+@endsection 
