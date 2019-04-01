@@ -1,12 +1,7 @@
-//버튼생성
 
+
+//버튼생성
 var commands = [{
-    "cmd": "italic",
-    "name": "기울이기"
-}, {
-    "cmd": "bold",
-    "name": "굵게"
-}, {
     "cmd": "createLink",
     "val": "https://youtu.be/BXcUred6iXc?t=14",
     "name": "링크추가",
@@ -37,12 +32,6 @@ var commands = [{
 }, {
     "cmd": "justifyRight",
     "name": "우측정렬"
-}, {
-    "cmd": "strikeThrough",
-    "name": "중앙선긋기"
-}, {
-    "cmd": "underline",
-    "name": "밑줄긋기"
 }];
 
 var commandRelation = {};
@@ -85,57 +74,127 @@ function drop(target) {
 }
 //템플릿데이터//
 
-//셀렉트
-function SelectSelectableElement (selectableContainer, elementsToSelect)
-{
-    // add unselecting class to all elements in the styleboard canvas except the ones to select
-    $(".ui-selected", selectableContainer).not(elementsToSelect).removeClass("ui-selected").addClass("ui-unselecting");
-    
-    // add ui-selecting class to the elements to select
-    $(elementsToSelect).not(".ui-selected").addClass("ui-selecting");
+//텍스트 셀렉팅 팝업 도구//
+function popTool(ResultId, PopbndId) {
 
-    // trigger the mouse stop event (this will select all .ui-selecting elements, and deselect all .ui-unselecting elements)
-    selectableContainer.data("selectable")._mouseStop(null);
+    rsbobj = document.getElementById(ResultId); //결과레이어 객체
+    popbtnobj = document.getElementById(PopbndId); //버튼레이어 객체
+
+    if (typeof (rsbobj.addEventListener) != "undefined") { //FF
+        rsbobj.addEventListener("mouseup", this.popopen, false);
+        rsbobj.addEventListener("mousedown", this.hiddenPopbtn, false);
+    } else { //IE
+        rsbobj.attachEvent("onmouseup", this.popopen);
+        rsbobj.attachEvent("onmousedown", this.hiddenPopbtn);
+    }
 }
-//셀렉트//
+popTool.prototype = {
+    //검색버튼 숨기기
+    hiddenPopbtn: function () {
+        if (popbtnobj != null) {
+            popbtnobj.style.display = "none";
+        }
+    },
+    //팜업창 
+    popopen: function (e) {
+        var event = window.event || e;
+        var kwd = getSelectText();
 
+        //[1] text길이 체크
+        if (kwd.length <= 0)
+            return;
+        // else if (kwd.length >= limit)
+        // {
+        // 	alert("드래그 검색은 " + limit + "글자만 지원합니다");
+        // 	return;
+        // }
+
+        //팜업창 보이기
+
+        popbtnobj.style.display = "block";
+
+        //[3 ] 마우스 x,y좌표 구하기
+        var mouseX = (event.clientX);
+        var mouseY = (event.clientY);
+        mouseX += getScrollLeft();
+        mouseY += getScrollTop();
+        popbtnobj.style.top = mouseY + "px";
+        popbtnobj.style.left = mouseX + "px";
+    }
+
+}
+//마우스로 긁은 TEXT
+function getSelectText() {
+    var d = "";
+    if (window.getSelection) {
+        d = window.getSelection();
+    } else if (document.getSelection) {
+        d = document.getSelection();
+    } else if (document.selection) {
+        d = document.selection.createRange().text;
+    }
+
+    d = String(d);
+    d.replace(/^\s+|\s+$/g, ''); //trim
+    return d;
+}
+
+//스크롤된 Left 구하기
+function getScrollLeft() {
+    var dd = document.documentElement;
+    var bd = document.body;
+
+    var dd_top = 0;
+    var bd_top = 0;
+
+    if (typeof (dd) == "object")
+        dd_top = dd.scrollLeft;
+    if (typeof (bd) == "object")
+        bd_top = bd.scrollLeft;
+
+    if (dd_top > bd_top)
+        return dd_top;
+    else
+        return bd_top;
+}
+//스크롤된 Top 구하기
+function getScrollTop() {
+    var dd = document.documentElement;
+    var bd = document.body;
+
+    var dd_top = 0;
+    var bd_top = 0;
+
+    if (typeof (dd) == "object")
+        dd_top = dd.scrollTop;
+    if (typeof (bd) == "object")
+        bd_top = bd.scrollTop;
+
+    if (dd_top > bd_top)
+        return dd_top;
+    else
+        return bd_top;
+}
+//텍스트 셀렉팅 도구//
 $(document).ready(function () {
 
-    // $('.selectable').selectable();
+    //포커스 미완
     $('.select').attr("tabindex", -1);
     $('.area').mousemove(function () {
-        $('.select').focus(function(){
-            $(this).css("border","2px solid yellow").addClass('selected');
+        $('.select').focus(function () {
+            $(this).css("border", "2px solid yellow").addClass('selected');
         });
-        $('.select.selected').blur(function(){
-            $(this).css("border","0").removeClass('selected');
+        $('.select.selected').blur(function () {
+            $(this).css("border", "0").removeClass('selected');
         });
     });
+    //포커스//
+
     //에피소드, 템플릿출력
-    $('#italic').before('<span class="btn tool-btn" id="episode">에피소드 관리</span> <span class="btn tool-btn" id="template">템플릿</span>');
+    $('#createLink').before('<span class="btn tool-btn" id="episode">에피소드 관리</span> <span class="btn tool-btn" id="template">템플릿</span>');
 
-    //자동들여쓰기, 리소스 출력
-    $('#underline').after('<span class="btn tool-btn" id="auto-indent">자동들여쓰기</span> <span class="btn tool-btn" id="resource">리소스</span>');
-
-    //엔터마다 p 아이디 늘리기
-    // $(document).ready(function(){
-    // 	$(".textarea").keypress(function(){
-    // 		$("p").attr('id' , String(parseInt('id')+'1'));
-    // 	});
-    // });
-    //엔터마다 p 아이디 늘리기//
-
-    //자동들여쓰기
-    // $(document).ready(function(){
-    // 	$('#indent').one('click',function(){
-    // 		$('.textarea').keydown(function(key){
-    // 			if(key.keyCode == 13){
-    // 				$('p').css('text-indent', '2em');
-    // 			}
-    // 		});
-    // 	});.
-    // });
-    //자동들여쓰기//
+    //리소스 출력
+    $('#justifyRight').after('<span class="btn tool-btn" id="resource">리소스</span>');
 
     //에피소드관리 
     $('#episode').click(function () {
@@ -144,9 +203,9 @@ $(document).ready(function () {
         }
         $('.ep').toggle();
     });
-
+    //에피소드추가
     $('#ep-add').click(function () {
-        window.open('ep_add', 'window', 'width=400, height=400');
+        window.open('/ep_add', 'window', 'width=400, height=400');
     });
     //에피소드관리//
 
@@ -157,9 +216,9 @@ $(document).ready(function () {
         }
         $('.tem').toggle();
     });
-
+    //템플릿 효과
     $('#shadow').click(function () {
-        $('.selected > .effect').toggleClass('shadow');
+        $('.effect').toggleClass('shadow');
     });
     $('#inshadow').click(function () {
         $('.effect').toggleClass('inshadow');
@@ -171,7 +230,7 @@ $(document).ready(function () {
         $('.resize').toggleClass('radius');
     });
     $('#oval').click(function () {
-        $('.resize').toggleClass('oval');    
+        $('.resize').toggleClass('oval');
     });
     $('#circle').click(function () {
         $('.resize').toggleClass('circle');
@@ -187,16 +246,31 @@ $(document).ready(function () {
     });
     //템플릿//
 
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     //리소스
     var flag = true;
     $("#resource").click(function () {
         if (flag === true) {
             flag = false;
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: "/res",
+                dataType:"JSON",
+                error: function(e){
+                    console.log(e);
+                    throw new Error('실-패');
+            },
                 success: function (data) {
-                    $('.resource-area').append(data);
+                    console.log(data);
+                    $('.resource-area').html(data);
+                    $('.resource-area').load(data);
+                    
+                    // $('.resource-area').innerHTML(data);
                 }
             });
         } else if (flag === false) {
@@ -222,7 +296,7 @@ $(document).ready(function () {
 
     //텍스트에리어로 마우스 올라가면 p태그안의 thum클래스를 resize로 바꾸고 div로 감싼다
     $('.textarea').hover(function () {
-        $('.textarea .thum').attr('class','resize').wrap('<div class="effect" id="selectable" style="display:inline-block;width:auto;height:auto;"></div>');
+        $('.textarea .obj_thumb').attr('class', 'resize').wrap('<div class="effect" id="selectable" style="display:inline-block;width:auto;height:auto;"></div>');
         // $('#selectable').selectable();
     });
     // if($('p > img').hasClass('thum')){
@@ -243,7 +317,6 @@ $(document).ready(function () {
     $('#pre-btn').click(function () {
         $('.textarea').each(function () {
             var text = $('.textarea').html();
-            console.log(text);
             $('#result').html(text);
             $('#result').html(
                 $('#result').html()
@@ -279,22 +352,30 @@ $(document).ready(function () {
     });
     //a태그 드래그 금지//
 
-    $('#large').click(function(){
-        $('#e-size').width($('#e-size').width()+50);
+    //템플릿 크게, 작게, 원래사이즈
+    $('#large').click(function () {
+        $('#e-size').width($('#e-size').width() + 50);
         $('#e-size').height($('#e-size').height('auto'));
-        $('.resize').width($('.resize').width()+50);
+        $('.resize').width($('.resize').width() + 50);
         $('.resize').height($('.resize').height('auto'));
     });
-    $('#small').click(function(){
-        $('#e-size').width($('#e-size').width()-50);  
+    $('#small').click(function () {
+        $('#e-size').width($('#e-size').width() - 50);
         $('#e-size').height($('#e-size').height('auto'));
-        $('.resize').width($('.resize').width()-50);
+        $('.resize').width($('.resize').width() - 50);
         $('.resize').height($('.resize').height('auto'));
     });
-    $('#origin').click(function(){
-        $('#e-size').width($('#e-size').width('400px'));  
+    $('#origin').click(function () {
+        $('#e-size').width($('#e-size').width('400px'));
         $('#e-size').height($('#e-size').height('auto'));
         $('.resize').width($('.resize').width('400px'));
         $('.resize').height($('.resize').height('auto'));
     });
+    //템플릿 크게, 작게, 원래사이즈
+    $('#send').click(function() {
+        var cont = $('#popup_result').html(); 
+        $('#content').val(cont);
+        $('#form').submit();
+        console.log(cont);
+       });
 });
