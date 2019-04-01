@@ -84,7 +84,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    가격<input type="text" name="rental_price" class="form-control" placeholder=" " value="" style="width:400px;" />원
+                                    가격<input type="text" name="buy_price" class="form-control" placeholder=" " value="" style="width:400px;" />원
                                 </div>
                                 <div class="form-group" id="rent">
                                     대여 가격<input type="text" name="rental_price" class="form-control" id="rent" placeholder=" " value="" style="width:400px;" />원
@@ -102,4 +102,4 @@
     </div>
 </div>
 
-@endsection
+@endsection 

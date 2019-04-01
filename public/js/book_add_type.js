@@ -32,7 +32,6 @@ $(document).ready(function () {
             hideExclude("change2");
         } else if (radioValue == "3") {
             hideExclude("change3");
-
         }
 
     });
@@ -40,15 +39,10 @@ $(document).ready(function () {
     $("input[name=radio_T]").click(function () {
 
         var radioValue = $(this).val();
-        if (radioValue == "3") {
-            $('#rent').hide();
-        }
-
-    });
-
 
         if (radioValue == "3") {
             $('#rent').hide();
         }
 
     });
+

@@ -4,10 +4,12 @@
 <header>
     {{-- 타이틀과 목차 --}}
     <div class="title-bar">
+
         @foreach ($titles as $title)
         <a href="{{url('/')}}" id="title"><span id="work">{{$title['work_title']}}</span></a>
         <a href="{{url('editor/main/chapter')}}/{{$title['num']}}"><span id="chapter"> {{$title['subtitle']}}</span></a>
         @endforeach
+
     </div>
 
     {{-- 상단 메뉴 --}}
@@ -85,12 +87,14 @@
             </div>
         </div>
 
+
         {{-- 글쓰는에리어 --}}
         <div id="popup_result" class="textarea" contentEditable="true" ondrop="drop(this, event)">
             {{$content_of_works['content']}}
             {{-- <div class="select">
                 物語《ものがたり》を書《か》きましょう
             </div> --}}
+
         </div>
 
         {{-- 리소스 에리어 --}}
@@ -121,3 +125,4 @@
 </div>
 <script src="{{ asset('/js/editor.js') }}" defer></script>
 @endsection
+

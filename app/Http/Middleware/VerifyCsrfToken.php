@@ -21,5 +21,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         # CSRF 토큰검사 하지않을 blade
         '/*',
+        'api/*'
     ];
 }

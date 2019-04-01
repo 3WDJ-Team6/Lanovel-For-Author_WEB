@@ -60,7 +60,7 @@ class IndexController extends Controller
         // return $work_list;
 
         // SELECT * FROM works WHERE num IN (select num_of_work from work_lists WHERE user_id = '3' ;
-      
+
         $works = Work::select(
             'works.num',
             'works.work_title',
@@ -68,7 +68,6 @@ class IndexController extends Controller
             'works.rental_price',
             'works.buy_price',
             'works.status_of_work',
-
             'works.bookcover_of_work'
         )
             // 'period_of_works.cycle_of_publish',
@@ -127,7 +126,6 @@ class IndexController extends Controller
         // ->with('work_lists',$work_lists)
         // ->with('category_works',$category_works)
         // ->with('content_of_works',$content_of_works);
-
     }
 
     /**
@@ -139,6 +137,34 @@ class IndexController extends Controller
      */
     public function create()
     { }
+
+    public function bookcoverUpload()
+    {
+
+        // if ($_FILES["upload"]["size"] > 0) {
+        //     //오리지널 파일 이름.확장자
+        //     $ext = substr(strrchr($_FILES["upload"]["name"], "."), 1);
+        //     $ext = strtolower($ext);
+        //     $savefilename = $_FILES["upload"]["name"];
+        //     $url = "{{asset('img/upload')}}";
+        //     $uploadpath  = $_SERVER['DOCUMENT_ROOT'] . "$url";
+        //     $uploadsrc = $_SERVER['HTTP_HOST'] . "{{asset('img/upload')}}";
+        //     $http = 'http' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 's' : '') . '://';
+        //     if (move_uploaded_file($_FILES['upload']['tmp_name'], $uploadpath . "/" . iconv("UTF-8", "EUC-KR", $savefilename))) {
+        //         $uploadfile = $savefilename;
+        //         echo '
+        //             {
+        //                 "fileName": "' . $savefilename . '",
+        //                 "uploaded": 1,
+        //                 "url": "' . $url . '/' . $savefilename . '"
+        //             }
+        //             ';
+        //     }
+        // } else {
+        //     exit;
+        // }
+    }
+
 
     /**
      * 작품 저장
@@ -157,10 +183,8 @@ class IndexController extends Controller
         $works->work_title = $request->get('work_title');
         $works->type_of_work = $request->get('radio_T');
         $works->rental_price = $request->get('rental_price');
-
-        $works->buy_price = 300;
+        $works->buy_price = $request->get('buy_price');
         $works->hits_of_work = 0;
-        // $works->buy_price = $request->buy_price;
         $works->introduction_of_work = $request->get('introduction_of_work');
         $works->bookcover_of_work = $request->get('bookcover_of_work');
         $works->status_of_work = 1;
@@ -224,7 +248,6 @@ class IndexController extends Controller
         $chapter_of_works->save();
 
         return redirect('editor.main.chapter' . $num)->with('message', 'success');
-
     }
 
     /**
