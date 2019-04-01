@@ -5,8 +5,9 @@ $(function(){
 		fileList = filemanager.find('.data');
 
 	// Start by fetching the file data from scan.php with an AJAX request
-
-	$.get('scan.php', function(data) {
+	// localhost:8000/editor/tool/editor/1/scan.php = (scan.php) 현재 실행중인 경로 기준으로 실행한다는 뜻 
+	// public Path (/scan.php) = (public은 잡혀 있으니까 그냥 /scan.php) 루트 디렉토리 기준 경로로 실행 한다는 뜻
+	$.get('/scan.php', function(data) {
 		
 		var response = [data],
 			currentPath = '',

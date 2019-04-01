@@ -1,4 +1,5 @@
 //버튼생성
+
 var commands = [{
     "cmd": "italic",
     "name": "기울이기"
@@ -99,9 +100,17 @@ function SelectSelectableElement (selectableContainer, elementsToSelect)
 //셀렉트//
 
 $(document).ready(function () {
-    if($('div').hasClass('.effect')){
-        $('#e-size').selectable();
-    }
+
+    // $('.selectable').selectable();
+    $('.select').attr("tabindex", -1);
+    $('.area').mousemove(function () {
+        $('.select').focus(function(){
+            $(this).css("border","2px solid yellow").addClass('selected');
+        });
+        $('.select.selected').blur(function(){
+            $(this).css("border","0").removeClass('selected');
+        });
+    });
     //에피소드, 템플릿출력
     $('#italic').before('<span class="btn tool-btn" id="episode">에피소드 관리</span> <span class="btn tool-btn" id="template">템플릿</span>');
 
@@ -150,7 +159,7 @@ $(document).ready(function () {
     });
 
     $('#shadow').click(function () {
-        $('.effect').toggleClass('shadow');
+        $('.selected > .effect').toggleClass('shadow');
     });
     $('#inshadow').click(function () {
         $('.effect').toggleClass('inshadow');
@@ -185,7 +194,7 @@ $(document).ready(function () {
             flag = false;
             $.ajax({
                 type: 'GET',
-                url: "res",
+                url: "/res",
                 success: function (data) {
                     $('.resource-area').append(data);
                 }
@@ -213,7 +222,7 @@ $(document).ready(function () {
 
     //텍스트에리어로 마우스 올라가면 p태그안의 thum클래스를 resize로 바꾸고 div로 감싼다
     $('.textarea').hover(function () {
-        $('p .thum').attr('class','resize').wrap('<div class="effect" id="selectable" style="display:inline-block;width:auto;height:auto;"></div>');
+        $('.textarea .thum').attr('class','resize').wrap('<div class="effect" id="selectable" style="display:inline-block;width:auto;height:auto;"></div>');
         // $('#selectable').selectable();
     });
     // if($('p > img').hasClass('thum')){

@@ -9,7 +9,6 @@ use App\Models\ChapterOfWork;
 use App\Models\Work;
 use App\Models\WorkList;
 use App\Models\Template;
-use App\Models\Episode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -102,7 +101,7 @@ class EditController extends Controller
         // 회차 제목 추가
         $content_of_works->subsubtitle = $request->subsubtitle;
         // 회차 내용 디폴트값 넣어주기
-        $content_of_works->content = "default값입니다.";
+        $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
         $content_of_works->save();
 
         return redirect('editor.main.list' . $num)->with('message', 'success');
@@ -204,6 +203,15 @@ class EditController extends Controller
 
         $num_of_now_chapter = $chapter_of_num_of_now_content->num_of_chapter;
 
+
+        // 상단에 작품 제목이랑 챕터 제목을 띄워주는거.....
+        $titles = Work::select(
+            'chapter_of_works.subtitle',
+            'works.work_title',
+            'works.num'
+        )->join('chapter_of_works', 'chapter_of_works.num_of_work', '=', 'works.num')
+            ->where('chapter_of_works.num', '=', $num_of_now_chapter)->get();
+
         // 지금 이 num은 회차 번호이다... 회차 번호를 타고 가서 챕터 번호를 따와야 한다... 
         $content_lists = ContentOfWork::select(
             // 얘는 회차 번호
@@ -216,12 +224,14 @@ class EditController extends Controller
             ->where('content_of_works.num_of_chapter', '=', $num_of_now_chapter)
             ->get();
 
-        $content_of_works = ContentOfWork::where('num', $num)->first();
+        $content_of_works = ContentOfWork::select('*')->where('num', $num)->first();
 
         // return $content_lists;
         // return $content_of_works;
-        return view('editor/tool/editor')->with('content_of_works', $content_of_works)
-            ->with('content_lists', $content_lists);
+        return view('editor/tool/editor')
+            ->with('content_of_works', $content_of_works)
+            ->with('content_lists', $content_lists)
+            ->with('titles', $titles);
     }
 
     /**
@@ -239,8 +249,7 @@ class EditController extends Controller
         $content_of_works->content = $request->content;
         $content_of_works->save();
 
-        return view('editor.main.list' . $content_of_works->num_of_chapter)
-            ->with('message', 'edit success');
+        return view('editor.main.list' . $content_of_works->num_of_chapter);
     }
 
     /**
@@ -254,6 +263,11 @@ class EditController extends Controller
         $content_of_works->delete();
 
         return redirect()->route('editor.main.list')
-            ->with('success', 'Content deleted successfully.');
+            ->with('success',  'Content deleted successfu lly.');
+    }
+
+    public function res()
+    {
+        return view('editor.tool.res');
     }
 }

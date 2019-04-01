@@ -42,7 +42,7 @@ function scan($dir){
 				$files[] = array(
 					"name" => $f,
 					"type" => "file",
-					"path" => $dir . '/' . $f,
+					"path" => '/' . $dir . '/' . $f,
 					"size" => filesize($dir . '/' . $f) // Gets the size of this file
 				);
 			}
