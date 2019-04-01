@@ -39,7 +39,7 @@
                     <!-- {{-- 회차 리스트 띄워주기 --}}  -->8
                     - {{$row['subsubtitle']}}<br>
                     @endforeach
-                    
+
                 </div>
                 <div class="ep-btns">
                     <span class="btn ep-btn" id="ep-add">에피소드 추가</span>
