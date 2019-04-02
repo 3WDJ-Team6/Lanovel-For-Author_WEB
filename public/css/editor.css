@@ -26,8 +26,9 @@ header li {
     margin-bottom: 5px;
 }
 
-.nav-btn :hover {
+.nav-btn:hover {
     opacity: 0.5;
+    cursor: pointer;
 }
 /* //nav */
 
@@ -203,7 +204,7 @@ img.resize {
 }
 
 .textarea .select {
-    line-height: 1.5rem;
+    /* line-height: 1.5rem; */
     margin-top: 3px;
     margin-bottom: 0px;
     font-size: 1.35em;
@@ -227,9 +228,32 @@ img.resize {
     margin-right: 5px; 
 }
 
-.file {
+.obj {
+    display: inline-block;
+}
+
+.obj_thumb {
+    display: block;
+    width: 150px;
+    height: 150px;
+    margin-left: 10px;
+    margin-right: 10px; 
     object-fit: fill;
 }
+
+.obj_thum {
+    display: block; 
+    width: 150px;
+    height: 150px;
+}
+
+.obj_name {
+    display: block;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    
+}
+
 ::-webkit-scrollbar {
     display: none;
 
@@ -246,10 +270,4 @@ a:hover {
     text-decoration-line: none;
 }
 
-.ui-selecting {
-    border:2px solid rgb(153, 223, 255); 
-}
-.ui-selected {
-    border:2px solid rgb(48, 190, 255); 
-}
 /* //content */

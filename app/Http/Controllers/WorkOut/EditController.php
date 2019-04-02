@@ -101,7 +101,7 @@ class EditController extends Controller
         // 회차 제목 추가
         $content_of_works->subsubtitle = $request->subsubtitle;
         // 회차 내용 디폴트값 넣어주기
-        $content_of_works->content = "default값입니다.";
+        $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
         $content_of_works->save();
 
         return redirect('editor.main.list' . $num)->with('message', 'success');
@@ -156,6 +156,7 @@ class EditController extends Controller
      */
     public function store(Request $request)
     {
+        return $request;
         $content_of_works = new ContentOfWork();
         $content_of_works->content = $request->content;
         $content_of_works->$content_of_works->save();
@@ -224,7 +225,7 @@ class EditController extends Controller
             ->where('content_of_works.num_of_chapter', '=', $num_of_now_chapter)
             ->get();
 
-        $content_of_works = ContentOfWork::where('num', $num)->first();
+        $content_of_works = ContentOfWork::select('*')->where('num', $num)->first();
 
         // return $content_lists;
         // return $content_of_works;
@@ -249,8 +250,7 @@ class EditController extends Controller
         $content_of_works->content = $request->content;
         $content_of_works->save();
 
-        return view('editor.main.list' . $content_of_works->num_of_chapter)
-            ->with('message', 'edit success');
+        return view('editor.main.list' . $content_of_works->num_of_chapter);
     }
 
     /**
@@ -267,7 +267,18 @@ class EditController extends Controller
             ->with('success',  'Content deleted successfu lly.');
     }
     
-    public function res() {
-        return view('editor.tool.res');
+    // public function res() {
+    //     return view('editor.tool.res2');
+    // }
+
+    public function res(Request $request)
+    {
+        $url = 'https://s3.ap-northeast-2.amazonaws.com/lanovebucket/index.html?prefix=Author/';
+        return response()->json($url, 200);
+    }
+
+    public function send(Request $request){
+        return $request;
+
     }
 }

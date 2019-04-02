@@ -59,8 +59,6 @@
             {{-- 작품 출력 부분  --}}
             @foreach ($works as $row)
             <div class="post-preview">
-
-
                 <a href="{{url('editor/main/chapter')}}/{{$row['num']}}">
                     <img src="{{asset('image/logo.png')}}" alt="표지1" style="width:130px; height:150px;"
                         class="img-thumbnail">
