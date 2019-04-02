@@ -1,62 +1,68 @@
-// $(document).ready(function(){
-//     $("#one-type").click(function(){
-//           $('.graph-box').append('그래프');
-//     });
-//   });
-$(document).ready(function(){
-
-  function hideExclude＿graph(excludeId) {
+function hideExclude(excludeId) {
     $('#graph-box').children().each(function () {
 
         $(this).hide();
     });
-    //넘겨 받은 id 요소는 show
+    //넘겨 받은 id 요소는 show+
     $("#" + excludeId).show();
 }
 
-  $("#one-type").click(function(){
+$(document).ready(function () {
 
-        $('#chartdiv').hideExclude();
-        $('#chartdiv2').hide();
-        $('#chartdiv3').hide();
-        
-  });
+    $("#one-type").click(function () {
+        hideExclude("chartdiv");
+    });
 
+    $("#bar-type").click(function () {
+        hideExclude("chartdiv2");
+    });
 
-  // $("#sidenav").click(function(){
-    
-  //   var graphValue = $(this).val();
-
-  //   if(graphValue == "one") {
-  //       hideExclude("chartdiv");
-  //   }else if(graphValue == "bar") {
-  //       hideExclude("chartdiv2");
-  //   }else if(graphValue == "calculate") {
-  //       hideExclude("chartdiv3");
-  //   }
-
-});
-  $("#bar-type").click(function(){
-
-    if($('div').hasClass('chartdiv')){
-        $('#chartdiv').hide();
-    }
-
-      $('#chartdiv2').toggle();
-      $('#chartdiv1').hide();
-      $('#chartdiv3').hide();
+    $("#calculate").click(function () {
+        hideExclude("chartdiv3");
+    });
 
 });
 
-  $("#calculate").click(function(){
-    if($('div').hasClass('chartdiv')){
-      $('#chartdiv').hide();
-  }
+// $("#sidenav").click(function () {
 
-      $('#chartdiv3').toggle();
-      $('#chartdiv1').hide();
-      $('#chartdiv2').hide();
-  });
+//     var graphValue = $(this).val();
+
+//     if ($('#one-type')) {
+
+//         hideExclude("chartdiv");
+
+//     } else if ($('#bar-type')) {
+//         alert("test");
+//         hideExclude("chartdiv2");
+
+//     } else if ($('#calculate')) {
+//         hideExclude("chartdiv3");
+//     }
+
+// });
 
 
 
+// $("#one-type").click(function () {
+
+//     $('#chartdiv').hideExclude();
+//     $('#chartdiv2').hide();
+//     $('#chartdiv3').hide();
+
+// });
+
+// $("#bar-type").click(function () {
+
+//     $('#chartdiv2').hideExclude();
+//     $('#chartdiv').hide();
+//     $('#chartdiv3').hide();
+
+// });
+
+// $("#calculate").click(function () {
+
+//     $('#chartdiv3').hideExclude();
+//     $('#chartdiv2').hide();
+//     $('#chartdiv').hide();
+
+// });
