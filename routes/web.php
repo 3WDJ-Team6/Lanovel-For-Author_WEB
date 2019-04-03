@@ -71,6 +71,9 @@ Route::get('/redirectList/{num}', function() {
     return redirect('editor/main/list/{num}');
 });
 
+Route::post('/tr', 'WorkOut\EditController@store');
+
+
 Route::get('/editor/main/graph', function () {
 
     return view('editor.main.graph');
@@ -93,12 +96,12 @@ Route::get('/editor/main/popup', function () {
 });
 Route::view('/graph3', 'editor/main/graph3');
 
-
-#
 # aws s3 asset upload 기능  
 Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
 Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
 Route::get('/ft', 'Storage\FileController@ft')->name('ft');
+Route::get('/getDir', 'Storage\FileController@getDir')->name('getDir');
+
 
 # authoriztion # make:auth로 생성 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -112,13 +115,13 @@ Route::view('test', 'auth/testlogin');
 Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 
 //리소스가져오기
-Route::get('/res', 'WorkOut\EditController@res');
+Route::post('/res', 'WorkOut\EditController@res');
 
 // 에디터 내용 저장
 Route::post('/update', 'WorkOut\EditController@update');
+// Route::post('/send', 'WorkOut\EditController@send');
 
 # kakao login
-
 Route::get('/loginForKakao', 'Auth\KakaoLoginController@index');
 Route::get('/auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
 Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');

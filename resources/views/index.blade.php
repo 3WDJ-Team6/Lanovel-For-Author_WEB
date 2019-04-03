@@ -1,4 +1,13 @@
 @extends('layouts.master')
+
+@section('head')
+    @include('layouts.head')
+@endsection
+
+@section('header')
+    @include('layouts.header')
+@endsection
+
 @section('content')
 
 <!-- Main Content -->
@@ -19,7 +28,8 @@
     <input type="hidden" name="_token" value="{{ Session::token() }}">
 
     <!-- Material inline 1 -->
-    <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;">
+    <div class="form-check form-check-inline"
+        style="width:100%; align-items: center; display: flex; justify-content: center;">
         <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;">
         <label class="form-check-label" for="materialInline1">회차</label>
         <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;">
@@ -38,7 +48,8 @@
             <div class="post-preview">
                 <a href="{{url('editor/main/book_add')}}">
                     <h3 class="post-title" style="margin-top:30px; margin-bottom:30px;">
-                        <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
+                        <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;"
+                            class="img-thumbnail">
                         작품추가
                     </h3>
             </div>
@@ -49,7 +60,9 @@
             @foreach ($works as $row)
             <div class="post-preview">
                 <a href="{{url('editor/main/chapter')}}/{{$row['num']}}">
+
                     <img src="{{$row['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'"/>
+
                     <div class="post-title" style="margin-top:30px; margin-bottom:30px; display:inline-flex;">
                         {{$row->work_title}}
                     </div>
@@ -73,6 +86,7 @@
                 대여 : {{$row->rental_price}}<br>
                 최근 수정 시간 : {{$modify_time['updated_at']->diffForHumans()}}
                 </p>
+
             </div>
             <hr>
             @endforeach
@@ -81,4 +95,8 @@
 
     </div>
 </div>
-@endsection 
+@endsection
+
+@section('footer')
+    @include('layouts.footer')
+@endsection

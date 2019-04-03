@@ -1,10 +1,16 @@
 @extends('layouts.master')
-<head>
-<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
-</head>
-@section('content')
 
-<link rel="stylesheet" href="{{asset('css/graph.css')}}">
+@section('head')
+    @include('layouts.head')
+    <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('css/graph.css')}}">
+@endsection
+
+@section('header')
+    @include('layouts.header')
+@endsection
+
+@section('content')
 
 <!-- Main Content -->
 <div class="container" style="background-color:#45b4e61a; margin-top:70px; height:700px;">
@@ -71,5 +77,8 @@
 </div>
 </div>
 
+@endsection
 
+@section('footer')
+    @include('layouts.footer')
 @endsection

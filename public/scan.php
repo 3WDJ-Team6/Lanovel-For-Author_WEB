@@ -1,6 +1,7 @@
 <?php
 
 $dir = "files";
+// $dir = "https://lanovebucket.s3.ap-northeast-2.amazonaws.com/index.html";
 //https://s3.ap-northeast-2.amazonaws.com/lanovebucket/
 // Run the recursive function 
 

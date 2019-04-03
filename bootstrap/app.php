@@ -12,7 +12,7 @@
 */
 
 $app = new Illuminate\Foundation\Application(
-    realpath(__DIR__.'/../')
+    realpath(__DIR__ . '/../')
 );
 
 /*
@@ -40,6 +40,14 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
+
+# add configuration cors
+// $app->configure('cors');
+// $app->register(Barryvdh\Cors\ServiceProvider::class);
+// $app->routeMiddleware([
+//     // ...
+//     'cors' => \Barryvdh\Cors\HandleCors::class,
+// ]);
 
 /*
 |--------------------------------------------------------------------------

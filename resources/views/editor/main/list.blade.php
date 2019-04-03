@@ -1,5 +1,13 @@
 @extends('layouts.master')
 
+@section('head')
+    @include('layouts.head')
+@endsection
+
+@section('header')
+    @include('layouts.header')
+@endsection
+
 @section('content')
 
 <script langauge="javascript">
@@ -46,4 +54,8 @@
     </div>
 </div>
 
-@endsection 
+
+@section('footer')
+    @include('layouts.footer')
+@endsection
+
