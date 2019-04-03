@@ -18,7 +18,7 @@ $(document).ready(function () {
         $('#change2').hide();
         $('#change3').hide();
     }
-
+    //fdfd
 
     //radio chage 이벤트
     $("input[name=radio_T]").click(function () {
@@ -45,4 +45,5 @@ $(document).ready(function () {
         }
 
     });
+});
 
