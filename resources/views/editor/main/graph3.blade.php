@@ -1,7 +1,7 @@
 @extends('layouts.APP')
 
 @section('content')
-<script src="{{asset('js/graph3.js')}}" defer></script>
+<script src="{{asset('js/editor/graph3.js')}}" defer></script>
 <div>
 <table id="tabList" class="table table-bordered">
     {{-- <thead>

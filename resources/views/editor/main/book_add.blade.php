@@ -2,10 +2,10 @@
 
 @section('head')
     @include('layouts.head')
-<script src="{{asset('js/book_add_image.js')}}" defer></script>
-<script src="{{asset('js/book_add_type.js')}}" defer></script>
-<script src="{{asset('js/book_add_cycle.js')}}" defer></script>
-<script src="{{asset('js/book_add_cycle_month.js')}}" defer></script>
+<script src="{{asset('js/editor/book_add_image.js')}}" defer></script>
+<script src="{{asset('js/editor/book_add_type.js')}}" defer></script>
+<script src="{{asset('js/editor/book_add_cycle.js')}}" defer></script>
+<script src="{{asset('js/editor/book_add_cycle_month.js')}}" defer></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>

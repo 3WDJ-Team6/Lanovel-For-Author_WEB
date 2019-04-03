@@ -13,10 +13,10 @@
     <link href="{{asset('css/clean-blog.min.css')}}" rel="stylesheet">
     
     <!-- Bootstrap core CSS -->
-    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
 
     <!-- Bootstrap core JavaScript -->
-    <!-- <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script> -->
+    <!-- <script src="{{asset('bower_components/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script> -->
 
     <!-- Custom scripts for this template -->
     <!-- <script src="{{asset('js/clean-blog.min.js')}}"></script> -->

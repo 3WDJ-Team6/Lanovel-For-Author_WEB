@@ -1,7 +1,14 @@
 @extends('layouts.master')
 
 @section('head')
-    @include('layouts.head')
+@include('layouts.head')
+@endsection
+
+@section('header')
+@include('layouts.header')
+@endsection
+
+@section('content')
 <script langauge="javascript">
     function popup(num) {
         var url = "/chapter_create/" + num;
@@ -10,13 +17,6 @@
     }
 
 </script>
-@endsection
-
-@section('header')
-    @include('layouts.header')
-@endsection
-
-@section('content')
 
 <!-- Main Content -->
 <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
@@ -26,13 +26,15 @@
         style="width:100%; align-items: center; display: flex; justify-content: center;"></div>
 
     <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto" style="margin-top:50px; margin-bottom:50px;">
-
+        <div class="col-lg-8 col-md-10 mx-auto" id="chapter_box" style="margin-top:50px; margin-bottom:50px;">
+            <div class="container">
+                <h3>동무
+                    <h6>「 밑바닥부터 시작해서 대통령이 됬더니 사고로 공산주의국가에서 환생하는 이야기 」
+            </div>
             <div class="post-preview">
                 <h3 class="post-subtitle">
                     <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:130px;"
                         class="img-thumbnail">
-
                     <a href="javascript:popup({{$num}})" target="_blank">챕터 추가</a>
                 </h3>
             </div>
@@ -58,8 +60,15 @@
     </div>
 </div>
 
+
+
+
+</div>
+</div>
+</div>
+
 @endsection
 
 @section('footer')
-    @include('layouts.footer')
+@include('layouts.footer')
 @endsection
