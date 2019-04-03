@@ -1,5 +1,3 @@
-
-
 //버튼생성
 var commands = [{
     "cmd": "createLink",
@@ -64,23 +62,13 @@ function init() {
 
 init();
 
-//템플릿데이터
-function dragStart(data, target) {
-    target.dataTransfer.setData("Text", data);
-}
-
-function drop(target) {
-    target.dataTransfer;
-}
-//템플릿데이터//
-
 //텍스트 셀렉팅 팝업 도구//
 function popTool(ResultId, PopbndId) {
 
     rsbobj = document.getElementById(ResultId); //결과레이어 객체
     popbtnobj = document.getElementById(PopbndId); //버튼레이어 객체
 
-    if (typeof (rsbobj.addEventListener) != "undefined") { //FF
+    if (typeof (rsbobj.addEventListener) != "undefined") {
         rsbobj.addEventListener("mouseup", this.popopen, false);
         rsbobj.addEventListener("mousedown", this.hiddenPopbtn, false);
     } else { //IE
@@ -89,13 +77,13 @@ function popTool(ResultId, PopbndId) {
     }
 }
 popTool.prototype = {
-    //검색버튼 숨기기
+    //도구버튼 숨기기
     hiddenPopbtn: function () {
         if (popbtnobj != null) {
             popbtnobj.style.display = "none";
         }
     },
-    //팜업창 
+    //팝업창 
     popopen: function (e) {
         var event = window.event || e;
         var kwd = getSelectText();
@@ -103,14 +91,8 @@ popTool.prototype = {
         //[1] text길이 체크
         if (kwd.length <= 0)
             return;
-        // else if (kwd.length >= limit)
-        // {
-        // 	alert("드래그 검색은 " + limit + "글자만 지원합니다");
-        // 	return;
-        // }
 
-        //팜업창 보이기
-
+        //팝업창 보이기
         popbtnobj.style.display = "block";
 
         //[3 ] 마우스 x,y좌표 구하기
@@ -176,6 +158,30 @@ function getScrollTop() {
         return bd_top;
 }
 //텍스트 셀렉팅 도구//
+
+//리소스 드래그앤드랍
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.src);
+}
+var drop_id = 0;
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    console.log(document.getElementById(data));
+    var image = "<span id='drop_id"+drop_id+"' class='effect'><img src=" + "'" + data + "'" + " class='resize'></span><br>";
+    console.log(data);
+    console.log(ev.target);
+    $(document).ready(function(){
+        $('.effect').selectable();
+        $(ev.target).append(image);
+        drop_id++;
+    });
+}
+//리소스 드래그앤드랍//
+
 $(document).ready(function () {
 
     //포커스 미완
@@ -194,7 +200,7 @@ $(document).ready(function () {
     $('#createLink').before('<span class="btn tool-btn" id="episode">에피소드 관리</span> <span class="btn tool-btn" id="template">템플릿</span>');
 
     //리소스 출력
-    $('#justifyRight').after('<span class="btn tool-btn" id="resource">리소스</span>');
+    // $('#justifyRight').after('<span class="btn tool-btn" id="resource">리소스</span>');
 
     //에피소드관리 
     $('#episode').click(function () {
@@ -209,7 +215,7 @@ $(document).ready(function () {
     });
     //에피소드관리//
 
-    //템플릿
+    //템플릿관리
     $('#template').click(function () {
         if ($('div').hasClass('ep')) {
             $('.ep').hide();
@@ -218,31 +224,52 @@ $(document).ready(function () {
     });
     //템플릿 효과
     $('#shadow').click(function () {
-        $('.effect').toggleClass('shadow');
+        $('ui-selected').toggleClass('shadow');
     });
     $('#inshadow').click(function () {
-        $('.effect').toggleClass('inshadow');
+        $('.ui-selected').toggleClass('inshadow');
     });
     $('#spin').click(function () {
-        $('.effect').toggleClass('spin');
+        $('.ui-selected').toggleClass('spin');
     });
     $('#radius').click(function () {
-        $('.resize').toggleClass('radius');
+        $('.ui-selected').toggleClass('radius');
     });
     $('#oval').click(function () {
-        $('.resize').toggleClass('oval');
+        $('.ui-selected').toggleClass('oval');
     });
+    // $('#circle').click(function () {
+    //     $('.resize').toggleClass('circle');
+    // });
+    var cir_flag = false;
     $('#circle').click(function () {
-        $('.resize').toggleClass('circle');
+        if(cir_flag === false){
+            cir_flag = true;
+            $('.ui-selected').css({
+                'position': 'relative',
+                'display': 'inline-block',
+                'border-radius': '50%',
+                'width': '250px',
+                'height': '250px'
+            });
+        }
+        // else if(cir_flag === true){
+        //     $('.ui-selected').css({
+        //         'position': 'relative',
+        //         'width': '400px',
+        //         'height': 'auto'
+        //     });
+        // }
     });
+    
     $('#overlap').click(function () {
-        $('.effect').toggleClass('overlap');
+        $('.ui-selected').toggleClass('overlap');
     });
     $('#blur').click(function () {
-        $('.effect').toggleClass('blur');
+        $('.ui-selected').toggleClass('blur');
     });
     $('#album').click(function () {
-        $('.effect').toggleClass('album');
+        $('.ui-selected').toggleClass('album');
     });
     //템플릿//
 
@@ -253,41 +280,106 @@ $(document).ready(function () {
     });
 
     //리소스
-    var flag = true;
-    $("#resource").click(function () {
-        if (flag === true) {
-            flag = false;
-            $.ajax({
-                type: 'POST',
-                url: "/res",
-                dataType:"JSON",
-                error: function(e){
-                    console.log(e);
-                    throw new Error('실-패');
+    // var flag = true;
+    // $("#resource").click(function () {
+    //     if (flag === true) {
+    //         flag = false;
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: "/res",
+    //             dataType:"JSON",
+    //             error: function(e){
+    //                 console.log(e);
+    //                 throw new Error('실-패');
+    //         },
+    //             success: function (data) {
+    //                 console.log(data);
+    //                 $('.resource-area').html(data);
+    //                 $('.resource-area').load(data);
+                    
+    //                 // $('.resource-area').innerHTML(data);
+    //             }
+    //         });
+    //     } else if (flag === false) {
+    //         flag = true;
+    //         $('.resource-area').empty();
+    //     }
+    // });
+    // var flag = true;
+    // $("#resource").click(function () {
+    //     if (flag === true) {
+    //         flag = false;
+    //         $.ajax({
+    //             type: 'GET',
+    //             url: "/res",
+    //             // dataType:"JSON",
+    //             error: function(e){
+    //                 console.log(e);
+    //                 throw new Error('실-패');
+    //         },
+    //             success: function (data) {
+    //                 console.log(data);
+    //                 $('.resource-area').append(data);
+    //             }
+    //         });
+    //     } else if (flag === false) {
+    //         flag = true;
+    //         $('.resource-area').empty();
+    //     }
+    // });
+
+        $.ajax({
+            type : 'GET',
+            url : "/res",
+            error: function(e){
+                console.log(e);
+                throw new Error('실-패');
             },
-                success: function (data) {
+            success : function(data){
+                $('.resource-area').append(data);
+            }
+        });
+
+        var resres = "";
+        $(document).on("click", ".openView", function(){
+            resres = $(this).attr('url');
+            // alert(resres);
+            $.ajax({
+                type: 'GET',
+                url: 'https://s3.ap-northeast-2.amazonaws.com/lanovebucket/index.html',
+                data: resres,
+                error: function(data){
+                    console.log(22222222);
+                    console.log(data);
+                    throw new Error('실-패');
+                },
+                success : function(data){
+                    console.log(111111111);
                     console.log(data);
                     $('.resource-area').html(data);
-                    $('.resource-area').load(data);
-                    
-                    // $('.resource-area').innerHTML(data);
                 }
             });
-        } else if (flag === false) {
-            flag = true;
-            $('.resource-area').empty();
-        }
-    });
+        });
+ 
+    
+        // $('.openView').click(function(e){
+        //     $.ajax({
+        //         type: 'GET',
+        //         url: '/res',
+        //         data: e.url,
+        //         error: function(data){
+        //             console.log(data);
+        //             throw new Error('실-패');
+        //         },
+        //         success : function(data){
+        //             console.log(data);
+        //             $('.resource-area').html(data);
+        //         }
+        //     });
+        //     return false;
+        // });
 
-    // $(document).ready(function(){
-    //     $.ajax({
-    //         type : 'GET',
-    //         url : "res",
-    //         success : function(data){
-    //             $('.resource_area').append(data);
-    //         }
-    //     });
-    // });
+    
 
     //리소스 땡겼을 때 p 태그안에 thum클래스를 resize로 수정하고 리사이징가능하게
     // $('.textarea').hover(function () {
@@ -295,10 +387,17 @@ $(document).ready(function () {
     // });
 
     //텍스트에리어로 마우스 올라가면 p태그안의 thum클래스를 resize로 바꾸고 div로 감싼다
-    $('.textarea').hover(function () {
-        $('.textarea .obj_thumb').attr('class', 'resize').wrap('<div class="effect" id="selectable" style="display:inline-block;width:auto;height:auto;"></div>');
-        // $('#selectable').selectable();
-    });
+    // $('.textarea').hover(function () {
+    //     $('.textarea .obj_thumb').attr('class', 'resize').wrap('<div class="effect" id="selectable" style="display:inline-block;width:auto;height:auto;"></div>');
+    //     $('#selectable').selectable().append('<br/>');
+    // });
+    // $(window).load(function(){
+    //     $('.textarea .obj_thumb').attr('class', 'resize').wrap('<div class="effect" id="selectable" style="display:inline-block;width:auto;height:auto;"></div>');
+    //     $('#selectable').selectable().after('<br />');
+    // });
+    // $('.resize').on('click', 'addproduct', function(){
+    //     $('.effect').addClass('selected');
+    // });
     // if($('p > img').hasClass('thum')){
     //     console.log(11);
     //     $('.thum').attr('class','resize').wrap('<div class="effect" id="selectable" style="display:inline-block;width:500px;height:auto;"></div>');
@@ -351,31 +450,25 @@ $(document).ready(function () {
         $("a").attr("draggable", "false");
     });
     //a태그 드래그 금지//
-
+    
     //템플릿 크게, 작게, 원래사이즈
     $('#large').click(function () {
         $('#e-size').width($('#e-size').width() + 50);
         $('#e-size').height($('#e-size').height('auto'));
-        $('.resize').width($('.resize').width() + 50);
-        $('.resize').height($('.resize').height('auto'));
+        $('.ui-selected').width($('.ui-selected').width() + 50);
+        $('.ui-selected').height($('.ui-selected').height('auto'));
     });
     $('#small').click(function () {
         $('#e-size').width($('#e-size').width() - 50);
         $('#e-size').height($('#e-size').height('auto'));
-        $('.resize').width($('.resize').width() - 50);
-        $('.resize').height($('.resize').height('auto'));
+        $('.ui-selected').width($('.ui-selected').width() - 50);
+        $('.ui-selected').height($('.ui-selected').height('auto'));
     });
     $('#origin').click(function () {
         $('#e-size').width($('#e-size').width('400px'));
         $('#e-size').height($('#e-size').height('auto'));
-        $('.resize').width($('.resize').width('400px'));
-        $('.resize').height($('.resize').height('auto'));
+        $('.ui-selected').width($('.ui-selected').width('400px'));
+        $('.ui-selected').height($('.ui-selected').height('auto'));
     });
-    //템플릿 크게, 작게, 원래사이즈
-    $('#send').click(function() {
-        var cont = $('#popup_result').html(); 
-        $('#content').val(cont);
-        $('#form').submit();
-        console.log(cont);
-       });
+    //템플릿 크게, 작게, 원래사이즈//
 });

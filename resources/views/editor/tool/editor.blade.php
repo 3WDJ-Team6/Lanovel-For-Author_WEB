@@ -18,8 +18,7 @@
                 <ul>
                     <li class="nav-btn">초대</li>
                     <li class="nav-btn">멤버리스트</li>
-                    <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a>
-                    </li>
+                    <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
                     <li class="nav-btn" id="send">저장</li>
                 </ul>
         </div>
@@ -48,8 +47,7 @@
 
                     <!-- {{-- 회차 리스트 띄워주기 --}}  -->
                     @foreach($content_lists as $row)
-                    <a href="{{url('editor/tool/editor')}}/{{$row['num']}}" class="ep-li"> -
-                        {{$row['subsubtitle']}}</a><br>
+                    <a href="{{url('editor/tool/editor')}}/{{$row['num']}}" class="ep-li"> - {{$row['subsubtitle']}}</a><br>
                     @endforeach
 
                 </div>
@@ -68,9 +66,6 @@
             <div class="tem">
                 <div class="tem-title">템플릿</div>
                 <div class="tem-list">
-                    {{--
-                    <div ondragstart="dragStart(this, event)" draggable="true" id="tem1" title="템플릿1">Template 1</div>
-                    <div ondragstart="dragStart(this, event)" draggable="true" id="tem2" title="템플릿2">Template 2</div> --}}
                     <div class="tem-li" id="shadow">그림자</div>
                     <div class="tem-li" id="inshadow">내부그림자</div>
                     <div class="tem-li" id="spin">회전</div>
@@ -87,10 +82,10 @@
             </div>
         </div>
 
-
         {{-- 글쓰는에리어 --}}
-        <div id="popup_result" class="textarea" contentEditable="true" ondrop="drop(this, event)">
+        <div id="popup_result" class="textarea" contentEditable="true" ondrop="drop(event);" ondragover="allowDrop(event);">
             {{$content_of_works['content']}}
+            <br>
             {{-- <div class="select">
                 物語《ものがたり》を書《か》きましょう
             </div> --}}
