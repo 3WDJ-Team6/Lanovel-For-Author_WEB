@@ -38,11 +38,8 @@
                 <ul>
                     <li class="nav-btn">초대</li>
                     <li class="nav-btn">멤버리스트</li>
-
                     <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
                     <li class="nav-btn"> <button type="submit" id='sub'>저장</button></li>
-                    
-                    <li class="nav-btn">발행</li>
 
                 </ul>
         </div>
@@ -74,14 +71,8 @@
                 <div class="ep-list">
 
                     <!-- {{-- 회차 리스트 띄워주기 --}}  -->
-
-                    @foreach($content_lists as $row) 
-                    <h3>
-                    <!-- <a href="{{url('/editor/tool/editor')}}/{{$row['num']}}"> -->
-                    - {{$row['subsubtitle']}}<br>
-                    <!-- </a> -->
-                    </h3>
-
+                    @foreach($content_lists as $row)
+                    <a href="{{url('editor/tool/editor')}}/{{$row['num']}}" class="ep-li"> - {{$row['subsubtitle']}}</a><br>
                     @endforeach
 
                 </div>
@@ -97,9 +88,6 @@
             <div class="tem">
                 <div class="tem-title">템플릿</div>
                 <div class="tem-list">
-                    {{--
-                    <div ondragstart="dragStart(this, event)" draggable="true" id="tem1" title="템플릿1">Template 1</div>
-                    <div ondragstart="dragStart(this, event)" draggable="true" id="tem2" title="템플릿2">Template 2</div> --}}
                     <div class="tem-li" id="shadow">그림자</div>
                     <div class="tem-li" id="inshadow">내부그림자</div>
                     <div class="tem-li" id="spin">회전</div>
@@ -116,10 +104,9 @@
             </div>
         </div>
 
-
         {{-- 글쓰는에리어 --}}
-        <div id="popup_result" class="textarea" contentEditable="true" ondrop="drop(this, event)">
 
+        <div id="popup_result" class="textarea" contentEditable="true" ondrop="drop(event);" ondragover="allowDrop(event);">
             <div class="select">
                 {!! $content_of_works['content'] !!}
             </div>
@@ -152,70 +139,3 @@
 </div>
 <script src="{{ asset('/js/editor.js') }}" defer></script>
 @endsection
-
-
-        <!-- <script>
-        
-            jQuery(document).ready(function () {
-                $.ajaxSetup({
-                headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-                });
-                $('#sub').on("click", onSave);
-                            
-                function onSave(e){
-                    
-                $.ajax({
-                    type: "POST",
-                    url: "/update/{!! json_encode($content_of_works['num']) !!}",
-                    data : {
-                        content: $('.textarea').html(),
-                    },
-                    dataType: "JSON",
-                    error: function(e){
-                        // console.log(e);
-                        throw new Error("실.패");
-                    },
-                    success: function(data){
-                        console.log(data);
-                        // console.log(state);
-                        // window.location.href="/redirectList/{{!! json_encode($content_of_works['num_of_chapter']) !!}}";
-                    }
-                });
-                }
-            });
-        </script>
-
-        </form>
-
-        <div class="resource-area"></div>
-
-        {{-- 글쓰기도구팝업 --}}
-        <div id="popbutton"
-            style="display:none; Z-INDEX: 1; POSITION: absolute; background:#dddddd; top:0px; left:0px;">
-            <button class="fontStyle" onclick="document.execCommand('italic',false,null);"
-                title="Italicize Highlighted Text"><i>I</i>
-            </button>
-            <button class="fontStyle" onclick="document.execCommand( 'bold',false,null);"
-                title="Bold Highlighted Text"><b>B</b>
-            </button>
-            <button class="fontStyle" onclick="document.execCommand( 'underline',false,null);"><u>U</u>
-            </button>
-            <button class="fontStyle" onclick="document.execCommand( 'strikeThrough',false,null);"><s>S</s>
-            </button>
-        </div>
-
-        <script type="text/javascript">
-            $(window).on("load", function () {
-                new popTool("popup_result", "popbutton");
-            });
-
-        </script>
-    </div>
-</div>
-
-<script src="{{ asset('/js/editor.js') }}" defer></script>
-@endsection
-
-

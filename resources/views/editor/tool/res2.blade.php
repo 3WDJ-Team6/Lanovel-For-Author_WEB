@@ -14,4 +14,3 @@
 
 </script>
 <script src="{{asset('js/res2.js')}}"></script>
-

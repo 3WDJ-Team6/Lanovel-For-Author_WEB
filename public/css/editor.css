@@ -197,6 +197,13 @@ header li {
 	animation: showSlowlyElement 400ms;
 }
 
+.effect {
+    overflow:hidden;
+    height:auto;
+    color:red;
+    border:1px solid lightgray;
+}
+
 img.resize {
     width: 400px;
     height: auto;
@@ -247,11 +254,11 @@ img.resize {
     height: 150px;
 }
 
-.obj_name {
+span.obj_name {
     display: block;
     margin-left: 10px;
     margin-bottom: 10px;
-    
+    user-select: none;
 }
 
 ::-webkit-scrollbar {

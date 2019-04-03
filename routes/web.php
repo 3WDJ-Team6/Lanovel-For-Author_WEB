@@ -115,7 +115,7 @@ Route::view('test', 'auth/testlogin');
 Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 
 //리소스가져오기
-Route::post('/res', 'WorkOut\EditController@res');
+Route::get('/res', 'WorkOut\EditController@res');
 
 // 에디터 내용 저장
 Route::post('/update', 'WorkOut\EditController@update');
