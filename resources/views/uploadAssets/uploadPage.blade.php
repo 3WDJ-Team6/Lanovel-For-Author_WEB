@@ -72,7 +72,7 @@
                 <div class="card border-0 text-center">
                     <form action="{{ url('/images') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                         <div class="form-group">
-                            <input type="file" name="image" id="image">
+                            <input type="file" name="image" id="image"> <!-- 파일 선택칸 만들고 image라는 name로 controller에 전달 -->
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Upload</button>
