@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
+        \Barryvdh\Cors\HandleCors::class, # Use CORS Global
     ];
 
     /**
@@ -40,6 +41,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            \Barryvdh\Cors\HandleCors::class, # Cors use
         ],
     ];
 
@@ -60,6 +62,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'cors' => \Barryvdh\Cors\HandleCors::class,
         # 'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class, # Jwt add
         # 'jwt.refresh' => \Tymon\JWTAuth\Http\Middleware\RefreshToken::class, # Jwt add
     ];

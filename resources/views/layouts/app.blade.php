@@ -7,7 +7,7 @@
 
     <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
     <!-- CSRF Token -->
-    <!-- <meta name="csrf-token" content="{{ csrf_token() }}"> -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -31,7 +31,6 @@
     <link href="{{ asset('css/jquery.modal.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/template.css') }}" rel="stylesheet">
     <link href="{{ asset('bower_components\jquery-ui\themes\base\jquery-ui.css') }}" rel="stylesheet">
-
 </head>
 
 <body>
@@ -42,5 +41,4 @@
     </main>
 </body>
 @yield('footer')
-
 </html> 
