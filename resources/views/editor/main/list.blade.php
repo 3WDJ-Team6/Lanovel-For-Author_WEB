@@ -26,7 +26,7 @@
     <div class="row">
 
    
-        <div class="col-lg-8 col-md-10 mx-auto" style="margin-top:50px; margin-bottom:50px;">
+        <div class="col-lg-8 col-md-10 mx-auto" style="margin-top:50px; margin-bottom:50px;" id="content_list_box">
             <!-- {{-- 새 회차 추가  --}} -->
             <div class="post-preview">
                 <h3 class="post-subtitle">
@@ -38,7 +38,7 @@
             <!-- {{-- 회차 출력 부분  --}} -->
             @foreach($chapter_of_works as $row)
             <div class="post-preview">
-                <a href="{{url('editor/tool/editor')}}/{{$row['num']}}">
+                <a href="{{url('/editor/tool/editor')}}/{{$row['num']}}">
                     <h3 class="post-subtitle">
                         {{$row['subsubtitle']}}
                     </h3>
@@ -48,16 +48,14 @@
             <hr>
             @endforeach
 
-
-
             <!-- Pager -->
 
         </div>
     </div>
 </div>
 
-@endsection 
 
 @section('footer')
     @include('layouts.footer')
 @endsection
+

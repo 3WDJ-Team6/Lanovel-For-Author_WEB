@@ -21,7 +21,9 @@ class FileController extends Controller
 
     public function index()
     {
-        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator"; # 세션 로그인 한 유저 + 작업중인 곳의 정보
+        
+        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
+
         $userEmail = Auth::user()['email'];
         $publicPath = 'Public/';
 

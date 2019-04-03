@@ -16,7 +16,8 @@ class CreateCategoryWorksTable extends Migration
         Schema::create('category_works', function (Blueprint $table) {
             $table->integer('num_of_work')->comment("작품번호")->unsigned();
             $table->foreign('num_of_work')
-                  ->references('num')->on('works');
+                ->references('num')->on('works')
+                ->onDelete('cascade');
 
             $table->string('tag')->comment("태그");
         });

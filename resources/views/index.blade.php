@@ -60,15 +60,33 @@
             @foreach ($works as $row)
             <div class="post-preview">
                 <a href="{{url('editor/main/chapter')}}/{{$row['num']}}">
-                    <img src="{{asset('image/logo.png')}}" alt="표지1" style="width:130px; height:150px;"
-                        class="img-thumbnail">
+
+                    <img src="{{$row['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'"/>
+
                     <div class="post-title" style="margin-top:30px; margin-bottom:30px; display:inline-flex;">
-                        {{$row['work_title']}}
+                        {{$row->work_title}}
                     </div>
                 </a>
-                <p class="post-meta">tag : <br>type : {{$row['type_of_work']}} <br>cycle :{{$row['cycle_of_publish']}}
-                    <br>member : <br>price : {{$row['buy_price']}},{{$row['rental_price']}}<br>Modification time :
-                    {{$row['updated_at']}}</p>
+                <p class="post-meta">
+                카테고리 : {{$row->tag}} <br>
+                연재 종류 : @switch($row->type_of_work)
+                        @case(1)
+                        단편
+                        @break
+                        @case(2)
+                        단행본
+                        @break
+                        @case(3)
+                        회차
+                        @endswitch
+                 <br>
+                연재 주기 :{{$row->cycle_of_publish}} <br>
+                협업 멤버 : @foreach($nicknames as $name) {{$name->nickname}} @endforeach <br>
+                구매 : {{$row->buy_price}}<br>
+                대여 : {{$row->rental_price}}<br>
+                최근 수정 시간 : {{$modify_time['updated_at']->diffForHumans()}}
+                </p>
+
             </div>
             <hr>
             @endforeach
