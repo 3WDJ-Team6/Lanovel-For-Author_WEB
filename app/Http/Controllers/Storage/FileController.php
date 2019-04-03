@@ -18,6 +18,7 @@ class FileController extends Controller
 
     public function index()
     {
+        
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
         $userEmail = Auth::user()['email'];
         $imageUrl = Storage::disk('s3')->url('images' . '/');

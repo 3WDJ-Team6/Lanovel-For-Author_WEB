@@ -7,7 +7,7 @@
 
 @section('head')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
+<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -25,9 +25,10 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto" style="margin-top:50px; margin-bottom:50px;">
                 <div class="container">
-                    <form action="{{action('WorkOut\IndexController@store')}}" method="post">
-                        <input type='file' id="upload_file" name="bookcover_of_work" />
-                        <img id="blah" src="" alt="표지 추가" width="300" height="300" />
+                    <form action="{{ url('/addBook/')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                        {{csrf_field()}}
+                        <input type='file' id="image" name="image" />
+                        <img id="blah" src="" alt="표지 추가" width="300" height="300" onerror="this.src='{{asset('image/no_image.png')}}'"/>
                         <div class="form-group">
                             제목<input type="text" class="form-control" name="work_title" placeholder="70자 이내" value="" style="width:400px;" />
                             <div class="form- group">

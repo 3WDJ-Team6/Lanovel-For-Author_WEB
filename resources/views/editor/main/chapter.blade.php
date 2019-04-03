@@ -1,7 +1,6 @@
 @extends('layouts.master')
 
 @section('content')
-
 <script langauge="javascript">
     function popup(num) {
         var url = "/chapter_create/" + num;
@@ -17,7 +16,7 @@
     <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;"></div>
 
     <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto" style="margin-top:50px; margin-bottom:50px;">
+        <div class="col-lg-8 col-md-10 mx-auto" id = "chapter_box" style="margin-top:50px; margin-bottom:50px;">
 
             <div class="post-preview">
                 <h3 class="post-subtitle">
@@ -47,6 +46,7 @@
     </div>
 </div>
 
+<script src="{{asset('js/make_tag.js')}}"></script>
 
 
 

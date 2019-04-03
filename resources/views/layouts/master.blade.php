@@ -12,6 +12,8 @@
     @yield('head')
 
     <title>lanoveProject</title>
+    
+    <script src="{{asset('bower_components\jquery\dist\jquery.js')}}"></script>
     <!-- Custom fonts for this template -->
     <link href="{{asset('fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
 
