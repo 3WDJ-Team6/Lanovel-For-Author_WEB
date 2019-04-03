@@ -79,6 +79,7 @@ Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 �
 Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
 Route::get('/ft', 'Storage\FileController@ft')->name('ft');
 Route::get('/getDir', 'Storage\FileController@getDir')->name('getDir');
+Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
 
 
 # authoriztion # make:auth로 생성 
