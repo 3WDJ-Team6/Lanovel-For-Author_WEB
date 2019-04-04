@@ -7,3 +7,4 @@
          return (round($size/pow(1024, ($i = floor(log($size, 1024)))), 1) . $sizes[$i]); 
     } 
 } 
+

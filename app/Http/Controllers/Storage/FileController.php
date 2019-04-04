@@ -8,26 +8,35 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
+use App\Http\Requests\FilePost;
+use App\Http\Controllers\tools;
+
 # https://laracasts.com/discuss/channels/laravel/how-to-get-properties-name-size-type-of-a-file-retrieved-from-storage?page=1
 # 컨트롤러 전역함수 만들어서 쓰기 
 
 class FileController extends Controller
 {
-
+    private $tools = null;
     public function __construct()
     {
-        return $this->middleware('auth');   # 인증된 사용자만 이용할 수 있게 , route(login)이 실행됨.
+        $this->tools = new tools();
+        $this->middleware('auth');   # 인증된 사용자만 이용할 수 있게 , route(login)이 실행됨.
+
     }
 
     public function index()
     {
-        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator"; # 세션 로그인 한 유저 + 작업중인 곳의 정보
+        Auth::user()['roles'] === 2 ?$role = "Author" : $role = "Illustrator"; # 세션 로그인 한 유저 + 작업중인 곳의 정보
         $userEmail = Auth::user()['email'];
         $publicPath = 'Public/';
-
         $url = 'https://s3.' . "ap-northeast-2" . '.amazonaws.com/' . "lanovebucket" . '/'; # 기본 URL 여기서 Author/Illustrator 나뉨
         $files = Storage::disk('s3')->files($role . '/' . $userEmail . '/' . $publicPath);    # 파일 주소를 가르킴 
 
+        return $this->tools->makeS3Path(
+            "asd",
+            "asb",
+            "bcd"
+        );
         // return response()->json($files, 200, [], JSON_PRETTY_PRINT); //어떤값이 오는지 확인
         $images = [];
 
@@ -46,15 +55,11 @@ class FileController extends Controller
         return view('uploadAssets/uploadPage', compact('images'));
     }
 
-    public function store(Request $request)                     #0 파일 저장하는 컨트롤러 asset store & editor 사용
+    public function store(FilePost $request)                     #0 파일 저장하는 컨트롤러 asset store & editor 사용
     {
-        // if (Auth::user()['roles'] === 2) $role = "Author"; // else if (Auth::user()['roles'] === 3) $role = "Illustrator"; // else redirect('/')->with('message', '잘못된 접근 입니다.');
-        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
+        Auth::user()['roles'] === 2 ?$role = "Author" : $role = "Illustrator";
 
-        $this->validate($request, [                     #|mimes:jpeg,png,jpg,gif,svg
-            'image' => 'required|image|max:16384',      # image파일만 + 16MB까지
-        ]);
-        // $workSpaceNum = $request->roolnum;
+        // $validated = $request->validated();                 #유효성 검사가 실패하면 responese가 생성되어 이전 위치로 되돌려 보냄.
 
         $userEmail = Auth::user()['email'];
         $filePath = $role . '/' . $userEmail . '/' . 'Public/';
@@ -72,6 +77,8 @@ class FileController extends Controller
                 'Expires' => Carbon::now()->addMinute(5),                #7 expire 현재시간 + 5분 적용 외않되
             ]);
 
+            //code...
+
             return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
         } else {
             echo "<script> alert('파일이 존재하지 않습니다.') <script/>";
@@ -81,7 +88,7 @@ class FileController extends Controller
 
     public function destroy($image)
     {
-        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
+        Auth::user()['roles'] === 2 ?$role = "Author" : $role = "Illustrator";
         $userEmail = Auth::user()['email'];
         $filePath = $role . '/' . $userEmail . '/' . 'Public/';
 
@@ -92,7 +99,7 @@ class FileController extends Controller
     public function getDir()
     {
         # 디렉토리 접근할 수 있도록 , # file접근법 path url 등등 aws, php sdk 사용
-        Auth::user()['roles'] === 2 ? $role = "Author/" : $role = "Illustrator/";
+        Auth::user()['roles'] === 2 ?$role = "Author/" : $role = "Illustrator/";
         $userEmail = Auth::user()['email'] . '/';
         $folder = 'Public/';
         $path = $role . $userEmail . $folder;
@@ -122,7 +129,7 @@ class FileController extends Controller
 
     public function setBookCover(Request $request)
     {
-        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
+        Auth::user()['roles'] === 2 ?$role = "Author" : $role = "Illustrator";
 
         $this->validate($request, [                     # |mimes:jpeg,png,jpg,gif,svg
             'image' => 'required|image|max:16384',      # image파일만 + 16MB까지
