@@ -14,10 +14,17 @@ class CreateResourcesTable extends Migration
     public function up()
     {
         Schema::create('resources', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('file')->comment("파일명");
-            $table->integer('file_size')->comment("파일사이즈");
-            $table->string('file_position')->comment("파일위치");
+            $table->increments('id')->comment("파일id");
+
+            $table->string('user_email')->comment("회원이메일");
+            $table->foreign('user_email')
+                  ->references('email')->on('users');
+
+            $table->string('name')->comment("파일명");
+            $table->integer('size')->comment("파일사이즈");
+            $table->string('path')->comment("파일위치");
+            $table->string('src')->comment("파일소스");
+            $table->string('type')->comment("파일타입");
             $table->timestamps();
         });
     }

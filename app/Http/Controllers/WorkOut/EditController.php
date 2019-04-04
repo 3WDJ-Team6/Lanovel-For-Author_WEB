@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 
 class EditController extends Controller
 {
+
     /**
      * 목차 리스트 및 에디터 컨트롤러 입니다. (목차 리스트 보기, 목차 추가, 에디터 작성, 저장, 삭제, 수정 등)
     * Display a listing of the resource.
@@ -76,7 +77,23 @@ class EditController extends Controller
 
     public function content_create($num)
     {
+        
         return view('editor.main.popup')->with('num', $num);
+    }
+
+    public function content_create_in_editor($num)
+    {
+        return view('editor.tool.popup_in_editor')->with('num',$num);
+    }
+
+    public function content_edit($num)
+    {
+        $content_data = ContentOfWork::select(
+            'content_of_works.num',
+            'content_of_works.subsubtitle'
+        )->where('content_of_works.num','=',$num)->first();
+
+        return view('editor.main.popup_edit')->with('content_data',$content_data);
     }
 
     /**
@@ -104,7 +121,38 @@ class EditController extends Controller
         $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
         $content_of_works->save();
 
-        return redirect('editor.main.list' . $num)->with('message', 'success');
+        echo "<script>window.close()</script>";
+    }
+
+    // public function addContentInEditor(request $request, $num)
+    // {
+    //     // 에디터 내에서 작품 추가하기
+    //     $content_of_works = new ContentOfWork();
+    //     $chapter_of_works = ChapterOfWork::select(
+    //         'chapter_of_works.num_of_work'
+    //     )->where('chapter_of_works.num', '=', $num)->first();
+
+    //     $num_of_workkk = $chapter_of_works->num_of_work;
+
+    //     // 현재 작품 번호를 받아온다.
+    //     $content_of_works->num_of_work = $num_of_workkk;
+    //     // 현재 회차 번호를 받아온다.
+    //     $content_of_works->num_of_chapter = $num;
+    //     // 회차 제목 추가
+    //     $content_of_works->subsubtitle = $request->subsubtitle;
+    //     // 회차 내용 디폴트값 넣어주기
+    //     $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
+    //     $content_of_works->save();
+    // }
+
+    public function editContent(request $request, $num)
+    {
+        $content_of_works = ContentOfWork::where('num', $request->num)->first();  
+        $content_of_works->subsubtitle = $request->subsubtitle;
+        $content_of_works->save();
+        
+        echo "<script>self.close();</script>";
+        // return back();
     }
 
     /**
@@ -156,12 +204,12 @@ class EditController extends Controller
      */
     public function store(Request $request)
     {
+        return $request;
         $content_of_works = new ContentOfWork();
         $content_of_works->content = $request->content;
         $content_of_works->$content_of_works->save();
 
-        return view('/')
-            ->with('message', $subsubtitle . '이 성공적으로 업로드 되었습니다.');
+        return view('/');
     }
 
     /**
@@ -185,18 +233,6 @@ class EditController extends Controller
      */
     public function edit($num)
     {
-        // 지금 이 num은 회차 번호이다... 회차 번호를 타고 가서 챕터 번호를 따와야 한다... 
-        // $content_lists = ContentOfWork::select(
-        //     // 얘는 회차 번호
-        //     'content_of_works.num',
-        //     'content_of_works.subsubtitle',
-        //     'content_of_works.created_at',
-        //     // 회차의 챕터 번호
-        //     'content_of_works.num_of_chapter'
-        // )->join('chapter_of_works', 'content_of_works.num_of_chapter', '=', 'chapter_of_works.num')
-        //     ->where('content_of_works.num_of_chapter', '=', $num)
-        //     ->get();
-
         $chapter_of_num_of_now_content = ContentOfWork::select(
             'content_of_works.num_of_chapter'
         )->where('content_of_works.num', '=', $num)->first();
@@ -243,13 +279,24 @@ class EditController extends Controller
      */
     public function update(Request $request)
     {
+        $editor_content = $request->content;
+        // return $editor_content;
+
         $content_of_works = ContentOfWork::where('num', $request->num)->first();
-
-
-        $content_of_works->content = $request->content;
+        // return $request->editor_content;
+        $content_of_works->content = $editor_content;
         $content_of_works->save();
 
-        return view('editor.main.list' . $content_of_works->num_of_chapter);
+        // if($request->ajax()) {
+        //     return response()->json([
+        //         'view'=>view('editor.main.list'.$request->num)->render(),
+        //     ]);
+        // }
+
+        // return redirect('editor.main.list'.$request->num);
+
+        // return $editor_content;
+        // return view('editor/main/list/'.$content_of_works->num_of_chapter)->render();
     }
 
     /**
@@ -260,14 +307,25 @@ class EditController extends Controller
      */
     public function destroy($id)
     {
-        $content_of_works->delete();
+        // $content_of_works->delete();
 
         return redirect()->route('editor.main.list')
             ->with('success',  'Content deleted successfu lly.');
     }
+    
+    public function res(Request $request) {
+        return view('editor.tool.res2');
+    }
 
-    public function res()
-    {
-        return view('editor.tool.res');
+
+    // public function res(Request $request)
+    // {
+    //     $url = 'https://s3.ap-northeast-2.amazonaws.com/lanovebucket/index.html?prefix=Author/';
+    //     return response()->json($url, 200);
+    // }
+
+    public function send(Request $request){
+        return $request;
+
     }
 }
