@@ -27,6 +27,66 @@ class Work extends Model
      * 하나의 회원은 여러 작품을 가질 수 있다.
      * 작품 : 회원 = 다 : 다
      */
+
+    // 작품 보여지기
+    public function getWork()
+    {
+        return Work::whereIn('works.num', function ($query) {
+            $query->select('num_of_work')->from('work_lists')->whereIn('work_lists.num_of_work', function ($query2) {
+                $query2->select('user_id')->where('user_id', '=', \Auth::user()['id']);
+            });
+        })
+            ->select(
+                // 작품번호
+                'works.num',
+                // 제목
+                'works.work_title',
+                // 연재종류
+                'works.type_of_work',
+                // 대여 가격
+                'works.rental_price',
+                // 구매 가격
+                'works.buy_price',
+                // 연재상태
+                'works.status_of_work',
+                // 북커버
+                'works.bookcover_of_work',
+                // 연재주기
+                // 'period_of_works.cycle_of_publish'
+                // 태그
+                'category_works.tag',
+                // 협업멤버
+                'work_lists.user_id',
+                // 최근 수정 시간
+                'content_of_works.updated_at'
+            )->join(
+                'category_works',
+                'category_works.num_of_work',
+                '=',
+                'works.num'
+            )
+            ->join(
+                'work_lists',
+                'work_lists.num_of_work',
+                '=',
+                'works.num'
+            )
+            ->join(
+                'content_of_works',
+                'content_of_works.num_of_work',
+                '=',
+                'works.num'
+            )
+            ->orderBy('works.created_at', 'desc')
+            ->get();
+    }
+
+    // 새 작품 저장
+    public function storeWork(array $work_info)
+    {
+        Work::insert($work_info);
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class);
