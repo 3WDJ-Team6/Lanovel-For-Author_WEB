@@ -26,17 +26,18 @@ class FileController extends Controller
 
     public function index()
     {
-        Auth::user()['roles'] === 2 ?$role = "Author" : $role = "Illustrator"; # 세션 로그인 한 유저 + 작업중인 곳의 정보
+        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator"; # 세션 로그인 한 유저 + 작업중인 곳의 정보
         $userEmail = Auth::user()['email'];
         $publicPath = 'Public/';
         $url = 'https://s3.' . "ap-northeast-2" . '.amazonaws.com/' . "lanovebucket" . '/'; # 기본 URL 여기서 Author/Illustrator 나뉨
         $files = Storage::disk('s3')->files($role . '/' . $userEmail . '/' . $publicPath);    # 파일 주소를 가르킴 
 
-        return $this->tools->makeS3Path(
-            "asd",
-            "asb",
-            "bcd"
-        );
+        // return $this->tools->makeS3Path(
+        //     "asd",
+        //     "asb",
+        //     "bcd"
+        // );
+
         // return response()->json($files, 200, [], JSON_PRETTY_PRINT); //어떤값이 오는지 확인
         $images = [];
 
@@ -57,7 +58,7 @@ class FileController extends Controller
 
     public function store(FilePost $request)                     #0 파일 저장하는 컨트롤러 asset store & editor 사용
     {
-        Auth::user()['roles'] === 2 ?$role = "Author" : $role = "Illustrator";
+        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
 
         // $validated = $request->validated();                 #유효성 검사가 실패하면 responese가 생성되어 이전 위치로 되돌려 보냄.
 
@@ -88,7 +89,7 @@ class FileController extends Controller
 
     public function destroy($image)
     {
-        Auth::user()['roles'] === 2 ?$role = "Author" : $role = "Illustrator";
+        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
         $userEmail = Auth::user()['email'];
         $filePath = $role . '/' . $userEmail . '/' . 'Public/';
 
@@ -96,30 +97,7 @@ class FileController extends Controller
         return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }
 
-    public function getDir()
-    {
-        # 디렉토리 접근할 수 있도록 , # file접근법 path url 등등 aws, php sdk 사용
-        Auth::user()['roles'] === 2 ?$role = "Author/" : $role = "Illustrator/";
-        $userEmail = Auth::user()['email'] . '/';
-        $folder = 'Public/';
-        $path = $role . $userEmail . $folder;
 
-        $dirFiles = Storage::disk('s3')->files($path);
-        $dir = Storage::disk('s3')->directories($role); #해당 경로에 있는 모든 directory (폴더만)
-        #리소스 폴더 보여줌 directories -> 폴더 누름(눌럿을 때 모든 파일+폴더 보임) allfile + directories -> file 또는 directory 들어감
-        #리소스 폴더 생성
-
-        $inDirectory[] = [
-            ['directories' => $dir],
-            ['files' => $dirFiles]
-        ];
-
-        return response()->json($inDirectory, 200, [], JSON_PRETTY_PRINT); //어떤값이 오는지 확인
-        return $inDirectory;
-        if ($dir === []) {  // 해당 폴더에 더이상 폴더가 없으면?
-            $dir = Storage::disk('s3')->allFiles($role);
-        }
-    }
 
     public function lendBook()
     {
@@ -129,7 +107,7 @@ class FileController extends Controller
 
     public function setBookCover(Request $request)
     {
-        Auth::user()['roles'] === 2 ?$role = "Author" : $role = "Illustrator";
+        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
 
         $this->validate($request, [                     # |mimes:jpeg,png,jpg,gif,svg
             'image' => 'required|image|max:16384',      # image파일만 + 16MB까지
