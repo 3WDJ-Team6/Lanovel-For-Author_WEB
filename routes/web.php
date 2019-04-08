@@ -74,10 +74,12 @@ Route::get('/redirectList/{num}', function() {
 Route::post('/tr', 'WorkOut\EditController@store');
 
 
-Route::get('/editor/main/graph', function () {
+// Route::get('/editor/main/graph', function () {
 
-    return view('editor.main.graph');
-});
+//     return view('editor.main.graph');
+// });
+
+Route::get('/graph', 'WorkOut\GraphController@index');
 
 Route::get('/login/editor', function () {
     return view('auth.login_editor');
@@ -127,3 +129,11 @@ Route::post('/update', 'WorkOut\EditController@update');
 Route::get('/loginForKakao', 'Auth\KakaoLoginController@index');
 Route::get('/auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
 Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
+
+Route::get('/store', function () {
+    return view('store.home.home');
+});
+
+Route::get('/store/menu/upload', function () {
+    return view('store.menu.upload');
+});

@@ -65,15 +65,23 @@
             </div>
         </div>
     </div>
+    <script>
+    var workArray = <?php echo json_encode($workArray); ?>;
+    for(int i=0; i<workArray.length; i++){
+    var data[];
+        data+= workArray[i];
+    }
+    </script>
+    
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
     <script src="{{ asset('js/graph.js') }}" defer></script>
     <script src="{{ asset('js/graph_make.js') }}" defer></script>
     <script src="{{ asset('js/graph2.js') }}" defer></script>
     <script src="{{ asset('js/graph3.js') }}" defer></script>
-
 </div>
 </div>
 
