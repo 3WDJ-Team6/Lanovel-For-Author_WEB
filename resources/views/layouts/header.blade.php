@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url('editor/main/graph')}}" style="color:#45b4e6">Revenue graph</a>
+                    <a class="nav-link" href="{{url('/graph')}}" style="color:#45b4e6">Revenue graph</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" style="color:#45b4e6">Chatting</a>
