@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
 @section('head')
-    @include('layouts.head')
-    <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('css/graph.css')}}">
+@include('layouts.head')
+<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+<link rel="stylesheet" href="{{asset('css/graph.css')}}">
 @endsection
 
 @section('header')
-    @include('layouts.header')
+@include('layouts.header')
 @endsection
 
 @section('content')
@@ -15,8 +15,7 @@
 <!-- Main Content -->
 <div class="container" style="background-color:#45b4e61a; margin-top:70px; height:700px;">
     <!-- Material inline 1 -->
-    <div class="form-check form-check-inline"
-        style="width:100%;s align-items: center; display: flex; justify-content: center;"></div>
+    <div class="form-check form-check-inline" style="width:100%;s align-items: center; display: flex; justify-content: center;"></div>
     <div class="row">
         <div id="sidenav" style="margin-top:20px;">
             <span class="btn" id="one-type" name="graph" value="one">작품별 수익</span>
@@ -55,8 +54,7 @@
         </div>
 
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:20px;">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:20px;">
                 태그
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -65,6 +63,43 @@
             </div>
         </div>
     </div>
+    <script>
+        var arr;
+
+        function newArr(arr) {
+            // date가 다르면 index ++
+            // date가 같으면 profit += profit
+            var temp = '';
+            var newArr = [];
+            var index = -1;
+            var arr = [{
+                date: '2018-04-08',
+                profit: 1500
+            }, {
+                date: '2018-04-08',
+                profit: 1600
+            }, {
+                date: '2018-04-09',
+                profit: 1100
+            }, {
+                date: '2018-04-07',
+                profit: 10000
+            }, ]
+            arr.forEach(function(item) {
+                var newItem = {
+                    'date': item.date,
+                    'profit': item.profit
+                }
+                if (temp !== item.date) {
+                    temp = item.date;
+                    index++;
+                    newArr.push(newItem)
+                } else {
+                    newArr[index].profit += item.profit;
+                }
+            });
+        }
+    </script>
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
@@ -80,5 +115,5 @@
 @endsection
 
 @section('footer')
-    @include('layouts.footer')
+@include('layouts.footer')
 @endsection
