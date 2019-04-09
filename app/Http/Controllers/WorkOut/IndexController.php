@@ -46,7 +46,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        if(!$type_of_work = Input::get('type_of_work')){
+        // if(!$type_of_work = Input::get('type_of_work')){
             $works = Work::select(
                 // 작품번호
                 'works.*',
@@ -58,20 +58,22 @@ class IndexController extends Controller
                     $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']);// 최신순 정렬
                 })->orderBy('works.created_at', 'desc')
                   ->get();
-        }else{
-            $works = Work::select(
-                // 작품번호
-                'works.*',
-                'category_works.tag'
-            )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
-                ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
-                // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
-                ->whereIn('works.type_of_work',$type_of_work)
-                ->whereIn('works.num', function ($query) {
-                    $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']);// 최신순 정렬
-                })->orderBy('works.created_at', 'desc')
-                  ->get();
-        }
+
+                //   return $works;
+        // }else{
+        //     $works = Work::select(
+        //         // 작품번호
+        //         'works.*',
+        //         'category_works.tag'
+        //     )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
+        //         ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
+        //         // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
+        //         ->whereIn('works.type_of_work',$type_of_work)
+        //         ->whereIn('works.num', function ($query) {
+        //             $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']);// 최신순 정렬
+        //         })->orderBy('works.created_at', 'desc')
+        //           ->get();
+        // }
 
         // $type_query = Work::raw(
         //     "(CASE WHEN 'works.type_of_work'='1'
@@ -221,7 +223,7 @@ class IndexController extends Controller
             // 연재 상태 (default = 1 (연재중))
             'status_of_work' => 1,
             // 생성 날짜 (현재)
-            'created_at' => Carbon::now(),
+            'created_at' => Carbon::now()
         ]);
         $this->work_model->storeWork($work_info);
 
