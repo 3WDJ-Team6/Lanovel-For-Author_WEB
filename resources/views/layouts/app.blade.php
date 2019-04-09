@@ -26,8 +26,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/login_editor.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/editor.css') }}" rel="stylesheet">
     <link href="{{ asset('css/res.css') }}" rel="stylesheet">
     <link href="{{ asset('css/jquery.modal.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/template.css') }}" rel="stylesheet">

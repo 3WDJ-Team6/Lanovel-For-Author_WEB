@@ -1,12 +1,14 @@
 /* login_ */
-.container_bg {
-    /* background: url("/image/main.png"); */
-    position: absolute;
+body {
+    background: url("/image/main.png");
+    /* position: absolute; */
     height: 100%;
     width: 100%;
   }
+
 .overlay{
     background-color: rgba( 255, 255, 255, 0.3 );
+    position: absolute;
     top: 0;
     left: 0;
     height: 100%;
@@ -51,4 +53,7 @@
     border: 0;
     background: none;
     font-weight: 200;
+}
+a:hover{
+    text-decoration: none;
 }

@@ -28,9 +28,6 @@ Route::post('/addBook', 'WorkOut\IndexController@store')->name('addBook');
 // 작품 수정 페이지
 Route::get('/edit/{num}', 'WorkOut\IndexController@edit');
 
-// 작품 수정
-// Route::post('/update','WorkOut\IndexController@update');
-
 // 작품 삭제
 
 // 작품 챕터 페이지
@@ -60,7 +57,7 @@ Route::post('/editContent/{num}', 'WorkOut\EditController@editContent');
 // 에디터 내에서 회차 추가 페이지
 Route::get('/content_create_in_editor/{num}', 'WorkOut\EditController@content_create_in_editor');
 
-// 작품 
+// 작품 내용 저장
 Route::post('/update/{num}', 'WorkOut\EditController@update');
 
 // 북커버 등록
@@ -84,10 +81,6 @@ Route::get('/graph', 'WorkOut\GraphController@index');
 Route::get('/login/editor', function () {
     return view('auth.login_editor');
 });
-
-// Route::get('editor/main/list', function () {
-//     return view('editor/main/list');
-// });
 
 Route::get('/editor/main/book_add', function () {
     return view('editor.main.book_add');
@@ -113,17 +106,11 @@ Auth::routes(); //로그인에 관한 모든 기능 연결
 
 Route::view('test', 'auth/testlogin');
 
-// Route::view('ep_add', 'editor/tool/episode_add');
-
 // 에디터 진입
 Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 
 //리소스가져오기
 Route::get('/res', 'WorkOut\EditController@res');
-
-// 에디터 내용 저장
-Route::post('/update', 'WorkOut\EditController@update');
-// Route::post('/send', 'WorkOut\EditController@send');
 
 # kakao login
 Route::get('/loginForKakao', 'Auth\KakaoLoginController@index');
