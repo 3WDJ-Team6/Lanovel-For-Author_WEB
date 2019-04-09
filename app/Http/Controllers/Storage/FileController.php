@@ -21,24 +21,16 @@ class FileController extends Controller
     {
         $this->tools = new tools();
         $this->middleware('auth');   # 인증된 사용자만 이용할 수 있게 , route(login)이 실행됨.
-
     }
 
     public function index()
     {
-
+        //$this->makeS3Path();
+        //$this->tools->makeS3Path();
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator"; # 세션 로그인 한 유저 + 작업중인 곳의 정보
-
         $userEmail = Auth::user()['email'];
-        $publicPath = 'Public/';
-        $url = 'https://s3.' . "ap-northeast-2" . '.amazonaws.com/' . "lanovebucket" . '/'; # 기본 URL 여기서 Author/Illustrator 나뉨
+        $publicPath = 'images/';  # 기본 URL 여기서 Author/Illustrator 나뉨
         $files = Storage::disk('s3')->files($role . '/' . $userEmail . '/' . $publicPath);    # 파일 주소를 가르킴 
-
-        // return $this->tools->makeS3Path(
-        //     "asd",
-        //     "asb",
-        //     "bcd"
-        // );
 
         // return response()->json($files, 200, [], JSON_PRETTY_PRINT); //어떤값이 오는지 확인
         $images = [];
@@ -48,7 +40,7 @@ class FileController extends Controller
                 'name' => str_replace($role . '/' . $userEmail . '/' . $publicPath, '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
                 'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
                 'path' => $file,                                        # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
-                'src' => $url . $file,                                                          # img src에서 접근할 수 있는 파일 주소
+                'src' => $this::S3['s3Path'] . $file,                                                          # img src에서 접근할 수 있는 파일 주소
                 'updated_at' => date("Y-m-d h:i:s", Storage::disk('s3')->lastModified($file)),  # 마지막에 파일이 업데이트 되었을 때 타임 스탬프값(unix값) 시간 포맷 https://stackoverflow.com/questions/10040291/converting-a-unix-timestamp-to-formatted-date-string
                 'type' => Storage::disk('s3')->getMimeType($file),
             ];
@@ -65,7 +57,8 @@ class FileController extends Controller
         // $validated = $request->validated();                 #유효성 검사가 실패하면 responese가 생성되어 이전 위치로 되돌려 보냄.
 
         $userEmail = Auth::user()['email'];
-        $filePath = $role . '/' . $userEmail . '/' . 'Public/';
+        $publicPath = 'images/';
+        $filePath = $role . '/' . $userEmail . '/' . $publicPath;
 
         if ($request->hasFile('image')) {                                #1 image 파일이 있으면
             if (!Storage::disk('s3')->exists($filePath)) {               #2 폴더가 있으면 ture 없으면 fasle, 없으면 하위 디렉토리까지 싹 만들어줌
@@ -92,7 +85,10 @@ class FileController extends Controller
     public function destroy($image)
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
+
+        $publicPath = 'images/';
         $userEmail = Auth::user()['email'];
+
         $filePath = $role . '/' . $userEmail . '/' . 'Public/';
 
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명 
