@@ -321,15 +321,16 @@ class EditController extends Controller
             ->with('success',  'Content deleted successfu lly.');
     }
     
-    // public function res() {
-    //     return view('editor.tool.res2');
-    // }
-
-    public function res(Request $request)
-    {
-        $url = 'https://s3.ap-northeast-2.amazonaws.com/lanovebucket/index.html?prefix=Author/';
-        return response()->json($url, 200);
+    public function res(Request $request) {
+        return view('editor.tool.res2');
     }
+
+
+    // public function res(Request $request)
+    // {
+    //     $url = 'https://s3.ap-northeast-2.amazonaws.com/lanovebucket/index.html?prefix=Author/';
+    //     return response()->json($url, 200);
+    // }
 
     public function send(Request $request){
         return $request;

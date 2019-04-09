@@ -166,7 +166,6 @@ function getS3Data(marker, html) {
                 document.getElementById('listing').innerHTML =
                     '<pre>' + html + '</pre>';
                     console.log(13);
-                    console.log("html : "+html);
             }//실행됨
         })
         .fail(function (error) {
@@ -293,7 +292,7 @@ function prepareTable(info) {
     var content = [];
     // content.push(padRight('Last Modified', cols[1]) + '  ' + // 네비게이션 이름 마지막 수정 시간
     //     padRight('Size', cols[2]) + 'Key \n');
-    content.push(new Array(cols[0] + cols[1] + cols[2] + 4).join('-') + '\n');
+    // content.push(new Array(cols[0] + cols[1] + cols[2] + 4).join('-') + '\n');
 
     // add ../ at the start of the dir listing, unless we are already at root dir
     if (prefix && prefix !== S3B_ROOT_DIR) {
@@ -333,7 +332,7 @@ function prepareTable(info) {
 }
 
 
-
+var file_id = 0;
 function renderRow(item, cols) { //누를 시 aws s3 소스 접근
     var row = '';
     var ori_text = '';
@@ -344,15 +343,16 @@ function renderRow(item, cols) { //누를 시 aws s3 소스 접근
     ori_text = item.keyText;
     if(item.keyText.length >= 14){
         chng_text = item.keyText.substr(0,14)+"...";
-        row += "<div class='obj'><img src=" + "'" + item.href + "'" + " class='obj_thumb' onError='height=0'><span class='obj_name' title='"+ori_text+"'>"+chng_text+"</span></div>";
+        row += "<div class='obj'><img src=" + "'" + item.href + "'" + " id='file_id"+file_id+"' class='obj_thumb' onError='height=0' draggable='true' ondragstart='drag(event);'><span class='obj_name' title='"+ori_text+"'>"+chng_text+"</span></div>";
+        file_id++;
         return row;
     }
     else{
-        row += "<div class='obj'><a href=" + item.href + "><span class='obj_thum' style='background-image: url(\"https://cdn.icon-icons.com/icons2/1128/PNG/512/1486164755-125_79693.png\");background-size: 150px 150px;'></span><span class='obj_name'>"+ori_text+"</span></a></div>";
-        console.log(item.href);
+        // row += "<div class='obj'><a href=" + item.href + " ><span class='obj_thum' style='background-image: url(\"https://cdn.icon-icons.com/icons2/1128/PNG/512/1486164755-125_79693.png\");background-size: 150px 150px;'></span><span class='obj_name'>"+ori_text+"</span></a></div>";
+        // console.log(item.href);
+        row += "<div class='obj'><a href='#' class='openView' url="+item.href+"><span class='obj_thum' style='background-image: url(\"/image/folder_icon.png\");background-size: 150px 150px;'></span><span class='obj_name'>"+ori_text+"</span></a></div>";
         return row;
     }
-
 }
 
 function padRight(padString, length) {

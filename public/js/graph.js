@@ -11,6 +11,7 @@ var pieSeries = chart1.series.push(new am4charts.PieSeries());
 pieSeries.dataFields.value = "profit"; //
 pieSeries.dataFields.category = "title"; //
 
+
 // Let's cut a hole in our Pie chart the size of 30% the radius
 chart1.innerRadius = am4core.percent(30);
 

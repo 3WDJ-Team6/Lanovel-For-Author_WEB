@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
 @section('head')
-    @include('layouts.head')
-    <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('css/graph.css')}}">
+@include('layouts.head')
+<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+<link rel="stylesheet" href="{{asset('css/graph.css')}}">
 @endsection
 
 @section('header')
-    @include('layouts.header')
+@include('layouts.header')
 @endsection
 
 @section('content')
@@ -18,6 +18,7 @@
     <!-- Material inline 1 -->
     <div class="form-check form-check-inline"
         style="width:100%; align-items: center; display: flex; justify-content: center;"></div>
+
     <div class="row">
         <div id="sidenav" style="margin-top:20px;">
             <span class="btn" id="one-type" name="graph" value="one">작품별 수익</span>
@@ -56,8 +57,7 @@
         </div>
 
         <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:20px;">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin:20px;">
                 태그
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -108,20 +108,31 @@
          
         </script>
 
+
+    <script>
+
+    var workArray = <?php echo json_encode($workArray); ?>;
+    for(int i=0; i<workArray.length; i++){
+    var data[];
+        data+= workArray[i];
+    }
+    </script>
+    
+
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
     <script src="{{ asset('js/graph.js') }}" defer></script>
     <script src="{{ asset('js/graph_make.js') }}" defer></script>
     <script src="{{ asset('js/graph2.js') }}" defer></script>
     <script src="{{ asset('js/graph3.js') }}" defer></script>
-
 </div>
 </div>
 
 @endsection
 
 @section('footer')
-    @include('layouts.footer')
+@include('layouts.footer')
 @endsection

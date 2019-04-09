@@ -1,14 +1,16 @@
 @extends('layouts.master')
 
 @section('head')
-    @include('layouts.head')
+@include('layouts.head')
 @endsection
 
 @section('header')
-    @include('layouts.header')
+@include('layouts.header')
 @endsection
 
 @section('content')
+
+<body>
 
 <!-- Main Content -->
 <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
@@ -43,7 +45,6 @@
             <label class="form-check-label" for="materialInline4">완결작</label>
         </div>
     </form>
-   
 
     {{-- 새 작품 추가  --}}
     <div class="row">
@@ -51,8 +52,7 @@
             <div class="post-preview">
                 <a href="{{url('editor/main/book_add')}}">
                     <h3 class="post-title" style="margin-top:30px; margin-bottom:30px;">
-                        <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;"
-                            class="img-thumbnail">
+                        <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
                         작품추가
                     </h3>
             </div>
@@ -64,7 +64,7 @@
             <div class="post-preview">
                 <a href="{{url('editor/main/chapter')}}/{{$row['num']}}">
 
-                    <img src="{{$row['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'"/>
+                    <img src="{{$row['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
 
                     <div class="post-title" style="margin-top:30px; margin-bottom:30px; display:inline-flex;">
                         {{$row->work_title}}
@@ -88,6 +88,7 @@
                 구매 : {{$row->buy_price}}<br>
                 대여 : {{$row->rental_price}}<br>
                 최근 수정 시간 : {{$modify_time['updated_at']}};
+
                 </p>
 
             </div>
@@ -98,8 +99,11 @@
 
     </div>
 </div>
+
+</body>
+
 @endsection
 
 @section('footer')
-    @include('layouts.footer')
+@include('layouts.footer')
 @endsection

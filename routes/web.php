@@ -28,9 +28,6 @@ Route::post('/addBook', 'WorkOut\IndexController@store')->name('addBook');
 // 작품 수정 페이지
 Route::get('/edit/{num}', 'WorkOut\IndexController@edit');
 
-// 작품 수정
-// Route::post('/update','WorkOut\IndexController@update');
-
 // 작품 삭제
 
 // 작품 챕터 페이지
@@ -77,15 +74,12 @@ Route::get('/redirectList/{num}', function() {
 Route::post('/tr', 'WorkOut\EditController@store');
 
 
+
 Route::get('/graph', 'WorkOut\GraphController@index');
 
 Route::get('/login/editor', function () {
     return view('auth.login_editor');
 });
-
-// Route::get('editor/main/list', function () {
-//     return view('editor/main/list');
-// });
 
 Route::get('/editor/main/book_add', function () {
     return view('editor.main.book_add');
@@ -100,8 +94,10 @@ Route::view('/graph3', 'editor/main/graph3');
 Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
 Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
 Route::get('/ft', 'Storage\FileController@ft')->name('ft');
-Route::get('/getDir', 'Storage\FileController@getDir')->name('getDir');
+Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
 
+# s3 directory dynamic listing 
+Route::get('/getDir', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 
 # authoriztion # make:auth로 생성 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -109,19 +105,21 @@ Auth::routes(); //로그인에 관한 모든 기능 연결
 
 Route::view('test', 'auth/testlogin');
 
-// Route::view('ep_add', 'editor/tool/episode_add');
-
 // 에디터 진입
 Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 
 //리소스가져오기
-Route::post('/res', 'WorkOut\EditController@res');
-
-// 에디터 내용 저장
-Route::post('/update', 'WorkOut\EditController@update');
-// Route::post('/send', 'WorkOut\EditController@send');
+Route::get('/res', 'WorkOut\EditController@res');
 
 # kakao login
 Route::get('/loginForKakao', 'Auth\KakaoLoginController@index');
 Route::get('/auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
 Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
+
+Route::get('/store', function () {
+    return view('store.home.home');
+});
+
+Route::get('/store/menu/upload', function () {
+    return view('store.menu.upload');
+});

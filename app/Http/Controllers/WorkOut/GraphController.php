@@ -22,6 +22,7 @@ class GraphController extends Controller
     public function index()
     {
         // '작품별 수익' 데이터 값
+
         $work_arrays = DB::table('all_count_view')->
             select(
                 '*'
