@@ -10,6 +10,8 @@
 
 @section('content')
 
+<body>
+
 <!-- Main Content -->
 <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
 
@@ -93,6 +95,9 @@
 
     </div>
 </div>
+
+</body>
+
 @endsection
 
 @section('footer')

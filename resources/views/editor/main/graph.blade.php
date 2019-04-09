@@ -64,51 +64,23 @@
         </div>
     </div>
     <script>
-        var arr;
 
-        function newArr(arr) {
-            // date가 다르면 index ++
-            // date가 같으면 profit += profit
-            var temp = '';
-            var newArr = [];
-            var index = -1;
-            var arr = [{
-                date: '2018-04-08',
-                profit: 1500
-            }, {
-                date: '2018-04-08',
-                profit: 1600
-            }, {
-                date: '2018-04-09',
-                profit: 1100
-            }, {
-                date: '2018-04-07',
-                profit: 10000
-            }, ]
-            arr.forEach(function(item) {
-                var newItem = {
-                    'date': item.date,
-                    'profit': item.profit
-                }
-                if (temp !== item.date) {
-                    temp = item.date;
-                    index++;
-                    newArr.push(newItem)
-                } else {
-                    newArr[index].profit += item.profit;
-                }
-            });
-        }
+    var workArray = <?php echo json_encode($workArray); ?>;
+    for(int i=0; i<workArray.length; i++){
+    var data[];
+        data+= workArray[i];
+    }
     </script>
+    
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
     <script src="{{ asset('js/graph.js') }}" defer></script>
     <script src="{{ asset('js/graph_make.js') }}" defer></script>
     <script src="{{ asset('js/graph2.js') }}" defer></script>
     <script src="{{ asset('js/graph3.js') }}" defer></script>
-
 </div>
 </div>
 
