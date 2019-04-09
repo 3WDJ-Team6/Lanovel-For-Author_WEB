@@ -14,7 +14,7 @@
 
     <div class="form-content">
         에디터 안에서 목차 추가하는거임
-        <form action="{{url('addContent')}}/{{$num}}" method="post" id="addContentForm"> 
+        <form action="{{url('addContentInEditor')}}/{{$num}}" method="post" id="addContentForm"> 
             <div class="col-md-6">
                 <div class="form-group">
                     목차<input type="text" class="form-control" placeholder="" name="subsubtitle" style="width:400px;" />

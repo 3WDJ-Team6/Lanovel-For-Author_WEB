@@ -12,6 +12,11 @@
     }
 
 </script>
+<script>
+    function receiver(){
+        document.
+    }
+</script>
 @endsection
 
 @section('header')
@@ -28,8 +33,8 @@
         style="width:100%; align-items: center; display: flex; justify-content: center;"></div>
 
     <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto" id = "chapter_box" style="margin-top:50px; margin-bottom:50px;">
-
+        <div class="col-lg-8 col-md-10 mx-auto" id = "chapters_box" style="margin-top:50px; margin-bottom:50px;">
+            
             <div class="post-preview">
                 <h3 class="post-subtitle">
                     <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:130px;"

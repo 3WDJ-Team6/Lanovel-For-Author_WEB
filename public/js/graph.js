@@ -4,33 +4,31 @@ am4core.useTheme(am4themes_animated);
 // Themes end
 
 // Create chart instance
-var chart = am4core.create("chartdiv", am4charts.PieChart);
+var chart1 = am4core.create("chartdiv", am4charts.PieChart);
 
 // Add and configure Series
-var pieSeries = chart.series.push(new am4charts.PieSeries());
-pieSeries.dataFields.value = "litres";
-pieSeries.dataFields.category = "country";
+var pieSeries = chart1.series.push(new am4charts.PieSeries());
+pieSeries.dataFields.value = "profit"; //
+pieSeries.dataFields.category = "title"; //
 
 // Let's cut a hole in our Pie chart the size of 30% the radius
-chart.innerRadius = am4core.percent(30);
+chart1.innerRadius = am4core.percent(30);
 
 // Put a thick white border around each Slice
 pieSeries.slices.template.stroke = am4core.color("#fff");
 pieSeries.slices.template.strokeWidth = 2;
 pieSeries.slices.template.strokeOpacity = 1;
 pieSeries.slices.template
-  // change the cursor on hover to make it apparent the object can be interacted with
-  .cursorOverStyle = [
-    {
-      "property": "cursor",
-      "value": "pointer"
-    }
-  ];
+    // change the cursor on hover to make it apparent the object can be interacted with
+    .cursorOverStyle = [{
+        "property": "cursor",
+        "value": "pointer"
+    }];
 
 pieSeries.alignLabels = false;
 pieSeries.labels.template.bent = true;
 pieSeries.labels.template.radius = 3;
-pieSeries.labels.template.padding(0,0,0,0);
+pieSeries.labels.template.padding(0, 0, 0, 0);
 
 pieSeries.ticks.template.disabled = true;
 
@@ -47,24 +45,7 @@ hoverShadow.opacity = 0.7;
 hoverShadow.blur = 5;
 
 // Add a legend
-chart.legend = new am4charts.Legend();
+chart1.legend = new am4charts.Legend();
 
-chart.data = [{
-  "country": "Lithuania",
-  "litres": 501.9
-},{
-  "country": "Germany",
-  "litres": 165.8
-}, {
-  "country": "Australia",
-  "litres": 139.9
-}, {
-  "country": "Austria",
-  "litres": 128.3
-}, {
-  "country": "UK",
-  "litres": 99
-}, {
-  "country": "Belgium",
-  "litres": 60
-}];
+chart1.data = []; //
+chart1.data = work_profit; //

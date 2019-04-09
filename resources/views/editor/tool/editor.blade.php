@@ -125,73 +125,42 @@
             </div>
         </div>
 
-        {{-- 리소스 에리어 --}}
-        <div class="resource-area"></div>
-
-        {{-- 글쓰기도구팝업 --}}
-        <div id="popbutton"
-            style="display:none; Z-INDEX: 1; POSITION: absolute; background:#dddddd; top:0px; left:0px;">
-            <button class="fontStyle" onclick="document.execCommand('italic',false,null);"
-                title="Italicize Highlighted Text"><i>I</i>
-            </button>
-            <button class="fontStyle" onclick="document.execCommand( 'bold',false,null);"
-                title="Bold Highlighted Text"><b>B</b>
-            </button>
-            <button class="fontStyle" onclick="document.execCommand( 'underline',false,null);"><u>U</u>
-            </button>
-            <button class="fontStyle" onclick="document.execCommand( 'strikeThrough',false,null);"><s>S</s>
-            </button>
-        </div>
-
-        <script type="text/javascript">
-            $(window).on("load", function () {
-                new popTool("popup_result", "popbutton");
-            });
-        </script>
-    </div>
-</div>
-<script src="{{ asset('/js/editor.js') }}" defer></script>
-@endsection
-
-
-        <!-- <script>
-        
-            jQuery(document).ready(function () {
-                $.ajaxSetup({
-                headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-                });
-                $('#sub').on("click", onSave);
-                            
-                function onSave(e){
-                    
-                $.ajax({
-                    type: "POST",
-                    url: "/update/{!! json_encode($content_of_works['num']) !!}",
-                    data : {
-                        content: $('.textarea').html(),
-                    },
-                    dataType: "JSON",
-                    error: function(e){
-                        // console.log(e);
-                        throw new Error("실.패");
-                    },
-                    success: function(data){
-                        console.log(data);
-                        // console.log(state);
-                        // window.location.href="/redirectList/{{!! json_encode($content_of_works['num_of_chapter']) !!}}";
+        <script>
+                jQuery(document).ready(function () {
+                    $.ajaxSetup({
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                    });
+                    $('#sub').on("click", onSave);
+                                
+                    function onSave(e){
+                        
+                    $.ajax({
+                        type: "POST",
+                        url: "/update/{!! json_encode($content_of_works['num']) !!}",
+                        data : {
+                            content: $('.textarea').html(),
+                        },
+                        dataType: "JSON",
+                        error: function(e){
+                            // console.log(e);
+                            throw new Error("실.패");
+                        },
+                        success: function(data){
+                            console.log(data);
+                            // console.log(state);
+                            // window.location.href="/redirectList/{{!! json_encode($content_of_works['num_of_chapter']) !!}}";
+                        }
+                    });
                     }
                 });
-                }
-            });
-        </script>
+            </script>
 
-        </form>
-
+        <!-- {{-- 리소스 에리어 --}} -->
         <div class="resource-area"></div>
 
-        {{-- 글쓰기도구팝업 --}}
+        <!-- {{-- 글쓰기도구팝업 --}} -->
         <div id="popbutton"
             style="display:none; Z-INDEX: 1; POSITION: absolute; background:#dddddd; top:0px; left:0px;">
             <button class="fontStyle" onclick="document.execCommand('italic',false,null);"
@@ -210,12 +179,13 @@
             $(window).on("load", function () {
                 new popTool("popup_result", "popbutton");
             });
-
         </script>
     </div>
 </div>
-
 <script src="{{ asset('/js/editor.js') }}" defer></script>
+
 @endsection
+
+
 
 

@@ -121,29 +121,37 @@ class EditController extends Controller
         $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
         $content_of_works->save();
 
-        echo "<script>window.close()</script>";
+        $result = ContentOfWork::select(
+            '*')
+            ->where('content_of_works.num_of_chapter',$num)
+            ->orderBy('created_at','desc')->first();
+
+        echo "<script>opener.parent.location.reload();
+                      window.close()</script>";
     }
 
-    // public function addContentInEditor(request $request, $num)
-    // {
-    //     // 에디터 내에서 작품 추가하기
-    //     $content_of_works = new ContentOfWork();
-    //     $chapter_of_works = ChapterOfWork::select(
-    //         'chapter_of_works.num_of_work'
-    //     )->where('chapter_of_works.num', '=', $num)->first();
+    public function addContentInEditor(request $request, $num)
+    {
+        // 에디터 내에서 작품 추가하기
+        $content_of_works = new ContentOfWork();
+        $chapter_of_works = ChapterOfWork::select(
+            'chapter_of_works.num_of_work'
+        )->where('chapter_of_works.num', '=', $num)->first();
 
-    //     $num_of_workkk = $chapter_of_works->num_of_work;
+        $num_of_workkk = $chapter_of_works->num_of_work;
 
-    //     // 현재 작품 번호를 받아온다.
-    //     $content_of_works->num_of_work = $num_of_workkk;
-    //     // 현재 회차 번호를 받아온다.
-    //     $content_of_works->num_of_chapter = $num;
-    //     // 회차 제목 추가
-    //     $content_of_works->subsubtitle = $request->subsubtitle;
-    //     // 회차 내용 디폴트값 넣어주기
-    //     $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
-    //     $content_of_works->save();
-    // }
+        // 현재 작품 번호를 받아온다.
+        $content_of_works->num_of_work = $num_of_workkk;
+        // 현재 회차 번호를 받아온다.
+        $content_of_works->num_of_chapter = $num;
+        // 회차 제목 추가
+        $content_of_works->subsubtitle = $request->subsubtitle;
+        // 회차 내용 디폴트값 넣어주기
+        $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
+        $content_of_works->save();
+
+        return "저장됨";
+    }
 
     public function editContent(request $request, $num)
     {

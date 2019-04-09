@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\WorkOut;
 
+use Carbon\Carbon;
 use App\Models\Work;
 use App\Models\User;
 use App\Models\PeriodOfWork;
@@ -11,6 +12,7 @@ use App\Models\CategoryWork;
 use App\Models\ContentOfWork;
 use Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Input;
 // use App\Models\ContentOfWork;
 
 use Illuminate\Http\Request;
@@ -44,45 +46,52 @@ class IndexController extends Controller
      */
     public function index()
     {
+        if(!$type_of_work = Input::get('type_of_work')){
+            $works = Work::select(
+                // 작품번호
+                'works.*',
+                'category_works.tag'
+            )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
+                ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
+                // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
+                ->whereIn('works.num', function ($query) {
+                    $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']);// 최신순 정렬
+                })->orderBy('works.created_at', 'desc')
+                  ->get();
+        }else{
+            $works = Work::select(
+                // 작품번호
+                'works.*',
+                'category_works.tag'
+            )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
+                ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
+                // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
+                ->whereIn('works.type_of_work',$type_of_work)
+                ->whereIn('works.num', function ($query) {
+                    $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']);// 최신순 정렬
+                })->orderBy('works.created_at', 'desc')
+                  ->get();
+        }
 
-        // $type_query = Work::raw(
-        //     "(CASE WHEN 'works.type_of_work'='1'
-        //         THEN '단편' 
-        //         WHEN 'works.type_of_work'='2'
-        //         THEN '단행본'
-        //         WHEN 'works.type_of_work'='3' 
-        //         THEN '회차' 
-        //         ELSE ''
-        //         END) as name");
-
-        // $works = Work::select($type_query)->get();
-        // return $works;
-
-        $works = Work::select(
-            // 작품번호
-            'works.num',
-            // 제목
-            'works.work_title',
-            // 연재종류
-            'works.type_of_work',
-            // 대여 가격
-            'works.rental_price',
-            // 구매 가격
-            'works.buy_price',
-            // 연재상태
-            'works.status_of_work',
-            // 북커버
-            'works.bookcover_of_work',
-            // 연재주기
-            // 'period_of_works.cycle_of_publish'
-            // 태그
-            'category_works.tag'
-        )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
-            ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
-            // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
-            ->whereIn('works.num', function ($query) {
-                $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']);// 최신순 정렬
-            })->orderBy('works.created_at', 'desc')->get();
+        // if(!$type_of_work = Input::get('type_of_work')){
+           
+            
+        // }else{
+        //     $works = Work::select(
+        //         // 작품번호
+        //         'works.*',
+        //         'category_works.tag',
+        //         'content_of_works.updated_at'
+        //     )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
+        //         ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
+        //         // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
+        //         ->whereIn('works.num', function ($query) {
+        //             $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']);// 최신순 정렬
+        //         })
+        //         // 체크 된 작품 타입만
+        //         ->whereIn('works.type_of_work',$type_of_work)
+        //         ->orderBy('works.created_at', 'desc')->get();
+        // }
 
         // 최근 수정 시간
         $modify_time = ContentOfWork::select(
@@ -90,6 +99,8 @@ class IndexController extends Controller
         )
         ->join('works','content_of_works.num_of_work','=','works.num')
         ->orderBy('updated_at', 'desc')->first();
+
+        // 협업 멤버 닉네임
         $nicknames = User::select(
             'users.nickname'
         )
@@ -97,18 +108,19 @@ class IndexController extends Controller
         ->whereIn('work_lists.num_of_work',function($query){
             $query->select('num')->from('works')->where('works.num',1);
         })->get();
-
-        // return $nicknames;
-
-        // return $nicknames;
-
-        // ->whereIn('users.id', '=', function($query){
-        //     $query->select('user_id')->from('work_lists')->whereIn('num_of_works','=',1);
-        // })->get();
-
-        // return $nicknames;
+        
         return view('index')->with('works', $works)->with('modify_time',$modify_time)->with('nicknames',$nicknames);
     }
+
+    /* 필터링 검색 */
+    // public function filterBook(){
+    //     if(!$typeOfBook = Input::get('typeOfBook')){
+    //         $works = Work::all();
+    //     }else{
+    //         $works = Work::whereIn('typeOfBook',$typeOfBook)->get();
+    //     }
+    //     return 
+    // }
 
     /**
      * 작품 추가
@@ -177,6 +189,8 @@ class IndexController extends Controller
             'bookcover_of_work' => $bookCoverUrl.$name,
             // 연재 상태 (default = 1 (연재중))
             'status_of_work' => 1,
+            // 생성 날짜 (현재)
+            'created_at' => Carbon::now(),
         ]);
         $this->work_model->storeWork($work_info);
 
