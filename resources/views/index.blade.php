@@ -30,18 +30,21 @@
     <input type="hidden" name="_token" value="{{ Session::token() }}">
 
     <!-- Material inline 1 -->
-    <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;">
-        <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;">
-        <label class="form-check-label" for="materialInline1">회차</label>
-        <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;">
-        <label class="form-check-label" for="materialInline2">단행본</label>
-        <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;">
-        <label class="form-check-label" for="materialInline3">연재중</label>
-        <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;">
-        <label class="form-check-label" for="materialInline4">완결작</label>
-        <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;">
-        <label class="form-check-label" for="materialInline5">협업중</label>
-    </div>
+    <form method="POST" id="filter">
+            {{ csrf_field() }}
+        <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;">
+            <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;" name="type_of_work[]" value="3">
+            <label class="form-check-label" for="materialInline1">회차</label>
+            <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;" name="type_of_work[]" value="2">
+            <label class="form-check-label" for="materialInline2">단행본</label>
+            <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;" name="type_of_work[]" value="1">
+            <label class="form-check-label" for="materialInline5">단편</label>
+            <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;" name="status_of_work[]" value="1">
+            <label class="form-check-label" for="materialInline3">연재중</label>
+            <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;" name="status_of_work[]" value="2">
+            <label class="form-check-label" for="materialInline4">완결작</label>
+        </div>
+    </form>
 
     {{-- 새 작품 추가  --}}
     <div class="row">
@@ -68,23 +71,24 @@
                     </div>
                 </a>
                 <p class="post-meta">
-                    카테고리 : {{$row->tag}} <br>
-                    연재 종류 : @switch($row->type_of_work)
-                    @case(1)
-                    단편
-                    @break
-                    @case(2)
-                    단행본
-                    @break
-                    @case(3)
-                    회차
-                    @endswitch
-                    <br>
-                    연재 주기 :{{$row->cycle_of_publish}} <br>
-                    협업 멤버 : @foreach($nicknames as $name) {{$name->nickname}} @endforeach <br>
-                    구매 : {{$row->buy_price}}<br>
-                    대여 : {{$row->rental_price}}<br>
-                    최근 수정 시간 : {{$modify_time['updated_at']->diffForHumans()}}
+                카테고리 : {{$row->tag}} <br>
+                연재 종류 : @switch($row->type_of_work)
+                        @case(1)
+                        단편
+                        @break
+                        @case(2)
+                        단행본
+                        @break
+                        @case(3)
+                        회차
+                        @endswitch
+                 <br>
+                연재 주기 :{{$row->cycle_of_publish}} <br>
+                협업 멤버 : @foreach($nicknames as $name) {{$name->nickname}} @endforeach <br>
+                구매 : {{$row->buy_price}}<br>
+                대여 : {{$row->rental_price}}<br>
+                최근 수정 시간 : {{$modify_time['updated_at']}};
+
                 </p>
 
             </div>

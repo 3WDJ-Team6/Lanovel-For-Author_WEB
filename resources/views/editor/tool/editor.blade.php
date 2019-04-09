@@ -122,6 +122,7 @@
                 $('#sub').on("click", onSave);
                             
                 function onSave(e){
+
                     $.ajax({
                         type: "POST",
                         url: "/update/{!! json_encode($content_of_works['num']) !!}",
@@ -131,16 +132,18 @@
                         dataType: "JSON",
                         error: function(e){
                             // console.log(e);
-                            // alert(e);
+
                             throw new Error("실.패");
                         },
                         success: function(data){
                             console.log(data);
+
                         }
                     });
                 }
             });
         </script>
+
         <script type="text/javascript">
             $(window).on("load", function () {
                 new popTool("popup_result", "popbutton");
@@ -148,7 +151,7 @@
         </script>
     </div>
 </div>
-@endsection
 
+@endsection
 
 

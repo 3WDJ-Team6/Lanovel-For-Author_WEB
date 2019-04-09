@@ -57,7 +57,10 @@ Route::post('/editContent/{num}', 'WorkOut\EditController@editContent');
 // 에디터 내에서 회차 추가 페이지
 Route::get('/content_create_in_editor/{num}', 'WorkOut\EditController@content_create_in_editor');
 
-// 작품 내용 저장
+// 에디터 내에서 회차 추가
+Route::post('/addContentInEditor/{num}', 'WorkOut\EditController@addContentInEditor');
+
+// 작품 
 Route::post('/update/{num}', 'WorkOut\EditController@update');
 
 // 북커버 등록
@@ -71,10 +74,6 @@ Route::get('/redirectList/{num}', function() {
 Route::post('/tr', 'WorkOut\EditController@store');
 
 
-// Route::get('/editor/main/graph', function () {
-
-//     return view('editor.main.graph');
-// });
 
 Route::get('/graph', 'WorkOut\GraphController@index');
 
