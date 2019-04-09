@@ -2,6 +2,8 @@
 @section('content')
 
 <!-- Main Content -->
+
+
 <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
 
     @if(\Auth::check())
@@ -69,4 +71,4 @@
 
     </div>
 </div>
-@endsection 
+@endsection

@@ -7,16 +7,16 @@
 
     <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
     <!-- CSRF Token -->
-    <!-- <meta name="csrf-token" content="{{ csrf_token() }}"> -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
     <script src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}" defer></script>
     <script src="{{ asset('js/jquery/jquery.modal.min.js') }}" defer></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" defer></script>
+    <script src="{{ asset('js/editor.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -43,4 +43,4 @@
 </body>
 @yield('footer')
 
-</html> 
+</html>

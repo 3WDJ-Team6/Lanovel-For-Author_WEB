@@ -20,11 +20,14 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
+
     <!-- Bootstrap core JavaScript -->
     <script src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Custom scripts for this template -->
     <script src="{{asset('js/clean-blog.min.js')}}"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}" defer></script>
 </head>
 
 <body>
@@ -42,4 +45,4 @@
 
 </body>
 
-</html> 
+</html>

@@ -81,7 +81,7 @@ class EditController extends Controller
     }
 
     /**
-     * 목차 추가 
+     * 목차 추가
      * 등록 버튼을 누를 시 addContent() 실행
      *
      * @return \Illuminate\Http\Response
@@ -131,7 +131,7 @@ class EditController extends Controller
         // episode 테이블에서 해당 회차의 에피소드 제목을 전부 받아온다.
         //  $episodes = Episode::table('episodes')
         //              ->join('content_of_works','content_of_works.subsubtitle','=','episodes.subsubtitle_of_content')
-        //              ->value('episodes.episode_title');       
+        //              ->value('episodes.episode_title');
 
         // content_of_works 테이블에서 해당 작품 번호의 챕터 제목, 회차 제목을 받아온다.
         $content_of_works = ContentOfWork::select('content_of_works.subtitle_of_chapter', 'content_of_works.subsubtitle')
@@ -186,7 +186,7 @@ class EditController extends Controller
      */
     public function edit($num)
     {
-        // 지금 이 num은 회차 번호이다... 회차 번호를 타고 가서 챕터 번호를 따와야 한다... 
+        // 지금 이 num은 회차 번호이다... 회차 번호를 타고 가서 챕터 번호를 따와야 한다...
         // $content_lists = ContentOfWork::select(
         //     // 얘는 회차 번호
         //     'content_of_works.num',
@@ -204,7 +204,7 @@ class EditController extends Controller
 
         $num_of_now_chapter = $chapter_of_num_of_now_content->num_of_chapter;
 
-        // 지금 이 num은 회차 번호이다... 회차 번호를 타고 가서 챕터 번호를 따와야 한다... 
+        // 지금 이 num은 회차 번호이다... 회차 번호를 타고 가서 챕터 번호를 따와야 한다...
         $content_lists = ContentOfWork::select(
             // 얘는 회차 번호
             'content_of_works.num',

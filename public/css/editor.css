@@ -248,4 +248,14 @@ a:hover {
 
 .ui-selecting { background: #FECA40; }
 .ui-selected { background: #F39814; color: white; }
+
+#ccc {
+    display: none;
+    position: absolute;
+    width: 300px;
+    height: 335px;
+    right: 3%;
+    top: 40%;
+    padding: 1px 0px 0px 0px;
+}
 /* //content */

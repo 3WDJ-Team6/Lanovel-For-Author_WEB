@@ -89,7 +89,7 @@ function SelectSelectableElement (selectableContainer, elementsToSelect)
 {
     // add unselecting class to all elements in the styleboard canvas except the ones to select
     $(".ui-selected", selectableContainer).not(elementsToSelect).removeClass("ui-selected").addClass("ui-unselecting");
-    
+
     // add ui-selecting class to the elements to select
     $(elementsToSelect).not(".ui-selected").addClass("ui-selecting");
 
@@ -128,7 +128,7 @@ $(document).ready(function () {
     // });
     //자동들여쓰기//
 
-    //에피소드관리 
+    //에피소드관리
     $('#episode').click(function () {
         if ($('div').hasClass('tem')) {
             $('.tem').hide();
@@ -162,7 +162,7 @@ $(document).ready(function () {
         $('.resize').toggleClass('radius');
     });
     $('#oval').click(function () {
-        $('.resize').toggleClass('oval');    
+        $('.resize').toggleClass('oval');
     });
     $('#circle').click(function () {
         $('.resize').toggleClass('circle');
@@ -181,19 +181,10 @@ $(document).ready(function () {
     //리소스
     var flag = true;
     $("#resource").click(function () {
-        if (flag === true) {
-            flag = false;
-            $.ajax({
-                type: 'GET',
-                url: "res",
-                success: function (data) {
-                    $('.resource-area').append(data);
-                }
-            });
-        } else if (flag === false) {
-            flag = true;
-            $('.resource-area').empty();
+        if ($('div').hasClass('ep')) {
+            $('.ep').hide();
         }
+        $('.tem').toggle();
     });
 
     // $(document).ready(function(){
@@ -277,13 +268,13 @@ $(document).ready(function () {
         $('.resize').height($('.resize').height('auto'));
     });
     $('#small').click(function(){
-        $('#e-size').width($('#e-size').width()-50);  
+        $('#e-size').width($('#e-size').width()-50);
         $('#e-size').height($('#e-size').height('auto'));
         $('.resize').width($('.resize').width()-50);
         $('.resize').height($('.resize').height('auto'));
     });
     $('#origin').click(function(){
-        $('#e-size').width($('#e-size').width('400px'));  
+        $('#e-size').width($('#e-size').width('400px'));
         $('#e-size').height($('#e-size').height('auto'));
         $('.resize').width($('.resize').width('400px'));
         $('.resize').height($('.resize').height('auto'));
