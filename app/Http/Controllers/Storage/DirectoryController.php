@@ -18,24 +18,21 @@ class DirectoryController extends Controller
         $this->middleware('auth');   # 인증된 사용자만 이용할 수 있게 , route(login)이 실행됨.
     }
 
-
-
     # @return \Illuminate\Http\Response
     # Display a listing of the resource.
     public function index(Request $request)                        # get Directories & get Files
     {
         /* 접근 폴더 주소 만들기 
         *  폴더 종류 : public(작품 내에 존재하는 공동작업방), private(작가와 일러스트레이터 개인 저장공간)
-        *
+        *  폴더 주소 : public(Author/userId/WorkSpace/title/OPBES/images) private(Author|Illustrator/userId/public) public으로 할지 private로 할지...
         */
-        $publicPath = "images/";                   # return $this->tools->getPublicS3Path($publicPath); !!!!!!!!!!!!!!!!!!!!!
+        $publicPath = "images/";
+        # return $this->tools->getPublicS3Path($publicPath); !!!!!!!!!!!!!!!!!!!!!
 
         # 디렉토리 접근할 수 있도록 , # file접근법 path url 등등 aws, php sdk 사용
         Auth::user()['roles'] === 2 ? $role = "Author/" : $role = "Illustrator/";   //2면 Author/ else Illustrator/
         $userEmail = Auth::user()['email'] . '/';
-
         $privateFolder = Storage::disk('s3')->directories($role . $userEmail);    # 접속한 유저의 개인 폴더
-
         $privateFile = Storage::disk('s3')->files($role . $userEmail);
 
         $dirInfo = WorkList::select('users.email', 'works.num', 'works.work_title')

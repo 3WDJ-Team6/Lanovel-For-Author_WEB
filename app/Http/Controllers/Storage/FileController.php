@@ -54,7 +54,7 @@ class FileController extends Controller
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
 
-        // $validated = $request->validated();                 #유효성 검사가 실패하면 responese가 생성되어 이전 위치로 되돌려 보냄.
+        // $validated = $request->validated();                   #유효성 검사가 실패하면 responese가 생성되어 이전 위치로 되돌려 보냄.
 
         $userEmail = Auth::user()['email'];
         $publicPath = 'images/';
@@ -168,7 +168,5 @@ class FileController extends Controller
         Storage::disk('s3')->put($saveFilePath, file_get_contents($file)); #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
 
         return Storage::disk('s3')->url(); //s3 url 가져오는 함수
-        #https://3s.ap-northeast-2.amazonaws.com/lanovebucket/1552473587KakaoTalk_20190217_222950301.png
-        #https://s3.ap-northeast-2.amazonaws.com/lanovebucket/images/1552473587KakaoTalk_20190217_222950301.png
     }
 }

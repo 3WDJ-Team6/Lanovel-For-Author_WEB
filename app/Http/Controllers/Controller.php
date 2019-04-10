@@ -6,12 +6,12 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Traits\FileTrait; # file trait 추가
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    // 전역변수 설정, 여기다가 trait도 설정해서 사용할 수 있도록 해보자
-
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, FileTrait;
+    // 전역변수 설정, 여기다가 trait도 설정해서 전역함수를 인스턴스에 올려서 사용하자
 
     const S3 = [
         's3Path' => 'https://s3.' . "ap-northeast-2" . '.amazonaws.com/' . "lanovebucket" . '/',

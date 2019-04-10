@@ -47,19 +47,19 @@ class IndexController extends Controller
     public function index()
     {
         // if(!$type_of_work = Input::get('type_of_work')){
-            $works = Work::select(
-                // 작품번호
-                'works.*',
-                'category_works.tag'
-            )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
-                ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
-                // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
-                ->whereIn('works.num', function ($query) {
-                    $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']);// 최신순 정렬
-                })->orderBy('works.created_at', 'desc')
-                  ->get();
+        $works = Work::select(
+            // 작품번호
+            'works.*',
+            'category_works.tag'
+        )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
+            ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
+            // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
+            ->whereIn('works.num', function ($query) {
+                $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']); // 최신순 정렬
+            })->orderBy('works.created_at', 'desc')
+            ->get();
 
-                //   return $works;
+        //   return $works;
         // }else{
         //     $works = Work::select(
         //         // 작품번호
@@ -140,7 +140,6 @@ class IndexController extends Controller
 
         // return $nicknames;
         return view('index')->with('works', $works)->with('modify_time', $modify_time)->with('nicknames', $nicknames);
-
     }
 
     /* 필터링 검색 */
@@ -205,29 +204,29 @@ class IndexController extends Controller
             ]);
 
 
-                    // 작품 저장
-        $work_info = array([
-            // 제목
-            'work_title' => $request->get('work_title'),
-            // 연재종류
-            'type_of_work' => $request->get('radio_T'),
-            // 대여 및 구매 가격
-            'rental_price' => $request->get('rental_price'),
-            'buy_price' => $request->get('buy_price'),
-            // 조회수 (default = 0)
-            'hits_of_work' => 0,
-            // 작품 소개
-            'introduction_of_work' => $request->get('introduction_of_work'),
-            // 북커버 (파일명)
-            'bookcover_of_work' => $bookCoverUrl.$name,
-            // 연재 상태 (default = 1 (연재중))
-            'status_of_work' => 1,
-            // 생성 날짜 (현재)
-            'created_at' => Carbon::now()
-        ]);
-        $this->work_model->storeWork($work_info);
+            // 작품 저장
+            $work_info = array([
+                // 제목
+                'work_title' => $request->get('work_title'),
+                // 연재종류
+                'type_of_work' => $request->get('radio_T'),
+                // 대여 및 구매 가격
+                'rental_price' => $request->get('rental_price'),
+                'buy_price' => $request->get('buy_price'),
+                // 조회수 (default = 0)
+                'hits_of_work' => 0,
+                // 작품 소개
+                'introduction_of_work' => $request->get('introduction_of_work'),
+                // 북커버 (파일명)
+                'bookcover_of_work' => $bookCoverUrl . $name,
+                // 연재 상태 (default = 1 (연재중))
+                'status_of_work' => 1,
+                // 생성 날짜 (현재)
+                'created_at' => Carbon::now()
+            ]);
+            $this->work_model->storeWork($work_info);
 
-        $num = Work::select('num')->orderBy('created_at', 'DESC')->first()['num'];
+            $num = Work::select('num')->orderBy('created_at', 'DESC')->first()['num'];
 
             // 태그 저장
             $work_tag_info = array([
