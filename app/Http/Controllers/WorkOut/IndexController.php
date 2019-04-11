@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\WorkOut;
 
+use Carbon\Carbon;
 use App\Models\Work;
 use App\Models\User;
 use App\Models\PeriodOfWork;
@@ -11,6 +12,7 @@ use App\Models\CategoryWork;
 use App\Models\ContentOfWork;
 use Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Input;
 // use App\Models\ContentOfWork;
 
 use Illuminate\Http\Request;
@@ -44,6 +46,34 @@ class IndexController extends Controller
      */
     public function index()
     {
+        // if(!$type_of_work = Input::get('type_of_work')){
+        $works = Work::select(
+            // 작품번호
+            'works.*',
+            'category_works.tag'
+        )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
+            ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
+            // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
+            ->whereIn('works.num', function ($query) {
+                $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']); // 최신순 정렬
+            })->orderBy('works.created_at', 'desc')
+            ->get();
+
+        //   return $works;
+        // }else{
+        //     $works = Work::select(
+        //         // 작품번호
+        //         'works.*',
+        //         'category_works.tag'
+        //     )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
+        //         ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
+        //         // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
+        //         ->whereIn('works.type_of_work',$type_of_work)
+        //         ->whereIn('works.num', function ($query) {
+        //             $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']);// 최신순 정렬
+        //         })->orderBy('works.created_at', 'desc')
+        //           ->get();
+        // }
 
         // $type_query = Work::raw(
         //     "(CASE WHEN 'works.type_of_work'='1'
@@ -81,22 +111,24 @@ class IndexController extends Controller
             ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
             // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
             ->whereIn('works.num', function ($query) {
-                $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']);// 최신순 정렬
+                $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']); // 최신순 정렬
             })->orderBy('works.created_at', 'desc')->get();
+
 
         // 최근 수정 시간
         $modify_time = ContentOfWork::select(
             'content_of_works.updated_at'
         )
-        ->join('works','content_of_works.num_of_work','=','works.num')
-        ->orderBy('updated_at', 'desc')->first();
+
+            ->join('works', 'content_of_works.num_of_work', '=', 'works.num')
+            ->orderBy('updated_at', 'desc')->first();
         $nicknames = User::select(
             'users.nickname'
         )
-        ->join('work_lists','work_lists.user_id','=','users.id')
-        ->whereIn('work_lists.num_of_work',function($query){
-            $query->select('num')->from('works')->where('works.num',1);
-        })->get();
+            ->join('work_lists', 'work_lists.user_id', '=', 'users.id')
+            ->whereIn('work_lists.num_of_work', function ($query) {
+                $query->select('num')->from('works')->where('works.num', 1);
+            })->get();
 
         // return $nicknames;
 
@@ -107,8 +139,18 @@ class IndexController extends Controller
         // })->get();
 
         // return $nicknames;
-        return view('index')->with('works', $works)->with('modify_time',$modify_time)->with('nicknames',$nicknames);
+        return view('index')->with('works', $works)->with('modify_time', $modify_time)->with('nicknames', $nicknames);
     }
+
+    /* 필터링 검색 */
+    // public function filterBook(){
+    //     if(!$typeOfBook = Input::get('typeOfBook')){
+    //         $works = Work::all();
+    //     }else{
+    //         $works = Work::whereIn('typeOfBook',$typeOfBook)->get();
+    //     }
+    //     return 
+    // }
 
     /**
      * 작품 추가
@@ -132,79 +174,79 @@ class IndexController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
 
         $this->validate($request, [                     # |mimes:jpeg,png,jpg,gif,svg
             'image' => 'required|image|max:16384',      # image파일만 + 16MB까지
         ]);
-        $bookName = $request->work_title;
         $userEmail = Auth::user()['email'];
+        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
 
-        $staticPath = "WorkSpace/";
-        $staticFolder = "/OPS" . '/' . "images/";
-        $s3Path = $staticPath . $bookName . $staticFolder;
+        $bookName = $request->work_title;
 
+        $s3Path = $this::AUTHOR['workspace'] . $bookName . $this::S3['opsImage'];      # 역할/유저id/WorkSpace/책이름/OEBPS/images/ - 에디터 사용 사진 들어갈 경로
+
+        $publicFolder = $role . '/' . $userEmail . "/public";  # 역할/유저id/public
         $filePath = $role . '/' . $userEmail . '/' . $s3Path;
-
-        $bookCoverUrl ="https://s3.ap-northeast-2.amazonaws.com/lanovebucket/".$filePath;
+        $bookCoverUrl = "https://s3.ap-northeast-2.amazonaws.com/lanovebucket/" . $filePath;
 
         if ($request->hasFile('image')) {                                       #1 image 파일이 있으면
-            if (!Storage::disk('s3')->exists($filePath)) {                      #2 폴더가 있으면 ture 없으면 fasle, 없으면 하위 디렉토리까지 싹 만들어줌
-                Storage::disk('s3')->makeDirectory($filePath);                  #3 폴더가 없으면 해당 경로에 폴더를 만들어 줌 $filePath에 / 기준으로 폴더가 생성됨
+            if (!Storage::disk('s3')->exists($filePath) && !Storage::disk('s3')->exists($publicFolder)) {  #2 폴더가 있으면 ture 없으면 fasle, 없으면 하위 디렉토리까지 싹 만들어줌
+                Storage::disk('s3')->makeDirectory($filePath);                                             #3 폴더가 없으면 해당 경로에 폴더를 만들어 줌 $filePath에 / 기준으로 폴더가 생성됨
+                Storage::disk('s3')->makeDirectory($publicFolder);
+                // Storage::disk('s3')->makeDirectory($role . '/' . $userEmail . $this::AUTHOR['workspace'] . $bookName);
             }
             $file = $request->file('image');                                    #4 Request로 부터 불러온 정보를 변수에 저장 
             $name = time() . $file->getClientOriginalName();                    #5 파일명이 겹칠 수 있으니 시간 + 원본명으로 저장
             $saveFilePath = $filePath . $name;                                  #6 저장 파일 경로 = 폴더 경로 + 파일 이름
             Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
                 'visibility' => 'public',
-                'Metadata' => ['Content-Type' => 'image/jpeg'],
+                # 'Metadata' => ['Content-Type' => 'image/jpeg'],
             ]);
 
-                    // 작품 저장
-        $work_info = array([
-            // 제목
-            'work_title' => $request->get('work_title'),
-            // 연재종류
-            'type_of_work' => $request->get('radio_T'),
-            // 대여 및 구매 가격
-            'rental_price' => $request->get('rental_price'),
-            'buy_price' => $request->get('buy_price'),
-            // 조회수 (default = 0)
-            'hits_of_work' => 0,
-            // 작품 소개
-            'introduction_of_work' => $request->get('introduction_of_work'),
-            // 북커버 (파일명)
-            'bookcover_of_work' => $bookCoverUrl.$name,
-            // 연재 상태 (default = 1 (연재중))
-            'status_of_work' => 1,
-        ]);
-        $this->work_model->storeWork($work_info);
 
-        $num = Work::select('num')->orderBy('created_at', 'DESC')->first()['num'];
+            // 작품 저장
+            $work_info = array([
+                // 제목
+                'work_title' => $request->get('work_title'),
+                // 연재종류
+                'type_of_work' => $request->get('radio_T'),
+                // 대여 및 구매 가격
+                'rental_price' => $request->get('rental_price'),
+                'buy_price' => $request->get('buy_price'),
+                // 조회수 (default = 0)
+                'hits_of_work' => 0,
+                // 작품 소개
+                'introduction_of_work' => $request->get('introduction_of_work'),
+                // 북커버 (파일명)
+                'bookcover_of_work' => $bookCoverUrl . $name,
+                // 연재 상태 (default = 1 (연재중))
+                'status_of_work' => 1,
+                // 생성 날짜 (현재)
+                'created_at' => Carbon::now()
+            ]);
+            $this->work_model->storeWork($work_info);
 
-        // 태그 저장
-        $work_tag_info = array([
-            'num_of_work' => $num,
-            'tag' => $request->get('tag')
-        ]);
-        $this->category_model->storeTag($work_tag_info);
+            $num = Work::select('num')->orderBy('created_at', 'DESC')->first()['num'];
 
-        // 현재 로그인 한 사용자를 작품 리스트에 추가
-        $work_list_info = array([
-            'num_of_work' => $num,
-            'last_time_of_working' => "test",
-            'user_id' => \Auth::user()['id']
-        ]);
-        $this->work_list_model->storeWorklist($work_list_info);
+            // 태그 저장
+            $work_tag_info = array([
+                'num_of_work' => $num,
+                'tag' => $request->get('tag')
+            ]);
+            $this->category_model->storeTag($work_tag_info);
 
-        return redirect('/')->with('message', "success");
-        
+            // 현재 로그인 한 사용자를 작품 리스트에 추가
+            $work_list_info = array([
+                'num_of_work' => $num,
+                'last_time_of_working' => "test",
+                'user_id' => Auth::user()['id']
+            ]);
+            $this->work_list_model->storeWorklist($work_list_info);
+            return redirect('/')->with('message', "success");
         } else {
             echo "<script> alert('파일이 존재하지 않습니다.') <script/>";
             return redirect('addBook');
         }
-
-
     }
 
     /**
@@ -227,7 +269,7 @@ class IndexController extends Controller
             ->where('works.num', '=', $num)->get();
 
         return view('editor.main.chapter')
-            ->with('works', $works)->with( 'num', $num);
+            ->with('works', $works)->with('num', $num);
     }
 
     public function chapter_create($num)
@@ -244,7 +286,7 @@ class IndexController extends Controller
         $chapter_of_works->subtitle = $request->get('subtitle');
 
         $chapter_of_works->save();
-        
+
         $result = array(
             "subtitle" => $request->subtitle,
             "num" => $num
@@ -256,54 +298,13 @@ class IndexController extends Controller
     }
 
     /**
-     * 
      * Display the specified resource.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         //
-    }
-
-    public function setBookCover(Request $request)
-    {
-        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
-
-        $this->validate($request, [                     # |mimes:jpeg,png,jpg,gif,svg
-            'image' => 'required|image|max:16384',      # image파일만 + 16MB까지
-        ]);
-        // $workSpaceNum = $request->roolnum;
-
-        $bookName = $request->work_title;
-
-        $userEmail = Auth::user()['email'];
-
-        $staticPath = "WorkSpace/";
-        $staticFolder = "/OPS" . '/' . "images/";
-        $s3Path = $staticPath . $bookName . $staticFolder;
-
-        $filePath = $role . '/' . $userEmail . '/' . $s3Path;
-
-        if ($request->hasFile('image')) {                                #1 image 파일이 있으면
-            if (!Storage::disk('s3')->exists($filePath)) {               #2 폴더가 있으면 ture 없으면 fasle, 없으면 하위 디렉토리까지 싹 만들어줌
-                Storage::disk('s3')->makeDirectory($filePath);           #3 폴더가 없으면 해당 경로에 폴더를 만들어 줌 $filePath에 / 기준으로 폴더가 생성됨
-            }
-            $file = $request->file('image');                             #4 Request로 부터 불러온 정보를 변수에 저장 
-            $name = time() . $file->getClientOriginalName();             #5 파일명이 겹칠 수 있으니 시간 + 원본명으로 저장
-            $saveFilePath = $filePath . $name;                           #6 저장 파일 경로 = 폴더 경로 + 파일 이름
-            Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
-                'visibility' => 'public',
-                'Metadata' => ['Content-Type' => 'image/jpeg'],
-                'Expires' => Carbon::now()->addMinute(5),                #7 expire 현재시간 + 5분 적용 외않되
-            ]);
-
-            return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
-        } else {
-            echo "<script> alert('파일이 존재하지 않습니다.') <script/>";
-            return redirect('/');
-        }
     }
 
     /**
@@ -363,5 +364,3 @@ class IndexController extends Controller
         //
     }
 }
-
- 
