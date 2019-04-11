@@ -324,8 +324,8 @@ class EditController extends Controller
     //     return response()->json($url, 200);
     // }
 
-    // public function send(Request $request){
-    //     return $request;
+    public function send(Request $request){
+        return $request;
 
-    // }
+    }
 }
