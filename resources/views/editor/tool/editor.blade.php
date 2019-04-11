@@ -53,7 +53,7 @@
 
                     <!-- {{-- 회차 리스트 띄워주기 --}}  -->
 
-                    @foreach($content_lists as $row) 
+                    @foreach($content_lists as $row)
                     <h4>
                     <a href="{{url('/editor/tool/editor')}}/{{$row['num']}}">- {{$row['subsubtitle']}}<br>
                     </a>
@@ -88,7 +88,6 @@
             </div>
         </div>
 
-
         {{-- 글쓰는에리어 --}}
 
         <div id="popup_result" class="textarea" contentEditable="true" ondrop="drop(event)" ondragover="allowDrop(event)" >
@@ -102,10 +101,10 @@
         <div id="popbutton" style="display:none; Z-INDEX: 1; POSITION: absolute; background:#dddddd; top:0px; left:0px;">
             <button class="fontStyle" onclick="document.execCommand('italic',false,null);"
                 title="Italicize Highlighted Text"><i>I</i></button>
-            <button class="fontStyle" onclick="document.execCommand( 'bold',false,null);"
+            <button class="fontStyle" onclick="document.execCommand('bold',false,null);"
                 title="Bold Highlighted Text"><b>B</b></button>
-            <button class="fontStyle" onclick="document.execCommand( 'underline',false,null);"><u>U</u></button>
-            <button class="fontStyle" onclick="document.execCommand( 'strikeThrough',false,null);"><s>S</s></button>
+            <button class="fontStyle" onclick="document.execCommand('underline',false,null);"><u>U</u></button>
+            <button class="fontStyle" onclick="document.execCommand('strikeThrough',false,null);"><s>S</s></button>
             <button class="fontStyle" onclick="memoPopupp();">메모</button>
         </div>
 
@@ -120,7 +119,7 @@
                 }
                 });
                 $('#sub').on("click", onSave);
-                            
+
                 function onSave(e){
 
                     $.ajax({
@@ -151,7 +150,5 @@
         </script>
     </div>
 </div>
-
+@include('layouts/footer')
 @endsection
-
-
