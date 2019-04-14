@@ -103,6 +103,13 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/getDir', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
+Route::get('editor/tool/innerchat','ChatController@chat');
+Route::get('editor/innerchat','ChatController@chat');
+Route::get('innerchat','ChatController@chat');
+Route::get('editor/tool/editor/innerchat','ChatController@chat');
+Route::get('chat','ChatController@chat');
+Route::post('send','ChatController@send');
+
 # authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes(); //로그인에 관한 모든 기능 연결
