@@ -3,11 +3,6 @@ namespace App\Traits;
 
 trait ModelScopes   //사용할 모델에 상속하는
 {
-
-    public function test(){
-        return 0;
-    }
-
     public function scopeInsertMsg($query, $country, $title, $content, $id, $ip)
     {
 
@@ -116,4 +111,3 @@ trait ModelScopes   //사용할 모델에 상속하는
 
     // }
 }
- 
