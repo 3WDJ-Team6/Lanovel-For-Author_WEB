@@ -47,7 +47,6 @@ class IndexController extends Controller
      */
     public function index()
     {
-        // if(!$type_of_work = Input::get('type_of_work')){
         $works = Work::select(
             // 작품번호
             'works.*',
@@ -60,98 +59,10 @@ class IndexController extends Controller
             })->orderBy('works.created_at', 'desc')
             ->get();
 
-        //   return $works;
-        // }else{
-        //     $works = Work::select(
-        //         // 작품번호
-        //         'works.*',
-        //         'category_works.tag'
-        //     )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
-        //         ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
-        //         // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
-        //         ->whereIn('works.type_of_work',$type_of_work)
-        //         ->whereIn('works.num', function ($query) {
-        //             $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', \Auth::user()['id']);// 최신순 정렬
-        //         })->orderBy('works.created_at', 'desc')
-        //           ->get();
-        // }
-
-        // $type_query = Work::raw(
-        //     "(CASE WHEN 'works.type_of_work'='1'
-        //         THEN '단편'
-        //         WHEN 'works.type_of_work'='2'
-        //         THEN '단행본'
-        //         WHEN 'works.type_of_work'='3'
-        //         THEN '회차'
-        //         ELSE ''
-        //         END) as name");
-
-        // $works = Work::select($type_query)->get();
-        // // return $works;
-
-        // $works = Work::select(
-        //     // 작품번호
-        //     'works.num',
-        //     // 제목
-        //     'works.work_title',
-        //     // 연재종류
-        //     'works.type_of_work',
-        //     // 대여 가격
-        //     'works.rental_price',
-        //     // 구매 가격
-        //     'works.buy_price',
-        //     // 연재상태
-        //     'works.status_of_work',
-        //     // 북커버
-        //     'works.bookcover_of_work',
-        //     // 연재주기
-        //     // 'period_of_works.cycle_of_publish'
-        //     // 태그
-        //     'category_works.tag',
-        //     'work_lists.user_id'
-        // )->join('category_works', 'category_works.num_of_work', '=', 'works.num')
-        //     ->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
-        //     // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
-        //     ->whereIn('works.num', function ($query) {
-        //         $query->select('work_lists.num_of_work')->where('work_lists.user_id', Auth::user()['id']); // 최신순 정렬
-        //     })->orderBy('works.created_at', 'desc')->get();
-
         $plucked = $works->pluck('num')->all();
-        // return $plucked;
 
         $posts = Work::with('work_lists')->find($plucked);
-        // return response()->json($posts, 200, [], JSON_PRETTY_PRINT);
-        // return $posts;
-        // 
-
-        // // 최근 수정 시간
-        // $modify_time = ContentOfWork::select(
-        //     'content_of_works.updated_at'
-        // ) 
-        //  ->join('works', 'content_of_works.num_of_work', '=', 'works.num')
-        //  ->orderBy('updated_at', 'desc')->first();
-
-        // 협업 작가 닉네임
-        // $nicknames = User::select(
-
-        //     'work_lists.num_of_work',
-        //     'users.nickname'
-        // )
-        //  ->join('work_lists', 'work_lists.user_id', '=', 'users.id')
-        //  ->whereIn('work_lists.num_of_work', $plucked)->get();
-
-
-        // return $nicknames;
-
-        // return $nicknames;
-
-        // ->whereIn('users.id', '=', function($query){
-        //     $query->select('user_id')->from('work_lists')->whereIn('num_of_works','=',1);
-        // })->get();
-
-        // return $nicknames;
         return view('index')->with('works', $works)->with('posts', $posts);
-
     }
 
     /* 필터링 검색 */
