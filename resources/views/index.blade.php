@@ -15,7 +15,7 @@
 <!-- Main Content -->
 <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
 
-    @if(\Auth::check())
+    @if(Auth::check())
     {{-- <p>{{ Auth::user() }}</p> --}}
     <div>
         <a href="{{url('assets/upload')}}">asset upload</a>

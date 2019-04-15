@@ -137,3 +137,15 @@ Route::get('/store', function () {
 Route::get('/store/menu/upload', function () {
     return view('store.menu.upload');
 });
+
+Route::get('/store/menu/contents', function () {
+    return view('store.menu.contents');
+});
+
+Route::post('store/find/search', function () {
+    return view('store.find.search');
+});
+
+Route::post('store/detail/view', function () {
+    return view('store.detail.view');
+});

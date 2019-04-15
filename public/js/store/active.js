@@ -11,7 +11,7 @@
     // :: Sliders Active Code
     if ($.fn.owlCarousel) {
         $('.popular-products-slides').owlCarousel({
-            items: 4,
+            items: 5,
             margin: 30,
             loop: true,
             nav: false,
@@ -31,7 +31,10 @@
                 },
                 992: {
                     items: 4
-                }
+                },
+                1200: {
+                    items: 5
+                },
             }
         });
         $('.product_thumbnail_slides').owlCarousel({
