@@ -55,11 +55,15 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password'); //회원 정보중 email, password만 가져옴
         // dd(Auth::attempt($credentials)); // type 반환
-
+        // return $credentials;
         //post방식에서 redirect 권장하지 않음
         if (Auth::attempt($credentials)) {  //로그인 성공시
-            return redirect('/')->with('message', '로그인 되었습니다.');
-            #redirect('/');
+            // return Auth::user();
+            if (Auth::user()['roles'] == 2) {
+                return redirect('/')->with('message', '로그인 되었습니다.');
+            } else {
+                return view('store/home/home')->with('message', '로그인 되었습니다.');
+            }
         } else {                            //로그인 실패시
             return redirect('/')->with('message', '존재하지 않는 아이디 이거나 비밀번호를 확인 해 주세요!');
         }
