@@ -33,7 +33,7 @@ class WorkList extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     /**
@@ -43,6 +43,6 @@ class WorkList extends Model
      */
     public function work()
     {
-        return $this->belongsTo('App\Work');
+        return $this->belongsTo(Work::class);
     }
 }

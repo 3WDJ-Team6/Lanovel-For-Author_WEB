@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('header')
-    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-    <link href="{{ asset('/css/login_editor.css') }}" rel="stylesheet">
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<link href="{{ asset('/css/login_editor.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -19,7 +19,9 @@
                 @csrf
                 <img src="image/editor_logo.png" alt="logo" width="100%" style="margin-bottom: 50px">
 
-                <input placeholder="ID" id="email" type="email" class="login{{ $errors->has('id') ? ' is-invalid' : '' }}" name="email" value="{{ old('id') }}" required autofocus>
+                <input placeholder="ID" id="email" type="email"
+                    class="login{{ $errors->has('id') ? ' is-invalid' : '' }}" name="email" value="{{ old('id') }}"
+                    required autofocus>
 
                 @if ($errors->has('email'))
                 <span class="invalid-feedback" role="alert">
@@ -27,7 +29,8 @@
                 </span>
                 @endif
 
-                <input placeholder="******" id="password" type="password" class="login{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+                <input placeholder="******" id="password" type="password"
+                    class="login{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 
                 @if ($errors->has('password'))
                 <span class="invalid-feedback" role="alert">
@@ -61,13 +64,14 @@
     // 카카오 로그인 버튼을 생성합니다.
     Kakao.Auth.createLoginButton({
         container: '#kakao-login-btn',
-        success: function(authObj) {
+        success: function (authObj) {
             location.href = "{{url('auth/loginForKakao')}}";
             //alert(JSON.stringify(authObj));
         },
-        fail: function(err) {
+        fail: function (err) {
             alert(JSON.stringify(err));
         }
     });
+
 </script>
-@endsection 
+@endsection
