@@ -341,4 +341,14 @@ input[readonly] {
     top:0px; 
     left:0px;
 }
+
+#ccc {
+    display: none;
+    position: absolute;
+    width: 300px;
+    height: 335px;
+    right: 3%;
+    top: 40%;
+    padding: 1px 0px 0px 0px;
+}
 /* //content */

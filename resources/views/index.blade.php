@@ -15,19 +15,19 @@
     <!-- Main Content -->
     <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
 
-        @if(\Auth::check())
-        {{-- <p>{{ Auth::user() }}</p> --}}
-        <div>
-            <a href="{{url('assets/upload')}}">asset upload</a>
-        </div>
-        @else 비 로그인 상태 @endif @if(Session::has('message'))
-        <div class="alert alert-info">{{ Session::get('message') }}</div>
-        @endif
-        <div>
-            {{Auth::user()['nickname']}}
-        </div>
-        {{-- 정렬 필터링  --}}
-        <input type="hidden" name="_token" value="{{ Session::token() }}">
+    @if(Auth::check())
+    {{-- <p>{{ Auth::user() }}</p> --}}
+    <div>
+        <a href="{{url('assets/upload')}}">asset upload</a>
+    </div>
+    @else 비 로그인 상태 @endif @if(Session::has('message'))
+    <div class="alert alert-info">{{ Session::get('message') }}</div>
+    @endif
+    <div>
+        {{Auth::user()['nickname']}}
+    </div>
+    {{-- 정렬 필터링  --}}
+    <input type="hidden" name="_token" value="{{ Session::token() }}">
 
         <!-- Material inline 1 -->
         <form method="POST" id="filter">

@@ -60,7 +60,8 @@ class LoginController extends Controller
         //post방식에서 redirect 권장하지 않음
         if (Auth::attempt($credentials)) {  //로그인 성공시
             // return Auth::user();
-            if (Auth::user()['roles'] == 1) {
+
+            if (Auth::user()['roles'] == 2) {
                 return redirect('/')->with('message', '로그인 되었습니다.');
             } else {
                 return view('store/home/home')->with('message', '로그인 되었습니다.');
