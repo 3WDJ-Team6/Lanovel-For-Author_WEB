@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
+@section('header')
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <link href="{{ asset('/css/login_editor.css') }}" rel="stylesheet">
+@endsection
+
 @section('content')
 
 <input type="hidden" name="_token" value="{{ Session::token() }}">
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <div class="container">
     <div class="overlay">
         <div class="right-box">

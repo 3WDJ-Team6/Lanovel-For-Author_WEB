@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Work;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +29,6 @@ Route::post('/addBook', 'WorkOut\IndexController@store')->name('addBook');
 
 // 작품 수정 페이지
 Route::get('/edit/{num}', 'WorkOut\IndexController@edit');
-
-// 작품 수정
-// Route::post('/update','WorkOut\IndexController@update');
 
 // 작품 삭제
 
@@ -60,34 +59,29 @@ Route::post('/editContent/{num}', 'WorkOut\EditController@editContent');
 // 에디터 내에서 회차 추가 페이지
 Route::get('/content_create_in_editor/{num}', 'WorkOut\EditController@content_create_in_editor');
 
-// 작품 
+// 에디터 내에서 회차 추가
+Route::post('/addContentInEditor/{num}', 'WorkOut\EditController@addContentInEditor');
+
+// 작품
 Route::post('/update/{num}', 'WorkOut\EditController@update');
 
 // 북커버 등록
 // Route::post('/setBookCover/{num}', 'WorkOut\EditorController@');
 
 // // 에디터에서 저장 후 회차 리스트 화면으로 back
-Route::get('/redirectList/{num}', function() {
+Route::get('/redirectList/{num}', function () {
     return redirect('editor/main/list/{num}');
 });
 
 Route::post('/tr', 'WorkOut\EditController@store');
 
 
-// Route::get('/editor/main/graph', function () {
-
-//     return view('editor.main.graph');
-// });
 
 Route::get('/graph', 'WorkOut\GraphController@index');
 
 Route::get('/login/editor', function () {
     return view('auth.login_editor');
 });
-
-// Route::get('editor/main/list', function () {
-//     return view('editor/main/list');
-// });
 
 Route::get('/editor/main/book_add', function () {
     return view('editor.main.book_add');
@@ -98,22 +92,27 @@ Route::get('/editor/main/popup', function () {
 });
 Route::view('/graph3', 'editor/main/graph3');
 
-# aws s3 asset upload 기능  
-Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
-Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
-Route::get('/ft', 'Storage\FileController@ft')->name('ft');
-Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
+# aws s3 asset upload 기능
+// Route::group(['prefix' => 'admin'], function () { }); prifix는 실제 api 요청하는 url의 앞 부분에 넘어온 문자열/ 로 url을 만듦 이 그룹에선 admin/~~
+Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있는 route들은 해당 미들웨어를 거쳐서 감
+    Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
+    Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
+    Route::get('/ft', 'Storage\FileController@ft')->name('ft');
+    Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
+    # s3 directory dynamic listing
+    Route::get('/getDir', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
+});
 
-# s3 directory dynamic listing 
-Route::get('/getDir', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
+Route::get('editor/tool/innerchat','ChatController@chat');
+Route::get('editor/innerchat','ChatController@chat');
+Route::get('innerchat','ChatController@chat');
+Route::get('editor/tool/editor/innerchat','ChatController@chat');
+Route::get('chat','ChatController@chat');
+Route::post('send','ChatController@send');
 
-# authoriztion # make:auth로 생성 
+# authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes(); //로그인에 관한 모든 기능 연결
-
-Route::view('test', 'auth/testlogin');
-
-// Route::view('ep_add', 'editor/tool/episode_add');
 
 // 에디터 진입
 Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
@@ -121,14 +120,16 @@ Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 //리소스가져오기
 Route::get('/res', 'WorkOut\EditController@res');
 
-// 에디터 내용 저장
-Route::post('/update', 'WorkOut\EditController@update');
-// Route::post('/send', 'WorkOut\EditController@send');
-
 # kakao login
-Route::get('/loginForKakao', 'Auth\KakaoLoginController@index');
-Route::get('/auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
-Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
+Route::group(['middleware' => ['guest']], function () { # guest만 사용가능한 Route
+    Route::get('/loginForKakao', 'Auth\KakaoLoginController@index');
+    Route::get('/auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
+    Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
+});
+
+Route::get('/eloquent', function () {
+    return dd(Work::all()); //Model에 all메서드 dd로 출력
+});
 
 Route::get('/store', function () {
     return view('store.home.home');

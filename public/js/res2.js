@@ -166,7 +166,6 @@ function getS3Data(marker, html) {
                 document.getElementById('listing').innerHTML =
                     '<pre>' + html + '</pre>';
                     console.log(13);
-                    console.log("html : "+html);
             }//실행됨
         })
         .fail(function (error) {
@@ -293,7 +292,7 @@ function prepareTable(info) {
     var content = [];
     // content.push(padRight('Last Modified', cols[1]) + '  ' + // 네비게이션 이름 마지막 수정 시간
     //     padRight('Size', cols[2]) + 'Key \n');
-    content.push(new Array(cols[0] + cols[1] + cols[2] + 4).join('-') + '\n');
+    // content.push(new Array(cols[0] + cols[1] + cols[2] + 4).join('-') + '\n');
 
     // add ../ at the start of the dir listing, unless we are already at root dir
     if (prefix && prefix !== S3B_ROOT_DIR) {

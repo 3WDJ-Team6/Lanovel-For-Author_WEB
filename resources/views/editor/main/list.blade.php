@@ -14,7 +14,7 @@
     function popup(num) {
         var url = "/content_create/" + num;
         var option = "width=600, height=300, top=100"
-        window.open(url, "", option);
+        newWindow = window.open(url, "", option);
     }
 </script>
 
@@ -30,7 +30,7 @@
             <!-- {{-- 새 회차 추가  --}} -->
             <div class="post-preview">
                 <h3 class="post-subtitle">
-                    <a href="javascript:popup({{$num}})" target="_blank">목차 추가</a>
+                    <a href="javascript:popup({{$num}})" target="_blan">목차 추가</a>
                 </h3>
             </div>
             <hr>
