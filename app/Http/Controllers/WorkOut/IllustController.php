@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\WorkOut;
 
+use App\Models\IllustrationList;
+use App\Models\CategoryIllustration;
+use App\Models\BuyerOfIllustration;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,13 +20,10 @@ class IllustController extends Controller
         $products = IllustrationList::select(
             // 작품번호
             'illustration_lists.*'
-        )->join('category_illustration', 'category_illustration.num_of_illustration', 'illustration_list.num')
-         ->join('buyer_of_illustration', 'buyer_of_illustration.num_of_illustration', 'illustration_list.num')
-         ->orderBy('illustration_lists.hits_of_illustration','desc')
-         ->take(5)
+        )->orderBy('illustration_lists.hits_of_illustration','desc')
          ->get();
 
-         return $products;
+         return view('/store/home/home')->with('products',$products);
     }
 
     /**

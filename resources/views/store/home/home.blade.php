@@ -1,11 +1,11 @@
 @extends('layouts.store.master')
 
 @section('head')
-    @include('layouts.store.head')
+@include('layouts.store.head')
 @endsection
 
 @section('header')
-    @include('layouts.store.header')
+@include('layouts.store.header')
 @endsection
 
 
@@ -48,35 +48,41 @@
 
                         <!-- Single Product -->
                         <div class="single-product-wrapper">
-                            <!-- Product Image -->
-                            <div class="product-img">
-                            <a href="{{url('store/detail/view')}}/{{$row['num']}}">
-                                <img src="{{$row['position_of_illustration']}}" alt="">
-                                <!-- Hover Thumb -->
-                                <!-- <img class="hover-img" src="{{asset('image/store/product-1.png')}}" alt=""> -->
-                                <!-- Favourite -->
-                                <div class="product-favourite">
-                                    <a href="#" class="favme fa fa-heart"></a>
+                            @foreach ($products as $row)
+                            <div class="single-product">
+                                <!-- Product Image -->
+                                <div class="product-img">
+                                    <a href="{{url('store/detail/view')}}/{{$row['num']}}">
+                                        <img src="{{$row['position_of_illustration']}}" alt=""
+                                            onerror="this.src='{{asset('image/no_image.png')}}'">
+                                        <!-- Hover Thumb -->
+                                        <!-- <img class="hover-img" src="{{asset('image/store/product-1.png')}}" alt=""> -->
+                                        <!-- Favourite -->
+                                        <div class="product-favourite">
+                                            <a href="#" class="favme fa fa-heart"></a>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-                            </div>
 
-                            <!-- Product Description -->
-                            <div class="product-description">
-                                {{$row->user_id}}
-                                <a href="single-product-details.html">
-                                    <h6>{{$row->illustration_title}}</h6>
-                                </a>
-                                <p class="product-price">{{$row->price_of_illustration}}</p>
 
-                                <!-- Hover Content -->
-                                <div class="hover-content">
-                                    <!-- Add to Cart -->
-                                    <div class="add-to-cart-btn">
-                                        <a href="#" class="btn essence-btn">Add to Cart</a>
+                                <!-- Product Description -->
+                                <div class="product-description">
+                                    {{ $row->user_id }}
+                                    <a href="single-product-details.html">
+                                        <h6>{{ $row->illustration_title }}</h6>
+                                    </a>
+                                    <p class="product-price">{{ $row->price_of_illustration }}</p>
+
+                                    <!-- Hover Content -->
+                                    <div class="hover-content">
+                                        <!-- Add to Cart -->
+                                        <div class="add-to-cart-btn">
+                                            <a href="#" class="btn essence-btn">Add to Cart</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
 
 

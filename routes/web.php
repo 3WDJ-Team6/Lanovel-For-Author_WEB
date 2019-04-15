@@ -73,7 +73,7 @@ Route::get('/redirectList/{num}', function () {
 Route::post('/tr', 'WorkOut\EditController@store');
 
 // 일러스토어 메인 페이지
-Route::get('store/home/home', 'WorkOut\IllustController@index');
+Route::get('/store/home/home', 'WorkOut\IllustController@index');
 
 Route::get('/graph', 'WorkOut\GraphController@index');
 
@@ -101,12 +101,12 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/getDir', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
-Route::get('editor/tool/innerchat','ChatController@chat');
-Route::get('editor/innerchat','ChatController@chat');
-Route::get('innerchat','ChatController@chat');
-Route::get('editor/tool/editor/innerchat','ChatController@chat');
-Route::get('chat','ChatController@chat');
-Route::post('send','ChatController@send');
+Route::get('editor/tool/innerchat', 'ChatController@chat');
+Route::get('editor/innerchat', 'ChatController@chat');
+Route::get('innerchat', 'ChatController@chat');
+Route::get('editor/tool/editor/innerchat', 'ChatController@chat');
+Route::get('chat', 'ChatController@chat');
+Route::post('send', 'ChatController@send');
 
 # authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');

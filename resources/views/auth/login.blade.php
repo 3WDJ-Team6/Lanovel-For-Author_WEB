@@ -9,13 +9,10 @@
 
 <input type="hidden" name="_token" value="{{ Session::token() }}">
 <div class="container">
+
     <div class="overlay">
         <div class="right-box">
-        @if($roles==1)
-            <form method="POST" action="{{ route('login') }}">  
-        @else
             <form method="POST" action="{{ route('login') }}">
-        @endif
                 @csrf
                 <img src="image/editor_logo.png" alt="logo" width="100%" style="margin-bottom: 50px">
 
