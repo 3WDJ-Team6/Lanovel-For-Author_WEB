@@ -113,7 +113,7 @@ class Work extends Model
      */
     public function work_lists()
     {
-        return $this->hasMany(WorkList::class);
+        return $this->hasMany(WorkList::class, 'num_of_work');
     }
 
 

@@ -63,17 +63,15 @@ Route::post('/addContentInEditor/{num}', 'WorkOut\EditController@addContentInEdi
 // 작품 
 Route::post('/update/{num}', 'WorkOut\EditController@update');
 
-// 북커버 등록
-// Route::post('/setBookCover/{num}', 'WorkOut\EditorController@');
-
 // // 에디터에서 저장 후 회차 리스트 화면으로 back
-Route::get('/redirectList/{num}', function() {
+Route::get('/redirectList/{num}', function () {
     return redirect('editor/main/list/{num}');
 });
 
 Route::post('/tr', 'WorkOut\EditController@store');
 
-
+// 일러스토어 메인 페이지
+Route::get('store/home/home', 'WorkOut\IllustController@index');
 
 Route::get('/graph', 'WorkOut\GraphController@index');
 
