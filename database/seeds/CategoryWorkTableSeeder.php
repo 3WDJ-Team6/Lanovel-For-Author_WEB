@@ -11,6 +11,6 @@ class CategoryWorkTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\CategoryWork::class, 60)->create();
+        factory(App\Models\CategoryWork::class, 0)->create();
     }
 }

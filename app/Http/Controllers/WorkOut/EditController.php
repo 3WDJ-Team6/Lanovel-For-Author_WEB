@@ -4,6 +4,7 @@ namespace App\Http\Controllers\WorkOut;
 
 use Auth;
 
+use App\Models\Memo;
 use App\Models\ContentOfWork;
 use App\Models\ChapterOfWork;
 use App\Models\Work;
@@ -36,19 +37,6 @@ class EditController extends Controller
      */
     public function index($num)
     {
-        // $works = Work::select(
-        //         'works.num',
-        //         'works.work_title',
-        //         'chapter_of_works.num',
-        //         'chapter_of_works.subtitle',
-        //         'content_of_works.subsubtitle',
-        //         'content_of_works.num_of_work',
-        //         'content_of_works.num_of_chapter',
-        //         'content_of_works.num'
-        // )
-        //         ->join('chapter_of_works', 'chapter_of_works.num_of_work', '=', 'works.num')
-        //         ->where('works.num','=',$num)
-        //         ->orderBy('works.created_at','desc')->get();
 
         $chapter_of_works = ChapterOfWork::select(
             'chapter_of_works.num',
@@ -62,17 +50,23 @@ class EditController extends Controller
             ->where('chapter_of_works.num', '=', $num)
             ->get();
 
-        // return $chapter_of_works;
-        // ->orderBy('chapter_of_works.created_at','desc')->get();
-
-        //  $chapter_of_works = ChapterOfWork::select('chapter_of_works.subtitle')
-        //                      ->join('works','chapter_of_works.num_of_work','=',$num)->get();
 
         return view('editor.main.list')
             ->with('chapter_of_works', $chapter_of_works)->with('num', $num);
-        //    ->with('work_lists', $work_lists)
-        //    ->with('templates', $templates);
-        //    ->with('episodes', $episodes);
+    }
+
+    public function store_memo(Request $request, $num)
+    {
+        $memos = new Memo();
+
+        $memos->content_of_work = $request->num;
+        $memos->user_id = Auth::user()['id'];
+        $memos->content_of_memo = $request->content_of_memo;
+
+        // 메모 저장
+        $memos->save();
+
+        return "메모 저장됨";
     }
 
     public function content_create($num)
@@ -251,6 +245,12 @@ class EditController extends Controller
         )->where('content_of_works.num', '=', $num)->first();
 
         $num_of_now_chapter = $chapter_of_num_of_now_content->num_of_chapter;
+
+        // 메모 있으면 보여주기
+        $memos = Memo::select(
+            '*'
+        )->where('memos.num_of_content', '=', $num)
+            ->get();
 
 
         // 상단에 작품 제목이랑 챕터 제목을 띄워주는거.....

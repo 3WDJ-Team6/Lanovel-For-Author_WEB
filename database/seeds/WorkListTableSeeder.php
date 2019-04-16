@@ -11,6 +11,6 @@ class WorkListTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\WorkList::class, 70)->create();
+        factory(App\Models\WorkList::class, 30)->create();
     }
 }
