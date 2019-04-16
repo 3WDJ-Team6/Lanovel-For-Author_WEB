@@ -27,14 +27,11 @@ class FileController extends Controller
 
     public function index()
     {
-        # Trait 함수 호출시 $this->func() 형태로 호출
-        //$this->tools->makeS3Path();
+        # Trait 함수 호출시 $this->func() 형태로 호출 $this->tools->makeS3Path();
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
         # 세션 로그인 한 유저 + 작업중인 곳의 정보
 
         $files = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image'));    # 파일 주소를 가르킴
-
-        // return $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image');
         // return response()->json($files, 200, [], JSON_PRETTY_PRINT); //값이 확인
 
         $images = [];
@@ -104,13 +101,13 @@ class FileController extends Controller
 
         $bookName = $request->bookname;
 
-        $staticFolder = "/OPS" . DIRECTORY_SEPARATOR . "images/";
+        $staticFolder = "/OEBPS" . DIRECTORY_SEPARATOR . "images/";
         $s3Path = config('filesystems.disks.s3.workspace') . $bookName . $staticFolder;
 
         $filePath = $role . '/' . Auth::user()['email'] . '/' . $s3Path;
 
         if ($request->hasFile('image')) {                                #1 image 파일이 있으면
-            if (!Storage::disk('s3')->exists($filePath)) {               #2 폴더가 있으면 ture 없으면 fasle, 없으면 하위 디렉토리까지 싹 만들어줌 Author/email/ops/image싹다
+            if (!Storage::disk('s3')->exists($filePath)) {               #2 폴더가 있으면 ture 없으면 fasle, 없으면 하위 디렉토리까지 싹 만들어줌 Author/email/OEBPS/image싹다
                 Storage::disk('s3')->makeDirectory($filePath, 0777, true);           #3 폴더가 없으면 해당 경로에 폴더를 만들어 줌 $filePath에 / 기준으로 폴더가 생성됨
             }
             $file = $request->file('image');                             #4 Request로 부터 불러온 정보를 변수에 저장

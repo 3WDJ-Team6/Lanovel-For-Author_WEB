@@ -29,28 +29,48 @@ class DirectoryController extends Controller
         *
         */
         $publicPath = "images/"; # return $this->tools->getPublicS3Path($publicPath); !!!!!!!!!!!!!!!!!!!!!
-
-        # 디렉토리 접근할 수 있도록 , # file접근법 path url 등등 aws, php sdk 사용
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";   //2면 Author/ else Illustrator/
 
         $privateFolder = Storage::disk('s3')->directories($role . DIRECTORY_SEPARATOR . Auth::user()['email']);    # 접속한 유저의 개인 폴더
-        $privateFile = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email']);
+        $privateFiles = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'images');
+        $privateFile = [];
+        foreach ($privateFiles as $file) {
+            $privateFile[] = [
+                'name' => str_replace($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image'), '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
+                'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
+                'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소
+                'updated_at' => date("Y-m-d h:i:s", Storage::disk('s3')->lastModified($file)),  # 마지막에 파일이 업데이트 되었을 때 타임 스탬프값(unix값) 시간 포맷 https://stackoverflow.com/questions/10040291/converting-a-unix-timestamp-to-formatted-date-string
+                'type' => Storage::disk('s3')->getMimeType($file),
+            ];
+        }
 
         $dirInfo = WorkList::select('users.email', 'works.num', 'works.work_title')
             ->leftjoin('works', 'work_lists.num_of_work', '=', 'works.num')
             ->leftjoin('users', 'work_lists.num_of_work', '=', 'works.num')
-            ->where('work_lists.num_of_work', '=', 2) //$num   // 숫자 부분은 변수로 전달 받아야함
+            ->where('work_lists.num_of_work', '=', 1) //$num   // 숫자 부분은 변수로 전달 받아야함
             ->orderBy('work_lists.created_at', 'asc')
             ->limit(1)->get();
 
         // 작가와 일러스트레이터가 함께 사용할 폴더 : Author/작가ID/WorkSpace/작품이름/OBPES/images
-        $staticAuthor = $dirInfo[0]['email'];
-        $staticTitle = $dirInfo[0]['work_title'];
-        $staticPullPath = 'Author' . DIRECTORY_SEPARATOR . $staticAuthor . DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR . $staticTitle . $this::S3['opsImage'];
+        $staticAuthor = $dirInfo[0]['email'];       //test@test
+        $staticTitle = $dirInfo[0]['work_title'];   //류vs김
+        $staticFullPath = 'Author' . DIRECTORY_SEPARATOR . $staticAuthor . DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR . $staticTitle . DIRECTORY_SEPARATOR . 'OEBPS';
+        # author/test@test/WorkSpace/류vs김/OEBPS/images
 
-        $publicFile = Storage::disk('s3')->files($staticPullPath);
-        $publicFolder = Storage::disk('s3')->directories($role . DIRECTORY_SEPARATOR . Auth::user()['email']);    # 접속한 유저의 개인 폴더
-        // 들어가야할 URL = Author/유저명/작업중인곳/public
+        $publicFolder = Storage::disk('s3')->directories($staticFullPath);    # 접속한 유저의 개인 폴더
+        $publicFiles = Storage::disk('s3')->files($staticFullPath . DIRECTORY_SEPARATOR . 'images');
+        $publicFile = [];
+        foreach ($publicFiles as $file) {
+            $publicFile[] = [
+                'name' => str_replace($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image'), '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
+                'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
+                'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소
+                'updated_at' => date("Y-m-d h:i:s", Storage::disk('s3')->lastModified($file)),  # 마지막에 파일이 업데이트 되었을 때 타임 스탬프값(unix값) 시간 포맷 https://stackoverflow.com/questions/10040291/converting-a-unix-timestamp-to-formatted-date-string
+                'type' => Storage::disk('s3')->getMimeType($file),
+            ];
+        }
 
         #$dirFiles = Storage::disk('s3')->files($path);
         #$dir = Storage::disk('s3')->directories($role);
@@ -60,12 +80,12 @@ class DirectoryController extends Controller
 
         $inDirectory = [    // 폴더 접근 url + 파일 info
             'directories' => [
-                'PRIVATE' => $privateFolder,
-                'PUBLIC' => $publicFolder
+                'PRIVATE_FOLDER' => $privateFolder,
+                'PUBLIC_FOLDER' => $publicFolder
             ],
             'files' => [
-                'PRIVATE_FOLDER' => $privateFile,
-                'PUBLIC_FOLDER' => $publicFile
+                'PRIVATE_FILE' => $privateFile,
+                'PUBLIC_FILE' => $publicFile
             ]
         ];
 
