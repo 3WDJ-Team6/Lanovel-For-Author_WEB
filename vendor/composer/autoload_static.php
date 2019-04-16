@@ -554,6 +554,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
+
         'App\\Http\\Controllers\\ChatController' => __DIR__ . '/../..' . '/app/Http/Controllers/Chat/ChatController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
@@ -578,6 +579,8 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Http\\Requests\\FilePost' => __DIR__ . '/../..' . '/app/Http/Requests/FilePost.php',
         'App\\Listeners\\ChatListener' => __DIR__ . '/../..' . '/app/Listeners/ChatListener.php',
         'App\\Listeners\\LogVerifiedUser' => __DIR__ . '/../..' . '/app/Listeners/LogVerifiedUser.php',
+        'App\\Memo' => __DIR__ . '/../..' . '/app/Models/Memo.php',
+
         'App\\Models\\BuyerOfIllustration' => __DIR__ . '/../..' . '/app/Models/BuyerOfIllustration.php',
         'App\\Models\\CategoryIllustration' => __DIR__ . '/../..' . '/app/Models/CategoryIllustration.php',
         'App\\Models\\CategoryWork' => __DIR__ . '/../..' . '/app/Models/CategoryWork.php',
@@ -1157,6 +1160,9 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'Carbon\\Exceptions\\InvalidDateException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
         'Carbon\\Laravel\\ServiceProvider' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Laravel/ServiceProvider.php',
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
+        'CategoryWorkTableSeeder' => __DIR__ . '/../..' . '/database/seeds/CategoryWorkTableSeeder.php',
+        'ChapterOfWorkTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ChapterOfWorkTableSeeder.php',
+        'ContentOfWorkTableSeeder' => __DIR__ . '/../..' . '/database/seeds/ContentOfWorkTableSeeder.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/CronExpression.php',
         'Cron\\DayOfMonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/DayOfMonthField.php',
@@ -5012,6 +5018,8 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'Whoops\\Util\\Misc' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/Misc.php',
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+        'WorkListTableSeeder' => __DIR__ . '/../..' . '/database/seeds/WorkListTableSeeder.php',
+
         'WorkTableSeeder' => __DIR__ . '/../..' . '/database/seeds/WorkTableSeeder.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
         'Zend\\Diactoros\\AbstractSerializer' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/AbstractSerializer.php',

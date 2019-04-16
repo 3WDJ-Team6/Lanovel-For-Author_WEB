@@ -18,7 +18,9 @@ return array(
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
     'App\\Http\\Controllers\\Auth\\VerificationController' => $baseDir . '/app/Http/Controllers/Auth/VerificationController.php',
+
     'App\\Http\\Controllers\\ChatController' => $baseDir . '/app/Http/Controllers/Chat/ChatController.php',
+
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\Publish\\PublicationController' => $baseDir . '/app/Http/Controllers/Publish/PublicationController.php',
@@ -42,6 +44,8 @@ return array(
     'App\\Http\\Requests\\FilePost' => $baseDir . '/app/Http/Requests/FilePost.php',
     'App\\Listeners\\ChatListener' => $baseDir . '/app/Listeners/ChatListener.php',
     'App\\Listeners\\LogVerifiedUser' => $baseDir . '/app/Listeners/LogVerifiedUser.php',
+    'App\\Memo' => $baseDir . '/app/Models/Memo.php',
+
     'App\\Models\\BuyerOfIllustration' => $baseDir . '/app/Models/BuyerOfIllustration.php',
     'App\\Models\\CategoryIllustration' => $baseDir . '/app/Models/CategoryIllustration.php',
     'App\\Models\\CategoryWork' => $baseDir . '/app/Models/CategoryWork.php',
@@ -621,6 +625,9 @@ return array(
     'Carbon\\Exceptions\\InvalidDateException' => $vendorDir . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
     'Carbon\\Laravel\\ServiceProvider' => $vendorDir . '/nesbot/carbon/src/Carbon/Laravel/ServiceProvider.php',
     'Carbon\\Translator' => $vendorDir . '/nesbot/carbon/src/Carbon/Translator.php',
+    'CategoryWorkTableSeeder' => $baseDir . '/database/seeds/CategoryWorkTableSeeder.php',
+    'ChapterOfWorkTableSeeder' => $baseDir . '/database/seeds/ChapterOfWorkTableSeeder.php',
+    'ContentOfWorkTableSeeder' => $baseDir . '/database/seeds/ContentOfWorkTableSeeder.php',
     'Cron\\AbstractField' => $vendorDir . '/dragonmantank/cron-expression/src/Cron/AbstractField.php',
     'Cron\\CronExpression' => $vendorDir . '/dragonmantank/cron-expression/src/Cron/CronExpression.php',
     'Cron\\DayOfMonthField' => $vendorDir . '/dragonmantank/cron-expression/src/Cron/DayOfMonthField.php',
@@ -4476,6 +4483,8 @@ return array(
     'Whoops\\Util\\Misc' => $vendorDir . '/filp/whoops/src/Whoops/Util/Misc.php',
     'Whoops\\Util\\SystemFacade' => $vendorDir . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
     'Whoops\\Util\\TemplateHelper' => $vendorDir . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+    'WorkListTableSeeder' => $baseDir . '/database/seeds/WorkListTableSeeder.php',
+
     'WorkTableSeeder' => $baseDir . '/database/seeds/WorkTableSeeder.php',
     'XdgBaseDir\\Xdg' => $vendorDir . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
     'Zend\\Diactoros\\AbstractSerializer' => $vendorDir . '/zendframework/zend-diactoros/src/AbstractSerializer.php',
