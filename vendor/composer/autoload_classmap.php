@@ -18,9 +18,12 @@ return array(
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
     'App\\Http\\Controllers\\Auth\\VerificationController' => $baseDir . '/app/Http/Controllers/Auth/VerificationController.php',
-    'App\\Http\\Controllers\\ChatController' => $baseDir . '/app/Http/Controllers/ChatController.php',
+
+    'App\\Http\\Controllers\\ChatController' => $baseDir . '/app/Http/Controllers/Chat/ChatController.php',
+
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
+    'App\\Http\\Controllers\\Publish\\PublicationController' => $baseDir . '/app/Http/Controllers/Publish/PublicationController.php',
     'App\\Http\\Controllers\\ResourceController' => $baseDir . '/app/Http/Controllers/ResourceController.php',
     'App\\Http\\Controllers\\Storage\\DirectoryController' => $baseDir . '/app/Http/Controllers/Storage/DirectoryController.php',
     'App\\Http\\Controllers\\Storage\\FileController' => $baseDir . '/app/Http/Controllers/Storage/FileController.php',
@@ -42,6 +45,7 @@ return array(
     'App\\Listeners\\ChatListener' => $baseDir . '/app/Listeners/ChatListener.php',
     'App\\Listeners\\LogVerifiedUser' => $baseDir . '/app/Listeners/LogVerifiedUser.php',
     'App\\Memo' => $baseDir . '/app/Models/Memo.php',
+
     'App\\Models\\BuyerOfIllustration' => $baseDir . '/app/Models/BuyerOfIllustration.php',
     'App\\Models\\CategoryIllustration' => $baseDir . '/app/Models/CategoryIllustration.php',
     'App\\Models\\CategoryWork' => $baseDir . '/app/Models/CategoryWork.php',
@@ -3664,6 +3668,11 @@ return array(
     'Psy\\VersionUpdater\\GitHubChecker' => $vendorDir . '/psy/psysh/src/VersionUpdater/GitHubChecker.php',
     'Psy\\VersionUpdater\\IntervalChecker' => $vendorDir . '/psy/psysh/src/VersionUpdater/IntervalChecker.php',
     'Psy\\VersionUpdater\\NoopChecker' => $vendorDir . '/psy/psysh/src/VersionUpdater/NoopChecker.php',
+    'Pusher\\Pusher' => $vendorDir . '/pusher/pusher-php-server/src/Pusher.php',
+    'Pusher\\PusherCrypto' => $vendorDir . '/pusher/pusher-php-server/src/PusherCrypto.php',
+    'Pusher\\PusherException' => $vendorDir . '/pusher/pusher-php-server/src/PusherException.php',
+    'Pusher\\PusherInstance' => $vendorDir . '/pusher/pusher-php-server/src/PusherInstance.php',
+    'Pusher\\Webhook' => $vendorDir . '/pusher/pusher-php-server/src/Webhook.php',
     'Ramsey\\Uuid\\BinaryUtils' => $vendorDir . '/ramsey/uuid/src/BinaryUtils.php',
     'Ramsey\\Uuid\\Builder\\DefaultUuidBuilder' => $vendorDir . '/ramsey/uuid/src/Builder/DefaultUuidBuilder.php',
     'Ramsey\\Uuid\\Builder\\DegradedUuidBuilder' => $vendorDir . '/ramsey/uuid/src/Builder/DegradedUuidBuilder.php',
@@ -4475,6 +4484,7 @@ return array(
     'Whoops\\Util\\SystemFacade' => $vendorDir . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
     'Whoops\\Util\\TemplateHelper' => $vendorDir . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
     'WorkListTableSeeder' => $baseDir . '/database/seeds/WorkListTableSeeder.php',
+
     'WorkTableSeeder' => $baseDir . '/database/seeds/WorkTableSeeder.php',
     'XdgBaseDir\\Xdg' => $vendorDir . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
     'Zend\\Diactoros\\AbstractSerializer' => $vendorDir . '/zendframework/zend-diactoros/src/AbstractSerializer.php',
