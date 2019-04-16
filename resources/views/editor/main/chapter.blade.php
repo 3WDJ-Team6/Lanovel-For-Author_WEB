@@ -12,6 +12,11 @@
     }
 
 </script>
+<script>
+    function receiver(){
+        document.
+    }
+</script>
 @endsection
 
 @section('header')
@@ -28,7 +33,7 @@
         style="width:100%; align-items: center; display: flex; justify-content: center;"></div>
 
     <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto" id = "chapter_box" style="margin-top:50px; margin-bottom:50px;">
+        <div class="col-lg-8 col-md-10 mx-auto" id = "chapters_box" style="margin-top:50px; margin-bottom:50px;">
 
             <div class="post-preview">
                 <h3 class="post-subtitle">
@@ -47,6 +52,7 @@
                             class="img-thumbnail">
 
                         {{$row['subtitle']}}
+                        <a href="{{url('publication')}}/{{$row['num_of_work']}}/{{$row['num']}}">발행</a>
                     </h3>
                 </a>
                 <p class="post-meta">Posted by sunsilver on May 5th</p>

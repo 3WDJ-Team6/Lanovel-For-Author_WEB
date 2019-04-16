@@ -11,8 +11,13 @@ class DatabaseSeeder extends Seeder
      */
 
     # 호출 : php artisan db:seed
+    # refresh 후에 seeding하기 : php arisan migrate:refresh --seed
     public function run()
     {
         $this->call(UsersTableSeeder::class);
+        // $this->call(WorkTableSeeder::class);
+        // $this->call(WorkListTableSeeder::class);
+        // $this->call(ChapterOfWorkTableSeeder::class);
+        // $this->call(ContentOfWorkTableSeeder::class);
     }
 }

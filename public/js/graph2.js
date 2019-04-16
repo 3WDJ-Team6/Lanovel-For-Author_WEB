@@ -7,108 +7,113 @@ am4core.useTheme(am4themes_animated);
  * Chart design taken from Samsung health app
  */
 
-var chart = am4core.create("chartdiv2", am4charts.XYChart);
-chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+var chart2 = am4core.create("chartdiv2", am4charts.XYChart);
+chart2.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
-chart.data = [{
-    "date": "2018-01-01",
-    "steps": 4561
-}, {
-    "date": "2018-01-02",
-    "steps": 5687
-}, {
-    "date": "2018-01-03",
-    "steps": 6348
-}, {
-    "date": "2018-01-04",
-    "steps": 4878
-}, {
-    "date": "2018-01-05",
-    "steps": 9867
-}, {
-    "date": "2018-01-06",
-    "steps": 7561
-}, {
-    "date": "2018-01-07",
-    "steps": 1287
-}, {
-    "date": "2018-01-08",
-    "steps": 3298
-}, {
-    "date": "2018-01-09",
-    "steps": 5697
-}, {
-    "date": "2018-01-10",
-    "steps": 4878
-}, {
-    "date": "2018-01-11",
-    "steps": 8788
-}, {
-    "date": "2018-01-12",
-    "steps": 9560
-}, {
-    "date": "2018-01-13",
-    "steps": 11687
-}, {
-    "date": "2018-01-14",
-    "steps": 5878
-}, {
-    "date": "2018-01-15",
-    "steps": 9789
-}, {
-    "date": "2018-01-16",
-    "steps": 3987
-}, {
-    "date": "2018-01-17",
-    "steps": 5898
-}, {
-    "date": "2018-01-18",
-    "steps": 9878
-}, {
-    "date": "2018-01-19",
-    "steps": 13687
-}, {
-    "date": "2018-01-20",
-    "steps": 6789
-}, {
-    "date": "2018-01-21",
-    "steps": 4531
-}, {
-    "date": "2018-01-22",
-    "steps": 5856
-}, {
-    "date": "2018-01-23",
-    "steps": 5737
-}, {
-    "date": "2018-01-24",
-    "steps": 9987
-}, {
-    "date": "2018-01-25",
-    "steps": 16457
-}, {
-    "date": "2018-01-26",
-    "steps": 7878
-}, {
-    "date": "2018-01-27",
-    "steps": 6845
-}, {
-    "date": "2018-01-28",
-    "steps": 4659
-}, {
-    "date": "2018-01-29",
-    "steps": 7892
-}, {
-    "date": "2018-01-30",
-    "steps": 7362
-}, {
-    "date": "2018-01-31",
-    "steps": 3268
-}];
 
-chart.dateFormatter.inputDateFormat = "YYYY-MM-dd";
-chart.zoomOutButton.disabled = true;
+// console.log(date_profit);
+chart2.data = [];
+chart2.data = date_profit;
 
-var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+// chart2.data = [{
+//     "date": "18-01-01",
+//     "profit": 0
+// }, {
+//     "date": "18-01-02",
+//     "profit": 0
+// }, {
+//     "date": "18-01-03",
+//     "profit": 0
+// }, {
+//     "date": "18-01-04",
+//     "profit": 0
+// }, {
+//     "date": "18-01-05",
+//     "profit": 0
+// }, {
+//     "date": "18-01-06",
+//     "profit": 0
+// }, {
+//     "date": "18-01-07",
+//     "profit": 0
+// }, {
+//     "date": "18-01-08",
+//     "profit": 0
+// }, {
+//     "date": "18-01-09",
+//     "profit": 0
+// }, {
+//     "date": "18-01-10",
+//     "profit": 0
+// }, {
+//     "date": "18-01-11",
+//     "profit": 1111
+// }, {
+//     "date": "18-01-12",
+//     "profit": 1111
+// }, {
+//     "date": "18-01-13",
+//     "profit": 2222
+// }, {
+//     "date": "18-01-14",
+//     "profit": 1111
+// }, {
+//     "date": "18-01-15",
+//     "profit": 1111
+// }, {
+//     "date": "18-01-16",
+//     "profit": 1222
+// }, {
+//     "date": "18-01-17",
+//     "profit": 5898
+// }, {
+//     "date": "18-01-18",
+//     "profit": 0
+// }, {
+//     "date": "18-01-19",
+//     "profit": 0
+// }, {
+//     "date": "18-01-20",
+//     "profit": 0
+// }, {
+//     "date": "18-01-21",
+//     "profit": 4531
+// }, {
+//     "date": "18-01-22",
+//     "profit": 0
+// }, {
+//     "date": "18-01-23",
+//     "profit": 0
+// }, {
+//     "date": "18-01-24",
+//     "profit": 0
+// }, {
+//     "date": "18-01-25",
+//     "profit": 0
+// }, {
+//     "date": "18-01-26",
+//     "profit": 0
+// }, {
+//     "date": "18-01-27",
+//     "profit": 0
+// }, {
+//     "date": "18-01-28",
+//     "profit": 0
+// }, {
+//     "date": "18-01-29",
+//     "profit": 0
+// }, {
+//     "date": "18-01-30",
+//     "profit": 0
+// }, {
+//     "date": "18-01-31",
+//     "profit": 0
+// }];
+
+chart2.dateFormatter.inputDateFormat = "YY-MM-dd";
+chart2.zoomOutButton.disabled = true;
+
+var dateAxis = chart2.xAxes.push(new am4charts.DateAxis());
 dateAxis.renderer.grid.template.strokeOpacity = 0;
 dateAxis.renderer.minGridDistance = 10;
 dateAxis.dateFormats.setKey("day", "d");
@@ -117,10 +122,13 @@ dateAxis.tooltip.hiddenState.properties.visible = true;
 
 
 dateAxis.tooltip.adapter.add("x", function (x, target) {
-    return am4core.utils.spritePointToSvg({ x: chart.plotContainer.pixelX, y: 0 }, chart.plotContainer).x + chart.plotContainer.pixelWidth / 2;
+    return am4core.utils.spritePointToSvg({
+        x: chart2.plotContainer.pixelX,
+        y: 0
+    }, chart2.plotContainer).x + chart2.plotContainer.pixelWidth / 2;
 })
 
-var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+var valueAxis = chart2.yAxes.push(new am4charts.ValueAxis());
 valueAxis.renderer.inside = true;
 valueAxis.renderer.labels.template.fillOpacity = 0.3;
 valueAxis.renderer.grid.template.strokeOpacity = 0;
@@ -146,15 +154,18 @@ axisRange2.label.align = "right";
 axisRange2.label.verticalCenter = "bottom";
 axisRange2.label.fillOpacity = 0.8;
 
-var series = chart.series.push(new am4charts.ColumnSeries);
-series.dataFields.valueY = "steps";
+var series = chart2.series.push(new am4charts.ColumnSeries);
+series.dataFields.valueY = "profit";
 series.dataFields.dateX = "date";
 series.tooltipText = "{valueY.value}";
 series.tooltip.pointerOrientation = "vertical";
 series.tooltip.hiddenState.properties.opacity = 1;
 series.tooltip.hiddenState.properties.visible = true;
 series.tooltip.adapter.add("x", function (x, target) {
-    return am4core.utils.spritePointToSvg({ x: chart.plotContainer.pixelX, y: 0 }, chart.plotContainer).x + chart.plotContainer.pixelWidth / 2;
+    return am4core.utils.spritePointToSvg({
+        x: chart2.plotContainer.pixelX,
+        y: 0
+    }, chart2.plotContainer).x + chart2.plotContainer.pixelWidth / 2;
 })
 
 var columnTemplate = series.columns.template;
@@ -166,23 +177,27 @@ columnTemplate.strokeOpacity = 0;
 columnTemplate.adapter.add("fill", function (fill, target) {
     var dataItem = target.dataItem;
     if (dataItem.valueY > 6000) {
-        return chart.colors.getIndex(0);
-    }
-    else {
+        return chart2.colors.getIndex(0);
+    } else {
         return am4core.color("#a8b3b7");
     }
 })
 
 var cursor = new am4charts.XYCursor();
 cursor.behavior = "panX";
-chart.cursor = cursor;
+chart2.cursor = cursor;
 cursor.lineX.disabled = true;
 
-chart.events.on("datavalidated", function () {
-    dateAxis.zoomToDates(new Date(2018, 0, 21), new Date(2018, 1, 1), false, true);
+var date = new Date();
+
+var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+var lastDay = new Date();
+
+chart2.events.on("datavalidated", function () {
+    dateAxis.zoomToDates(firstDay, lastDay, false, true);
 });
 
-var middleLine = chart.plotContainer.createChild(am4core.Line);
+var middleLine = chart2.plotContainer.createChild(am4core.Line);
 middleLine.strokeOpacity = 1;
 middleLine.stroke = am4core.color("#000000");
 middleLine.strokeDasharray = "2,2";
@@ -202,7 +217,7 @@ function updateTooltip() {
 }
 
 
-var label = chart.plotContainer.createChild(am4core.Label);
-label.text = "Pan chart to change date";
+var label = chart2.plotContainer.createChild(am4core.Label);
+label.text = "";
 label.x = 90;
 label.y = 50;

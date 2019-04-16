@@ -15,6 +15,7 @@ use App\Models\CategoryWork;
 use App\Models\Contract;
 use App\Models\PeriodOfWork;
 use App\Models\ChapterOfWork;
+use App\Models\Memo;
 use Illuminate\Database\Eloquent\Model;
 
 class Work extends Model
@@ -113,7 +114,7 @@ class Work extends Model
      */
     public function work_lists()
     {
-        return $this->hasMany(WorkList::class);
+        return $this->hasMany(WorkList::class, 'num_of_work');
     }
 
 
@@ -187,5 +188,10 @@ class Work extends Model
     public function chapter_of_works()
     {
         return $this->hasMany(ChapterOfWork::class);
+    }
+
+    public function memos()
+    {
+        return $this->hasMany(Memo::class);
     }
 }

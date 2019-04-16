@@ -1,0 +1,27 @@
+#container-box {
+    width: 100%;
+    zoom: 1;
+    text-align: center;
+}
+
+#container:after {
+    content: " ";
+    display: block;
+    clear: both;
+}
+
+#left {
+    float: left;
+    width: 100px;
+}
+
+#right {
+    float: right;
+    width: 100px;
+}
+
+#center {
+    margin: 0 auto;
+    width: 100px;
+    display: inline-block;
+}

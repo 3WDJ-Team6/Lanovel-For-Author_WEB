@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
 @section('head')
-    @include('layouts.head')
-    <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('css/graph.css')}}">
+@include('layouts.head')
+<script src="{{asset('js/jquery/jquery.min.js')}}"></script>
+<link rel="stylesheet" href="{{asset('css/graph.css')}}">
 @endsection
 
 @section('header')
-    @include('layouts.header')
+@include('layouts.header')
 @endsection
 
 @section('content')
@@ -16,7 +16,8 @@
 <div class="container" style="background-color:#45b4e61a; margin-top:70px; height:700px;">
     <!-- Material inline 1 -->
     <div class="form-check form-check-inline"
-        style="width:100%;s align-items: center; display: flex; justify-content: center;"></div>
+        style="width:100%; align-items: center; display: flex; justify-content: center;"></div>
+
     <div class="row">
         <div id="sidenav" style="margin-top:20px;">
             <span class="btn" id="one-type" name="graph" value="one">작품별 수익</span>
@@ -65,14 +66,66 @@
             </div>
         </div>
     </div>
-    <script>
-    var workArray = <?php echo json_encode($workArray); ?>;
-    for(int i=0; i<workArray.length; i++){
-    var data[];
-        data+= workArray[i];
-    }
+
+    <script type="text/javascript">
+        var work_arrays = <?php echo json_encode($work_arrays); ?>;
+        var resultA = <?php echo json_encode($resultA); ?>;
+
+        // var array = arrays.replace(/&quot;/g,"'"); 
+        // var arr = JSON.parse(array);
+        // console.log(JSON.stringify(arrays, null, 2));
+
+        // var array = arrays.replace(/&quot;/g,"'");
+        // var arr = JSON.parse(arrays);
+        console.log(work_arrays);
+        console.log(resultA);
+        // console.log(dates);
+
+        // console.log([[{'num':1,'work_title':'작품1','status_of_work':1,'type_of_work':1,'rental_price':200,'buy_price':1000},{'num':3,'work_title':'testtest','status_of_work':1,'type_of_work':1,'rental_price':500,'buy_price':1000},{'num':4,'work_title':'ㅇㅇ','status_of_work':1,'type_of_work':3,'rental_price':null,'buy_price':1000},{'num':5,'work_title':'커비','status_of_work':1,'type_of_work':1,'rental_price':1000,'buy_price':1000},{'num':6,'work_title':'진짜_재밌는_책','status_of_work':1,'type_of_work':1,'rental_price':123,'buy_price':123},{'num':7,'work_title':'ㅇㅇ','status_of_work':1,'type_of_work':1,'rental_price':123,'buy_price':1000},{'num':8,'work_title':'깨비깨비도깨비','status_of_work':1,'type_of_work':1,'rental_price':1000000,'buy_price':10000000}],[{'num_of_work':1,'count':2},{'num_of_work':3,'count':1}],[{'num_of_work':1,'count':4}]]);
+
+        var work_profit = new Array();
+        for (var i in work_arrays) {
+            work_profit[i] = {
+                "title": work_arrays[i].work_title,
+                "profit": work_arrays[i].sumPrice
+            };
+        }
+        console.log(work_profit);
+
+        var date_profit = new Array();
+        for (var i in resultA) {
+            date_profit[i] = {
+                "date": resultA[i].date,
+                "profit": parseInt(resultA[i].sumPrice)
+            };
+        }
+        console.log(date_profit);
+
+        // // date가 다르면 index ++
+        // // date가 같으면 profit += profit
+        // var temp = '';
+        // var newArr = [];
+        // var index = -1;
+        // var arr = date_profit;
+
+        // arr.forEach(function(item) {
+        //     var newItem = {
+        //         'date': item.date,
+        //         'profit': item.profit
+        //     }
+        //     if (temp !== item.date) {
+        //         temp = item.date;
+        //         index++;
+        //         newArr.push(newItem)
+        //     } else {
+        //         newArr[index].profit += item.profit;
+        //     }
+        // });
+
     </script>
-    
+
+
+
     <script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
@@ -88,5 +141,5 @@
 @endsection
 
 @section('footer')
-    @include('layouts.footer')
+@include('layouts.footer')
 @endsection

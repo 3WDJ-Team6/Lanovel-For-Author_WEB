@@ -540,6 +540,7 @@ input[readonly] {
     width: 50px;
 }
 
+
 .nav_right #menuToggle_right .sidebar_right {
     content: "";
     display: block;
@@ -567,3 +568,15 @@ input[readonly] {
 }
 
 /* //content */
+
+#ccc {
+    display: none;
+    position: absolute;
+    width: 300px;
+    height: 335px;
+    right: 3%;
+    top: 40%;
+    padding: 1px 0px 0px 0px;
+}
+/* //content */
+

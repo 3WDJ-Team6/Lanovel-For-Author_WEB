@@ -14,6 +14,7 @@ use App\Models\CommentOfWork;
 use App\Models\CommentOfIllustration;
 use App\Models\WorkList;
 use App\Models\PushAlarm;
+use App\Models\Memo;
 use Tymon\JWTAuth\Contracts\JWTSubject; # Update User model
 
 use Illuminate\Notifications\Notifiable; # 비밀번호 변경 메일을 위해 필요한 trait
@@ -28,6 +29,7 @@ class User extends Authenticatable
     use ModelScopes;
     use Notifiable;
 
+    # request->all()함수를 사용했을 시 할당할 데이터 (대량할당), 이 이외의 칼럼값은 가져오지 않음.
     protected $fillable = [
         'email', 'nickname', 'password', 'profile_photo', 'introduction_message', 'roles'
     ];
@@ -133,5 +135,13 @@ class User extends Authenticatable
     public function push_alarms()
     {
         return $this->hasMany('App\Models\PushAlarm');
+    }
+
+    /**
+     * 하나의 회원은 여러 메모 테이블을 가질 수 있다.
+     */
+    public function memos()
+    {
+        return $this->hasMany('App\Models\Memo');
     }
 }

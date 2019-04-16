@@ -50,6 +50,7 @@
                 <div class="ep-tem-par">
                     <span id="ep" class="ep-tem">에피소드&nbsp;&nbsp;</span>
                     <span id="tem" class="ep-tem">템플릿</span>
+
                 </div>
                 <a id="menuToggle_left">
                     <span class="sidebar_left"></span>
@@ -169,8 +170,8 @@
         $(window).on("load", function () {
             new popTool("popup_result", "popbutton");
         });
-
     </script>
+    </div>
 </div>
-</div>
+@include('layouts/footer')
 @endsection

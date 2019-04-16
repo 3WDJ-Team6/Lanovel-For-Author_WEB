@@ -13,18 +13,12 @@
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="{{asset('css/store/core-style.css')}}">
     <link rel="stylesheet" href="{{asset('css/store/style.css')}}">
-    <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="{{ asset('bower_components/jquery/dist/jquery-2.2.4.min.js') }}"></script>
-    <!-- Popper js -->
-    <script src="{{ asset('bower_components/jquery/dist/popper.min.js') }}"></script>
-    <!-- Bootstrap js -->
-    <script src="{{ asset('bower_components/jquery/dist/bootstrap.min.js') }}"></script>
-    <!-- Plugins js -->
-    <script src="{{ asset('bower_components/jquery/dist/plugins.js') }}"></script>
-    <!-- Classy Nav js -->
-    <script src="{{ asset('bower_components/jquery/dist/classy-nav.min.js') }}"></script>
-    <!-- Active js -->
-    <script src="{{ asset('bower_components/jquery/dist/active.js') }}"></script>
+    
+        <script src="{{ asset('js/store/jquery-2.2.4.min.js') }}"></script>
+ 
+        <script src="{{ asset('js/store/popper.min.js') }}"></script>
 
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+ 
 
 </head>

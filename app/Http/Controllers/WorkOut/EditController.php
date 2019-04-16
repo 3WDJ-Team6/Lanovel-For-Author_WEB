@@ -18,7 +18,7 @@ class EditController extends Controller
 
     /**
      * 목차 리스트 및 에디터 컨트롤러 입니다. (목차 리스트 보기, 목차 추가, 에디터 작성, 저장, 삭제, 수정 등)
-    * Display a listing of the resource.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,10 +31,10 @@ class EditController extends Controller
         // return $this->middleware('auth');
     }
 
-    /**
     * 목차 리스트 보기
     * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
     */
+
     public function index($num)
     {
         // $works = Work::select(
@@ -84,7 +84,7 @@ class EditController extends Controller
 
     public function content_create_in_editor($num)
     {
-        return view('editor.tool.popup_in_editor')->with('num',$num);
+        return view('editor.tool.popup_in_editor')->with('num', $num);
     }
 
     public function content_edit($num)
@@ -92,9 +92,9 @@ class EditController extends Controller
         $content_data = ContentOfWork::select(
             'content_of_works.num',
             'content_of_works.subsubtitle'
-        )->where('content_of_works.num','=',$num)->first();
+        )->where('content_of_works.num', '=', $num)->first();
 
-        return view('editor.main.popup_edit')->with('content_data',$content_data);
+        return view('editor.main.popup_edit')->with('content_data', $content_data);
     }
 
     public function content_edit_in_editor($num)
@@ -133,6 +133,7 @@ class EditController extends Controller
         $content_of_works->save();
 
         echo "<script>opener.parent.location.reload();window.close()</script>";
+
     }
 
     public function addContentInEditor(request $request, $num)
@@ -181,9 +182,8 @@ class EditController extends Controller
         $changeTitle=$request->subsubtitle;
         $content_of_works->subsubtitle = $changeTitle;
         $content_of_works->save();
-        // return $originTitle;
         echo "<script>window.close();window.opener.parent.editEpisode('$changeTitle', '$originTitle');</script>";
-        // return back();
+
     }
 
 
@@ -349,8 +349,8 @@ class EditController extends Controller
         return redirect()->route('editor.main.list')
             ->with('success',  'Content deleted successfu lly.');
     }
-
-    public function res(Request $request) {
+    public function res(Request $request)
+    {
         return view('editor.tool.res2');
     }
 
@@ -361,9 +361,9 @@ class EditController extends Controller
     //     return response()->json($url, 200);
     // }
 
-    public function send(Request $request){
+    public function send(Request $request)
+    {
         return $request;
-
     }
 
     public function store_memo(Request $request, $num)
