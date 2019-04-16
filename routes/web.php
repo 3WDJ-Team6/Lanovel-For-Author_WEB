@@ -57,6 +57,15 @@ Route::post('/editContent/{num}', 'WorkOut\EditController@editContent');
 // 에디터 내에서 회차 추가 페이지
 Route::get('/content_create_in_editor/{num}', 'WorkOut\EditController@content_create_in_editor');
 
+// 에디터 내에서 회차 추가
+Route::post('/addContentInEditor/{num}', 'WorkOut\EditController@addContentInEditor');
+
+// 에디터 내에서 회차 수정 페이지
+Route::get('/content_edit_in_editor/{num}', 'WorkOut\EditController@content_edit_in_editor');
+
+// 에디터 내에서 회차 수정
+Route::post('/editContentInEditor/{num}', 'WorkOut\EditController@editContentInEditor');
+
 // 작품 내용 저장
 Route::post('/update/{num}', 'WorkOut\EditController@update');
 
@@ -89,18 +98,19 @@ Route::get('/editor/main/book_add', function () {
 Route::get('/editor/main/popup', function () {
     return view('editor.main.popup');
 });
+
 Route::view('/graph3', 'editor/main/graph3');
 
-# aws s3 asset upload 기능  
+# aws s3 asset upload 기능
 Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
 Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
 Route::get('/ft', 'Storage\FileController@ft')->name('ft');
 Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
 
-# s3 directory dynamic listing 
+# s3 directory dynamic listing
 Route::get('/getDir', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 
-# authoriztion # make:auth로 생성 
+# authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes(); //로그인에 관한 모든 기능 연결
 
@@ -111,6 +121,9 @@ Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 
 //리소스가져오기
 Route::get('/res', 'WorkOut\EditController@res');
+
+//메모
+Route::post('/store_memo/{num}', 'WorkOut\EditController@store_memo');
 
 # kakao login
 Route::get('/loginForKakao', 'Auth\KakaoLoginController@index');

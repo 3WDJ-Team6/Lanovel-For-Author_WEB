@@ -86,7 +86,7 @@
                 협업 멤버 : @foreach($nicknames as $name) {{$name->nickname}} @endforeach <br>
                 구매 : {{$row->buy_price}}<br>
                 대여 : {{$row->rental_price}}<br>
-                최근 수정 시간 : {{$modify_time['updated_at']->diffForHumans()}}
+                최근 수정 시간 : {{$modify_time['updated_at']}}
                 </p>
 
             </div>
