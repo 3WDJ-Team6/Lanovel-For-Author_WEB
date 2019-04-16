@@ -7,20 +7,19 @@
         window.close();
         self.close();
     }
-
 </script>
 
 
 <div class="container register-form">
 
     <div class="form-content">
-        에디터 안에서 목차 추가하는거임
-        <form action="{{url('addContentInEditor')}}/{{$num}}" method="post" id="addContentForm" name="popupForm">
+        에디터 안에서 목차 수정하는거임
+        <form action="{{url('editContentInEditor')}}/{{$content_data['num']}}" method="post">
             <div class="col-md-6">
                 <div class="form-group">
-                    목차<input type="text" class="form-control" placeholder="" name="subsubtitle" style="width:400px;" />
+                    목차<input type="text" class="form-control" value="{{$content_data['subsubtitle']}}" name="subsubtitle" style="width:400px;" />
                 </div>
-                <button type="submit" class="btnSubmit">추가</button>
+                <button type="submit" class="btnSubmit">수정</button>
                 <button type="button" class="btnSubmit" onclick="location.href='javascript:frameclose()'">취소</button>
             </div>
         </form>

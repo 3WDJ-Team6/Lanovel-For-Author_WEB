@@ -1,24 +1,24 @@
 if (typeof AUTO_TITLE != 'undefined' && AUTO_TITLE == true) {
     document.title = location.hostname;
     console.log(1);
-    console.log("document.title : "+document.title);
-}//실행됨
+    console.log("document.title : " + document.title);
+} //실행됨
 
 if (typeof S3_REGION != 'undefined') {
     var BUCKET_URL = 'http://' + location.hostname + '.' + S3_REGION + '.amazonaws.com'; // e.g. just 's3' for us-east-1 region
     console.log(2);
     var BUCKET_WEBSITE_URL = location.protocol + '//' + location.hostname;
-}//실행안됨
+} //실행안됨
 
 if (typeof S3BL_IGNORE_PATH == 'undefined' || S3BL_IGNORE_PATH != true) {
     var S3BL_IGNORE_PATH = false;
     console.log(3);
-}//실행안됨
+} //실행안됨
 
 if (typeof BUCKET_URL == 'undefined') {
     var BUCKET_URL = location.protocol + '//' + location.hostname;
     console.log(4);
-}//실행안됨
+} //실행안됨
 
 if (typeof BUCKET_NAME != 'undefined') {
     // if bucket_url does not start with bucket_name,
@@ -27,34 +27,34 @@ if (typeof BUCKET_NAME != 'undefined') {
         BUCKET_URL += '/' + BUCKET_NAME;
         console.log(5);
     }
-}//실행안됨
+} //실행안됨
 
 if (typeof BUCKET_WEBSITE_URL == 'undefined') {
     var BUCKET_WEBSITE_URL = BUCKET_URL;
     console.log(6);
-    console.log("BUCKET_WEBSITE_URL : "+BUCKET_WEBSITE_URL);
-}//실행됨
+    console.log("BUCKET_WEBSITE_URL : " + BUCKET_WEBSITE_URL);
+} //실행됨
 
 if (typeof S3B_ROOT_DIR == 'undefined') {
     var S3B_ROOT_DIR = '';
     console.log(7);
-    console.log("S3B_ROOT_DIR : "+S3B_ROOT_DIR);
-}//실행됨
+    console.log("S3B_ROOT_DIR : " + S3B_ROOT_DIR);
+} //실행됨
 
 if (typeof S3B_SORT == 'undefined') {
     var S3B_SORT = 'DEFAULT';
     console.log(8);
-}//실행안됨
+} //실행안됨
 
 if (typeof EXCLUDE_FILE == 'undefined') {
     var EXCLUDE_FILE = [];
     console.log(9);
-}//실행안됨
+} //실행안됨
 else if (typeof EXCLUDE_FILE == 'string') {
     var EXCLUDE_FILE = [EXCLUDE_FILE];
     console.log(10);
-    console.log("EXCLUDE_FILE : "+EXCLUDE_FILE);
-}//실행됨
+    console.log("EXCLUDE_FILE : " + EXCLUDE_FILE);
+} //실행됨
 
 // https://tc39.github.io/ecma262/#sec-array.prototype.includes
 if (!Array.prototype.includes) {
@@ -152,7 +152,7 @@ function getS3Data(marker, html) {
                 sortedFiles.sort(sortFunction);
                 info.files = sortedFiles;
                 console.log(11);
-            }//실행안됨
+            } //실행안됨
 
             buildNavigation(info);
 
@@ -161,12 +161,12 @@ function getS3Data(marker, html) {
             if (info.nextMarker != "null") {
                 getS3Data(info.nextMarker, html);
                 console.log(12);
-            }//실행안됨
+            } //실행안됨
             else {
                 document.getElementById('listing').innerHTML =
                     '<pre>' + html + '</pre>';
-                    console.log(13);
-            }//실행됨
+                console.log(13);
+            } //실행됨
         })
         .fail(function (error) {
             console.error(error);
@@ -183,13 +183,13 @@ function buildNavigation(info) { // 맨 위에 있는 헤드부분
             return '<a href="?prefix=' + processedPathSegments + '">' + pathSegment + '</a>';
         });
         console.log(14);
-        console.log("content : "+content);
+        console.log("content : " + content);
         $('#navigation').html(root + content.join('/')); // 네비게이션 폴더 URL 사이 /
-    }//실행됨
+    } //실행됨
     else {
         $('#navigation').html(root);
         console.log(15);
-    }//실행안됨
+    } //실행안됨
 }
 
 function createS3QueryUrl(marker) {
@@ -215,19 +215,19 @@ function createS3QueryUrl(marker) {
     if (S3BL_IGNORE_PATH == false) {
         var prefix = location.pathname.replace(/^\//, S3B_ROOT_DIR);
         console.log(16);
-    }//실행안됨
+    } //실행안됨
 
     var match = location.search.match(rx);
     if (match) {
         prefix = S3B_ROOT_DIR + match[1];
         console.log(17);
-        console.log("prefix : "+prefix);
-    }//실행됨
+        console.log("prefix : " + prefix);
+    } //실행됨
     else {
         if (S3BL_IGNORE_PATH) {
             var prefix = S3B_ROOT_DIR;
             console.log(18);
-            console.log("prefix : "+prefix);
+            console.log("prefix : " + prefix);
         }
     }
     if (prefix) {
@@ -333,6 +333,7 @@ function prepareTable(info) {
 
 
 var file_id = 0;
+
 function renderRow(item, cols) { //누를 시 aws s3 소스 접근
     var row = '';
     var ori_text = '';
@@ -341,16 +342,15 @@ function renderRow(item, cols) { //누를 시 aws s3 소스 접근
     // row += padRight(item.Size, cols[2]); // 파일 크기
     // row += '<a href="' + item.href + '">' + item.keyText + '</a>';
     ori_text = item.keyText;
-    if(item.keyText.length >= 14){
-        chng_text = item.keyText.substr(0,14)+"...";
-        row += "<div class='obj'><img src=" + "'" + item.href + "'" + " id='file_id"+file_id+"' class='obj_thumb' onError='height=0' draggable='true' ondragstart='drag(event);'><span class='obj_name' title='"+ori_text+"'>"+chng_text+"</span></div>";
+    if (item.keyText.length >= 14) {
+        chng_text = item.keyText.substr(0, 14) + "...";
+        row += "<div class='obj'><img src=" + "'" + item.href + "'" + " id='file_id" + file_id + "' class='obj_thumb' onError='height=0' draggable='true' ondragstart='drag(event);'><span class='obj_name' title='" + ori_text + "'>" + chng_text + "</span></div>";
         file_id++;
         return row;
-    }
-    else{
+    } else {
         // row += "<div class='obj'><a href=" + item.href + " ><span class='obj_thum' style='background-image: url(\"https://cdn.icon-icons.com/icons2/1128/PNG/512/1486164755-125_79693.png\");background-size: 150px 150px;'></span><span class='obj_name'>"+ori_text+"</span></a></div>";
         // console.log(item.href);
-        row += "<div class='obj'><a href='#' class='openView' url="+item.href+"><span class='obj_thum' style='background-image: url(\"/image/folder_icon.png\");background-size: 150px 150px;'></span><span class='obj_name'>"+ori_text+"</span></a></div>";
+        row += "<div class='obj'><a href='#' class='openView' url=" + item.href + "><span class='obj_thum' style='background-image: url(\"/image/folder_icon.png\");background-size: 150px 150px;'></span><span class='obj_name'>" + ori_text + "</span></a></div>";
         return row;
     }
 }

@@ -96,8 +96,6 @@
                         구매 : {{$row->buy_price}}<br>
                         대여 : {{$row->rental_price}}<br>
                         최근 수정 시간 : <br>
-
-
                     </p>
 
                 </div>
