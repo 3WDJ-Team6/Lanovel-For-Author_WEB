@@ -67,7 +67,7 @@
 
                                 <!-- Product Description -->
                                 <div class="product-description">
-                                    {{ $row->user_id }}
+                                    {{ $row->nickname }}
                                     <a href="single-product-details.html">
                                         <h6>{{ $row->illustration_title }}</h6>
                                     </a>

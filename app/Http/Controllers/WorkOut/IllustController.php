@@ -5,6 +5,7 @@ namespace App\Http\Controllers\WorkOut;
 use App\Models\IllustrationList;
 use App\Models\CategoryIllustration;
 use App\Models\BuyerOfIllustration;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -19,11 +20,28 @@ class IllustController extends Controller
     {
         $products = IllustrationList::select(
             // 작품번호
-            'illustration_lists.*'
-        )->orderBy('illustration_lists.hits_of_illustration','desc')
+            'illustration_lists.*',
+            'users.nickname'
+        )->join('users', 'users.id', 'illustration_lists.user_id')
+         ->orderBy('illustration_lists.hits_of_illustration','desc')
          ->get();
 
          return view('/store/home/home')->with('products',$products);
+    }
+
+    public function menuIndex($category)
+    {
+        $products = IllustrationList::select(
+            // 작품번호
+            'illustration_lists.*',
+            'users.nickname'
+        )->join('users', 'users.id', 'illustration_lists.user_id')
+         ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
+         ->where('category_illustrations.tag', $category)
+         ->orderBy('illustration_lists.hits_of_illustration','desc')
+         ->get();
+
+         return view('/store/menu/contents')->with('products',$products);
     }
 
     /**

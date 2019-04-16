@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Faker\Provider\ko_KR\PhoneNumber;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +14,19 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User\Models::class, function (Faker $faker) {
-    return [
-        // 'id' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'nickname' => $faker->name,
-        'remember_token' => str_random(10),
-    ];
-});
+$factory->define(
+    App\Models\User::class,
+    function (Faker $faker) {
+        return [
+            // 'id' => $faker->name,
+            'email' => $faker->unique()->safeEmail,
+            'password' => 123,
+            'point' => $faker->numberBetween(0, 100000),
+            'roles' => rand(1, 3),
+            'adult_certification' => rand(0, 1),
+            'phone_number' => $faker->phoneNumber,
+            'nickname' => $faker->firstName($gender = 'male' | 'female'),
+            'remember_token' => str_random(10),
+        ];
+    }
+);

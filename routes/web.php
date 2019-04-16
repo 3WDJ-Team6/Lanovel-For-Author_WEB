@@ -73,7 +73,7 @@ Route::get('/redirectList/{num}', function () {
 Route::post('/tr', 'WorkOut\EditController@store');
 
 // 일러스토어 메인 페이지
-Route::get('/store', 'WorkOut\IllustController@index');
+Route::get('/store', 'WorkOut\IllustController@index')->name('store');
 
 Route::get('/graph', 'WorkOut\GraphController@index');
 
@@ -129,17 +129,12 @@ Route::get('/eloquent', function () {
     return dd(Work::all()); //Model에 all메서드 dd로 출력
 });
 
-// Route::get('/store', function () {
-//     return view('store.home.home');
-// });
-
 Route::get('/store/menu/upload', function () {
     return view('store.menu.upload');
 });
 
-Route::get('/store/menu/contents', function () {
-    return view('store.menu.contents');
-});
+// 일러스토어 상세메뉴 페이지
+Route::get('/menu/{category}', 'WorkOut\IllustController@menuIndex');
 
 Route::post('store/find/search', function () {
     return view('store.find.search');
