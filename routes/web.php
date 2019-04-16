@@ -60,7 +60,7 @@ Route::get('/content_create_in_editor/{num}', 'WorkOut\EditController@content_cr
 // 에디터 내에서 회차 추가
 Route::post('/addContentInEditor/{num}', 'WorkOut\EditController@addContentInEditor');
 
-// 작품 
+// 작품
 Route::post('/update/{num}', 'WorkOut\EditController@update');
 
 // 북커버 등록
@@ -90,13 +90,13 @@ Route::get('/editor/main/popup', function () {
 });
 Route::view('/graph3', 'editor/main/graph3');
 
-Route::get('editor/tool/innerchat','ChatController@chat');
-Route::get('editor/innerchat','ChatController@chat');
-Route::get('innerchat','ChatController@chat');
-Route::get('editor/tool/editor/innerchat','ChatController@chat');
-Route::get('chat','ChatController@chat');
+Route::get('editor/tool/innerchat','Chat\ChatController@chat');
+Route::get('editor/innerchat','Chat\ChatController@chat');
+Route::get('innerchat','Chat\Controller@chat');
+Route::get('editor/tool/editor/innerchat','Chat\ChatController@chat');
+Route::get('chat','Chat\ChatController@chat');
 
-Route::post('send','ChatController@send');
+Route::post('send','Chat\ChatController@send');
 
 # aws s3 asset upload 기능
 Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
@@ -131,3 +131,4 @@ Route::get('/store', function () {
 Route::get('/store/menu/upload', function () {
     return view('store.menu.upload');
 });
+Route::get('publication/{NumOfWork}/{NumOfChapter}','Publish\PublicationController@publish');

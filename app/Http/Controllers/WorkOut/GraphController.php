@@ -28,14 +28,13 @@ class GraphController extends Controller
                 '*'
             )->join('work_lists', 'work_lists.num_of_work', '=', 'all_count_view.num')
              ->where('work_lists.user_id', Auth::user()['id'])
-
              ->where(function ($query) {
                 $query->whereNotNull('all_count_view.ren');
                })
             //  ->where(function ($query2) {
             //     $query2->whereNotNull('all_count_view.buy');
             //     })
-                
+
              ->get();
 
         // 날짜별 수익 데이터값
@@ -59,7 +58,7 @@ class GraphController extends Controller
                 $query->whereNotNull('all_count_view.ren');
                })
             ->distinct()->orderBy('rentals.onlyDate', 'asc')->get();
-            
+
             // return $date_arrays;
             // return response()->json(array(
             //     '작품별'=>$work_arrays,
