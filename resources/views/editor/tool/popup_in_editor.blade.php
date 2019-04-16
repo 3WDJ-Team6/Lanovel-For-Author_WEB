@@ -3,9 +3,9 @@
 
 <script language="Javascript">
     function frameclose() {
-        parent.close()
-        window.close()
-        self.close()
+        parent.close();
+        window.close();
+        self.close();
     }
 
 </script>
@@ -15,7 +15,7 @@
 
     <div class="form-content">
         에디터 안에서 목차 추가하는거임
-        <form action="{{url('addContentInEditor')}}/{{$num}}/{{$subsubtitle}}" method="post" id="addContentForm">
+        <form action="{{url('addContentInEditor')}}/{{$num}}" method="post" id="addContentForm" name="popupForm">
             <div class="col-md-6">
                 <div class="form-group">
                     목차<input type="text" class="form-control" placeholder="" name="subsubtitle" style="width:400px;" />
