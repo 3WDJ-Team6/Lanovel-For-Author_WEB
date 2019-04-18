@@ -19,7 +19,7 @@
             <div class="form-group">
                 목차<input type="text" class="form-control" value="{{$content_data['subsubtitle']}}" name="subsubtitle" style="width:400px;" />
             </div>
-            <button type="submit" class="btnSubmit">추가</button>
+            <button type="submit" class="btnSubmit">수정</button>
             <button type="button" class="btnSubmit" onclick="location.href='javascript:frameclose()'">취소</button>
         </div>
         </form>

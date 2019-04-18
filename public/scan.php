@@ -3,66 +3,61 @@
 $dir = "files";
 // $dir = "https://lanovebucket.s3.ap-northeast-2.amazonaws.com/index.html";
 //https://s3.ap-northeast-2.amazonaws.com/lanovebucket/
-// Run the recursive function 
+// Run the recursive function
 
 $response = scan($dir);
 
 
 // This function scans the files folder recursively, and builds a large array
 
-function scan($dir){
+function scan($dir)
+{
 
-	$files = array();
+    $files = array();
 
-	// Is there actually such a folder/file?
+    // Is there actually such a folder/file?
 
-	if(file_exists($dir)){
-	
-		foreach(scandir($dir) as $f) {
-		
-			if(!$f || $f[0] == '.') {
-				continue; // Ignore hidden files
-			}
+    if (file_exists($dir)) {
 
-			if(is_dir($dir . '/' . $f)) {
+        foreach (scandir($dir) as $f) {
 
-				// The path is a folder
+            if (!$f || $f[0] == '.') {
+                continue; // Ignore hidden files
+            }
 
-				$files[] = array(
-					"name" => $f,
-					"type" => "folder",
-					"path" => $dir . '/' . $f,
-					"items" => scan($dir . '/' . $f) // Recursively get the contents of the folder
-				);
-			}
-			
-			else {
+            if (is_dir($dir . '/' . $f)) {
 
-				// It is a file
+                // The path is a folder
 
-				$files[] = array(
-					"name" => $f,
-					"type" => "file",
-					"path" => '/' . $dir . '/' . $f,
-					"size" => filesize($dir . '/' . $f) // Gets the size of this file
-				);
-			}
-		}
-	
-	}
+                $files[] = array(
+                    "name" => $f,
+                    "type" => "folder",
+                    "path" => $dir . '/' . $f,
+                    "items" => scan($dir . '/' . $f) // Recursively get the contents of the folder
+                );
+            } else {
+                // It is a file
 
-	return $files;
+                $files[] = array(
+                    "name" => $f,
+                    "type" => "file",
+                    "path" => '/' . $dir . '/' . $f,
+                    "size" => filesize($dir . '/' . $f) // Gets the size of this file
+                );
+            }
+        }
+    }
+
+    return $files;
 }
-
-
 
 // Output the directory listing as JSON
 
 header('Content-type: application/json');
 
 echo json_encode(array(
-	"name" => "files",
-	"type" => "folder",
-	"path" => $dir,
-	"items" => $response
+    "name" => "files",
+    "type" => "folder",
+    "path" => $dir,
+    "items" => $response
 ));
