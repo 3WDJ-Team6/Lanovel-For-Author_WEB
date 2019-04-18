@@ -18,19 +18,22 @@ class IllustController extends Controller
      */
     public function index()
     {
+        // 조회수가 높은 상위 5개 작품만 불러온다
         $products = IllustrationList::select(
             // 작품번호
             'illustration_lists.*',
             'users.nickname'
         )->join('users', 'users.id', 'illustration_lists.user_id')
-         ->orderBy('illustration_lists.hits_of_illustration','desc')
+         ->orderByRaw('illustration_lists.hits_of_illustration','desc')
+         ->limit(5)
          ->get();
 
          return view('/store/home/home')->with('products',$products);
     }
 
-    public function menuIndex($category)
+    public function menuIndex($category, $moreCategory)
     {
+        
         $products = IllustrationList::select(
             // 작품번호
             'illustration_lists.*',
@@ -38,7 +41,7 @@ class IllustController extends Controller
         )->join('users', 'users.id', 'illustration_lists.user_id')
          ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
          ->where('category_illustrations.tag', $category)
-         ->orderBy('illustration_lists.hits_of_illustration','desc')
+         ->where('category_illustration.moreTag', $moreCategory)
          ->get();
 
          return view('/store/menu/contents')->with('products',$products);
@@ -66,9 +69,7 @@ class IllustController extends Controller
        $illust_info = array([
         // 제목
         'illustration_title' => $request->get('illustration_title'),
-        // 연재종류
-        'type_of_work' => $request->get('radio_T'),
-        // 대여 및 구매 가격
+        // 유료인 경우 가격 
         'price_of_illustration' => $request->get('price_of_illustration'),
         'buy_price' => $request->get('buy_price'),
         // 조회수 (default = 0)
@@ -77,8 +78,6 @@ class IllustController extends Controller
         'introduction_of_work' => $request->get('introduction_of_work'),
         // 북커버 (파일명)
         'bookcover_of_work' => $bookCoverUrl . $name,
-        // 연재 상태 (default = 1 (연재중))
-        'status_of_work' => 1,
         // 생성 날짜 (현재)
         'created_at' => Carbon::now()
     ]);
@@ -102,7 +101,7 @@ class IllustController extends Controller
     $this->work_list_model->storeWorklist($work_list_info);
     return redirect('/')->with('message', "success");
 }
-    }
+    
 
     /**
      * Display the specified resource.

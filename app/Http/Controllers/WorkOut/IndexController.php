@@ -145,7 +145,8 @@ class IndexController extends Controller
                 // 연재 상태 (default = 1 (연재중))
                 'status_of_work' => 1,
                 // 생성 날짜 (현재)
-                'created_at' => Carbon::now()
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]);
             $this->work_model->storeWork($work_info);
 
@@ -162,7 +163,9 @@ class IndexController extends Controller
             $work_list_info = array([
                 'num_of_work' => $num,
                 'last_time_of_working' => "test",
-                'user_id' => Auth::user()['id']
+                'user_id' => Auth::user()['id'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]);
             $this->work_list_model->storeWorklist($work_list_info);
             return redirect('/')->with('message', "success");

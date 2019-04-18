@@ -25,6 +25,7 @@ class CreateMemosTable extends Migration
                 ->references('id')->on('users');
 
             $table->string('content_of_memo')->comment("메모내용");
+            $table->string('')
         });
     }
 
