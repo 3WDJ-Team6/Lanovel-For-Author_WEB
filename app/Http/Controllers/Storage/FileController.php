@@ -31,13 +31,13 @@ class FileController extends Controller
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
         # 세션 로그인 한 유저 + 작업중인 곳의 정보
 
-        $files = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image'));    # 파일 주소를 가르킴
+        $files = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images'));    # 파일 주소를 가르킴
         // return response()->json($files, 200, [], JSON_PRETTY_PRINT); //값이 확인
 
         $images = [];
         foreach ($files as $file) {
             $images[] = [
-                'name' => str_replace($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image'), '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'name' => str_replace($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images'), '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
                 'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
                 'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
                 'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소
@@ -54,7 +54,7 @@ class FileController extends Controller
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
         // $validated = $request->validated();                   #유효성 검사가 실패하면 responese가 생성되어 이전 위치로 되돌려 보냄.
-        $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image');
+        $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images');
 
         if ($request->hasFile('image')) {                                #1 image 파일이 있으면
             if (!Storage::disk('s3')->exists($filePath)) {               #2 폴더가 있으면 ture 없으면 fasle, 없으면 하위 디렉토리까지 싹 만들어줌
@@ -77,7 +77,7 @@ class FileController extends Controller
     public function destroy($image)
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
-        $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image');
+        $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images');
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
         return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }

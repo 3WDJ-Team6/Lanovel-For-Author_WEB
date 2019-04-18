@@ -554,8 +554,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
-
-        'App\\Http\\Controllers\\ChatController' => __DIR__ . '/../..' . '/app/Http/Controllers/Chat/ChatController.php',
+        'App\\Http\\Controllers\\Chat\\ChatController' => __DIR__ . '/../..' . '/app/Http/Controllers/Chat/ChatController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\Publish\\PublicationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Publish/PublicationController.php',
@@ -579,8 +578,6 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Http\\Requests\\FilePost' => __DIR__ . '/../..' . '/app/Http/Requests/FilePost.php',
         'App\\Listeners\\ChatListener' => __DIR__ . '/../..' . '/app/Listeners/ChatListener.php',
         'App\\Listeners\\LogVerifiedUser' => __DIR__ . '/../..' . '/app/Listeners/LogVerifiedUser.php',
-        'App\\Memo' => __DIR__ . '/../..' . '/app/Models/Memo.php',
-
         'App\\Models\\BuyerOfIllustration' => __DIR__ . '/../..' . '/app/Models/BuyerOfIllustration.php',
         'App\\Models\\CategoryIllustration' => __DIR__ . '/../..' . '/app/Models/CategoryIllustration.php',
         'App\\Models\\CategoryWork' => __DIR__ . '/../..' . '/app/Models/CategoryWork.php',
@@ -593,6 +590,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Models\\Following' => __DIR__ . '/../..' . '/app/Models/Following.php',
         'App\\Models\\Grade' => __DIR__ . '/../..' . '/app/Models/Grade.php',
         'App\\Models\\IllustrationList' => __DIR__ . '/../..' . '/app/Models/IllustrationList.php',
+        'App\\Models\\Memo' => __DIR__ . '/../..' . '/app/Models/Memo.php',
         'App\\Models\\Message' => __DIR__ . '/../..' . '/app/Models/Message.php',
         'App\\Models\\PeriodOfWork' => __DIR__ . '/../..' . '/app/Models/PeriodOfWork.php',
         'App\\Models\\PushAlarm' => __DIR__ . '/../..' . '/app/Models/PushAlarm.php',
@@ -4254,6 +4252,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'Ramsey\\Uuid\\UuidFactory' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidFactory.php',
         'Ramsey\\Uuid\\UuidFactoryInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidFactoryInterface.php',
         'Ramsey\\Uuid\\UuidInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidInterface.php',
+        'RentalTableSeeder' => __DIR__ . '/../..' . '/database/seeds/RentalTableSeeder.php',
         'SebastianBergmann\\CodeCoverage\\CodeCoverage' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/CodeCoverage.php',
         'SebastianBergmann\\CodeCoverage\\CoveredCodeNotExecutedException' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Exception/CoveredCodeNotExecutedException.php',
         'SebastianBergmann\\CodeCoverage\\Driver\\Driver' => __DIR__ . '/..' . '/phpunit/php-code-coverage/src/Driver/Driver.php',
@@ -5019,7 +5018,6 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
         'WorkListTableSeeder' => __DIR__ . '/../..' . '/database/seeds/WorkListTableSeeder.php',
-
         'WorkTableSeeder' => __DIR__ . '/../..' . '/database/seeds/WorkTableSeeder.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
         'Zend\\Diactoros\\AbstractSerializer' => __DIR__ . '/..' . '/zendframework/zend-diactoros/src/AbstractSerializer.php',
