@@ -11,6 +11,6 @@ class RentalTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\Models\Rental::class, 30)->create();
     }
 }

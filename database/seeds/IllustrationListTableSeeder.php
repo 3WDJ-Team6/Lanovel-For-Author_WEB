@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class ChapterOfWorkTableSeeder extends Seeder
+class IllustrationListTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class ChapterOfWorkTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\CategoryWork::class, 50)->create();
+        factory(App\Models\IllustrationList::class, 15)->create();
     }
 }

@@ -18,29 +18,31 @@ class IllustController extends Controller
      */
     public function index()
     {
-
         $products = IllustrationList::select(
             // 작품번호
             'illustration_lists.*',
             'users.nickname'
         )->join('users', 'users.id', 'illustration_lists.user_id')
-            ->orderBy('illustration_lists.hits_of_illustration', 'desc')
-            ->get();
-
+         ->orderByRaw('illustration_lists.hits_of_illustration','desc')
+         ->limit(5)
+         ->get();
+      
         return view('/store/home/home')->with('products', $products);
     }
 
-    public function menuIndex($category)
+    public function menuIndex($category, $moreCategory)
     {
+        
         $products = IllustrationList::select(
             // 작품번호
             'illustration_lists.*',
             'users.nickname'
         )->join('users', 'users.id', 'illustration_lists.user_id')
-            ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
-            ->where('category_illustrations.tag', $category)
-            ->orderBy('illustration_lists.hits_of_illustration', 'desc')
-            ->get();
+         ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
+         ->where('category_illustrations.tag', $category)
+         ->where('category_illustration.moreTag', $moreCategory)
+         ->get();
+
 
         return view('/store/menu/contents')->with('products', $products);
     }
@@ -63,6 +65,7 @@ class IllustController extends Controller
      */
     public function store(Request $request)
     {
+
         // 작품 저장
         $illust_info = array([
             // 제목
