@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\tools;
-use App\Models\WorkList;
+use App\Models\Work;
 use Auth;
 
 class DirectoryController extends Controller
@@ -36,7 +36,7 @@ class DirectoryController extends Controller
         $privateFile = [];
         foreach ($privateFiles as $file) {
             $privateFile[] = [
-                'name' => time() . $file->getClientOriginalName(),                              # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'name' => str_replace($role . '/' . Auth::user()['email'] . '/' . $publicPath, '', $file),                              # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
                 'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
                 'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
                 'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소
@@ -45,17 +45,16 @@ class DirectoryController extends Controller
             ];
         }
 
-        $dirInfo = WorkList::select('users.email', 'works.num', 'works.work_title')
-            ->leftjoin('works', 'work_lists.num_of_work', '=', 'works.num')
-            ->leftjoin('users', 'work_lists.num_of_work', '=', 'works.num')
-            ->where('work_lists.num_of_work', '=', 1) //$num   // 숫자 부분은 변수로 전달 받아야함
+        $bookInfo = Work::select('users.email', 'works.num', 'works.work_title')
+            ->leftjoin('work_lists', 'works.num', 'work_lists.num_of_work')
+            ->leftjoin('users', 'work_lists.user_id', 'users.id')
+            ->where('works.num', '=', 21)            //$num 숫자 부분은 변수로 전달 받아야함
             ->orderBy('work_lists.created_at', 'asc')
-            ->limit(1)->get();
+            ->first();  // 21번 작품을 쓴 작가 email = Author@test, bookTitle
 
         // 작가와 일러스트레이터가 함께 사용할 폴더 : Author/작가ID/WorkSpace/작품이름/OBPES/images
-        $staticAuthor = $dirInfo[0]['email'];       //test@test
-        $staticTitle = $dirInfo[0]['work_title'];   //류vs김
-        $staticFullPath = 'Author' . DIRECTORY_SEPARATOR . $staticAuthor . DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR . $staticTitle . DIRECTORY_SEPARATOR . 'OEBPS';
+
+        $staticFullPath = 'Author' . DIRECTORY_SEPARATOR . $bookInfo['email'] . DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR . $bookInfo['work_title'] . DIRECTORY_SEPARATOR . 'OEBPS';
         # author/test@test/WorkSpace/류vs김/OEBPS/images
 
         $publicFolder = Storage::disk('s3')->directories($staticFullPath);    # 접속한 유저의 개인 폴더
@@ -63,7 +62,8 @@ class DirectoryController extends Controller
         $publicFile = [];
         foreach ($publicFiles as $file) {
             $publicFile[] = [
-                'name' => str_replace($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image'), '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'name' => str_replace('Author' . '/' . $bookInfo['email'] . '/' .
+                    'WorkSpace' . '/' . $bookInfo['work_title'] . '/' . 'OEBPS' . '/' . config('filesystems.disks.s3.images') . '/', '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
                 'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
                 'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
                 'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소

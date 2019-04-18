@@ -18,9 +18,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
     'App\\Http\\Controllers\\Auth\\VerificationController' => $baseDir . '/app/Http/Controllers/Auth/VerificationController.php',
-
-    'App\\Http\\Controllers\\ChatController' => $baseDir . '/app/Http/Controllers/Chat/ChatController.php',
-
+    'App\\Http\\Controllers\\Chat\\ChatController' => $baseDir . '/app/Http/Controllers/Chat/ChatController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\Publish\\PublicationController' => $baseDir . '/app/Http/Controllers/Publish/PublicationController.php',
@@ -44,8 +42,6 @@ return array(
     'App\\Http\\Requests\\FilePost' => $baseDir . '/app/Http/Requests/FilePost.php',
     'App\\Listeners\\ChatListener' => $baseDir . '/app/Listeners/ChatListener.php',
     'App\\Listeners\\LogVerifiedUser' => $baseDir . '/app/Listeners/LogVerifiedUser.php',
-    'App\\Memo' => $baseDir . '/app/Models/Memo.php',
-
     'App\\Models\\BuyerOfIllustration' => $baseDir . '/app/Models/BuyerOfIllustration.php',
     'App\\Models\\CategoryIllustration' => $baseDir . '/app/Models/CategoryIllustration.php',
     'App\\Models\\CategoryWork' => $baseDir . '/app/Models/CategoryWork.php',
@@ -58,6 +54,7 @@ return array(
     'App\\Models\\Following' => $baseDir . '/app/Models/Following.php',
     'App\\Models\\Grade' => $baseDir . '/app/Models/Grade.php',
     'App\\Models\\IllustrationList' => $baseDir . '/app/Models/IllustrationList.php',
+    'App\\Models\\Memo' => $baseDir . '/app/Models/Memo.php',
     'App\\Models\\Message' => $baseDir . '/app/Models/Message.php',
     'App\\Models\\PeriodOfWork' => $baseDir . '/app/Models/PeriodOfWork.php',
     'App\\Models\\PushAlarm' => $baseDir . '/app/Models/PushAlarm.php',
@@ -3719,6 +3716,7 @@ return array(
     'Ramsey\\Uuid\\UuidFactory' => $vendorDir . '/ramsey/uuid/src/UuidFactory.php',
     'Ramsey\\Uuid\\UuidFactoryInterface' => $vendorDir . '/ramsey/uuid/src/UuidFactoryInterface.php',
     'Ramsey\\Uuid\\UuidInterface' => $vendorDir . '/ramsey/uuid/src/UuidInterface.php',
+    'RentalTableSeeder' => $baseDir . '/database/seeds/RentalTableSeeder.php',
     'SebastianBergmann\\CodeCoverage\\CodeCoverage' => $vendorDir . '/phpunit/php-code-coverage/src/CodeCoverage.php',
     'SebastianBergmann\\CodeCoverage\\CoveredCodeNotExecutedException' => $vendorDir . '/phpunit/php-code-coverage/src/Exception/CoveredCodeNotExecutedException.php',
     'SebastianBergmann\\CodeCoverage\\Driver\\Driver' => $vendorDir . '/phpunit/php-code-coverage/src/Driver/Driver.php',
@@ -4484,7 +4482,6 @@ return array(
     'Whoops\\Util\\SystemFacade' => $vendorDir . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
     'Whoops\\Util\\TemplateHelper' => $vendorDir . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
     'WorkListTableSeeder' => $baseDir . '/database/seeds/WorkListTableSeeder.php',
-
     'WorkTableSeeder' => $baseDir . '/database/seeds/WorkTableSeeder.php',
     'XdgBaseDir\\Xdg' => $vendorDir . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
     'Zend\\Diactoros\\AbstractSerializer' => $vendorDir . '/zendframework/zend-diactoros/src/AbstractSerializer.php',

@@ -108,7 +108,7 @@ class IndexController extends Controller
         # 역할/유저id/WorkSpace/책이름/OEBPS/images/ - 에디터 사용 사진 들어갈 경로
         $s3Path = config('filesystems.disks.s3.workspace') . DIRECTORY_SEPARATOR . $bookName . $this::S3['opsImage'];
 
-        $publicFolder = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image');  # 역할/유저id/image
+        $publicFolder = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images');  # 역할/유저id/image
         $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . $s3Path;
         $bookCoverUrl = config('filesystems.disks.s3.url') . $filePath;
 
@@ -125,7 +125,6 @@ class IndexController extends Controller
                 'visibility' => 'public',
                 'Metadata' => ['Content-Type' => 'image/jpeg'],
             ]);
-
 
             // 작품 저장
             $work_info = array([
