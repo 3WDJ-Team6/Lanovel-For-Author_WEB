@@ -11,6 +11,6 @@ class WorkTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\Models\Work::class, 15)->create();
     }
 }

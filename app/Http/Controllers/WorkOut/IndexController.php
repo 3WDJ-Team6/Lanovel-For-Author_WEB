@@ -108,7 +108,7 @@ class IndexController extends Controller
         # 역할/유저id/WorkSpace/책이름/OEBPS/images/ - 에디터 사용 사진 들어갈 경로
         $s3Path = config('filesystems.disks.s3.workspace') . DIRECTORY_SEPARATOR . $bookName . $this::S3['opsImage'];
 
-        $publicFolder = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image');  # 역할/유저id/image
+        $publicFolder = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images');  # 역할/유저id/image
         $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . $s3Path;
         $bookCoverUrl = config('filesystems.disks.s3.url') . $filePath;
 
@@ -125,7 +125,6 @@ class IndexController extends Controller
                 'visibility' => 'public',
                 'Metadata' => ['Content-Type' => 'image/jpeg'],
             ]);
-
 
             // 작품 저장
             $work_info = array([
@@ -145,7 +144,8 @@ class IndexController extends Controller
                 // 연재 상태 (default = 1 (연재중))
                 'status_of_work' => 1,
                 // 생성 날짜 (현재)
-                'created_at' => Carbon::now()
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]);
             $this->work_model->storeWork($work_info);
 
@@ -162,7 +162,9 @@ class IndexController extends Controller
             $work_list_info = array([
                 'num_of_work' => $num,
                 'last_time_of_working' => "test",
-                'user_id' => Auth::user()['id']
+                'user_id' => Auth::user()['id'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ]);
             $this->work_list_model->storeWorklist($work_list_info);
             return redirect('/')->with('message', "success");
