@@ -139,12 +139,16 @@ Route::get('/eloquent', function () {
     return dd(Work::all()); //Model에 all메서드 dd로 출력
 });
 
-Route::get('/store/menu/upload', function () {
-    return view('store.menu.upload');
-});
+// 일러스트 등록 페이지
+Route::get('/illustCreate', 'WorkOut\IllustController@create');
 
-// 일러스토어 상세메뉴 페이지
+// 일러스트 등록
+Route::post('/illustUpload', 'WorkOut\IllustController@store');
+
+// 일러스토어 대메뉴 페이지
 Route::get('/menu/{category}', 'WorkOut\IllustController@menuIndex');
+// 일러스토어 상세메뉴 페이지
+Route::get('/menu/{category}/{moreCategory}', 'WorkOut\IllustController@detailMenuIndex');
 
 Route::post('store/find/search', function () {
     return view('store.find.search');
@@ -154,4 +158,4 @@ Route::post('store/detail/view', function () {
     return view('store.detail.view');
 });
 
-Route::get('publication/{NumOfWork}/{NumOfChapter}','Publish\PublicationController@publish');
+Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');

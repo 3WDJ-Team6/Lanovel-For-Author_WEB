@@ -51,7 +51,7 @@
                                     <li><a href="{{url('menu/object/기타')}}">기타도구</a></li>
                                 </ul>
                             </li>
-                            <li><a href="{{url('store/menu/upload')}}">등록</a></li>
+                            <li><a href="{{url('/illustCreate')}}">등록</a></li>
                         </ul>
                     </div>
                     <!-- Nav End -->
