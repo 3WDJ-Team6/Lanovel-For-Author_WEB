@@ -57,7 +57,7 @@
 
                                 </ul>
                             </li>
-                            <li><a href="{{url('store/menu/upload')}}">등록</a></li>
+                            <li><a href="{{url('/illustCreate')}}">등록</a></li>
                         </ul>
                     </div>
                     <!-- Nav End -->

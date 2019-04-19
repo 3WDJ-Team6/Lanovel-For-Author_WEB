@@ -14,6 +14,13 @@ class IllustrationList extends Model
     protected $table = 'illustration_lists';
     protected $primaryKey = 'num';
 
+    // 새 일러스트 저장
+    public function storeIllust(array $illust_info)
+    {
+        Work::insert($illust_info);
+    }
+
+
     /**
      * 하나의 회원은 여러 일러스트를 가질 수 있다.
      */
