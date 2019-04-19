@@ -75,7 +75,6 @@
                                     <div class="form-group">
                                         <input type="text" name="price_of_illustration" class="form-control" id="paid_form" value="" />원
                                     </div>
-
                                 </div>
 
                                 <div class="form-group">
