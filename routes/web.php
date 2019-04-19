@@ -112,6 +112,7 @@ Route::post('send', 'ChatController@send');
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes(); //로그인에 관한 모든 기능 연결
 
+
 // 에디터 진입
 Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 
@@ -129,22 +130,18 @@ Route::get('/eloquent', function () {
     return dd(Work::all()); //Model에 all메서드 dd로 출력
 });
 
-Route::get('/store', function () {
-    return view('store.home.home');
-});
+Route::get('/store', 'WorkOut\IllustController@index')->name('store');
 
 Route::get('/store/menu/upload', function () {
     return view('store.menu.upload');
 });
 
-Route::get('/store/menu/contents', function () {
-    return view('store.menu.contents');
-});
+Route::get('/menu/{category}', 'WorkOut\IllustController@menuIndex');
 
 Route::post('store/find/search', function () {
     return view('store.find.search');
 });
 
-Route::post('store/detail/view', function () {
+Route::get('store/detail/view', function () {
     return view('store.detail.view');
 });

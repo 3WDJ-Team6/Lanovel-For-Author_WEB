@@ -3,12 +3,18 @@
 @section('head')
 @include('layouts.store.head')
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="{{asset('js/store/find_make.js')}}"></script>
-<script src="{{asset('js/store/find_price.js')}}"></script>
+<script src="{{asset('js/store/search_make.js')}}"></script>
+<script src="{{asset('js/store/search_price.js')}}"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- <script src="{{asset('css/store/find_tag.css')}}"></script> -->
+
+<style>
+    #find_tag #find_price #find_detail {
+        display: none;
+    }
+</style>
 @endsection
 
 @section('header')
