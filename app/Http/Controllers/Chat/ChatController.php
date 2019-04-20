@@ -25,33 +25,34 @@ class ChatController extends Controller
     public function chat()
     {
         $pageurl = url()->previous();
-        $num=str::after($pageurl,'editor/tool/editor/');
-        $num_of_work=ContentOfWork::select(
+        $num = str::after($pageurl, 'editor/tool/editor/');
+        $num_of_work = ContentOfWork::select(
             'content_of_works.num_of_work'
-        )->where('content_of_works.num','=',$num)
-        ->get();
-        $num=str::after($num_of_work,':');
-        $num_of_work = str::before($num,'}');
+        )->where('content_of_works.num', '=', $num)
+            ->get();
+        $num = str::after($num_of_work, ':');
+        $num_of_work = str::before($num, '}');
         $content_of_chat = User::select(
             'users.nickname',
             'chat_rooms.content_of_chat',
             'chat_rooms.created_at'
-        )->join('chat_rooms','chat_rooms.user_id','users.id')
-        ->orderBy('created_at','asc')
-        ->where('chat_rooms.num_of_work','=',$num_of_work)
-        ->get();
-        return view('chat/chat')->with('content_of_chat',$content_of_chat);
+        )->join('chat_rooms', 'chat_rooms.user_id', 'users.id')
+            ->orderBy('created_at', 'asc')
+            ->where('chat_rooms.num_of_work', '=', $num_of_work)
+            ->get();
+        return view('chat/chat')->with('content_of_chat', $content_of_chat);
     }
 
-    public function send(request $request){
+    public function send(request $request)
+    {
         $pageurl = url()->previous();
-        $num=str::after($pageurl,'editor/tool/editor/');
-        $num_of_work=ContentOfWork::select(
+        $num = str::after($pageurl, 'editor/tool/editor/');
+        $num_of_work = ContentOfWork::select(
             'content_of_works.num_of_work'
-        )->where('content_of_works.num','=',$num)
-        ->get();
-        $num=str::after($num_of_work,':');
-        $num_of_work = str::before($num,'}');
+        )->where('content_of_works.num', '=', $num)
+            ->get();
+        $num = str::after($num_of_work, ':');
+        $num_of_work = str::before($num, '}');
         $user = User::find(Auth::id());
         $messages = $request->get('message');
         $chat = new ChatRoom();
@@ -59,7 +60,7 @@ class ChatController extends Controller
         $chat->content_of_chat = $messages;
         $chat->user_id = Auth::id();
         $chat->save();
-        event(new ChatEvent($messages,$user));
+        event(new ChatEvent($messages, $user));
 
         return $request->all();
     }
