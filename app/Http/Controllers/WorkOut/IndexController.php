@@ -95,7 +95,7 @@ class IndexController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FilePost $request)    //validate 사용
+    public function store(FilePost $request)    //SetBookCover
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
 

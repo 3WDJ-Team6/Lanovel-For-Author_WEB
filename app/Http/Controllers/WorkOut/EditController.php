@@ -33,8 +33,8 @@ class EditController extends Controller
     }
 
     * 목차 리스트 보기
-    * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
-    */
+    * 필요한 데이터 - 챕터 제목 (or 권수), 회차 제목 (or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
+    * /
 
     public function index($num)
     {
@@ -96,9 +96,9 @@ class EditController extends Controller
         $content_data = ContentOfWork::select(
             'content_of_works.num',
             'content_of_works.subsubtitle'
-        )->where('content_of_works.num','=',$num)->first();
+        )->where('content_of_works.num', '=', $num)->first();
 
-        return view('editor.tool.popup_in_editor_edit')->with('content_data',$content_data);
+        return view('editor.tool.popup_in_editor_edit')->with('content_data', $content_data);
     }
 
     /**
@@ -127,7 +127,6 @@ class EditController extends Controller
         $content_of_works->save();
 
         echo "<script>opener.parent.location.reload();window.close()</script>";
-
     }
 
     public function addContentInEditor(request $request, $num)
@@ -145,16 +144,16 @@ class EditController extends Controller
         // 현재 회차 번호를 받아온다.
         $content_of_works->num_of_chapter = $num;
         // 회차 제목 추가
-            ///////숫자값만 넘어가던 오류를
-            ///////$subsubtitle에 회차 제목값 넣고
-            $subsubtitle=$request->subsubtitle;
-            ///////$subsubtitle의 값을 디비 $content_of_works의 subsubtitle에 넣고
-            $content_of_works->subsubtitle = $subsubtitle;
+        ///////숫자값만 넘어가던 오류를
+        ///////$subsubtitle에 회차 제목값 넣고
+        $subsubtitle = $request->subsubtitle;
+        ///////$subsubtitle의 값을 디비 $content_of_works의 subsubtitle에 넣고
+        $content_of_works->subsubtitle = $subsubtitle;
         // 회차 내용 디폴트값 넣어주기
         $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
         $content_of_works->save();
         $titleNum = $content_of_works->num;
-            ///////부모창의 addEpisode()함수에 '$subsubtitle' 값 전달
+        ///////부모창의 addEpisode()함수에 '$subsubtitle' 값 전달
         // return $titleNum;
         echo "<script>window.close();window.opener.parent.addEpisode('$subsubtitle' ,$titleNum);</script>";
     }
@@ -172,12 +171,11 @@ class EditController extends Controller
     public function editContentInEditor(request $request, $num)
     {
         $content_of_works = ContentOfWork::where('num', $request->num)->first();
-        $originTitle=$content_of_works->subsubtitle;
-        $changeTitle=$request->subsubtitle;
+        $originTitle = $content_of_works->subsubtitle;
+        $changeTitle = $request->subsubtitle;
         $content_of_works->subsubtitle = $changeTitle;
         $content_of_works->save();
         echo "<script>window.close();window.opener.parent.editEpisode('$changeTitle', '$originTitle');</script>";
-
     }
 
 
