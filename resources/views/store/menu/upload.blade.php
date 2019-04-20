@@ -1,12 +1,18 @@
 @extends('layouts.store.master')
 
 @section('head')
-@include('layouts.store.head')
+    @include('layouts.store.head')
 <script src="{{asset('js/store/upload_price.js')}}" defer></script>
+<script src="{{asset('js/store/upload_image.js')}}" defer></script>
+<script src="{{asset('js/book_add_cycle_month.js')}}" defer></script>
+<link rel="stylesheet" href="{{asset('css/book_add.css')}}">
+<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
 @endsection
 
 @section('header')
-@include('layouts.store.header')
+    @include('layouts.store.header')
 @endsection
 
 
@@ -18,18 +24,31 @@
         <div class="form-check form-check-inline" style="width:100%; display: flex; justify-content: center;">
             <div class="row">
                 <div class="container">
-                    <form action="{{ url('/store/upload')}}" method="post" enctype="multipart/form-data"
-                        class="form-horizontal">
-                        <input type='file' id="image" name="image" />
-                        <img id="blah" src="" alt="이미지 추가" width="300" height="300"
-                            onerror="this.src='{{asset('image/no_image.png')}}'" />
+                <div id="body-overlay">
+                    <div><img src="{{asset('image/loading.gif')}}" width="64px" height="64px" /></div>
+                </div>
+                <div class="bgColor">
+                    <form id="uploadForm" action="upload.php" method="post">
+                        <div id="targetOuter">
+                            <div id="targetLayer"></div>
+                            <img src="" class="icon-choose-image" onerror="this.src='{{asset('image/photo.png' )}}'" />
+                            <div class="icon-choose-image">
+                                <input name="userImage" id="userImage" type="file" class="inputFile"
+                                    onChange="showPreview(this);" />
+                            </div>
+                        </div>
+                        <div>
+                            <span>image name</span>
+                        </div>
+                    </form>
+                </div>
 
                         <div class="form-group">
-                            제목<input type="text" class="form-control" name="illustration_title" placeholder="70자 이내"
-                                value="illustration_title" />
+                            제목<input type="text" class="form-control" name="illustration_title" placeholder="70자 이내" value=""
+                                />
                             <div class="form- group">
-                                태그<input type="text" class="form-control" name="tag" placeholder="#칼 #여자"
-                                    value="tag" /><br>
+                                태그<input type="text" class="form-control" name="tag" placeholder="#칼 #여자" value=""
+                                    /><br>
 
                                 <div class="radioArea">
                                     종류<br>
@@ -38,7 +57,7 @@
                                                 style="margin:10px;">배경</label>
                                         <label><input type="radio" name="#" id="#" value="character"
                                                 style="margin:10px;">캐릭터</label>
-                                        <label><input type="radio" name="#" id="#" value="object"
+                                        <label><input type="radio" name="#" id="#" value="prop"
                                                 style="margin:10px;">소품</label>
                                     </div>
 
@@ -54,15 +73,13 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="text" name="price_of_illustration" class="form-control"
-                                            id="paid_form" value="price_of_illustration" />원
+                                        <input type="text" name="price_of_illustration" class="form-control" id="paid_form" value="" />원
                                     </div>
-
                                 </div>
 
                                 <div class="form-group">
-                                    작품 소개<input type="text" name="introduce_od_illustration" class="form-control"
-                                        placeholder="제한 없음" value="introduce_od_illustration" />
+                                    작품 소개<input type="introduce_of_illustration" name="#" class="form-control" placeholder="제한 없음" value=""
+                                         />
                                 </div>
 
                                 <button type="submit" class="btnSubmit">등록</button>

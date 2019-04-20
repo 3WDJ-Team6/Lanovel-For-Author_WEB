@@ -56,19 +56,19 @@ class EditController extends Controller
             ->with('chapter_of_works', $chapter_of_works)->with('num', $num);
     }
 
-    public function store_memo(Request $request, $num)
-    {
-        $memos = new Memo();
+    // public function store_memo(Request $request, $num)
+    // {
+    //     $memos = new Memo();
 
-        $memos->content_of_work = $request->num;
-        $memos->user_id = Auth::user()['id'];
-        $memos->content_of_memo = $request->content_of_memo;
+    //     $memos->content_of_work = $request->num;
+    //     $memos->user_id = Auth::user()['id'];
+    //     $memos->content_of_memo = $request->content_of_memo;
 
-        // 메모 저장
-        $memos->save();
+    //     // 메모 저장
+    //     $memos->save();
 
-        return "메모 저장됨";
-    }
+    //     return "메모 저장됨";
+    // }
 
     public function content_create($num)
     {
