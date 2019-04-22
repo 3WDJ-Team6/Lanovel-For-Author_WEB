@@ -4,6 +4,7 @@ namespace App\Http\Controllers\WorkOut;
 
 use Auth;
 
+use App\Models\Memo;
 use App\Models\ContentOfWork;
 use App\Models\ChapterOfWork;
 use App\Models\Work;
@@ -38,19 +39,6 @@ class EditController extends Controller
 
     public function index($num)
     {
-        // $works = Work::select(
-        //         'works.num',
-        //         'works.work_title',
-        //         'chapter_of_works.num',
-        //         'chapter_of_works.subtitle',
-        //         'content_of_works.subsubtitle',
-        //         'content_of_works.num_of_work',
-        //         'content_of_works.num_of_chapter',
-        //         'content_of_works.num'
-        // )
-        //         ->join('chapter_of_works', 'chapter_of_works.num_of_work', '=', 'works.num')
-        //         ->where('works.num','=',$num)
-        //         ->orderBy('works.created_at','desc')->get();
 
         $chapter_of_works = ChapterOfWork::select(
             'chapter_of_works.num',
@@ -64,18 +52,24 @@ class EditController extends Controller
             ->where('chapter_of_works.num', '=', $num)
             ->get();
 
-        // return $chapter_of_works;
-        // ->orderBy('chapter_of_works.created_at','desc')->get();
-
-        //  $chapter_of_works = ChapterOfWork::select('chapter_of_works.subtitle')
-        //                      ->join('works','chapter_of_works.num_of_work','=',$num)->get();
 
         return view('editor.main.list')
             ->with('chapter_of_works', $chapter_of_works)->with('num', $num);
-        //    ->with('work_lists', $work_lists)
-        //    ->with('templates', $templates);
-        //    ->with('episodes', $episodes);
     }
+
+    // public function store_memo(Request $request, $num)
+    // {
+    //     $memos = new Memo();
+
+    //     $memos->content_of_work = $request->num;
+    //     $memos->user_id = Auth::user()['id'];
+    //     $memos->content_of_memo = $request->content_of_memo;
+
+    //     // 메모 저장
+    //     $memos->save();
+
+    //     return "메모 저장됨";
+    // }
 
     public function content_create($num)
     {
@@ -103,9 +97,9 @@ class EditController extends Controller
         $content_data = ContentOfWork::select(
             'content_of_works.num',
             'content_of_works.subsubtitle'
-        )->where('content_of_works.num','=',$num)->first();
+        )->where('content_of_works.num', '=', $num)->first();
 
-        return view('editor.tool.popup_in_editor_edit')->with('content_data',$content_data);
+        return view('editor.tool.popup_in_editor_edit')->with('content_data', $content_data);
     }
 
     /**
@@ -134,7 +128,6 @@ class EditController extends Controller
         $content_of_works->save();
 
         echo "<script>opener.parent.location.reload();window.close()</script>";
-
     }
 
     public function addContentInEditor(request $request, $num)
@@ -152,16 +145,16 @@ class EditController extends Controller
         // 현재 회차 번호를 받아온다.
         $content_of_works->num_of_chapter = $num;
         // 회차 제목 추가
-            ///////숫자값만 넘어가던 오류를
-            ///////$subsubtitle에 회차 제목값 넣고
-            $subsubtitle=$request->subsubtitle;
-            ///////$subsubtitle의 값을 디비 $content_of_works의 subsubtitle에 넣고
-            $content_of_works->subsubtitle = $subsubtitle;
+        ///////숫자값만 넘어가던 오류를
+        ///////$subsubtitle에 회차 제목값 넣고
+        $subsubtitle = $request->subsubtitle;
+        ///////$subsubtitle의 값을 디비 $content_of_works의 subsubtitle에 넣고
+        $content_of_works->subsubtitle = $subsubtitle;
         // 회차 내용 디폴트값 넣어주기
         $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
         $content_of_works->save();
         $titleNum = $content_of_works->num;
-            ///////부모창의 addEpisode()함수에 '$subsubtitle' 값 전달
+        ///////부모창의 addEpisode()함수에 '$subsubtitle' 값 전달
         // return $titleNum;
         echo "<script>window.close();window.opener.parent.addEpisode('$subsubtitle' ,$titleNum);</script>";
     }
@@ -179,12 +172,11 @@ class EditController extends Controller
     public function editContentInEditor(request $request, $num)
     {
         $content_of_works = ContentOfWork::where('num', $request->num)->first();
-        $originTitle=$content_of_works->subsubtitle;
-        $changeTitle=$request->subsubtitle;
+        $originTitle = $content_of_works->subsubtitle;
+        $changeTitle = $request->subsubtitle;
         $content_of_works->subsubtitle = $changeTitle;
         $content_of_works->save();
         echo "<script>window.close();window.opener.parent.editEpisode('$changeTitle', '$originTitle');</script>";
-
     }
 
 
@@ -271,6 +263,8 @@ class EditController extends Controller
         )->where('content_of_works.num', '=', $num)->first();
 
         $num_of_now_chapter = $chapter_of_num_of_now_content->num_of_chapter;
+
+        // 메모 있으면 보여주기
 
         $memos = Memo::select(
             '*'

@@ -11,6 +11,6 @@ class ChapterOfWorkTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\CategoryWork::class, 120)->create();
+        factory(App\Models\CategoryWork::class, 50)->create();
     }
 }
