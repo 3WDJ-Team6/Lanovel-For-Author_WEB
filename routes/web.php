@@ -105,7 +105,7 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/ft', 'Storage\FileController@ft')->name('ft');
     Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
     # s3 directory dynamic listing
-    Route::get('/getDir', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
+    Route::get('/getDir/{dir?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
 // Route::get('editor/tool/innerchat', 'Chat\ChatController@chat');
