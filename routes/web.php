@@ -127,7 +127,7 @@ Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 Route::get('/res', 'WorkOut\EditController@res');
 
 //메모
-Route::post('/store_memo/{num}', 'WorkOut\EditController@store_memo');
+Route::post('/store_memo/{num_of_content}/{num}', 'WorkOut\EditController@store_memo');
 
 # kakao login
 Route::group(['middleware' => ['guest']], function () { # guest만 사용가능한 Route
@@ -161,4 +161,4 @@ Route::get('store/detail/view', function () {
     return view('store.detail.view');
 });
 
-Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
+Route::get('publication/{NumOfWork}/{NumOfChapter}','Publish\PublicationController@publish');

@@ -228,6 +228,7 @@ function memoBalloon(e) {
     var top = e.clientY - 48;
     var back = ["#ffc", "#cfc", "#ccf"];
     var rand = back[Math.floor(Math.random() * back.length)];
+
     console.log(rand);
     if (window.getSelection) {
         var txt = window.getSelection();
@@ -249,11 +250,11 @@ function memoBalloon(e) {
                     memoPopupId +
                     "'" +
                     "class='memoPopup' contenteditable='false' style='background-color:" + rand + "'>" +
-                    "<form method='POST' action='/store_memo/" + memoViewId + "'>" +
+                    "<form method='POST' action='/store_memo/" + content_of_work + "/" + memoViewId + "'>" +
                     "<textarea name='content_of_memo' class='underline' autocorrect='false'>" +
                     "</textarea>" +
                     "<span>유저이름</span>" +
-                    "<button class='memoSave'>" +
+                    "<button type='submit' class='memoSave'>" +
                     "<span class='memoSaveSpan'><span>" +
                     "</button>" +
                     "</form>" +
@@ -578,6 +579,7 @@ $(document).ready(function () {
     $(".balloon").draggable();
     //메모//
 
+    //왼쪽 사이드바
     $("#menuToggle_right").click(function (e) {
         var $parent = $(this).parent("nav");
         $parent.toggleClass("open_right");
@@ -597,6 +599,8 @@ $(document).ready(function () {
         }
         e.preventDefault();
     });
+
+    //오른쪽사이드바
     $("#menuToggle_left").click(function (e) {
         var $parent = $(this).parent("nav");
         $parent.toggleClass("open_left");

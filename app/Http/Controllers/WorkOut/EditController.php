@@ -10,6 +10,7 @@ use App\Models\ChapterOfWork;
 use App\Models\Work;
 use App\Models\WorkList;
 use App\Models\Template;
+use App\Models\Memo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -32,9 +33,9 @@ class EditController extends Controller
         // return $this->middleware('auth');
     }
 
-    * 목차 리스트 보기
-    * 필요한 데이터 - 챕터 제목 (or 권수), 회차 제목 (or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
-    * /
+    /** 목차 리스트 보기
+    * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
+    */
 
     public function index($num)
     {
@@ -360,17 +361,17 @@ class EditController extends Controller
         return $request;
     }
 
-    public function store_memo(Request $request, $num)
+    public function store_memo(Request $request, $num_of_content, $num)
     {
+        // return $num_of_content;
         $memos = new Memo();
 
-        $memos->content_of_work = $request->num;
+        $memos->num_of_content = $num_of_content;
         $memos->user_id = Auth::user()['id'];
         $memos->content_of_memo = $request->content_of_memo;
 
         // 메모 저장
         $memos->save();
 
-        return "메모 저장됨";
     }
 }
