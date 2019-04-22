@@ -75,7 +75,6 @@ class IllustController extends Controller
         return view('.store.menu.contents')->with('products', $products);
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
