@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\WorkOut;
 
+use Auth;
 use App\Models\IllustrationList;
 use App\Models\CategoryIllustration;
 use App\Models\BuyerOfIllustration;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use App\Http\Requests\FilePost;
 
 class IllustController extends Controller
 {
@@ -48,14 +52,14 @@ class IllustController extends Controller
             'illustration_lists.*',
             'users.nickname'
         )->join('users', 'users.id', 'illustration_lists.user_id')
-            ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
-            ->where('category_illustrations.tag', $category)
+            ->where('illustration_lists.division_of_illustration', $category)
+            ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
             ->get();
 
         return view('.store.menu.contents')->with('products', $products);
     }
 
-    // 세부 메뉴 구별
+    // 상세메뉴검색
     public function detailMenuIndex($category, $moreCategory)
     {
         $products = IllustrationList::select(
@@ -71,20 +75,6 @@ class IllustController extends Controller
         return view('.store.menu.contents')->with('products', $products);
     }
 
-    public function menuIndex($category)
-    {
-        $products = IllustrationList::select(
-            // 작품번호
-            'illustration_lists.*',
-            'users.nickname'
-        )->join('users', 'users.id', 'illustration_lists.user_id')
-         ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
-         ->where('category_illustrations.tag', $category)
-         ->orderBy('illustration_lists.hits_of_illustration','desc')
-         ->get();
-
-         return view('/store/menu/contents')->with('products',$products);
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -102,9 +92,8 @@ class IllustController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FilePost $request)
     {
-        return "라우트 설정은 끝";
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
 
         $illustName = $request->illustration_title;
@@ -131,7 +120,7 @@ class IllustController extends Controller
             ]);
 
             // 일러스트 저장
-            $illust_info = array([
+            $illust_info = array(
                 // 일러스트 제목
                 'illustration_title' => $request->get('illustration_title'),
                 // 일러스트레이터 = 현재 로그인 한 사용자
@@ -143,7 +132,7 @@ class IllustController extends Controller
                 // 조회수 (default = 0)
                 'hits_of_illustration' => 0,
                 // 시리즈 여부
-                'is_series' => $request->get('is_series'),
+                'is_series' => 0,
                 // 이 컬럼,, 과연 필요한가.....
                 'num_of_series' => 1,
                 // 일러스트 소개
@@ -154,26 +143,45 @@ class IllustController extends Controller
                 'division_of_illustration' => $request->get('division_of_illustration'),
                 // 생성 날짜 (현재)
                 'created_at' => Carbon::now()
-            ]);
+            );
             // 일러스트 저장
             $this->illustration_model->storeIllust($illust_info);
+
+            // return response()->json($illust_info, 200, array(), JSON_PRETTY_PRINT);
 
             // 가장 최근에 저장된 일러스트 불러와서
             $recentIllust = IllustrationList::select(
                 'illustration_lists.num',
                 'illustration_lists.division_of_illustration'
             )->orderBy('created_at', 'DESC')
-                ->first()['num'];
+                ->first();
+
+            $strExplode = explode(' ', $request->get('moreTag'));
+            $strReplace = str_replace("#", "", $strExplode);
+
+            for ($i = 0; $i < count($strReplace); $i++) {
+                $illust_tag_info = array([
+                    'num_of_illustration' => $recentIllust->num,
+                    'tag' => $recentIllust->division_of_illustration,
+                    'moreTag' => $strReplace[$i]
+                ]);
 
 
-            $illust_tag_info = array([
-                'num_of_illustration' => $recentIllust->num,
-                'tag' => $recentIllust->division_of_illustration,
-                'moreTag' => $request->get('moreTag')
-            ]);
 
-            // 태그 저장
-            $this->category_illust_model->storeTag($illust_tag_info);
+
+                // 태그 저장
+                $this->category_illust_model->storeTag($illust_tag_info);
+            }
+
+            // $illust_tag_info = array([
+            //     'num_of_illustration' => $recentIllust->num,
+            //     'tag' => $recentIllust->division_of_illustration,
+            //     'moreTag' => $jbexplode
+            // ]);
+
+
+            // // 태그 저장
+            // $this->category_illust_model->storeTag($illust_tag_info);
 
             return redirect('/store')->with('message', "success");
         }
