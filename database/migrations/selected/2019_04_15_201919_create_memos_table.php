@@ -15,13 +15,6 @@ class CreateMemosTable extends Migration
     {
         Schema::create('memos', function (Blueprint $table) {
             $table->increments('num')->comment("메모번호");
-            $table->integer('num_of_work')->comment("작품번호")->unsigned();
-            $table->foreign('num_of_work')
-                ->references('num')->on('works');
-
-            $table->integer('num_of_chapter')->comment("챕터번호")->unsigned();
-            $table->foreign('num_of_chapter')
-                ->references('num')->on('chapter_of_works');
 
             $table->integer('num_of_content')->comment("회차번호")->unsigned();
             $table->foreign('num_of_content')
