@@ -8,7 +8,6 @@
 @include('layouts.store.header')
 @endsection
 
-
 @section('content')
 
 <body>
@@ -45,10 +44,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="popular-products-slides owl-carousel">
+
+                        @foreach ($products as $row)
                         <!-- Single Product -->
                         <div class="single-product-wrapper">
-                            @foreach ($products as $row)
-                            <!-- <div class="single-product"> -->
+                            <div class="single-product">
                                 <!-- Product Image -->
                                 <div class="product-img">
                                     <a href="{{url('store/detail/view')}}/{{$row['num']}}">
@@ -78,18 +78,15 @@
                                         </div>
                                     </div>
                                 </div>
-                            <!-- </div> -->
-                            @endforeach
+                            </div>
                         </div>
-
-
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- 인기작품 End -->
-
 
 </body>
 

@@ -36,19 +36,19 @@
                     <div><img src="{{asset('image/loading.gif')}}" width="64px" height="64px" /></div>
                 </div>
                 <div class="bgColor">
-                    <form id="uploadForm" action="upload.php" method="post">
-                        <div id="targetOuter">
-                            <div id="targetLayer"></div>
-                            <img src="" class="icon-choose-image" onerror="this.src='{{asset('image/photo.png' )}}'" />
-                            <div class="icon-choose-image">
-                                <input name="userImage" id="userImage" type="file" class="inputFile"
-                                    onChange="showPreview(this);" />
-                            </div>
+                    <!-- <form id="uploadForm" action="{{url('/addBook')}}" method="post"> -->
+                    <div id="targetOuter">
+                        <div id="targetLayer"></div>
+                        <img src="" class="icon-choose-image" onerror="this.src='{{asset('image/photo.png' )}}'" />
+                        <div class="icon-choose-image">
+                            <input name="userImage" id="userImage" type="file" class="inputFile"
+                                onChange="showPreview(this);" />
                         </div>
-                        <div>
-                            <span>image name</span>
-                        </div>
-                    </form>
+                    </div>
+                    <div>
+                        <span>image name</span>
+                    </div>
+                    <!-- </form> -->
                 </div>
 
                 <div class="form-group">

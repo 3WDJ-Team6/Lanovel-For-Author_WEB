@@ -28,6 +28,7 @@ class DirectoryController extends Controller
         *  폴더 종류 : public(작품 내에 존재하는 공동작업방), private(작가와 일러스트레이터 개인 저장공간)
         *
         */
+
         $publicPath = "images/"; # return $this->tools->getPublicS3Path($publicPath); !!!!!!!!!!!!!!!!!!!!!
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";   //2면 Author/ else Illustrator/
 

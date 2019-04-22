@@ -1,4 +1,6 @@
     <!-- ##### Footer Area Start ##### -->
+
+    <footer class="footer_area clearfix">
         <div class="container">
             <div class="row mt-5">
                 <div class="col-md-12 text-center">
@@ -19,9 +21,8 @@
     <!-- Active js -->
     <script src="{{ asset('js/store/active.js') }}"></script>
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-<script src="{{asset('js/store/jquery-2.2.4.min.js')}}"></script>
-<!-- Bootstrap js -->
-<script src="{{asset('js/bootstrap.min.js')}}"></script>
-
+    <script src="{{asset('js/store/jquery-2.2.4.min.js')}}"></script>
+    <!-- Bootstrap js -->
+    <script src="{{asset('js/bootstrap.min.js')}}"></script>
 
     <!-- ##### Footer Area End ##### -->

@@ -11,7 +11,7 @@ class CategoryIllustration extends Model
 
     public function storeTag(array $illust_tag_info)
     {
-        CategoryWork::insert($illust_tag_info);
+        CategoryIllustration::insert($illust_tag_info);
     }
 
     /**
