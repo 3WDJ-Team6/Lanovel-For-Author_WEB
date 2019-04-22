@@ -11,6 +11,7 @@
 
     <!-- <script src="{{asset('bower_components/jquery/dist/jquery.js')}}" -->
     <!-- Core Style CSS -->
+    
     <link rel="stylesheet" href="{{asset('css/store/core-style.css')}}">
     <link rel="stylesheet" href="{{asset('css/store/style.css')}}">
     
