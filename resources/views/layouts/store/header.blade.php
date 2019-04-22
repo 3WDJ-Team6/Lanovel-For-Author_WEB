@@ -19,8 +19,8 @@
                     <!-- Nav Start -->
                     <div class="classynav">
                         <ul>
-                            <li><a href="{{url('menu/background')}}">배경</a>
-                                <ul class="dropdown">
+                            <li><a href="{{url('menu/1')}}">배경</a>
+                                <!-- <ul class="dropdown">
 
                                     <li><a href="{{url('menu/background/던전')}}">던전</a></li>
                                     <li><a href="{{url('menu/background/판타지')}}">판타지</a></li>
@@ -31,20 +31,20 @@
                                     <li><a href="{{url('menu/background/우주')}}">우주</a></li>
                                     <li><a href="{{url('menu/background/도시')}}">도시</a></li>
 
-                                </ul>
+                                </ul> -->
                             </li>
-                            <li><a href="{{url('menu/character')}}">캐릭터</a>
-                                <ul class="dropdown">
+                            <li><a href="{{url('menu/2')}}">캐릭터</a>
+                                <!-- <ul class="dropdown">
 
                                     <li><a href="{{url('menu/character/인물')}}">인물</a></li>
                                     <li><a href="{{url('menu/character/동물')}}">동물</a></li>
                                     <li><a href="{{url('menu/character/식물')}}">식물</a></li>
                                     <li><a href="{{url('menu/character/휴머노이드')}}">휴머노이드</a></li>
 
-                                </ul>
+                                </ul> -->
                             </li>
-                            <li><a href="{{url('menu/object')}}">소품</a>
-                                <ul class="dropdown">
+                            <li><a href="{{url('menu/3')}}">소품</a>
+                                <!-- <ul class="dropdown">
 
                                     <li><a href="{{url('menu/object/의류')}}">의류</a></li>
                                     <li><a href="{{url('menu/object/음식')}}">음식</a></li>
@@ -55,7 +55,7 @@
                                     <li><a href="{{url('menu/object/산업도구')}}">산업도구</a></li>
                                     <li><a href="{{url('menu/object/기타')}}">기타도구</a></li>
 
-                                </ul>
+                                </ul> -->
                             </li>
                             <li><a href="{{url('/illustCreate')}}">등록</a></li>
                         </ul>

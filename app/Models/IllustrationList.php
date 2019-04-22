@@ -17,7 +17,7 @@ class IllustrationList extends Model
     // 새 일러스트 저장
     public function storeIllust(array $illust_info)
     {
-        Work::insert($illust_info);
+        IllustrationList::insert($illust_info);
     }
 
 

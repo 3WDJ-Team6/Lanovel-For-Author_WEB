@@ -46,9 +46,9 @@
                 <div class="col-12">
                     <div class="popular-products-slides owl-carousel">
 
+                        @foreach ($products as $row)
                         <!-- Single Product -->
                         <div class="single-product-wrapper">
-                            @foreach ($products as $row)
                             <div class="single-product">
                                 <!-- Product Image -->
                                 <div class="product-img">
@@ -82,8 +82,9 @@
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
                         </div>
+                        @endforeach
+
 
 
                     </div>

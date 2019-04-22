@@ -35,10 +35,12 @@
             </div>
         </div>
 
-        @foreach($products as $row)
+
         <div class="container">
             <div class="row">
                 <div class="col-12">
+
+                    @foreach($products as $row)
                     <!-- 작품 -->
                     <a href="{{url('store/detail/view')}}/{{$row['num']}}">
                         <div class="single-product-wrapper" style="display:inline-block; margin-right:10px;">
@@ -69,10 +71,12 @@
                             </div>
                         </div>
                     </a>
+                    @endforeach
                 </div>
+
             </div>
         </div>
-        @endforeach
+
     </section>
 
 </body>
