@@ -162,3 +162,7 @@ Route::get('store/detail/view', function () {
 });
 
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
+
+// 일러스토어 일러스트 파일 업로드
+Route::post('/fileUpload', 'WorkOut\IllustController@fileUpload');
+Route::delete('/fileDelete/{id}', 'fileController@fileDelete');
