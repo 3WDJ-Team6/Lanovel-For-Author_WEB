@@ -16,13 +16,17 @@
         mark{
             background-color:#45b4e61a;
         }
+        li[class*="you"] {
+          width: 90%;
+          float: right;
+        }
         #time{
             font-size:9px;
             color:black;
         }
         #chatContent{
             width:90%;
-            float:right;
+            float:left;
         }
         #usernickname{
             left:0px;

@@ -31,7 +31,7 @@ class EditController extends Controller
          */
         // return $this->middleware('auth');
     }
-
+    /*
     * 목차 리스트 보기
     * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
     */
@@ -362,17 +362,17 @@ class EditController extends Controller
         return $request;
     }
 
-    public function store_memo(Request $request, $num)
-    {
-        $memos = new Memo();
+    // public function store_memo(Request $request, $num)
+    // {
+    //     $memos = new Memo();
 
-        $memos->content_of_work = $request->num;
-        $memos->user_id = Auth::user()['id'];
-        $memos->content_of_memo = $request->content_of_memo;
+    //     $memos->content_of_work = $request->num;
+    //     $memos->user_id = Auth::user()['id'];
+    //     $memos->content_of_memo = $request->content_of_memo;
 
-        // 메모 저장
-        $memos->save();
+    //     // 메모 저장
+    //     $memos->save();
 
-        return "메모 저장됨";
-    }
+    //     return "메모 저장됨";
+    // }
 }

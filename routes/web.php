@@ -108,11 +108,7 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/getDir', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
-Route::get('editor/tool/innerchat', 'Chat\ChatController@chat');
-Route::get('editor/innerchat', 'Chat|ChatController@chat');
-Route::get('innerchat', 'Chat\Controller@chat');
 Route::get('editor/tool/editor/innerchat', 'Chat\ChatController@chat');
-Route::get('chat', 'Chat\ChatController@chat');
 Route::post('send', 'Chat\ChatController@send');
 
 # authoriztion # make:auth로 생성
@@ -155,3 +151,5 @@ Route::post('store/detail/view', function () {
 });
 
 Route::get('publication/{NumOfWork}/{NumOfChapter}','Publish\PublicationController@publish');
+Route::get('loadModal','InviteUser\InviteUserController@loadModal');
+Route::get('inviteUser','InviteUser\InviteUserController@SendingInviteMessage');

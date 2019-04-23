@@ -21,6 +21,7 @@ class PublicationController extends Controller{
         2. 사용자가 사용할려면 epubcheck.jar 및 기타 부속품이 필요한데 어케 해결할지
         3. 사용자별로 epubcheck.jar 파일위치가 달라질텐데 ...
     */
+
     public function publish($num_of_work,$num_of_chapter){
         $work_title = Work::select(                                                         // 작품 제목 가져오기
             'works.work_title'
@@ -59,11 +60,17 @@ class PublicationController extends Controller{
             'content_of_works.created_at'
         )->where('content_of_works.num_of_chapter','=',$num_of_chapter)->get();
 
-        mkdir("C:/".$title.$chapter_title."/".$title.$chapter_title."/images",0777,true);
-        mkdir("C:/".$title.$chapter_title."/".$title.$chapter_title."/css",0777,true);
-        mkdir("C:/".$title.$chapter_title."/META-INF",0777,true);                           // 폴더 생성
+        // mkdir("C:/".$title.$chapter_title."/".$title.$chapter_title."/images",0777,true);
+        // mkdir("C:/".$title.$chapter_title."/".$title.$chapter_title."/css",0777,true);
+        // mkdir("C:/".$title.$chapter_title."/".$title.$chapter_title."/js",0777,true);
+        // mkdir("C:/".$title.$chapter_title."/META-INF",0777,true);                           // 폴더 생성
         $file=fopen("C:/".$title.$chapter_title."/mimetype","w");
         $text = "application/epub+zip";+
+        fwrite($file,$text);
+        fclose($file);
+
+        $file=fopen("C:/".$title.$chapter_title."/".$title.$chapter_title."/js/test.js","w");
+        $text = "<script>test</script> ";+
         fwrite($file,$text);
         fclose($file);                                                                                          // mimetype 파일
 
@@ -142,9 +149,7 @@ class PublicationController extends Controller{
                                 foreach($chapter_list as $i => $clist){
                                     $text=$text.'<li> <a href="main'.$i.'.xhtml">'.$clist['subsubtitle'].'</a></li>
                                     ';
-
                                 }
-
                                 $text=$text.'
                                 </ol>
                             </li>
@@ -206,10 +211,14 @@ class PublicationController extends Controller{
         fclose($file);                                              // css전체
                                                                     // 아직 이부분은 민수랑 협의 해야됨
 
+        $cover = "Author\test@test\\이건 살려줘/OEBPS/images/1555411438KakaoTalk_20190414_144049483.png";
+
         // 주소 수정하기.
+        // $text = Storage::disk('s3')->directories("Author/949765751/WorkSpace/recollections-of-wartime/");
         $file = 'java -jar c:\epubcheck-4.1.1\epubcheck.jar -mode exp -save "C:\\'.$title.$chapter_title.'"';
-        shell_exec($file);
-        return $file;
+        // $file = 'java -jar c:\epubcheck-4.1.1\epubcheck.jar -mode exp -save '.$text;
+
+        return shell_exec($file);
 
             /*
                 위의 생성된 파일들을 바탕으로 epub 파일 생성됨.(

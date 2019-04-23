@@ -14,7 +14,7 @@
 </script>
 <script>
     function receiver(){
-        document.
+        {{--  document.  --}}
     }
 </script>
 @endsection

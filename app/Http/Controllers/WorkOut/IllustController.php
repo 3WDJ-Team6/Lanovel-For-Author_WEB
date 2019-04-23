@@ -101,7 +101,6 @@ class IllustController extends Controller
     ]);
     $this->work_list_model->storeWorklist($work_list_info);
     return redirect('/')->with('message', "success");
-}
     }
 
     /**
