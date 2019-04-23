@@ -4,7 +4,7 @@ namespace App\Http\Controllers\WorkOut;
 
 use Auth;
 
-use App\Models\Memo;
+
 use App\Models\ContentOfWork;
 use App\Models\ChapterOfWork;
 use App\Models\Work;
