@@ -22,22 +22,19 @@ class FileController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');   # 인증된 사용자만 이용할 수 있게 , route(login)이 실행됨.
+        $this->middleware('auth');
     }
 
     public function index()
     {
-        # Trait 함수 호출시 $this->func() 형태로 호출 $this->tools->makeS3Path();
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
-        # 세션 로그인 한 유저 + 작업중인 곳의 정보
-
         $files = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images'));    # 파일 주소를 가르킴
-        // return response()->json($files, 200, [], JSON_PRETTY_PRINT); //값이 확인
 
+        // return response()->json($files, 200, [], JSON_PRETTY_PRINT); //값이 확인
         $images = [];
         foreach ($files as $file) {
             $images[] = [
-                'name' => str_replace($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images'), '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'name' => str_replace($role . '/' . Auth::user()['email'] . '/' . config('filesystems.disks.s3.images') . '/', '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
                 'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
                 'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
                 'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소  Carbon settimezone 설정가능
@@ -46,7 +43,7 @@ class FileController extends Controller
             ];
         }
         // 'metadata' => Storage::disk('s3')->getMetadata($file) / 모든 메타데이터 가져옴
-        return response()->json($images, 200, [], JSON_PRETTY_PRINT);
+        // return response()->json($images, 200, [], JSON_PRETTY_PRINT);
         return view('uploadAssets/uploadPage', compact('images'));
 
         // $request->file('file')->storeAs(
@@ -68,15 +65,14 @@ class FileController extends Controller
         Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
             'visibility' => 'public',
             'Metadata' => ['Content-Type' => 'image/jpeg'],
-            'Expires' => now()->addMinute(5),                #7 expire 현재시간 + 5분 적용 외않되
+            'Expires' => now()->addMinute(5),                        #7 expire 현재시간 + 5분 적용 외않되
         ]);
         return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
     }
 
     public function destroy($image)
     {
-        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
-        $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images');
+        $filePath = $this->checkUserMakePath();
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
         return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }

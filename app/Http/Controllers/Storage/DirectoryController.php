@@ -5,24 +5,24 @@ namespace App\Http\Controllers\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\tools;
 use App\Models\Work;
 use Auth;
+use App\Traits\FileTrait;
 
 class DirectoryController extends Controller
 {
-    private $tools = null;
+    use FileTrait;
     public function __construct()
     {
-        $this->tools = new tools();
-        $this->middleware('auth');   # 인증된 사용자만 이용할 수 있게 , route(login)이 실행됨.
+        # $this->tools = new tools();
+        $this->middleware('auth');
     }
 
 
 
     # @return \Illuminate\Http\Response
     # Display a listing of the resource.
-    public function index(Request $request)                        # get Directories & get Files
+    public function index(Request $request,  $bookNum, $dir = null)                        # get Directories & get Files
     {
         /* 접근 폴더 주소 만들기
         *  폴더 종류 : public(작품 내에 존재하는 공동작업방), private(작가와 일러스트레이터 개인 저장공간)
@@ -49,7 +49,7 @@ class DirectoryController extends Controller
         $bookInfo = Work::select('users.email', 'works.num', 'works.work_title')
             ->leftjoin('work_lists', 'works.num', 'work_lists.num_of_work')
             ->leftjoin('users', 'work_lists.user_id', 'users.id')
-            ->where('works.num', '=', 21)            //$num 숫자 부분은 변수로 전달 받아야함
+            ->where('works.num', '=', $bookNum)            //$num 숫자 부분은 변수로 전달 받아야함
             ->orderBy('work_lists.created_at', 'asc')
             ->first();  // 21번 작품을 쓴 작가 email = Author@test, bookTitle
 
@@ -74,48 +74,57 @@ class DirectoryController extends Controller
         }
 
         #$dirFiles = Storage::disk('s3')->files($path);
-        #$dir = Storage::disk('s3')->directories($role);
-        #해당 경로에 있는 모든 directory (폴더만)
-        #리소스 폴더 보여줌 directories -> 폴더 누름(눌럿을 때 모든 파일+폴더 보임) allfile + directories -> file 또는 directory 들어감
+        #$dir = Storage::disk('s3')->directories($role);  #해당 경로에 있는 모든 directory (폴더만)
+        #리소스 폴더 보여줌 directories -> 폴더 누름(눌렀을 때 모든 파일+폴더 보임) allfile + directories -> file 또는 directory 들어감
         #리소스 폴더 생성
 
-        $inDirectory = [    // 폴더 접근 url + 파일 info
+        $rootDirectory = [    // 폴더 접근 url + 파일 info
             'directories' => [
                 'PRIVATE_FOLDER' => $privateFolder,
-                'PUBLIC_FOLDER' => $publicFolder
+                'PUBLIC_FOLDER' => $publicFolder[0],
             ],
-            'files' => [
-                'PRIVATE_FILE' => $privateFile,
-                'PUBLIC_FILE' => $publicFile
-            ]
+            'PRIVATE_FILE' => $privateFile, # private는 폴더가 계속 늘어나고 줄어드니 변할 수 있어야 함.
+            'PUBLIC_FILE' => $publicFile,   # public은 image 하나만 이어도 상관없지만
         ];
 
+        switch ($dir) {
+            case 'private':
+                $dir = 'PRIVATE_FILE';
+                break;
+            case 'public':
+                $dir = 'PUBLIC_FILE';
+                break;
+            case 'root':
+                $dir = 'directories';
+                break;
+            default:
+                $dir = 'directories';
+                break;
+        }
+
+        return response()->json($rootDirectory[$dir], 200);
+        // return response()->json($rootDirectory[$dir], 200, [], JSON_PRETTY_PRINT);
+
         // 'metadata' => Storage::disk('s3')->getMetadata($file) / 모든 메타데이터 가져옴
-        return response()->json($inDirectory, 200, [], JSON_PRETTY_PRINT); //어떤값이 오는지 확인
-        return $inDirectory['directories'];
 
         if ($privateFolder === []) {  // 해당 폴더에 더이상 폴더가 없으면?
             $dir = Storage::disk('s3')->allFiles($role);
         }
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    # make New Directory
+    public function create($dirName)
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    # destroy Image or Directory
+    public function destroy($id)
+    {
+        //
+    }
+
+    # save Images
     public function store(Request $request)
     {
         //
@@ -150,19 +159,14 @@ class DirectoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    # rename Dir Or Files
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    # Remove the specified resource from storage.
+    # @param  int  $id
+    # @return \Illuminate\Http\Response
+
 }

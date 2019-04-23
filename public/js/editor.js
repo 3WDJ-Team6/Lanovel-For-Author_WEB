@@ -228,6 +228,7 @@ function memoBalloon(e) {
     var top = e.clientY - 48;
     var back = ["#ffc", "#cfc", "#ccf"];
     var rand = back[Math.floor(Math.random() * back.length)];
+
     console.log(rand);
     if (window.getSelection) {
         var txt = window.getSelection();
@@ -249,11 +250,11 @@ function memoBalloon(e) {
                     memoPopupId +
                     "'" +
                     "class='memoPopup' contenteditable='false' style='background-color:" + rand + "'>" +
-                    "<form method='POST' action='/store_memo/" + memoViewId + "'>" +
+                    "<form method='POST' action='/store_memo/" + content_of_work + "/" + memoViewId + "'>" +
                     "<textarea name='content_of_memo' class='underline' autocorrect='false'>" +
                     "</textarea>" +
                     "<span>유저이름</span>" +
-                    "<button class='memoSave'>" +
+                    "<button type='submit' class='memoSave'>" +
                     "<span class='memoSaveSpan'><span>" +
                     "</button>" +
                     "</form>" +
@@ -413,26 +414,36 @@ $(document).ready(function () {
     //     }
     // });
 
-    $.ajax({
-        type: "GET",
-        url: "/res",
-        error: function (e) {
-            console.log(e);
-            throw new Error("실-패");
-        },
-        success: function (data) {
-            $("#resource-feild").append(data);
-        }
-    });
+    //리소스파일 리스팅
+    let folder = '';
+    var chng_text = '';
 
-    var resres = "";
-    $(document).on("click", ".openView", function () {
-        resres = $(this).attr("url");
-        // alert(resres);
+    function getResource() {
         $.ajax({
             type: "GET",
-            url: "https://s3.ap-northeast-2.amazonaws.com/lanovebucket/index.html",
-            data: resres,
+            url: "/getDir", //private, public, 나중에 책의 num값도 넘겨줘야함
+            dataType: "json",
+            error: function (e) {
+                console.log(e);
+                throw new Error("실-패");
+            },
+            success: function (data) {
+                for (var i = 0; i < 2; i++) {
+                    $("#resource-feild").append("<span id='obj_" + i + "' class='obj'><span class='obj_folder' style='background-image: url(\"/image/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" + Object.keys(data)[i] + "</span></span");
+                }
+            }
+        });
+    }
+    $(document).on("click", ".obj", function () {
+        if (this.id == 'obj_0') {
+            folder = 'private';
+        } else if (this.id == 'obj_1') {
+            folder = 'public';
+        }
+        $.ajax({
+            type: "GET",
+            url: "/getDir/" + folder,
+            dataType: "json",
             error: function (data) {
                 console.log(22222222);
                 console.log(data);
@@ -441,11 +452,26 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(111111111);
                 console.log(data);
-                $("#resource-feild").html(data);
+                console.log("folder : " + folder);
+                $("#resource-feild").html('');
+                $.each(data, function (index, item) {
+                    console.log("item.name : " + item.name);
+                    console.log("item.src : " + item.src);
+                    console.log("index : " + index);
+                    chng_text = item.name.substr(0, 9) + "...";
+                    // var output = '';
+                    // output += item.name;
+                    $("#resource-feild").append("<span id='obj_" + index + "' class='obj'><img src='" + item.src + "' class='obj_thum' /><span class='obj_name'>" + chng_text + "</span></span");
+                });
+                $("#resource-feild").prepend("<div class='back'>뒤로가기</div>");
             }
         });
     });
-
+    $(document).on("click", ".back", function () {
+        $("#resource-feild").html('');
+        getResource();
+    });
+    getResource();
     //텍스트에리어로 마우스 올라가면 p태그안의 thum클래스를 resize로 바꾸고 div로 감싼다
     // $('.textarea').hover(function () {
     //     $('.textarea .obj_thumb').attr('class', 'resize').wrap('<div class="effect" id="selectable" style="display:inline-block;width:auto;height:auto;"></div>');
@@ -578,6 +604,7 @@ $(document).ready(function () {
     $(".balloon").draggable();
     //메모//
 
+    //왼쪽 사이드바
     $("#menuToggle_right").click(function (e) {
         var $parent = $(this).parent("nav");
         $parent.toggleClass("open_right");
@@ -597,6 +624,8 @@ $(document).ready(function () {
         }
         e.preventDefault();
     });
+
+    //오른쪽사이드바
     $("#menuToggle_left").click(function (e) {
         var $parent = $(this).parent("nav");
         $parent.toggleClass("open_left");

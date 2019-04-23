@@ -105,8 +105,10 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/ft', 'Storage\FileController@ft')->name('ft');
     Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
     # s3 directory dynamic listing
-    Route::get('/getDir', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
+    Route::get('/getDir/{bookNum}/{dir?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
+
+Route::get('/worklists', 'Mobile\WorkListController@index');
 
 // Route::get('editor/tool/innerchat', 'Chat\ChatController@chat');
 // Route::get('editor/innerchat', 'Chat|ChatController@chat');
@@ -127,7 +129,7 @@ Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 Route::get('/res', 'WorkOut\EditController@res');
 
 //메모
-Route::post('/store_memo/{num}', 'WorkOut\EditController@store_memo');
+Route::post('/store_memo/{num_of_content}/{num}', 'WorkOut\EditController@store_memo');
 
 # kakao login
 Route::group(['middleware' => ['guest']], function () { # guest만 사용가능한 Route
