@@ -576,6 +576,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Requests\\FilePost' => __DIR__ . '/../..' . '/app/Http/Requests/FilePost.php',
+        'App\\IllustFile' => __DIR__ . '/../..' . '/app/IllustFile.php',
         'App\\Listeners\\ChatListener' => __DIR__ . '/../..' . '/app/Listeners/ChatListener.php',
         'App\\Listeners\\LogVerifiedUser' => __DIR__ . '/../..' . '/app/Listeners/LogVerifiedUser.php',
         'App\\Models\\BuyerOfIllustration' => __DIR__ . '/../..' . '/app/Models/BuyerOfIllustration.php',

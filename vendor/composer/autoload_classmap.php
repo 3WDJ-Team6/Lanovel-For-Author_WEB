@@ -40,6 +40,7 @@ return array(
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Http\\Requests\\FilePost' => $baseDir . '/app/Http/Requests/FilePost.php',
+    'App\\IllustFile' => $baseDir . '/app/IllustFile.php',
     'App\\Listeners\\ChatListener' => $baseDir . '/app/Listeners/ChatListener.php',
     'App\\Listeners\\LogVerifiedUser' => $baseDir . '/app/Listeners/LogVerifiedUser.php',
     'App\\Models\\BuyerOfIllustration' => $baseDir . '/app/Models/BuyerOfIllustration.php',
