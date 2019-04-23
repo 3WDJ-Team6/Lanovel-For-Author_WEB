@@ -98,7 +98,7 @@ if (!Array.prototype.includes) {
                 if (sameValueZero(o[k], searchElement)) {
                     return true;
                 }
-                // c. Increase k by 1. 
+                // c. Increase k by 1.
                 k++;
             }
 
@@ -375,3 +375,16 @@ function bytesToHumanReadable(sizeInBytes) {
     } while (sizeInBytes > 1024);
     return Math.max(sizeInBytes, 0.1).toFixed(1) + units[i];
 }
+
+
+
+
+$(".textarea").each(function () {
+    var text = $(".textarea").html();
+    $("#result").html(text);
+    $("#result").html($("#result").html().replace(/[\|｜](.+?)《(.+?)》/g, "<ruby>$1<rt>$2</rt></ruby>")
+        .replace(/[\|｜](.+?)（(.+?)）/g, "<ruby>$1<rt>$2</rt></ruby>").replace(/[\|｜](.+?)\((.+?)\)/g, "<ruby>$1<rt>$2</rt></ruby>")
+        .replace(/([一-龠]+)《(.+?)》/g, "<ruby>$1<rt>$2</rt></ruby>").replace(/([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g, "<ruby>$1<rt>$2</rt></ruby>")
+        .replace(/([一-龠]+)\(([ぁ-んァ-ヶ]+?)\)/g, "<ruby>$1<rt>$2</rt></ruby>").replace(/[\|｜]《(.+?)》/g, "《$1》").replace(/[\|｜]（(.+?)）/g, "（$1）").replace(/[\|｜]\((.+?)\)/g, "($1)")
+    );
+});

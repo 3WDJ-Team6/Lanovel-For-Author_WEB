@@ -557,6 +557,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Http\\Controllers\\Chat\\ChatController' => __DIR__ . '/../..' . '/app/Http/Controllers/Chat/ChatController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\Mobile\\WorkListController' => __DIR__ . '/../..' . '/app/Http/Controllers/Mobile/WorkListController.php',
         'App\\Http\\Controllers\\Publish\\PublicationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Publish/PublicationController.php',
         'App\\Http\\Controllers\\ResourceController' => __DIR__ . '/../..' . '/app/Http/Controllers/ResourceController.php',
         'App\\Http\\Controllers\\Storage\\DirectoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/Storage/DirectoryController.php',
