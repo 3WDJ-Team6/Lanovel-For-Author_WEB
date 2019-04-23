@@ -21,6 +21,7 @@ return array(
     'App\\Http\\Controllers\\Chat\\ChatController' => $baseDir . '/app/Http/Controllers/Chat/ChatController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
+    'App\\Http\\Controllers\\Mobile\\WorkListController' => $baseDir . '/app/Http/Controllers/Mobile/WorkListController.php',
     'App\\Http\\Controllers\\Publish\\PublicationController' => $baseDir . '/app/Http/Controllers/Publish/PublicationController.php',
     'App\\Http\\Controllers\\ResourceController' => $baseDir . '/app/Http/Controllers/ResourceController.php',
     'App\\Http\\Controllers\\Storage\\DirectoryController' => $baseDir . '/app/Http/Controllers/Storage/DirectoryController.php',

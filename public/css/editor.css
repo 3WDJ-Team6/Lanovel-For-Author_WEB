@@ -312,7 +312,8 @@ pre {
     margin-right: 5px;
 }
 
-.obj {
+.obj,
+.obj_file {
     display: inline-block;
     padding-left: 7px;
 }
@@ -458,6 +459,17 @@ textarea {
 input[readonly] {
     background: none;
 }
+
+.custom-menu {
+    width: 100px;
+    z-index: 1000;
+    border-radius: 5%;
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+    padding: 2px;
+}
+
 
 .nav_left {
     height: 462px;
