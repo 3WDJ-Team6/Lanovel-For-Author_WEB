@@ -22,7 +22,7 @@ class DirectoryController extends Controller
 
     # @return \Illuminate\Http\Response
     # Display a listing of the resource.
-    public function index(Request $request, $dir = null)                        # get Directories & get Files
+    public function index(Request $request,  $bookNum, $dir = null)                        # get Directories & get Files
     {
         /* 접근 폴더 주소 만들기
         *  폴더 종류 : public(작품 내에 존재하는 공동작업방), private(작가와 일러스트레이터 개인 저장공간)
@@ -49,7 +49,7 @@ class DirectoryController extends Controller
         $bookInfo = Work::select('users.email', 'works.num', 'works.work_title')
             ->leftjoin('work_lists', 'works.num', 'work_lists.num_of_work')
             ->leftjoin('users', 'work_lists.user_id', 'users.id')
-            ->where('works.num', '=', 21)            //$num 숫자 부분은 변수로 전달 받아야함
+            ->where('works.num', '=', $bookNum)            //$num 숫자 부분은 변수로 전달 받아야함
             ->orderBy('work_lists.created_at', 'asc')
             ->first();  // 21번 작품을 쓴 작가 email = Author@test, bookTitle
 
@@ -102,7 +102,8 @@ class DirectoryController extends Controller
                 break;
         }
 
-        return response()->json($rootDirectory[$dir], 200, [], JSON_PRETTY_PRINT);
+        return response()->json($rootDirectory[$dir], 200);
+        // return response()->json($rootDirectory[$dir], 200, [], JSON_PRETTY_PRINT);
 
         // 'metadata' => Storage::disk('s3')->getMetadata($file) / 모든 메타데이터 가져옴
 
