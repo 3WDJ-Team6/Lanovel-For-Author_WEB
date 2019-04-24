@@ -37,12 +37,19 @@ class PublicationController extends Controller
             'works.work_title'
         )->where('works.num', '=', $num_of_work)->first()->work_title;
 
+        $book_cover = Work::select(
+            'works.bookcover_of_work'
+        )->where('works.num', '=', $num_of_work)->first()->bookcover_of_work;
+
         #S3
         $filePath = 'Author' . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR . $work_title . DIRECTORY_SEPARATOR;
         if (!Storage::disk('s3')->exists($filePath)) {
-            return $filePath;
             Storage::disk('s3')->makeDirectory($filePath, 0777, true);
         }
+
+        $coverName = str_replace(config('filesystems.disks.s3.url') . 'Author' . DIRECTORY_SEPARATOR . Auth::user()['email'] .
+            DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR . $work_title . DIRECTORY_SEPARATOR .
+            'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR, '', $book_cover);
 
         // $book_cover = Work::select(                                                      // 커버 이미지 위치.
         //     'works.bookcover_of_work'
@@ -131,7 +138,7 @@ class PublicationController extends Controller
 
         Storage::disk('s3')->put($filePath . '/META-INF/container.xml', $container); // container 파일
 
-        $file = fopen("C:/" . $work_title . $chapter_title . "/" . $work_title . $chapter_title . "/" . $work_title . $chapter_title . ".opf", "w");
+        // $file = fopen("C:/" . $work_title . $chapter_title . "/" . $work_title . $chapter_title . "/" . $work_title . $chapter_title . ".opf", "w");
 
 >>>>>>> d6b4b96e277f433e5d7a74ec0f0fbee51ce0301b
         $isodate = date('Y-m-d\TH:i:s\Z');
@@ -152,7 +159,7 @@ class PublicationController extends Controller
             <manifest>
                 <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml"/>
                 <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml"/>
-                <item id="coverimage" properties="cover-image" href="images/cover.png" media-type="image/png"/>
+                <item id="coverimage" properties="cover-image" href="images/' . $coverName . 'media-type="image/png"/>
                 <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
                 ';
         foreach ($chapter_list as $i => $clist) {
@@ -237,7 +244,7 @@ class PublicationController extends Controller
         <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='ko' lang='ko'>
         <head><title></title></head>
             <body>
-                <img src='images/cover.png' alt='" . $work_title . "'/>
+                <img src='images/" . $coverName . "' alt='" . $work_title . "'/>
             </body>
         </html>
         ";
@@ -307,8 +314,9 @@ class PublicationController extends Controller
             .replace(/[\|｜]（(.+?)）/g, '（$1）').replace(/[\|｜]\((.+?)\)/g, '($1)');
             ";
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsFile);   // css전체
-        Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');
-        // 직접 제작한 js와 css는 resource폴더에 보관하고 있다가 발행시 넣어줌.
+        if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
+            Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');
+        } // 직접 제작한 js와 css는 resource폴더에 보관하고 있다가 발행시 넣어줌.
         return back()->withSuccess($work_title . '의 ' . $chapter_title . ' 이(가) 정상적으로 발행 되었습니다.');
         /*
                 위의 생성된 파일들을 바탕으로 epub 파일 생성됨.(

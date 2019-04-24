@@ -51,6 +51,10 @@ class IllustController extends Controller
 
             $illustFileUrl = config('filesystems.disks.s3.url') . $saveFilePath;
 
+            Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [
+                'visibility' => 'public',
+                'Metadata' => ['Content-Type' => 'image/jpeg'],
+            ]);
 
             $illust_file_info = [
                 'position_of_illustration' => $illustFileUrl,
