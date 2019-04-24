@@ -16,9 +16,10 @@ class CreateCategoryIllustrationsTable extends Migration
         Schema::create('category_illustrations', function (Blueprint $table) {
             $table->integer('num_of_illustration')->comment("일러스트번호")->unsigned();
             $table->foreign('num_of_illustration')
-                  ->references('num')->on('illustration_lists');
+                ->references('num')->on('illustration_lists');
 
             $table->string('tag')->comment("태그");
+            $table->string('moreTag')->comment("세부태그");
         });
     }
 

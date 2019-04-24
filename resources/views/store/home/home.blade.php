@@ -8,7 +8,6 @@
 @include('layouts.store.header')
 @endsection
 
-
 @section('content')
 
 <body>
@@ -46,15 +45,14 @@
                 <div class="col-12">
                     <div class="popular-products-slides owl-carousel">
 
+                        @foreach ($products as $row)
                         <!-- Single Product -->
                         <div class="single-product-wrapper">
-                            @foreach ($products as $row)
                             <div class="single-product">
                                 <!-- Product Image -->
                                 <div class="product-img">
                                     <a href="{{url('store/detail/view')}}/{{$row['num']}}">
-                                        <img src="{{$row['position_of_illustration']}}" alt=""
-                                            onerror="this.src='{{asset('image/no_image.png')}}'">
+                                        <img src="{{$row['position_of_illustration']}}" alt="" onerror="this.src='{{asset('image/no_image.png')}}'">
                                         <!-- Hover Thumb -->
                                         <!-- <img class="hover-img" src="{{asset('image/store/product-1.png')}}" alt=""> -->
                                         <!-- Favourite -->
@@ -63,7 +61,6 @@
                                         </div>
                                     </a>
                                 </div>
-
 
                                 <!-- Product Description -->
                                 <div class="product-description">
@@ -82,10 +79,8 @@
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
                         </div>
-
-
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -93,11 +88,11 @@
     </section>
     <!-- 인기작품 End -->
 
-
 </body>
 
 @endsection
 
 @section('footer')
 @include('layouts.store.footer')
+<script src="{{asset('js/store/popper.min.js')}}"></script>
 @endsection

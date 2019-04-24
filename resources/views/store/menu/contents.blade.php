@@ -8,7 +8,6 @@
 @include('layouts.store.header')
 @endsection
 
-
 @section('content')
 
 <body>
@@ -34,22 +33,16 @@
                 </div>
             </div>
         </div>
-
-        @foreach($products as $row)
         <div class="container">
             <div class="row">
                 <div class="col-12">
+                    @foreach($products as $row)
                     <!-- 작품 -->
                     <a href="{{url('store/detail/view')}}/{{$row['num']}}">
-                        <div class="single-product-wrapper" style="display:inline-block; margin-right:10px;">
+                        <div class="single-product-wrapper">
                             <!-- 작품이미지 -->
                             <div class="product-img">
-                                <img src="{{$row['position_of_illustration']}}" alt="작품1"
-                                    style="width:200px; height:250px;">
-                                <!-- <img class="hover-img" src="{{asset('image/store/product-1.png')}}" alt="" style="width:200px; height:250px;"> -->
-                                <!-- <div class="product-favourite">
-                                    <a href="#" class="favme fa fa-heart"></a>
-                                </div> -->
+                                <img src="{{$row['position_of_illustration']}}" alt="작품1" style="width:200px; height:250px;">
                             </div>
                             <!-- 작품설명 -->
                             <div class="product-description">
@@ -69,10 +62,10 @@
                             </div>
                         </div>
                     </a>
+                    @endforeach
                 </div>
             </div>
         </div>
-        @endforeach
     </section>
 
 </body>

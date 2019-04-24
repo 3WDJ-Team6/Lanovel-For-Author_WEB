@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
-class PublicationController extends Controller{
+class PublicationController extends Controller
+{
 
     /*
     남은 일 :
@@ -21,14 +22,19 @@ class PublicationController extends Controller{
         2. 사용자가 사용할려면 epubcheck.jar 및 기타 부속품이 필요한데 어케 해결할지
         3. 사용자별로 epubcheck.jar 파일위치가 달라질텐데 ...
     */
+<<<<<<< HEAD
 
     public function publish($num_of_work,$num_of_chapter){
+=======
+    public function publish($num_of_work, $num_of_chapter)
+    {
+>>>>>>> 6802d317b0032ae7137d9c5636553ade685921b8
         $work_title = Work::select(                                                         // 작품 제목 가져오기
             'works.work_title'
-        )->where('works.num','=',$num_of_work)->pluck('work_title');
-        $title=json_encode($work_title, JSON_UNESCAPED_UNICODE);
-            $title = str::after($title,'["');
-            $title = str::before($title,'"]');                                              // 문자열 처리
+        )->where('works.num', '=', $num_of_work)->pluck('work_title');
+        $title = json_encode($work_title, JSON_UNESCAPED_UNICODE);
+        $title = str::after($title, '["');
+        $title = str::before($title, '"]');                                                 // 문자열 처리
 
         // $book_cover = Work::select(                                                      // 커버 이미지 위치.
         //     'works.bookcover_of_work'
@@ -38,26 +44,27 @@ class PublicationController extends Controller{
 
         $chapter_title = ChapterOfWork::select(                                             // 챕터or권 이름
             'chapter_of_works.subtitle'
-        )->where('chapter_of_works.num','=',$num_of_chapter)->pluck('subtitle');
-        $chapter_title=json_encode($chapter_title, JSON_UNESCAPED_UNICODE);
-        $chapter_title = str::after($chapter_title,'["');                                   // 마찬가지로 문자열 처리
-        $chapter_title = str::before($chapter_title,'"]');
+        )->where('chapter_of_works.num', '=', $num_of_chapter)->pluck('subtitle');
+        $chapter_title = json_encode($chapter_title, JSON_UNESCAPED_UNICODE);
+        $chapter_title = str::after($chapter_title, '["');                                   // 마찬가지로 문자열 처리
+        $chapter_title = str::before($chapter_title, '"]');
 
         $participant = WorkList::select(                                                    // 작품 참여자 명단 (id)
             'work_lists.user_id'
-        )->where('work_lists.num_of_work','=',$num_of_work)->pluck('user_id');
+        )->where('work_lists.num_of_work', '=', $num_of_work)->pluck('user_id');
         $user = User::select(
             'users.nickname'
-        )->wherein('users.id',$participant)->pluck('nickname');
-        $work_list=json_encode($user, JSON_UNESCAPED_UNICODE);
-            $work_list = str::after($work_list,'["');
-            $work_list = str::before($work_list,'"]');
-            $work_list = str_replace('"','',$work_list);                                    // 가져온 명단 닉네임(필명) 으로 변경
+        )->wherein('users.id', $participant)->pluck('nickname');
+        $work_list = json_encode($user, JSON_UNESCAPED_UNICODE);
+        $work_list = str::after($work_list, '["');
+        $work_list = str::before($work_list, '"]');
+        $work_list = str_replace('"', '', $work_list);                                    // 가져온 명단 닉네임(필명) 으로 변경
 
-        $chapter_list=ContentOfWork::select(                                                // 각 목차 이름 내용 생성시간.
+        $chapter_list = ContentOfWork::select(                                                // 각 목차 이름 내용 생성시간.
             'content_of_works.subsubtitle',
             'content_of_works.content',
             'content_of_works.created_at'
+<<<<<<< HEAD
         )->where('content_of_works.num_of_chapter','=',$num_of_chapter)->get();
 
         // mkdir("C:/".$title.$chapter_title."/".$title.$chapter_title."/images",0777,true);
@@ -72,34 +79,44 @@ class PublicationController extends Controller{
         $file=fopen("C:/".$title.$chapter_title."/".$title.$chapter_title."/js/test.js","w");
         $text = "<script>test</script> ";+
         fwrite($file,$text);
+=======
+        )->where('content_of_works.num_of_chapter', '=', $num_of_chapter)->get();
+
+        mkdir("C:/" . $title . $chapter_title . "/" . $title . $chapter_title . "/images", 0777, true);
+        mkdir("C:/" . $title . $chapter_title . "/" . $title . $chapter_title . "/css", 0777, true);
+        mkdir("C:/" . $title . $chapter_title . "/META-INF", 0777, true);                           // 폴더 생성
+        $file = fopen("C:/" . $title . $chapter_title . "/mimetype", "w");
+        $text = "application/epub+zip";
+        +fwrite($file, $text);
+>>>>>>> 6802d317b0032ae7137d9c5636553ade685921b8
         fclose($file);                                                                                          // mimetype 파일
 
-        $file=fopen("C:/".$title.$chapter_title."/META-INF/container.xml","w");
+        $file = fopen("C:/" . $title . $chapter_title . "/META-INF/container.xml", "w");
         $text =
-        /*full-path 부분 수정해야함.
+            /*full-path 부분 수정해야함.
         --------------------------수정 했음*/
-        "<?xml version='1.0'?>\n
+            "<?xml version='1.0'?>\n
         <container version='1.0' xmlns='urn:oasis:names:tc:opendocument:xmlns:container'>\n
             <rootfiles>\n
-                <rootfile full-path='".$title.$chapter_title."/".$title.$chapter_title.".opf' media-type='application/oebps-package+xml'/>\n
+                <rootfile full-path='" . $title . $chapter_title . "/" . $title . $chapter_title . ".opf' media-type='application/oebps-package+xml'/>\n
             </rootfiles>\n
         </container>\n";
-        fwrite($file,$text);
+        fwrite($file, $text);
         fclose($file);                                                                                      // container 파일
 
-        $file=fopen("C:/".$title.$chapter_title."/".$title.$chapter_title."/".$title.$chapter_title.".opf","w");
+        $file = fopen("C:/" . $title . $chapter_title . "/" . $title . $chapter_title . "/" . $title . $chapter_title . ".opf", "w");
         $isodate = date('Y-m-d\TH:i:s\Z');
         $text =
-        '<?xml version="1.0"?>
+            '<?xml version="1.0"?>
         <package version="3.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="bookID">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-                <dc:title>'.$title.'</dc:title>
+                <dc:title>' . $title . '</dc:title>
                 <dc:identifier id="bookID">urn:uuid:C44729F0-0820-11EF-892E-0800200C9A66</dc:identifier>
-                <dc:date>'.$isodate.'</dc:date>
-                <dc:creator id="__dccreator1">'.$work_list.'</dc:creator>
+                <dc:date>' . $isodate . '</dc:date>
+                <dc:creator id="__dccreator1">' . $work_list . '</dc:creator>
                 <meta refines="#__dccreator1" property="role" scheme="marc:relators" id="role">aut</meta>
                 <dc:publisher>OO출판사</dc:publisher>
-                <meta property="dcterms:modified">'.$isodate.'</meta>
+                <meta property="dcterms:modified">' . $isodate . '</meta>
                 <dc:language>ko</dc:language>
             </metadata>
 
@@ -109,31 +126,31 @@ class PublicationController extends Controller{
                 <item id="coverimage" properties="cover-image" href="images/cover.png" media-type="image/png"/>
                 <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
                 ';
-                foreach($chapter_list as $i => $clist){
-                    $text=$text.'<item id="main'.$i.'"';
-                    $text=$text.' href="main'.$i.'.xhtml" media-type="application/xhtml+xml"/>
+        foreach ($chapter_list as $i => $clist) {
+            $text = $text . '<item id="main' . $i . '"';
+            $text = $text . ' href="main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
                 ';
-                }
+        }
 
-            $text=$text.'</manifest>
+        $text = $text . '</manifest>
             <spine page-progression-direction="ltr">
             <itemref idref="coverpage" linear="yes" />
             <itemref idref="toc" linear="yes" />
             ';
-            foreach($chapter_list as $i => $clist){
-                $text=$text.'<itemref idref="main'.$i.'"';
-                $text=$text.' linear="yes" />
+        foreach ($chapter_list as $i => $clist) {
+            $text = $text . '<itemref idref="main' . $i . '"';
+            $text = $text . ' linear="yes" />
             ';
-            }
-            $text=$text.'</spine>
+        }
+        $text = $text . '</spine>
         </package>
         ';
-        fwrite($file,$text);
+        fwrite($file, $text);
         fclose($file);                                          // opf파일
 
-        $file=fopen("C:/".$title.$chapter_title."/".$title.$chapter_title."/nav.xhtml","w");
+        $file = fopen("C:/" . $title . $chapter_title . "/" . $title . $chapter_title . "/nav.xhtml", "w");
         $text =
-        '<?xml version="1.0" encoding="UTF-8"?>
+            '<?xml version="1.0" encoding="UTF-8"?>
             <!DOCTYPE html>
             <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="ko" lang="ko">
             <head><title></title></head>
@@ -142,15 +159,21 @@ class PublicationController extends Controller{
                     <nav epub:type="toc" id="toc">
                         <h1>목차</h1>
                         <ol>
-                            <li><a href="cover.xhtml">'.$title.'</a></li>
+                            <li><a href="cover.xhtml">' . $title . '</a></li>
                             <li><a href="nav.xhtml">목차</a>
                                 <ol>
                                 ';
-                                foreach($chapter_list as $i => $clist){
-                                    $text=$text.'<li> <a href="main'.$i.'.xhtml">'.$clist['subsubtitle'].'</a></li>
+        foreach ($chapter_list as $i => $clist) {
+            $text = $text . '<li> <a href="main' . $i . '.xhtml">' . $clist['subsubtitle'] . '</a></li>
                                     ';
+<<<<<<< HEAD
                                 }
                                 $text=$text.'
+=======
+        }
+
+        $text = $text . '
+>>>>>>> 6802d317b0032ae7137d9c5636553ade685921b8
                                 </ol>
                             </li>
                         </ol>
@@ -159,47 +182,47 @@ class PublicationController extends Controller{
             </body>
         </html>
         ';
-        fwrite($file,$text);
+        fwrite($file, $text);
         fclose($file);                                                //nav 파일
 
-        $file=fopen("C:/".$title.$chapter_title."/".$title.$chapter_title."/cover.xhtml","w");
+        $file = fopen("C:/" . $title . $chapter_title . "/" . $title . $chapter_title . "/cover.xhtml", "w");
         $text =
-        "<?xml version='1.0' encoding='UTF-8'?>
+            "<?xml version='1.0' encoding='UTF-8'?>
         <!DOCTYPE html>
         <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='ko' lang='ko'>
         <head><title></title></head>
             <body>
-                <img src='images/cover.png' alt='".$title."'/>
+                <img src='images/cover.png' alt='" . $title . "'/>
             </body>
         </html>
         ";
-        fwrite($file,$text);
+        fwrite($file, $text);
         fclose($file);                                                // cover.xhtml
 
-        foreach($chapter_list as $i => $clist){
-            $file=fopen("C:/".$title.$chapter_title."/".$title.$chapter_title."/main".$i.".xhtml","w");
+        foreach ($chapter_list as $i => $clist) {
+            $file = fopen("C:/" . $title . $chapter_title . "/" . $title . $chapter_title . "/main" . $i . ".xhtml", "w");
             $text =
-            "<?xml version='1.0' encoding='UTF-8'?>
+                "<?xml version='1.0' encoding='UTF-8'?>
             <!DOCTYPE html>
             <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='ko' lang='ko'>
                 <head>
-                    <title>".$clist['subsubtitle']."</title>
+                    <title>" . $clist['subsubtitle'] . "</title>
                     <link rel='stylesheet' href='css/stylesheet.css' type='text/css' />
                 </head>
                 <body>
-                    <h1>".$clist['subsubtitle']."</h1>
-                    ".$clist['content']."
+                    <h1>" . $clist['subsubtitle'] . "</h1>
+                    " . $clist['content'] . "
                 </body>
             </html>
             ";
-            fwrite($file,$text);
+            fwrite($file, $text);
             fclose($file);
         }                                                     // 각 목차 내용
 
 
-        $file=fopen("C:/".$title.$chapter_title."/".$title.$chapter_title."/css/stylesheet.css","w");
+        $file = fopen("C:/" . $title . $chapter_title . "/" . $title . $chapter_title . "/css/stylesheet.css", "w");
         $text =
-        "
+            "
         body { font-size: 1em; }
         h1 { font-size: 1.6em; }
         h2 { font-size: 1.4em; }
@@ -207,20 +230,26 @@ class PublicationController extends Controller{
         h4 { font-size: 1.1em; }
         p { font-size: 1em; }
         ";
-        fwrite($file,$text);
+        fwrite($file, $text);
         fclose($file);                                              // css전체
-                                                                    // 아직 이부분은 민수랑 협의 해야됨
+        // 아직 이부분은 민수랑 협의 해야됨
 
         $cover = "Author\test@test\\이건 살려줘/OEBPS/images/1555411438KakaoTalk_20190414_144049483.png";
 
         // 주소 수정하기.
+<<<<<<< HEAD
         // $text = Storage::disk('s3')->directories("Author/949765751/WorkSpace/recollections-of-wartime/");
         $file = 'java -jar c:\epubcheck-4.1.1\epubcheck.jar -mode exp -save "C:\\'.$title.$chapter_title.'"';
         // $file = 'java -jar c:\epubcheck-4.1.1\epubcheck.jar -mode exp -save '.$text;
 
         return shell_exec($file);
+=======
+        $file = 'java -jar c:\epubcheck-4.1.1\epubcheck.jar -mode exp -save "C:\\' . $title . $chapter_title . '"';
+        shell_exec($file);
+        return $file;
+>>>>>>> 6802d317b0032ae7137d9c5636553ade685921b8
 
-            /*
+        /*
                 위의 생성된 파일들을 바탕으로 epub 파일 생성됨.(
                 image.png만 있으면
                 확장자 변경은 파일을 가져올 때 파일 확장자 받아서

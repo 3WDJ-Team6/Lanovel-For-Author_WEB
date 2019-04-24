@@ -24,7 +24,7 @@ Route::get('/', 'WorkOut\IndexController@index');
 // 작품 추가 페이지
 // Route::post('/create', 'WorkOut\IndexController@create');
 
-// 새 작픔 추가
+// 새 작품 추가
 Route::post('/addBook', 'WorkOut\IndexController@store')->name('addBook');
 
 // 작품 수정 페이지
@@ -105,7 +105,7 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/ft', 'Storage\FileController@ft')->name('ft');
     Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
     # s3 directory dynamic listing
-    Route::get('/getDir', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
+    Route::get('/getDir/{dir?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
 Route::get('editor/tool/editor/innerchat', 'Chat\ChatController@chat');
@@ -115,6 +115,7 @@ Route::post('send', 'Chat\ChatController@send');
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes(); //로그인에 관한 모든 기능 연결
 
+
 // 에디터 진입
 Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 
@@ -122,7 +123,7 @@ Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 Route::get('/res', 'WorkOut\EditController@res');
 
 //메모
-Route::post('/store_memo/{num}', 'WorkOut\EditController@store_memo');
+Route::post('/store_memo/{num_of_content}/{num}', 'WorkOut\EditController@store_memo');
 
 # kakao login
 Route::group(['middleware' => ['guest']], function () { # guest만 사용가능한 Route
@@ -135,18 +136,24 @@ Route::get('/eloquent', function () {
     return dd(Work::all()); //Model에 all메서드 dd로 출력
 });
 
-Route::get('/store/menu/upload', function () {
-    return view('store.menu.upload');
-});
+
+// 일러스트 등록 페이지
+Route::get('/illustCreate', 'WorkOut\IllustController@create');
+
+// 일러스트 등록
+Route::post('/illustUpload', 'WorkOut\IllustController@store');
+
+// 일러스토어 대메뉴 페이지
+Route::get('/menu/{category}', 'WorkOut\IllustController@menuIndex');
 
 // 일러스토어 상세메뉴 페이지
-Route::get('/menu/{category}', 'WorkOut\IllustController@menuIndex');
+Route::get('/menu/{category}/{moreCategory}', 'WorkOut\IllustController@detailMenuIndex');
 
 Route::post('store/find/search', function () {
     return view('store.find.search');
 });
 
-Route::post('store/detail/view', function () {
+Route::get('store/detail/view', function () {
     return view('store.detail.view');
 });
 

@@ -5,29 +5,30 @@ namespace App\Http\Controllers\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\tools;
-use App\Models\WorkList;
+use App\Models\Work;
 use Auth;
+use App\Traits\FileTrait;
 
 class DirectoryController extends Controller
 {
-    private $tools = null;
+    use FileTrait;
     public function __construct()
     {
-        $this->tools = new tools();
-        $this->middleware('auth');   # 인증된 사용자만 이용할 수 있게 , route(login)이 실행됨.
+        # $this->tools = new tools();
+        $this->middleware('auth');
     }
 
 
 
     # @return \Illuminate\Http\Response
     # Display a listing of the resource.
-    public function index(Request $request)                        # get Directories & get Files
+    public function index(Request $request, $dir = null)                        # get Directories & get Files
     {
         /* 접근 폴더 주소 만들기
         *  폴더 종류 : public(작품 내에 존재하는 공동작업방), private(작가와 일러스트레이터 개인 저장공간)
         *
         */
+
         $publicPath = "images/"; # return $this->tools->getPublicS3Path($publicPath); !!!!!!!!!!!!!!!!!!!!!
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";   //2면 Author/ else Illustrator/
 
@@ -36,7 +37,7 @@ class DirectoryController extends Controller
         $privateFile = [];
         foreach ($privateFiles as $file) {
             $privateFile[] = [
-                'name' => time() . $file->getClientOriginalName(),                              # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'name' => str_replace($role . '/' . Auth::user()['email'] . '/' . $publicPath, '', $file),                              # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
                 'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
                 'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
                 'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소
@@ -45,17 +46,16 @@ class DirectoryController extends Controller
             ];
         }
 
-        $dirInfo = WorkList::select('users.email', 'works.num', 'works.work_title')
-            ->leftjoin('works', 'work_lists.num_of_work', '=', 'works.num')
-            ->leftjoin('users', 'work_lists.num_of_work', '=', 'works.num')
-            ->where('work_lists.num_of_work', '=', 1) //$num   // 숫자 부분은 변수로 전달 받아야함
+        $bookInfo = Work::select('users.email', 'works.num', 'works.work_title')
+            ->leftjoin('work_lists', 'works.num', 'work_lists.num_of_work')
+            ->leftjoin('users', 'work_lists.user_id', 'users.id')
+            ->where('works.num', '=', 21)            //$num 숫자 부분은 변수로 전달 받아야함
             ->orderBy('work_lists.created_at', 'asc')
-            ->limit(1)->get();
+            ->first();  // 21번 작품을 쓴 작가 email = Author@test, bookTitle
 
         // 작가와 일러스트레이터가 함께 사용할 폴더 : Author/작가ID/WorkSpace/작품이름/OBPES/images
-        $staticAuthor = $dirInfo[0]['email'];       //test@test
-        $staticTitle = $dirInfo[0]['work_title'];   //류vs김
-        $staticFullPath = 'Author' . DIRECTORY_SEPARATOR . $staticAuthor . DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR . $staticTitle . DIRECTORY_SEPARATOR . 'OEBPS';
+
+        $staticFullPath = 'Author' . DIRECTORY_SEPARATOR . $bookInfo['email'] . DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR . $bookInfo['work_title'] . DIRECTORY_SEPARATOR . 'OEBPS';
         # author/test@test/WorkSpace/류vs김/OEBPS/images
 
         $publicFolder = Storage::disk('s3')->directories($staticFullPath);    # 접속한 유저의 개인 폴더
@@ -63,7 +63,8 @@ class DirectoryController extends Controller
         $publicFile = [];
         foreach ($publicFiles as $file) {
             $publicFile[] = [
-                'name' => str_replace($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.image'), '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'name' => str_replace('Author' . '/' . $bookInfo['email'] . '/' .
+                    'WorkSpace' . '/' . $bookInfo['work_title'] . '/' . 'OEBPS' . '/' . config('filesystems.disks.s3.images') . '/', '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
                 'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
                 'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
                 'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소
@@ -73,48 +74,56 @@ class DirectoryController extends Controller
         }
 
         #$dirFiles = Storage::disk('s3')->files($path);
-        #$dir = Storage::disk('s3')->directories($role);
-        #해당 경로에 있는 모든 directory (폴더만)
-        #리소스 폴더 보여줌 directories -> 폴더 누름(눌럿을 때 모든 파일+폴더 보임) allfile + directories -> file 또는 directory 들어감
+        #$dir = Storage::disk('s3')->directories($role);  #해당 경로에 있는 모든 directory (폴더만)
+        #리소스 폴더 보여줌 directories -> 폴더 누름(눌렀을 때 모든 파일+폴더 보임) allfile + directories -> file 또는 directory 들어감
         #리소스 폴더 생성
 
-        $inDirectory = [    // 폴더 접근 url + 파일 info
+        $rootDirectory = [    // 폴더 접근 url + 파일 info
             'directories' => [
                 'PRIVATE_FOLDER' => $privateFolder,
-                'PUBLIC_FOLDER' => $publicFolder
+                'PUBLIC_FOLDER' => $publicFolder[0],
             ],
-            'files' => [
-                'PRIVATE_FILE' => $privateFile,
-                'PUBLIC_FILE' => $publicFile
-            ]
+            'PRIVATE_FILE' => $privateFile, # private는 폴더가 계속 늘어나고 줄어드니 변할 수 있어야 함.
+            'PUBLIC_FILE' => $publicFile,   # public은 image 하나만 이어도 상관없지만
         ];
 
+        switch ($dir) {
+            case 'private':
+                $dir = 'PRIVATE_FILE';
+                break;
+            case 'public':
+                $dir = 'PUBLIC_FILE';
+                break;
+            case 'root':
+                $dir = 'directories';
+                break;
+            default:
+                $dir = 'directories';
+                break;
+        }
+
+        return response()->json($rootDirectory[$dir], 200, [], JSON_PRETTY_PRINT);
+
         // 'metadata' => Storage::disk('s3')->getMetadata($file) / 모든 메타데이터 가져옴
-        return response()->json($inDirectory, 200, [], JSON_PRETTY_PRINT); //어떤값이 오는지 확인
-        return $inDirectory['directories'];
 
         if ($privateFolder === []) {  // 해당 폴더에 더이상 폴더가 없으면?
             $dir = Storage::disk('s3')->allFiles($role);
         }
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    # make New Directory
+    public function create($dirName)
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    # destroy Image or Directory
+    public function destroy($id)
+    {
+        //
+    }
+
+    # save Images
     public function store(Request $request)
     {
         //
@@ -149,19 +158,14 @@ class DirectoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    # rename Dir Or Files
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    # Remove the specified resource from storage.
+    # @param  int  $id
+    # @return \Illuminate\Http\Response
+
 }
