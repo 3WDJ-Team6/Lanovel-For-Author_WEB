@@ -1,16 +1,14 @@
 @extends('layouts.app')
 @section('header')
 
-{{-- <script>
-    var content_of_work =
-    <#?php echo json_encode($content_of_works['num']); ?>
-    ;
+<script>
+    var num_of_work = <?php echo json_encode($content_of_works['num_of_work']); ?>;
 
-</script> --}}
+</script>
 
 
 <script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?fyaa') }}" rel="stylesheet">
+<link href="{{ asset('css/editor.css?fyaaaaaaA') }}" rel="stylesheet">
 <header>
     {{-- 타이틀과 목차 --}}
     <div class="title-bar">
@@ -28,7 +26,7 @@
             <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
                 @csrf
                 <ul>
-                    <li class="nav-btn" id="pre-btn"><a href="#invite" rel="modal:open" style="color:black;">초대</a>
+                    <li class="nav-btn"><a href="#invite" rel="modal:open" style="color:black;">초대</a>
                     <li class="nav-btn">멤버리스트</li>
                     <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">
                         미리보기
@@ -127,12 +125,15 @@
 
         {{-- 리소스 에리어 --}}
         <div class="resource-area">
+        <form action="{{url('/images')}}" method="POST" enctype="multipart/form-data">
+            @csrf
             <nav class="nav_right">
                 <a href="" id="menuToggle_right">
                     <span class="sidebar_right"></span>
                 </a>
                 <div id="resource-feild"></div>
             </nav>
+            </form>
         </div>
 
         {{-- 글쓰기도구팝업 --}}

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\CommentOfIllustration;
+use App\Models\IllustFile;
 use App\Models\Grade;
 use App\Models\BuyerOfIllustration;
 use App\Models\CategoryIllustration;
@@ -59,5 +60,13 @@ class IllustrationList extends Model
     public function category_illustrations()
     {
         return $this->hasMany('App\Models\CategoryIllustration');
+    }
+
+    /**
+     * 하나의 일러스트 작품은 여러 일러스트 파일을 가질 수 있다.
+     */
+    public function illust_files()
+    {
+        return $this->hasMany('App\Models\IllustFile');
     }
 }

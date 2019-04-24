@@ -312,31 +312,44 @@ pre {
     margin-right: 5px;
 }
 
-.obj {
+.obj,
+.obj_file {
     display: inline-block;
-    padding-left: 20px;
+    padding-left: 7px;
 }
 
-.obj_thumb {
-    display: block;
-    width: 150px;
-    height: 150px;
-    margin-left: 10px;
-    margin-right: 10px;
-    object-fit: fill;
+span:hover {
+    cursor: pointer;
 }
 
 .obj_thum {
-    display: block;
-    width: 150px;
-    height: 150px;
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    margin-left: 7px;
+    object-fit: fill;
+}
+
+.obj_folder {
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    object-fit: fill;
 }
 
 span.obj_name {
     display: block;
-    margin-left: 10px;
+    margin-left: 7px;
     margin-bottom: 10px;
     user-select: none;
+}
+
+.back {
+    margin-left: 10px;
+}
+
+.back:hover {
+    cursor: pointer;
 }
 
 ::-webkit-scrollbar {
@@ -446,6 +459,17 @@ textarea {
 input[readonly] {
     background: none;
 }
+
+.custom-menu {
+    width: 100px;
+    z-index: 1000;
+    border-radius: 5%;
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+    padding: 2px;
+}
+
 
 .nav_left {
     height: 462px;

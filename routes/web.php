@@ -105,11 +105,22 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/ft', 'Storage\FileController@ft')->name('ft');
     Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
     # s3 directory dynamic listing
-    Route::get('/getDir/{dir?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
+    Route::get('/getDir/{bookNum}/{dir?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
+<<<<<<< HEAD
 Route::get('editor/tool/editor/innerchat', 'Chat\ChatController@chat');
 Route::post('send', 'Chat\ChatController@send');
+=======
+Route::get('/worklists', 'Mobile\WorkListController@index');
+
+// Route::get('editor/tool/innerchat', 'Chat\ChatController@chat');
+// Route::get('editor/innerchat', 'Chat|ChatController@chat');
+// Route::get('innerchat', 'Chat\Controller@chat');
+// Route::get('editor/tool/editor/innerchat', 'Chat\ChatController@chat');
+// Route::get('chat', 'Chat\ChatController@chat');
+// Route::post('send', 'Chat\ChatController@send');
+>>>>>>> d6b4b96e277f433e5d7a74ec0f0fbee51ce0301b
 
 # authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
@@ -157,6 +168,14 @@ Route::get('store/detail/view', function () {
     return view('store.detail.view');
 });
 
+<<<<<<< HEAD
 Route::get('publication/{NumOfWork}/{NumOfChapter}','Publish\PublicationController@publish');
 Route::get('loadModal','InviteUser\InviteUserController@loadModal');
 Route::get('inviteUser','InviteUser\InviteUserController@SendingInviteMessage');
+=======
+Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
+
+// 일러스토어 일러스트 파일 업로드
+Route::post('/fileUpload', 'WorkOut\IllustController@fileUpload');
+Route::delete('/fileDelete/{id}', 'fileController@fileDelete');
+>>>>>>> d6b4b96e277f433e5d7a74ec0f0fbee51ce0301b

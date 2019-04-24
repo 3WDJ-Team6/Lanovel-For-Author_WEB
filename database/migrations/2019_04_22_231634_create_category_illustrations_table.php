@@ -14,6 +14,7 @@ class CreateCategoryIllustrationsTable extends Migration
     public function up()
     {
         Schema::create('category_illustrations', function (Blueprint $table) {
+
             $table->integer('num_of_illustration')->comment("일러스트번호")->unsigned();
             $table->foreign('num_of_illustration')
                 ->references('num')->on('illustration_lists');

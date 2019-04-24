@@ -149,24 +149,30 @@ class IndexController extends Controller
             ]);
             $this->work_model->storeWork($work_info);
 
-            $num = Work::select('num')->orderBy('created_at', 'DESC')->first()['num'];
-
-            // 태그 저장
-            $work_tag_info = array([
-                'num_of_work' => $num,
-                'tag' => $request->get('tag')
-            ]);
-            $this->category_model->storeTag($work_tag_info);
+            $recentWork = Work::select('num')->orderBy('created_at', 'DESC')->first();
 
             // 현재 로그인 한 사용자를 작품 리스트에 추가
             $work_list_info = array([
-                'num_of_work' => $num,
+                'num_of_work' => $recentWork->num,
                 'last_time_of_working' => "test",
                 'user_id' => Auth::user()['id'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
             $this->work_list_model->storeWorklist($work_list_info);
+
+
+            $strExplode = explode(' ', $request->get('tag'));
+            $strReplace = str_replace("#", "", $strExplode);
+
+            // 태그 저장
+            for ($i = 0; $i < count($strReplace); $i++) {
+                $work_tag_info = array([
+                    'num_of_work' => $recentWork->num,
+                    'tag' => $strReplace[$i]
+                ]);
+                $this->category_model->storeTag($work_tag_info);
+            }
             return redirect('/')->with('message', "success");
         } else {
             echo "<script> alert('파일이 존재하지 않습니다.') <script/>";

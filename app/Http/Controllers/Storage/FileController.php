@@ -65,7 +65,7 @@ class FileController extends Controller
         Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
             'visibility' => 'public',
             'Metadata' => ['Content-Type' => 'image/jpeg'],
-            'Expires' => now()->addMinute(5),                #7 expire 현재시간 + 5분 적용 외않되
+            'Expires' => now()->addMinute(5),                        #7 expire 현재시간 + 5분 적용 외않되
         ]);
         return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
     }
@@ -92,8 +92,6 @@ class FileController extends Controller
 
         Storage::disk('s3')->allFiles();    #해당 경로에 있는 모든 file (파일만)
 
-        $originurl = 'https://s3.' . "ap-northeast-2" . '.amazonaws.com/' . "lanovebucket" . '/';
-
         $fileSize = file_size(Storage::disk('s3')->size('images/' . $imageName));
 
         $naming = time() . $file->getClientOriginalName(); # 시간 + 원본명으로 저장
@@ -110,6 +108,12 @@ class FileController extends Controller
 
         Storage::disk('s3')->put($saveFilePath, file_get_contents($file)); #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
 
+        // $images = Storage::disk('s3')->allFiles('oldfolder/image/');
+        // foreach ($images as $image) {
+        //     $new_loc = str_replace('oldfolder/image/', 'newfolder/image/', $image);
+        //     $s3->copy($image, $new_loc);
+        // }
         return Storage::disk('s3')->url(); //s3 url 가져오는 함수
+
     }
 }
