@@ -12,6 +12,7 @@ use App\Models\WorkList;
 use App\Models\Template;
 use App\Models\Memo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 

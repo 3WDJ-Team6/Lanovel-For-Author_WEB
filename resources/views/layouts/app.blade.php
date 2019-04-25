@@ -13,10 +13,10 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}" defer></script>
     <script src="{{ asset('js/jquery/jquery.modal.min.js') }}" defer></script>
+    <script src="{{ asset('js/jquery/jquery.form.js') }}" defer></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" defer></script>
 
     <!-- Fonts -->
@@ -40,4 +40,4 @@
     </main>
 </body>
 @yield('footer')
-</html> 
+</html>

@@ -8,7 +8,7 @@
 
 
 <script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?fyaaaaaaA') }}" rel="stylesheet">
+<link href="{{ asset('css/editor.css?aaaaaaaㅁaa') }}" rel="stylesheet">
 <header>
     {{-- 타이틀과 목차 --}}
     <div class="title-bar">
@@ -123,7 +123,7 @@
 
         {{-- 리소스 에리어 --}}
         <div class="resource-area">
-        <form action="{{url('/images')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{url('/images')}}" id="file_form" method="POST" enctype="multipart/form-data">
             @csrf
             <nav class="nav_right">
                 <a href="" id="menuToggle_right">
