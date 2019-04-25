@@ -101,7 +101,7 @@ class WorkListController extends Controller
      */
     public function show($workNum, $chapterNum, $userId)   # 작품을 누르면 작품 페이지로 이동
     {
-        // 받아와야할 변수 작품번호(지금 18들어가있는곳), 챕터번호($chapterNum번), 현재 로그인중인 사용자(9번), type_of_work = 2 (단행본일 때)
+        // 받아와야할 변수 작품번호(지금 18들어가있는곳), 챕터번호(23번), 현재 로그인중인 사용자(9번), type_of_work = 2 (단행본일 때)
         // 2) 작품 페이지 (단행본) + 3번 목차
         // 책 이미지, 책 제목, 작가명, 일러스트레이터명, 평점, 단행본|연재작 여부, 가격, 대여기간, 카테고리(해시태그), 줄거리, 업데이트 날짜
 

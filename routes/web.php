@@ -139,16 +139,11 @@ Route::group(['middleware' => ['guest']], function () { # guest만 사용가능�
     Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
 });
 
-Route::get('/eloquent', function () {
-    return dd(Work::all()); //Model에 all메서드 dd로 출력
-});
-
-
 // 일러스트 등록 페이지
 Route::get('/illustCreate', 'WorkOut\IllustController@create');
 
 // 일러스트 등록
-Route::post('/illustUpload', 'WorkOut\IllustController@store');
+Route::post('/illustStore', 'WorkOut\IllustController@store');
 
 // 일러스토어 대메뉴 페이지
 Route::get('/menu/{category}', 'WorkOut\IllustController@menuIndex');
@@ -167,5 +162,5 @@ Route::get('store/detail/view', function () {
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
 
 // 일러스토어 일러스트 파일 업로드
-Route::post('/fileUpload', 'WorkOut\IllustController@fileUpload');
-Route::delete('/fileDelete/{id}', 'fileController@fileDelete');
+Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
+Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');
