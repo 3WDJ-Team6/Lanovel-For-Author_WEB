@@ -15,12 +15,13 @@ Dropzone.options.dropzone = {
             },
             type: 'DELETE',
             url: '/fileDelete/' + fileid,
-            success: function () {
+            success: function (image) {
+                console.log(image);
                 alert('삭제성공');
             },
             error: function (e) {
-                //console.log(e);
-                alert(e.responseText);
+                console.log(e);
+                throw new Error('서버오류');
             }
         });
         var fileRef;

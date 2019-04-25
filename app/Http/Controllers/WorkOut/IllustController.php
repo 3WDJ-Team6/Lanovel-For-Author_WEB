@@ -19,9 +19,12 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\FilePost;
+use App\Traits\FileTrait;
 
 class IllustController extends Controller
 {
+    use FileTrait;
+
     private $illustration_model = null;
     private $illust_file_model = null;
     private $category_illust_model = null;
@@ -34,53 +37,40 @@ class IllustController extends Controller
         $this->category_illust_model = new CategoryIllustration();
     }
 
-    public function fileUpload(Request $request)
+    public function illustUpload(FilePost $request)
     {
-        Auth::user()['roles'] === 3 ? $role = "Illustrator" : $role = "Author";
-
         $attachments = null;
+        $filePath = $this->checkUserMakePath();
+        $this->hasFile($request, $filePath);
 
-        if ($request->hasFile('image')) {
-            $s3Path = config('filesystems.disks.s3.images');
+        $file = $request->file('image');
+        $saveFileName = time() . $file->getClientOriginalName();
+        $saveFilePath = $filePath . $saveFileName;
+        $illustFileUrl = config('filesystems.disks.s3.url') . $saveFilePath;
+        Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [
+            'visibility' => 'public',
+            'Metadata' => ['Content-Type' => 'image/jpeg'],
+        ]);
+        $illust_file_info = [
+            'url_of_illustration' => $illustFileUrl,
+            'name_of_illustration' => $file->getClientOriginalName(),
+            'savename_of_illustration' => $saveFileName,
+            'folderPath' => 'Illustrator' . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images') . DIRECTORY_SEPARATOR,
+            'created_at' => Carbon::now()
+        ];
+        $attachments = IllustFile::create($illust_file_info);  //file을 비동기방식으로 업로드 한 뒤
 
-            $file = $request->file('image');            // C:\xampp\tmp\php3F38.tmp
-            $name = $file->getClientOriginalName();     // KakaoTalk_20190415_223355385.jpg
-            $filePath = $role . '/' . Auth::user()['email'] . '/' . $s3Path . '/';  // Illustrator/test@test/image/
-            $filename =  time() . $name;                // 1555999560KakaoTalk_20190415_223355053.jpg
-            $saveFilePath = $filePath . $filename;          // Illustrator/test@test/image/KakaoTalk_20190415_223355385.jpg
+        return response()->json($attachments, 200);  //업로드 된 파일의 정보를 front에 전달
 
-            $illustFileUrl = config('filesystems.disks.s3.url') . $saveFilePath;
-
-            Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [
-                'visibility' => 'public',
-                'Metadata' => ['Content-Type' => 'image/jpeg'],
-            ]);
-
-            $illust_file_info = [
-                'position_of_illustration' => $illustFileUrl,
-                'name_of_illustration' => $name,
-                'created_at' => Carbon::now()
-            ];
-            $attachments = IllustFile::create($illust_file_info);  //file을 비동기방식으로 업로드 한 뒤
-
-            return response()->json($attachments, 200);  //업로드 된 파일의 정보를 front에 전달
-        }
     }
 
     public function fileDelete(Request $request, $id)
     {
-        $filename = $request->filename;
-
         $attachments = IllustFile::find($id);
-        $attachments->deleteUploadedFile($filename);
-        $attachments->delete();
-        /*
-        $path = public_path('files') . DIRECTORY_SEPARATOR .  $user->id . DIRECTORY_SEPARATOR . $filename;
-        if (file_exists($path)) {
-            unlink($path);
-        }
-        */
-        return $filename;
+        return $attachments;
+        $folderPath = $attachments->folderPath;
+        $fileName = $attachments->savename_of_illustration;
+        Storage::disk('s3')->delete($folderPath . $fileName);
     }
 
 

@@ -65,7 +65,7 @@ class FileController extends Controller
         Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
             'visibility' => 'public',
             'Metadata' => ['Content-Type' => 'image/jpeg'],
-            'Expires' => now()->addMinute(5),                        #7 expire 현재시간 + 5분 적용 외않되
+            // 'Expires' => now()->addMinute(5),                        #7 expire 현재시간 + 5분 적용 외않되
         ]);
         return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
     }
@@ -76,8 +76,6 @@ class FileController extends Controller
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
         return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }
-
-
 
     public function lendBook()
     {

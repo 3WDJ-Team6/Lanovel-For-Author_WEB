@@ -103,7 +103,10 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
     Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
     Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
-    # s3 directory dynamic listing
+# 일러스토어 일러스트 파일 업로드
+    Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
+    Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');  
+# s3 directory dynamic listing
     Route::get('/getDir/{bookNum}/{dir?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
@@ -139,16 +142,11 @@ Route::group(['middleware' => ['guest']], function () { # guest만 사용가능�
     Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
 });
 
-Route::get('/eloquent', function () {
-    return dd(Work::all()); //Model에 all메서드 dd로 출력
-});
-
-
 // 일러스트 등록 페이지
 Route::get('/illustCreate', 'WorkOut\IllustController@create');
 
 // 일러스트 등록
-Route::post('/illustUpload', 'WorkOut\IllustController@store');
+Route::post('/illustStore', 'WorkOut\IllustController@store');
 
 // 일러스토어 대메뉴 페이지
 Route::get('/menu/{category}', 'WorkOut\IllustController@menuIndex');
@@ -172,12 +170,7 @@ Route::post('/destroy', 'Auth\LoginController@destroy');
 
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
 
-<<<<<<< HEAD
+
 Route::get('/new_collection', function () {
     return view('store.home.new_collection');
 });
-=======
-// 일러스토어 일러스트 파일 업로드
-Route::post('/fileUpload', 'WorkOut\IllustController@fileUpload');
-Route::delete('/fileDelete/{id}', 'fileController@fileDelete');
->>>>>>> b442f95971aa7b6925a2e235ea17416c22f3ba1f
