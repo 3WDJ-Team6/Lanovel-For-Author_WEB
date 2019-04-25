@@ -37,7 +37,16 @@ class LoginController extends Controller
     // {
     //     return 'nickname';
     // }
-
+    public function logout()
+    {
+        auth()->logout(); #Auth::logout();
+        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
+        if ($role == 'Author') {
+            return redirect('/')->with('message', '로그아웃 하였습니다.');
+        } else {
+            return redirect('/store')->with('message', '로그아웃 하였습니다.');
+        }
+    }
 
     public function store()
     {
@@ -48,11 +57,12 @@ class LoginController extends Controller
 
     public function destroy()
     {
+        return Auth::user()['role'];
         auth()->logout(); #Auth::logout();
-        if (Auth::user()['roles'] == 2) {
-            return redirect('/')->with('message', '로그아웃 되었습니다.');
+        if (Auth::user()['role'] == 'Illustrator') {
+            return redirect('/store')->with('message', '로그아웃 하였습니다.');
         } else {
-            return redirect('store')->with('message', '로그아웃 되었습니다.');
+            return redirect('/')->with('message', '로그아웃 하였습니다.');
         }
     }
 
