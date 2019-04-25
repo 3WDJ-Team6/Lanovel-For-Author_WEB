@@ -21,8 +21,10 @@ class CreateIllustFilesTable extends Migration
                 ->references('num')->on('illustration_lists')
                 ->onDelete('cascade');
 
-            $table->string('position_of_illustration')->comment("파일위치");
+            $table->string('savename_of_illustration')->comment("저장이름");
+            $table->string('url_of_illustration')->comment("파일위치");
             $table->string('name_of_illustration')->comment("파일원래이름");
+            $table->string('folderPath')->comment("폴더경로");
 
             $table->timestamps();
         });

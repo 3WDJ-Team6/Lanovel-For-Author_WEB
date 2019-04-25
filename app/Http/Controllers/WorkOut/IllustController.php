@@ -36,6 +36,7 @@ class IllustController extends Controller
 
     public function fileUpload(Request $request)
     {
+
         Auth::user()['roles'] === 3 ? $role = "Illustrator" : $role = "Author";
 
         $attachments = null;
@@ -51,6 +52,10 @@ class IllustController extends Controller
 
             $illustFileUrl = config('filesystems.disks.s3.url') . $saveFilePath;
 
+            Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
+                'visibility' => 'public',
+                'Metadata' => ['Content-Type' => 'image/jpeg'],
+            ]);
 
             $illust_file_info = [
                 'position_of_illustration' => $illustFileUrl,
@@ -87,12 +92,13 @@ class IllustController extends Controller
      */
     public function index()
     {
-
         $products = IllustrationList::select(
             // 작품번호
             'illustration_lists.*',
-            'users.nickname'
+            'users.nickname',
+            'illust_files.position_of_illustration'
         )->join('users', 'users.id', 'illustration_lists.user_id')
+            ->join('illust_files', 'illustration_lists.num', 'illust_files.num_of_illust')
             ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
             ->limit(5)
             ->get();
@@ -110,8 +116,10 @@ class IllustController extends Controller
         $products = IllustrationList::select(
             // 작품번호
             'illustration_lists.*',
-            'users.nickname'
+            'users.nickname',
+            'illust_files.position_of_illustration'
         )->join('users', 'users.id', 'illustration_lists.user_id')
+            ->join('illust_files', 'illustration_lists.num', 'illust_files.num_of_illust')
             ->where('illustration_lists.division_of_illustration', $category)
             ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
             ->get();
@@ -193,10 +201,12 @@ class IllustController extends Controller
         if ($request->has('attachments')) {
             foreach ($request->attachments as $file) {
                 $attach = IllustFile::find($file);
-                $attach->illustration_lists()->associate($illust_info);    //belongsTo 관계를 변경 할 때 associate 메소드를 사용할 수 있음, 이 메소드는 자식 모델에 외래 키를 지정함
+                $attach->illustration_list()->associate($illust_info);    //belongsTo 관계를 변경 할 때 associate 메소드를 사용할 수 있음, 이 메소드는 자식 모델에 외래 키를 지정함
                 $attach->save();
             }
         }
+
+
 
         return redirect('/store')->with('message', "success");
     }

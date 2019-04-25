@@ -81,8 +81,10 @@ Route::post('/tr', 'WorkOut\EditController@store');
 // 일러스토어 메인 페이지
 Route::get('/store', 'WorkOut\IllustController@index')->name('store');
 
+// 작가 그래프 페이지
 Route::get('/graph', 'WorkOut\GraphController@index');
 
+// 로그인
 Route::get('/login/editor', function () {
     return view('auth.login_editor');
 });
@@ -167,4 +169,4 @@ Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationControl
 
 // 일러스토어 일러스트 파일 업로드
 Route::post('/fileUpload', 'WorkOut\IllustController@fileUpload');
-Route::delete('/fileDelete/{id}', 'fileController@fileDelete');
+Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');

@@ -49,7 +49,11 @@ class LoginController extends Controller
     public function destroy()
     {
         auth()->logout(); #Auth::logout();
-        return redirect('/')->with('message', '로그아웃 하였습니다.');
+        if (Auth::user()['roles'] == 2) {
+            return redirect('/')->with('message', '로그아웃 되었습니다.');
+        } else {
+            return redirect('store')->with('message', '로그아웃 되었습니다.');
+        }
     }
 
     public function login(Request $request)
