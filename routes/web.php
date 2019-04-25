@@ -81,8 +81,10 @@ Route::post('/tr', 'WorkOut\EditController@store');
 // 일러스토어 메인 페이지
 Route::get('/store', 'WorkOut\IllustController@index')->name('store');
 
+// 작가 그래프 페이지
 Route::get('/graph', 'WorkOut\GraphController@index');
 
+// 로그인
 Route::get('/login/editor', function () {
     return view('auth.login_editor');
 });
@@ -174,3 +176,4 @@ Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationControl
 Route::get('/new_collection', function () {
     return view('store.home.new_collection');
 });
+

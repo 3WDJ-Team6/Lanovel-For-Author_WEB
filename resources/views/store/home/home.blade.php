@@ -138,7 +138,10 @@
                                 <!-- Product Image -->
                                 <div class="product-img" style="width: 250px; height: 150px; overflow: hidden;">
                                     <a href="{{url('store/detail/view')}}/{{$row['num']}}">
-                                        <img src="{{asset('image/store/product-1.png')}}" style="width: 250px; height: auto;" alt="" onerror="this.src='{{asset('image/no_image.png')}}'">
+                                    
+                                        <img src="{{$row['position_of_illustration']}}" alt=""
+                                            onerror="this.src='{{asset('image/no_image.png')}}'">
+
                                         <!-- Hover Thumb -->
                                         <img class="hover-img" src="{{asset('image/store/product-1.png')}}" alt="">
                                         <!-- Favourite -->
