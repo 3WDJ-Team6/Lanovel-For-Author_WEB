@@ -12,6 +12,7 @@ use App\Models\WorkList;
 use App\Models\Template;
 use App\Models\Memo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 
@@ -64,14 +65,6 @@ class EditController extends Controller
          ->where('work_lists.accept_request',0)
          ->groupBy('works.work_title')
          ->orderBy('work_lists.created_at','asc');
-
-            SELECT works.work_title, works.introduction_of_work, works.bookcover_of_work,
-        (SELECT count(num_of_work) FROM recommend_of_works WHERE recommend_of_works.num_of_work = works.num ) AS recommends ,
-        (SELECT round(avg(grade),1) FROM grades WHERE grades.num_of_work = works.num AND grades.role_of_work=1) AS grade
-        FROM works LEFT JOIN work_lists ON works.num = work_lists.num_of_work
-        WHERE work_lists.accept_request = 0
-        GROUP BY works.work_title            // 참여자 수만큼 나와서 묶음
-        ORDER BY work_lists.created_at ASC   // 생성순 (필요에 따라 수정)
 
 
         return view('editor.main.list')

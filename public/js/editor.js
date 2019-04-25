@@ -271,39 +271,6 @@ function memoBalloon(e) {
 }
 //메모팝업//
 
-//파일추가
-var fileobj;
-
-function upload_file(e) {
-    e.preventDefault();
-    fileobj = e.dataTransfer.files[0];
-    ajax_file_upload(fileobj);
-}
-
-function ajax_file_upload(file_obj) {
-    $.ajaxSetup({
-        headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-        }
-    });
-    if (file_obj != undefined) {
-        var form_data = new FormData();
-        form_data.append('file', file_obj);
-        $.ajax({
-            type: 'POST',
-            url: '/images',
-            contentType: false,
-            processData: false,
-            data: form_data,
-            success: function (response) {
-                alert(response);
-                $('#selectfile').val('');
-            }
-        });
-    }
-}
-//파일추가//
-
 //에피소드 추가
 function addEpisode(sub, num) {
     console.log("실행됬냐" + sub);
@@ -427,30 +394,6 @@ $(document).ready(function () {
     });
     //템플릿//
 
-    //리소스
-    // var flag = true;
-    // $("#resource").click(function () {
-    //     if (flag === true) {
-    //         flag = false;
-    //         $.ajax({
-    //             type: 'GET',
-    //             url: "/res",
-    //             // dataType:"JSON",
-    //             error: function(e){
-    //                 console.log(e);
-    //                 throw new Error('실-패');
-    //         },
-    //             success: function (data) {
-    //                 console.log(data);
-    //                 $('.resource-area').append(data);
-    //             }
-    //         });
-    //     } else if (flag === false) {
-    //         flag = true;
-    //         $('.resource-area').empty();
-    //     }
-    // });
-
     //리소스파일 리스팅
     let folder = '';
     var chng_text = '';
@@ -475,7 +418,7 @@ $(document).ready(function () {
         });
     }
     $(document).on("click", ".obj", function () {
-        $('.resource-area').attr('id', 'dropZone').attr('ondrop', 'upload_file(event)').attr('ondragover', 'return false');
+        // $('.resource-area').attr('id', 'dropZone').attr('ondrop', 'upload_file(event)').attr('ondragover', 'return false');
         if (this.id == 'obj_0') {
             folder = 'private';
         } else if (this.id == 'obj_1') {
@@ -492,19 +435,20 @@ $(document).ready(function () {
             },
             success: function (data) {
                 console.log(111111111);
+                console.log(343434434);
                 console.log(data);
+                data.reverse();
                 console.log("folder : " + folder);
                 $("#resource-feild").html('');
                 $.each(data, function (index, item) {
-                    console.log("item.name : " + item.name);
-                    console.log("item.src : " + item.src);
-                    console.log("index : " + index);
+                    // console.log("item.name : " + item.name);
+                    // console.log("item.src : " + item.src);
+                    // console.log("index : " + index);
                     chng_text = item.name.substr(0, 9) + "...";
-                    // var output = '';
-                    // output += item.name;
-                    $("#resource-feild").append("<span id='obj_" + index + "' class='obj_file'><img src='" + item.src + "' class='obj_thum' /><span class='obj_name'>" + chng_text + "</span></span");
+                    $("#resource-feild").append("<span id='obj_" + index + "' class='obj_file'><img src='" + item.src + "' class='obj_thum' /><span class='obj_name' title='" + item.name + "'>" + chng_text + "</span></span");
                 });
                 $("#resource-feild").prepend("<div class='back'>뒤로가기</div>");
+                $('.back').after("<label for='image' class='upload_label'>+</label><input type='file' name='image' id='image' />");
             }
         });
     });
@@ -515,19 +459,37 @@ $(document).ready(function () {
     getResource();
     //리소스파일 리스팅//
 
-    //파일 우클릭
+    //파일추가
+    $(document).on('change', 'input[type="file"]', function () {
+        var form = $('#file_form')[0];
+        var formData = new FormData(form);
+        formData.append("image", $("#image")[0].files[0]);
+        console.log($("#image")[0].files[0]);
+        console.log($("#image")[0]);
 
-    // $(document).bind("contextmenu", function (event) {
-    //     event.preventDefault();
-    //     $("<div class='custom-menu'>삭제</div>")
-    //         .appendTo("body")
-    //         .css({
-    //             top: event.pageY + "px",
-    //             left: event.pageX + "px"
-    //         });
-    // }).bind("click", function (event) {
-    //     $("div.custom-menu").hide();
-    // });
+        $.ajax({
+            url: '/images',
+            processData: false,
+            contentType: false,
+            data: formData,
+            type: 'POST',
+            success: function () {
+                $('span').remove('#file_loading');
+            },
+            beforeSend: function () {
+                $("#image").after("<span id='file_loading'></span>");
+            },
+            complete: function () {
+                // $("#image").after("<span class='obj_file'><img src='" + item.src + "' class='obj_thum' /><span class='obj_name' title='" + item.name + "'>" + chng_text + "</span></span");
+            },
+            error: function (e) {
+                console.log(e + "에러");
+            }
+        });
+    });
+    //파일추가//
+
+    //파일 우클릭
     $(document).on('contextmenu', ".obj_file", function (e) {
         let ididid = this.id;
         console.log(ididid);
@@ -548,7 +510,6 @@ $(document).ready(function () {
             $('#' + ididid).remove();
         });
     });
-
     //파일 우클릭//
 
     //텍스트에리어로 마우스 올라가면 p태그안의 thum클래스를 resize로 바꾸고 div로 감싼다
