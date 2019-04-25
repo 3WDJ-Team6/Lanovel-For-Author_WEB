@@ -2,6 +2,7 @@
 
 @section('head')
 @include('layouts.store.head')
+
 @endsection
 
 @section('header')
@@ -11,16 +12,101 @@
 @section('content')
 
 <body>
+@if(Session::has('message'))
+        <div class="alert alert-info">{{ Session::get('message') }}</div>
+        @endif
+    <!-- ##### Right Side Cart Area ##### -->
+    <div class="cart-bg-overlay"></div>
+
+    <div class="right-side-cart-area">
+
+        <!-- Cart Button -->
+        <div class="cart-button">
+            <a href="#" id="rightSideCart"><img src="{{asset('image/store/bag.svg')}}" alt=""> <span>3</span></a>
+        </div>
+
+        <div class="cart-content d-flex">
+
+            <!-- Cart List Area -->
+            <div class="cart-list">
+                <!-- Single Cart Item -->
+                <div class="single-cart-item">
+                    <a href="#" class="product-image">
+                        <img src="{{asset('image/store/product-1.png')}}" class="cart-thumb" alt="">
+                        <!-- Cart Item Desc -->
+                        <div class="cart-item-desc">
+                          <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
+                            <span class="badge">Mango</span>
+                            <h6>Button Through Strap Mini Dress</h6>
+                            <p class="size">Size: S</p>
+                            <p class="color">Color: Red</p>
+                            <p class="price">$45.00</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Cart Item -->
+                <div class="single-cart-item">
+                    <a href="#" class="product-image">
+                        <img src="{{asset('image/store/product-1.png')}}" class="cart-thumb" alt="">
+                        <!-- Cart Item Desc -->
+                        <div class="cart-item-desc">
+                          <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
+                            <span class="badge">Mango</span>
+                            <h6>Button Through Strap Mini Dress</h6>
+                            <p class="size">Size: S</p>
+                            <p class="color">Color: Red</p>
+                            <p class="price">$45.00</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Single Cart Item -->
+                <div class="single-cart-item">
+                    <a href="#" class="product-image">
+                        <img src="{{asset('image/store/product-1.png')}}" class="cart-thumb" alt="">
+                        <!-- Cart Item Desc -->
+                        <div class="cart-item-desc">
+                          <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
+                            <span class="badge">Mango</span>
+                            <h6>Button Through Strap Mini Dress</h6>
+                            <p class="size">Size: S</p>
+                            <p class="color">Color: Red</p>
+                            <p class="price">$45.00</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="cart-amount-summary">
+
+                <h2>Summary</h2>
+                <ul class="summary-table">
+                    <li><span>subtotal:</span> <span>$274.00</span></li>
+                    <li><span>delivery:</span> <span>Free</span></li>
+                    <li><span>discount:</span> <span>-15%</span></li>
+                    <li><span>total:</span> <span>$232.00</span></li>
+                </ul>
+                <div class="checkout-btn mt-100">
+                    <a href="checkout.html" class="btn essence-btn">check out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Right Side Cart End ##### -->
+
+
 
     <!-- 새작품 -->
-    <section class="welcome_area bg-img background-overlay" style="">
+    <section class="welcome_area bg-img background-overlay" style="height:500px; background-image:url('image/store/girl.jpg');">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="hero-content">
-                        <h6>asoss</h6>
+                    <br>
                         <h2>New Collection</h2>
-                        <a href="#" class="btn essence-btn">view collection</a>
+                        <a href="{{url('/new_collection')}}" class="btn essence-btn">view collection</a>
                     </div>
                 </div>
             </div>
@@ -40,21 +126,24 @@
             </div>
         </div>
 
-        <div class="container">
-            <div class="row">
+        <!-- <div class="container"> -->
+            <div class="row" style="margin-left:30px;">
                 <div class="col-12">
                     <div class="popular-products-slides owl-carousel">
 
                         @foreach ($products as $row)
                         <!-- Single Product -->
-                        <div class="single-product-wrapper">
-                            <div class="single-product">
+                        <div class="single-product-wrapper" style="display:inline-block; margin:40px;"> 
+                            <div class="single-product" >
                                 <!-- Product Image -->
-                                <div class="product-img">
+                                <div class="product-img" style="width: 250px; height: 150px; overflow: hidden;">
                                     <a href="{{url('store/detail/view')}}/{{$row['num']}}">
-                                        <img src="{{$row['position_of_illustration']}}" alt="" onerror="this.src='{{asset('image/no_image.png')}}'">
+                                    
+                                        <img src="{{$row['position_of_illustration']}}" alt=""
+                                            onerror="this.src='{{asset('image/no_image.png')}}'">
+
                                         <!-- Hover Thumb -->
-                                        <!-- <img class="hover-img" src="{{asset('image/store/product-1.png')}}" alt=""> -->
+                                        <img class="hover-img" src="{{asset('image/store/product-1.png')}}" alt="">
                                         <!-- Favourite -->
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
@@ -84,7 +173,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
     </section>
     <!-- 인기작품 End -->
 
@@ -94,5 +183,4 @@
 
 @section('footer')
 @include('layouts.store.footer')
-<script src="{{asset('js/store/popper.min.js')}}"></script>
 @endsection

@@ -81,8 +81,10 @@ Route::post('/tr', 'WorkOut\EditController@store');
 // 일러스토어 메인 페이지
 Route::get('/store', 'WorkOut\IllustController@index')->name('store');
 
+// 작가 그래프 페이지
 Route::get('/graph', 'WorkOut\GraphController@index');
 
+// 로그인
 Route::get('/login/editor', function () {
     return view('auth.login_editor');
 });
@@ -102,13 +104,17 @@ Route::view('/graph3', 'editor/main/graph3');
 Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있는 route들은 해당 미들웨어를 거쳐서 감
     Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
     Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
-    Route::get('/ft', 'Storage\FileController@ft')->name('ft');
     Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
-    # s3 directory dynamic listing
+# 일러스토어 일러스트 파일 업로드
+    Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
+    Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');  
+# s3 directory dynamic listing
     Route::get('/getDir/{bookNum}/{dir?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
+# Mobile work info
 Route::get('/worklists', 'Mobile\WorkListController@index');
+Route::get('/works/{workNum}/{chapterNum}/{userId}', 'Mobile\WorkListController@show');
 
 // Route::get('editor/tool/innerchat', 'Chat\ChatController@chat');
 // Route::get('editor/innerchat', 'Chat|ChatController@chat');
@@ -138,16 +144,11 @@ Route::group(['middleware' => ['guest']], function () { # guest만 사용가능�
     Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
 });
 
-Route::get('/eloquent', function () {
-    return dd(Work::all()); //Model에 all메서드 dd로 출력
-});
-
-
 // 일러스트 등록 페이지
 Route::get('/illustCreate', 'WorkOut\IllustController@create');
 
 // 일러스트 등록
-Route::post('/illustUpload', 'WorkOut\IllustController@store');
+Route::post('/illustStore', 'WorkOut\IllustController@store');
 
 // 일러스토어 대메뉴 페이지
 Route::get('/menu/{category}', 'WorkOut\IllustController@menuIndex');
@@ -163,8 +164,16 @@ Route::get('store/detail/view', function () {
     return view('store.detail.view');
 });
 
+Route::get('store/menu/mypage', function () {
+    return view('store.menu.mypage');
+});
+
+Route::post('/destroy', 'Auth\LoginController@destroy');
+
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
 
-// 일러스토어 일러스트 파일 업로드
-Route::post('/fileUpload', 'WorkOut\IllustController@fileUpload');
-Route::delete('/fileDelete/{id}', 'fileController@fileDelete');
+
+Route::get('/new_collection', function () {
+    return view('store.home.new_collection');
+});
+

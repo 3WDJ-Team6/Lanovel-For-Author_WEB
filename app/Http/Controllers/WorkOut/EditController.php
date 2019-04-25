@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\WorkOut;
 
 use Auth;
-
+use Carbon\Carbon;
 
 use App\Models\ContentOfWork;
 use App\Models\ChapterOfWork;
@@ -52,20 +52,6 @@ class EditController extends Controller
             ->join('content_of_works', 'content_of_works.num_of_chapter', '=', 'chapter_of_works.num')
             ->where('chapter_of_works.num', '=', $num)
             ->get();
-
-        $results = Work::select(
-            'works.work_title',
-            'works.introduction_of_work',
-            'works.bookcover_of_work',
-            DB::raw('count(recommend_of_works.num_of_work) recommends'),
-            DB::raw('round(avg(grades.grade),1) grade')
-        )->leftjoin('work_lists','works.num','=','work_lists.num_of_work')
-         ->join('recommend_of_works', 'recommend_of_works.num_of_work','=','works.num')
-         ->join('grades', 'grades.num_of_work','=','works.num')
-         ->where('work_lists.accept_request',0)
-         ->groupBy('works.work_title')
-         ->orderBy('work_lists.created_at','asc');
-
 
         return view('editor.main.list')
             ->with('chapter_of_works', $chapter_of_works)->with('num', $num);
@@ -386,6 +372,5 @@ class EditController extends Controller
 
         // 메모 저장
         $memos->save();
-
     }
 }
