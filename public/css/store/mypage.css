@@ -1,0 +1,72 @@
+#left {
+    width: 300px;
+    height: 600px;
+    margin: 30px;
+    display: inline-block;
+}
+
+#left-top {
+    background-color: #EAEAEA;
+    width: 300px;
+    height: 400px;
+    margin-top: 0px;
+    justify-content: center;
+}
+
+#left-bottom {
+    background-color: #EAEAEA;
+    width: 300px;
+    height: 130px;
+    margin-top: 70px;
+}
+
+#right {
+    background-color: #EAEAEA;
+    margin: 30px;
+    width: 800px;
+    height: 600px;
+}
+
+#profile-photo {
+    display: block;
+    justify-content: center;
+    display: flex;
+}
+
+#img {
+    width: 150px;
+    height: 250px;
+    display: inline-block;
+    margin: 55px;
+}
+
+#nickname {
+    display: block;
+    justify-content: center;
+    display: flex;
+}
+
+#follow_profile {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    margin: 20px;
+    position: relative;
+    background: center no-repeat;
+    border-radius: 50%;
+    margin-right: 30px;
+}
+
+#follow_profile img {
+    width: 50px;
+    height: 50px;
+    margin: 20px;
+    position: relative;
+    background: center no-repeat;
+    border-radius: 50%;
+}
+
+#follow_id {
+    display: inline-block;
+    width: 200px;
+}

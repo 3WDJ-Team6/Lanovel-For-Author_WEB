@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 
 @endsection
 
@@ -24,16 +25,16 @@
     <div class="form-check form-check-inline" style="width:100%; display: flex; justify-content: center;">
             <div class="row">
             <div class="container">
-            <form action="{{url('/illustUpload')}}" method="post" enctype="multipart/form-data">
+            <form action="{{url('/illustUpload')}}" method="post" enctype="multipart/form-data" id='store'>
                         {{csrf_field()}}
-            <div class="form-group">
-                <form name="fname">
-                    <!-- <label for="fld">필드</label> -->
-                    <!-- <input type="file" name="image" id="fld" value=""> -->
-                    <div class="dropzone" id="fileDropzone"></div>
-                </form>
+            <div class="form-group" >
+                
             </div>
 
+            </form><form action ="{{url('/illustUpload')}}" class="dropzone" id="dropzone" method="post" enctype="multipart/form-data">
+                @csrf
+                </form>
+            
             <div class="form-group">
                 제목<input type="text" class="form-control" name="illustration_title" placeholder="70자 이내" value="" />
                 <div class="form- group">
@@ -75,7 +76,7 @@
                     <button type="submit" class="btnSubmit">등록</button>
                     <button type="button" class="btnSubmit" onclick="location.href='{{url('/')}}'">취소</button>
 
-                    </form>
+                    
                 </div>
               </div>
             </div>

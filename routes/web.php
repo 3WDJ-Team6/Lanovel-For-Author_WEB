@@ -161,4 +161,14 @@ Route::get('store/detail/view', function () {
     return view('store.detail.view');
 });
 
+Route::get('store/menu/mypage', function () {
+    return view('store.menu.mypage');
+});
+
+Route::post('/destroy', 'Auth\LoginController@destroy');
+
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
+
+Route::get('/new_collection', function () {
+    return view('store.home.new_collection');
+});

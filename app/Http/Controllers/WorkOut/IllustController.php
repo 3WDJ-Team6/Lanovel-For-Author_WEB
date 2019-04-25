@@ -93,6 +93,7 @@ class IllustController extends Controller
      */
     public function store(FilePost $request)
     {
+        return $request;
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
 
         $illustName = $request->illustration_title;
