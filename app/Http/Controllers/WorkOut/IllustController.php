@@ -4,26 +4,85 @@ namespace App\Http\Controllers\WorkOut;
 
 use Auth;
 use App\Models\IllustrationList;
+
+use App\Models\Work;
+use App\Models\WorkList;
+use App\Models\RecommendOfWork;
+use App\Models\Grade;
 use App\Models\CategoryIllustration;
+use App\Models\IllustFile;
 use App\Models\BuyerOfIllustration;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\FilePost;
 
 class IllustController extends Controller
 {
     private $illustration_model = null;
+    private $illust_file_model = null;
     private $category_illust_model = null;
 
     public function __construct()
     {
         // return $this->middleware('auth');
         $this->illustration_model = new IllustrationList();
+        $this->illust_file_model = new IllustFile();
         $this->category_illust_model = new CategoryIllustration();
     }
+
+    public function fileUpload(Request $request)
+    {
+        Auth::user()['roles'] === 3 ? $role = "Illustrator" : $role = "Author";
+
+        $attachments = null;
+
+        if ($request->hasFile('image')) {
+            $s3Path = config('filesystems.disks.s3.images');
+
+            $file = $request->file('image');            // C:\xampp\tmp\php3F38.tmp
+            $name = $file->getClientOriginalName();     // KakaoTalk_20190415_223355385.jpg
+            $filePath = $role . '/' . Auth::user()['email'] . '/' . $s3Path . '/';  // Illustrator/test@test/image/
+            $filename =  time() . $name;                // 1555999560KakaoTalk_20190415_223355053.jpg
+            $saveFilePath = $filePath . $filename;          // Illustrator/test@test/image/KakaoTalk_20190415_223355385.jpg
+
+            $illustFileUrl = config('filesystems.disks.s3.url') . $saveFilePath;
+
+            Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [
+                'visibility' => 'public',
+                'Metadata' => ['Content-Type' => 'image/jpeg'],
+            ]);
+
+            $illust_file_info = [
+                'position_of_illustration' => $illustFileUrl,
+                'name_of_illustration' => $name,
+                'created_at' => Carbon::now()
+            ];
+            $attachments = IllustFile::create($illust_file_info);  //file을 비동기방식으로 업로드 한 뒤
+
+            return response()->json($attachments, 200);  //업로드 된 파일의 정보를 front에 전달
+        }
+    }
+
+    public function fileDelete(Request $request, $id)
+    {
+        $filename = $request->filename;
+
+        $attachments = IllustFile::find($id);
+        $attachments->deleteUploadedFile($filename);
+        $attachments->delete();
+        /*
+        $path = public_path('files') . DIRECTORY_SEPARATOR .  $user->id . DIRECTORY_SEPARATOR . $filename;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        */
+        return $filename;
+    }
+
 
     /**
      * Display a listing of the resource.
@@ -32,6 +91,7 @@ class IllustController extends Controller
      */
     public function index()
     {
+
         $products = IllustrationList::select(
             // 작품번호
             'illustration_lists.*',
@@ -40,6 +100,10 @@ class IllustController extends Controller
             ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
             ->limit(5)
             ->get();
+
+        // $best = IllustrationList::selece(
+        //     'i'
+        // )
 
         return view('/store/home/home')->with('products', $products);
     }
@@ -91,8 +155,9 @@ class IllustController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FilePost $request)
+    public function store(Request $request)
     {
+<<<<<<< HEAD
         return $request;
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
 
@@ -117,74 +182,54 @@ class IllustController extends Controller
             Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
                 'visibility' => 'public',
                 'Metadata' => ['Content-Type' => 'image/jpeg'],
+=======
+        // echo "라우트 성공";
+        // 일러스트 저장
+
+        $illust_info = new IllustrationList();
+        $illust_info->illustration_title = $request->illustration_title;
+        $illust_info->user_id = Auth::user()['id'];
+        $illust_info->price_of_illustration = $request->price_of_illustration;
+        $illust_info->hits_of_illustration = 0;
+        $illust_info->introduction_of_illustration = $request->introduction_of_illustration;
+        $illust_info->division_of_illustration = $request->division_of_illustration;
+        $illust_info->created_at = Carbon::now();
+
+        $illust_info->save();
+
+        // return response()->json($illust_info, 200, array(), JSON_PRETTY_PRINT);
+
+        // 가장 최근에 저장된 일러스트 불러와서
+        $recentIllust = IllustrationList::select(
+            'illustration_lists.num',
+            'illustration_lists.division_of_illustration'
+        )->orderBy('created_at', 'DESC')
+            ->first();
+
+        $strExplode = explode(' ', $request->get('moreTag'));
+        $strReplace = str_replace("#", "", $strExplode);
+
+        for ($i = 0; $i < count($strReplace); $i++) {
+            $illust_tag_info = array([
+                'num_of_illustration' => $recentIllust->num,
+                'tag' => $recentIllust->division_of_illustration,
+                'moreTag' => $strReplace[$i]
+>>>>>>> b442f95971aa7b6925a2e235ea17416c22f3ba1f
             ]);
-
-            // 일러스트 저장
-            $illust_info = array(
-                // 일러스트 제목
-                'illustration_title' => $request->get('illustration_title'),
-                // 일러스트레이터 = 현재 로그인 한 사용자
-                'user_id' => Auth::user()['id'],
-                /** 일러스트 가격
-                 * 만약 무료인 경우 price_of_illustration == null 들어가게
-                 */
-                'price_of_illustration' => $request->get('price_of_illustration'),
-                // 조회수 (default = 0)
-                'hits_of_illustration' => 0,
-                // 시리즈 여부
-                'is_series' => 0,
-                // 이 컬럼,, 과연 필요한가.....
-                'num_of_series' => 1,
-                // 일러스트 소개
-                'introduction_of_illustration' => $request->get('introduction_of_illustration'),
-                // 북커버 (파일명)
-                'position_of_illustration' => $illustrUrl . $name,
-                // 대구분
-                'division_of_illustration' => $request->get('division_of_illustration'),
-                // 생성 날짜 (현재)
-                'created_at' => Carbon::now()
-            );
-            // 일러스트 저장
-            $this->illustration_model->storeIllust($illust_info);
-
-            // return response()->json($illust_info, 200, array(), JSON_PRETTY_PRINT);
-
-            // 가장 최근에 저장된 일러스트 불러와서
-            $recentIllust = IllustrationList::select(
-                'illustration_lists.num',
-                'illustration_lists.division_of_illustration'
-            )->orderBy('created_at', 'DESC')
-                ->first();
-
-            $strExplode = explode(' ', $request->get('moreTag'));
-            $strReplace = str_replace("#", "", $strExplode);
-
-            for ($i = 0; $i < count($strReplace); $i++) {
-                $illust_tag_info = array([
-                    'num_of_illustration' => $recentIllust->num,
-                    'tag' => $recentIllust->division_of_illustration,
-                    'moreTag' => $strReplace[$i]
-                ]);
-
-
-
-
-                // 태그 저장
-                $this->category_illust_model->storeTag($illust_tag_info);
-            }
-
-            // $illust_tag_info = array([
-            //     'num_of_illustration' => $recentIllust->num,
-            //     'tag' => $recentIllust->division_of_illustration,
-            //     'moreTag' => $jbexplode
-            // ]);
-
-
-            // // 태그 저장
-            // $this->category_illust_model->storeTag($illust_tag_info);
-
-            return redirect('/store')->with('message', "success");
+            // 태그 저장
+            $this->category_illust_model->storeTag($illust_tag_info);
         }
+
+        \Log::debug(['attachments' => $request->attachments]);
+        if ($request->has('attachments')) {
+            foreach ($request->attachments as $file) {
+                $attach = IllustFile::find($file);
+                $attach->illustration_lists()->associate($illust_info);    //belongsTo 관계를 변경 할 때 associate 메소드를 사용할 수 있음, 이 메소드는 자식 모델에 외래 키를 지정함
+                $attach->save();
+            }
+        }
+
+        return redirect('/store')->with('message', "success");
     }
 
 

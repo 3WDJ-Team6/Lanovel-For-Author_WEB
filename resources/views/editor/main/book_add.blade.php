@@ -41,7 +41,7 @@
                         <div id="targetLayer"></div>
                         <img src="" class="icon-choose-image" onerror="this.src='{{asset('image/photo.png' )}}'" />
                         <div class="icon-choose-image">
-                            <input name="userImage" id="userImage" type="file" class="inputFile"
+                            <input name="image" id="userImage" type="file" class="inputFile"
                                 onChange="showPreview(this);" />
                         </div>
                     </div>

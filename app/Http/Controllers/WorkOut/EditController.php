@@ -4,12 +4,13 @@ namespace App\Http\Controllers\WorkOut;
 
 use Auth;
 
-use App\Models\Memo;
+
 use App\Models\ContentOfWork;
 use App\Models\ChapterOfWork;
 use App\Models\Work;
 use App\Models\WorkList;
 use App\Models\Template;
+use App\Models\Memo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -32,9 +33,9 @@ class EditController extends Controller
         // return $this->middleware('auth');
     }
 
-    * 목차 리스트 보기
-    * 필요한 데이터 - 챕터 제목 (or 권수), 회차 제목 (or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
-    * /
+    /** 목차 리스트 보기
+     * 필요한 데이터 - 챕터 제목 (or 권수), 회차 제목 (or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
+     */
 
     public function index($num)
     {
@@ -50,6 +51,27 @@ class EditController extends Controller
             ->join('content_of_works', 'content_of_works.num_of_chapter', '=', 'chapter_of_works.num')
             ->where('chapter_of_works.num', '=', $num)
             ->get();
+
+        $results = Work::select(
+            'works.work_title',
+            'works.introduction_of_work',
+            'works.bookcover_of_work',
+            DB::raw('count(recommend_of_works.num_of_work) recommends'),
+            DB::raw('round(avg(grades.grade),1) grade')
+        )->leftjoin('work_lists','works.num','=','work_lists.num_of_work')
+         ->join('recommend_of_works', 'recommend_of_works.num_of_work','=','works.num')
+         ->join('grades', 'grades.num_of_work','=','works.num')
+         ->where('work_lists.accept_request',0)
+         ->groupBy('works.work_title')
+         ->orderBy('work_lists.created_at','asc');
+
+            SELECT works.work_title, works.introduction_of_work, works.bookcover_of_work,
+        (SELECT count(num_of_work) FROM recommend_of_works WHERE recommend_of_works.num_of_work = works.num ) AS recommends ,
+        (SELECT round(avg(grade),1) FROM grades WHERE grades.num_of_work = works.num AND grades.role_of_work=1) AS grade
+        FROM works LEFT JOIN work_lists ON works.num = work_lists.num_of_work
+        WHERE work_lists.accept_request = 0
+        GROUP BY works.work_title            // 참여자 수만큼 나와서 묶음
+        ORDER BY work_lists.created_at ASC   // 생성순 (필요에 따라 수정)
 
 
         return view('editor.main.list')
@@ -360,17 +382,17 @@ class EditController extends Controller
         return $request;
     }
 
-    public function store_memo(Request $request, $num)
+    public function store_memo(Request $request, $num_of_content, $num)
     {
+        // return $num_of_content;
         $memos = new Memo();
 
-        $memos->content_of_work = $request->num;
+        $memos->num_of_content = $num_of_content;
         $memos->user_id = Auth::user()['id'];
         $memos->content_of_memo = $request->content_of_memo;
 
         // 메모 저장
         $memos->save();
 
-        return "메모 저장됨";
     }
 }
