@@ -33,6 +33,31 @@
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
+        <!-- <div class="container"> -->
+
+        <div class="row" style="margin-left:100px;">
+            <!-- <div class="col-12" > -->
+            @foreach($products as $row)
+            <!-- 작품 -->
+            <a href="{{url('store/detail/view')}}/{{$row['num']}}">
+                <div class="single-product-wrapper" style="display:inline-block; margin:40px;">
+                    <!-- 작품이미지 -->
+                    <div class="product-img" style="width: 200px; height: 150px; overflow: hidden;">
+                        <img src="{{asset('image/store/product-1.png')}}" alt="작품1"
+                            style="max-width: 300px; height: auto;">
+                        <div class="product-favourite">
+                            <a href="#" class="favme fa fa-heart"></a>
+                        </div>
+                    </div>
+                    <!-- 작품설명 -->
+                    <div class="product-description">
+                        {{$row->user_id}}
+                        <a href="single-product-details.html">
+                            <h6>{{$row->illustration_title}}</h6>
+                        </a>
+                        <p class="product-price">{{$row->price_of_illustration}}</p>
+=======
         <div class="container">
 
             <div class="row">
@@ -54,22 +79,28 @@
                                     <h6>{{$row->illustration_title}}</h6>
                                 </a>
                                 <p class="product-price">{{$row->price_of_illustration}}</p>
+>>>>>>> b442f95971aa7b6925a2e235ea17416c22f3ba1f
 
-                                <!-- 마우스 -->
-                                <div class="hover-content">
-                                    <!-- 장바구니 -->
-                                    <div class="add-to-cart-btn">
-                                        <a href="#" class="btn essence-btn" style="width:100px;">Add to Cart</a>
-                                    </div>
-                                </div>
+                        <!-- 마우스 -->
+                        <div class="hover-content">
+                            <!-- 장바구니 -->
+                            <div class="add-to-cart-btn">
+                                <a href="#" class="btn essence-btn" style="width:100px;">Add to Cart</a>
                             </div>
                         </div>
-                    </a>
-                    @endforeach
+                    </div>
                 </div>
+<<<<<<< HEAD
+            </a>
+            @endforeach
+            <!-- </div> -->
+=======
             </div>
 
+>>>>>>> b442f95971aa7b6925a2e235ea17416c22f3ba1f
         </div>
+
+        <!-- </div> -->
     </section>
 
 </body>

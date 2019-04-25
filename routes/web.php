@@ -164,8 +164,20 @@ Route::get('store/detail/view', function () {
     return view('store.detail.view');
 });
 
+Route::get('store/menu/mypage', function () {
+    return view('store.menu.mypage');
+});
+
+Route::post('/destroy', 'Auth\LoginController@destroy');
+
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
 
+<<<<<<< HEAD
+Route::get('/new_collection', function () {
+    return view('store.home.new_collection');
+});
+=======
 // 일러스토어 일러스트 파일 업로드
 Route::post('/fileUpload', 'WorkOut\IllustController@fileUpload');
 Route::delete('/fileDelete/{id}', 'fileController@fileDelete');
+>>>>>>> b442f95971aa7b6925a2e235ea17416c22f3ba1f

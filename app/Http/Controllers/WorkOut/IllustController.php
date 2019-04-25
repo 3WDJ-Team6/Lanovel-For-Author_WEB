@@ -157,6 +157,32 @@ class IllustController extends Controller
      */
     public function store(Request $request)
     {
+<<<<<<< HEAD
+        return $request;
+        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
+
+        $illustName = $request->illustration_title;
+
+        # 역할/유저id/WorkSpace/책이름/OEBPS/images/ - 에디터 사용 사진 들어갈 경로
+        $s3Path = config('filesystems.disks.s3.workspace') . DIRECTORY_SEPARATOR . $illustName . $this::S3['opsImage'];
+
+        $publicFolder = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images');  # 역할/유저id/image
+        $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . $s3Path;
+        $illustrUrl = config('filesystems.disks.s3.url') . $filePath;
+
+        if ($request->hasFile('image')) {                                       #1 image 파일이 있으면
+            if (!Storage::disk('s3')->exists($filePath) && !Storage::disk('s3')->exists($publicFolder)) {  #2 폴더가 있으면 ture 없으면 fasle, 없으면 하위 디렉토리까지 싹 만들어줌
+                Storage::disk('s3')->makeDirectory($filePath, 0777, true);                                             #3 폴더가 없으면 해당 경로에 폴더를 만들어 줌 $filePath에 / 기준으로 폴더가 생성됨
+                Storage::disk('s3')->makeDirectory($publicFolder, 0777, true);
+                // Storage::disk('s3')->makeDirectory($role . '/' . Auth::user()['email'] . $this::AUTHOR['workspace'] . $bookName, 0777, true);
+            }
+            $file = $request->file('image');                                    #4 Request로 부터 불러온 정보를 변수에 저장
+            $name = time() . $file->getClientOriginalName();                    #5 파일명이 겹칠 수 있으니 시간 + 원본명으로 저장
+            $saveFilePath = $filePath . $name;                                  #6 저장 파일 경로 = 폴더 경로 + 파일 이름
+            Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
+                'visibility' => 'public',
+                'Metadata' => ['Content-Type' => 'image/jpeg'],
+=======
         // echo "라우트 성공";
         // 일러스트 저장
 
@@ -188,6 +214,7 @@ class IllustController extends Controller
                 'num_of_illustration' => $recentIllust->num,
                 'tag' => $recentIllust->division_of_illustration,
                 'moreTag' => $strReplace[$i]
+>>>>>>> b442f95971aa7b6925a2e235ea17416c22f3ba1f
             ]);
             // 태그 저장
             $this->category_illust_model->storeTag($illust_tag_info);

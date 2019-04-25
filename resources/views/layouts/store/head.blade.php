@@ -13,9 +13,12 @@
     <!-- Core Style CSS -->
     
     <link rel="stylesheet" href="{{asset('css/store/core-style.css')}}">
+
     <link rel="stylesheet" href="{{asset('css/store/style.css')}}">
     
-        <script src="{{ asset('js/store/jquery-2.2.4.min.js') }}"></script>
+    <link rel="stylesheet" href="{{asset('css/store/animate.css')}}">
+
+        <script src="{{asset('js/store/jquery-2.2.4.min.js')}}"></script>
  
         <script src="{{ asset('js/store/popper.min.js') }}"></script>
 
