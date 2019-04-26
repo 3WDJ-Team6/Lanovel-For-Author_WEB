@@ -84,7 +84,7 @@ class IllustController extends Controller
             // 작품번호
             'illustration_lists.*',
             'users.nickname',
-            'illust_files.position_of_illustration'
+            'illust_files.url_of_illustration'
         )->join('users', 'users.id', 'illustration_lists.user_id')
             ->join('illust_files', 'illustration_lists.num', 'illust_files.num_of_illust')
             ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
@@ -105,7 +105,7 @@ class IllustController extends Controller
             // 작품번호
             'illustration_lists.*',
             'users.nickname',
-            'illust_files.position_of_illustration'
+            'illust_files.url_of_illustration'
         )->join('users', 'users.id', 'illustration_lists.user_id')
             ->join('illust_files', 'illustration_lists.num', 'illust_files.num_of_illust')
             ->where('illustration_lists.division_of_illustration', $category)
