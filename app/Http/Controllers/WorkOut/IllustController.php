@@ -115,20 +115,19 @@ class IllustController extends Controller
         return view('.store.menu.contents')->with('products', $products);
     }
 
-    // 상세메뉴검색
-    public function detailMenuIndex($category, $moreCategory)
+    // 상세보기
+    public function detailView($num)
     {
-        $products = IllustrationList::select(
-            // 작품번호
+        $product = IllustrationList::select(
             'illustration_lists.*',
-            'users.nickname'
-        )->join('users', 'users.id', 'illustration_lists.user_id')
+            'illust_files.*',
+            'category_illustrations.*'
+        )->join('illust_files', 'illust_files.num_of_illust', 'illustration_lists.num')
             ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
-            ->where('category_illustrations.tag', $category)
-            ->where('category_illustrations.moreTag', $moreCategory)
+            ->where('illustration_lists.num', $num)
             ->get();
 
-        return view('.store.menu.contents')->with('products', $products);
+        return view('store.detail.view')->with('product', $product);
     }
 
     /**
@@ -155,7 +154,7 @@ class IllustController extends Controller
         $illust_info = new IllustrationList();
         $illust_info->illustration_title = $request->illustration_title;
         $illust_info->user_id = Auth::user()['id'];
-        $illust_info->price_of_illustration = $request->price_of_illustration;
+        $illust_info->price_of_illustration = $request->radio_P;
         $illust_info->hits_of_illustration = 0;
         $illust_info->introduction_of_illustration = $request->introduction_of_illustration;
         $illust_info->division_of_illustration = $request->division_of_illustration;

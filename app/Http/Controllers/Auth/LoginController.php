@@ -55,17 +55,6 @@ class LoginController extends Controller
         return redirect()->intended('/'); // 로그인 하면 내가 요청했던 곳으로 감
     }
 
-    public function destroy()
-    {
-        return Auth::user()['role'];
-        auth()->logout(); #Auth::logout();
-        if (Auth::user()['role'] == 'Illustrator') {
-            return redirect('/store')->with('message', '로그아웃 하였습니다.');
-        } else {
-            return redirect('/')->with('message', '로그아웃 하였습니다.');
-        }
-    }
-
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password'); //회원 정보중 email, password만 가져옴
