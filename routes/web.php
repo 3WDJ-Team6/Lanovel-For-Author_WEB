@@ -170,7 +170,6 @@ Route::post('/destroy', 'Auth\LoginController@destroy');
 
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
 
-
 Route::get('/new_collection', function () {
     return view('store.home.new_collection');
 });

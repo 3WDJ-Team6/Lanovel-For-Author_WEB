@@ -26,8 +26,8 @@
 
 <body>
 
-    <section class="new_arrivals_area" style="width:100%">
-        <h2 style="text-align:center">My page</h2>
+    <section class="new_arrivals_area" style="width:100%; margin-top:100px; margin-bottom:50px;">
+        <h2 style="text-align:center; color:black;">My page</h2>
         <!-- 전부 -->
         <div class="row" style="justify-content:center; width:100%;">
             <!-- <div class="col-12"> -->
@@ -36,8 +36,7 @@
             <div class="form-group" id="left">
                 <div class="form-group" id="left-top">
                     <div class="form-group" id="profile-photo">
-                        <img src="{{asset('image/store/product-1.png')}}"
-                            style="margin-top:50px; position: relative; background:center no-repeat; border-radius: 50%; width: 150px; height: 150px; ">
+                        <img src="{{asset('image/store/product-1.png')}}">
                     </div>
                     <div class="form-group" id="nickname">
                         sunsilver

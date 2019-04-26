@@ -45,11 +45,10 @@
                     <a href="{{url('store/menu/mypage')}}"><img src="{{asset('image/store/user.svg')}}" alt=""></a>
                 </div>
                 <div class="user-login-info">
-                    <form method="post" action="{{route('logout')}}" id="frm">
-                        @csrf
-                        <a href="#" onclick="document.getElementById('frm').submit();"><img
-                                src="{{asset('image/store/logout.png')}}" style="width:80px;"></a>
-                    </form>
+                <form method="post" action="{{route('logout')}}" id="frm">
+                    @csrf
+                    <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{asset('image/store/logout.png')}}" style="width:80px;"></a>
+                </form>
                 </div>
 
                 @else

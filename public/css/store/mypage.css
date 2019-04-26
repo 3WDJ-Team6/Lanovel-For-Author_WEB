@@ -70,3 +70,12 @@
     display: inline-block;
     width: 200px;
 }
+
+#profile-photo img {
+    margin-top: 50px;
+    position: relative;
+    background: center no-repeat;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
