@@ -6,6 +6,7 @@
 <script src="{{asset('js/book_add_type.js')}}" defer></script>
 <script src="{{asset('js/book_add_cycle.js')}}" defer></script>
 <script src="{{asset('js/book_add_cycle_month.js')}}" defer></script>
+<script src="{{asset('js/book_add_price.js')}}" defer></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="{{asset('css/image_add.css')}}">
 <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
@@ -123,12 +124,10 @@
                         </div>
 
                         <div class="form-group">
-                            가격<input type="text" name="buy_price" class="form-control" placeholder=" " value=""
-                                style="width:400px;" />원
+                            가격<input type="text" name="buy_price" class="form-control" style="width:400px;" id="comma" onkeyup="commas(this)"/>원
                         </div>
                         <div class="form-group" id="rent">
-                            대여 가격<input type="text" name="rental_price" class="form-control" id="rent" placeholder=" "
-                                value="" style="width:400px;" />원
+                            대여 가격<input type="text" name="rental_price" class="form-control" id="rent" style="width:400px;" numberOnly/>원
                         </div>
                         <div class="form-group">
                             작품 소개<input type="text" name="introduction_of_work" class="form-control" placeholder="제한 없음"

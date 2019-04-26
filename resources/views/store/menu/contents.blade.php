@@ -33,7 +33,6 @@
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
         <!-- <div class="container"> -->
 
         <div class="row" style="margin-left:100px;">
@@ -57,29 +56,6 @@
                             <h6>{{$row->illustration_title}}</h6>
                         </a>
                         <p class="product-price">{{$row->price_of_illustration}}</p>
-=======
-        <div class="container">
-
-            <div class="row">
-                <div class="col-12">
-
-                    @foreach($products as $row)
-                    <!-- 작품 -->
-                    <a href="{{url('store/detail/view')}}/{{$row['num']}}">
-                        <div class="single-product-wrapper" style="display:inline-block; margin-left:40px;">
-                            <!-- 작품이미지 -->
-                            <div class="product-img">
-                                <img src="{{$row['position_of_illustration']}}" alt="작품1"
-                                    style="width:200px; height:250px;">
-                            </div>
-                            <!-- 작품설명 -->
-                            <div class="product-description">
-                                {{$row->user_id}}
-                                <a href="single-product-details.html">
-                                    <h6>{{$row->illustration_title}}</h6>
-                                </a>
-                                <p class="product-price">{{$row->price_of_illustration}}</p>
->>>>>>> b442f95971aa7b6925a2e235ea17416c22f3ba1f
 
                         <!-- 마우스 -->
                         <div class="hover-content">
@@ -90,14 +66,11 @@
                         </div>
                     </div>
                 </div>
-<<<<<<< HEAD
             </a>
             @endforeach
             <!-- </div> -->
-=======
             </div>
 
->>>>>>> b442f95971aa7b6925a2e235ea17416c22f3ba1f
         </div>
 
         <!-- </div> -->

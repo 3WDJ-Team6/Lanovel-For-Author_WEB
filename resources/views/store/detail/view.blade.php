@@ -17,7 +17,7 @@
     <section class="new_arrivals_area section-padding-80 clearfix">
 
         <div class="container">
-        <h2 style="text-align:center">View</h2>
+        <h2 style="text-align:center; color:black;">View</h2>
             <!-- 전부 -->
             <div class="row col-12 align-items: center; display: flex; justify-content: center;">
                 <!-- <div class="col-12"> -->
@@ -25,25 +25,25 @@
                     <!-- 사진칸 -->
                     <div class="form-group">
                         <!-- 왼쪽 -->
-                            <img src="{{asset('image/store/product-1.png')}}" style="max-width: 100%; height: auto;" onclick="openModal();currentSlide(1)"
+                            <img src="{{$row->url_of_illustration}}" style="max-width: 100%; height: auto;" onclick="openModal();currentSlide(1)"
                                 class="hover-shadow cursor">
                     </div>
                     <!-- 오른쪽 -->
                     <div class="form-group col-8">
                         <div class="title" name="illustration_title" style="width:100%; text-align:center; margin:30px; background-color:lightgray;">
-                            <h4>총든 여자</h4>
+                            <h4>{{$row->illustration_title}}</h4>
                         </div>
                         <div class="date" name="crated_at" style="float:right;">
-                            <p>날짜</p>
+                            <p>{{$row->updated_at}}</p>
                         </div>
                         <div class="introduce" name="introduction_of_illustration" style="width:100%; height:150px; margin:30px; background-color:lightgray;">
-                            <p>백발의 여성이 총을 들고있는 구도를 그려봤어요</p>
+                            <p>{{$row->introduction_of_illustration}}</p>
                         </div>
                         <div class="tag" name="tag" style="width:100%; margin:30px; background-color:lightgray;">
-                            <p>#칼 #여자</p>
+                            <p>{{$row->moreTag}}</p>
                         </div>
                         <div class="price" name="price_of_illustration" style="width:100%; margin:30px; background-color:lightgray;">
-                            <p>6500p <input type="button" value="구매"></p>
+                            <p>{{$row->price_of_illustration}} <input type="button" value="구매"></p>
                         </div>
                         <div class="" name="" style="width:100%; margin:30px; background-color:lightgray;">
                             <button type="button" style="margin:10px;"><img src="{{asset('image/store/view.png')}}" style="width:40px; height:40px;">

@@ -46,7 +46,7 @@
                 <div class="user-login-info">
                 <form method="post" action="{{route('logout')}}" id="frm">
                     @csrf
-                    <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{asset('image/store/logout.png')}}" style="width:80px;"></button>
+                    <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{asset('image/store/logout.png')}}" style="width:80px;"></a>
                 </form>
                 </div>
 
