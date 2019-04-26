@@ -105,10 +105,10 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
     Route::resource('/images', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
     Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
-# 일러스토어 일러스트 파일 업로드
+    # 일러스토어 일러스트 파일 업로드
     Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
-    Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');  
-# s3 directory dynamic listing
+    Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');
+    # s3 directory dynamic listing
     Route::get('/getDir/{bookNum}/{dir?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
@@ -160,9 +160,7 @@ Route::post('store/find/search', function () {
     return view('store.find.search');
 });
 
-Route::get('store/detail/view', function () {
-    return view('store.detail.view');
-});
+Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
 
 Route::get('store/menu/mypage', function () {
     return view('store.menu.mypage');
@@ -176,4 +174,3 @@ Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationControl
 Route::get('/new_collection', function () {
     return view('store.home.new_collection');
 });
-

@@ -120,6 +120,9 @@
                         @case('sun')
                         일요일
                         @break
+                        @default
+                        매달 {{ $pe->cycle_of_publish }}일
+                        @break
                         @endswitch
                         @endif
                         @endforeach<br>
@@ -129,7 +132,11 @@
                         @endif
                         @endforeach<br>
                         구매 : {{ $post->buy_price }}<br>
-                        대여 : {{ $post->rental_price }}<br>
+                        대여 : {{ $post->rental_price }}
+                        @if($post->rental_price == null)
+                        없음
+                        @endif
+                        <br>
                         최근 수정 시간 : @foreach ($modify_time as $time)
                         @if($post->num == $time->num_of_work)
                         {{ $time->updated_at->diffForHumans() }}

@@ -269,6 +269,7 @@ class IndexController extends Controller
             // $strExplode = explode(' ', $request->get('tag'));
             // $strReplace = str_replace("#", "", $strExplode);
 
+            $type_of_periods = $request->radio_C;
             $periods = $request->input('cycle_of_work');
             // 연재 주기 추가
             // $period = new PeriodOfWork();
@@ -276,16 +277,28 @@ class IndexController extends Controller
 
             $num = 0;
             // return $periods;
-            foreach ($periods as $value) {
-                // echo $num++;
-                $period_info = array([
-                    'num_of_work' => $recentWork->num,
-                    'cycle_of_publish' => $value
-                ]);
-                $this->period_model->storePeriodWork($period_info);
+            if ($type_of_periods == '2-1') {
+                foreach ($periods as $value) {
+                    // echo $num++;
+                    $period_info = array([
+                        'num_of_work' => $recentWork->num,
+                        'cycle_of_publish' => $value
+                    ]);
+                    $this->period_model->storePeriodWork($period_info);
+                }
+            } else {
+                foreach ($periods as $value) {
+                    $real_value = substr($value, 3, 2);
+                    $period_info = array([
+                        'num_of_work' => $recentWork->num,
+                        'cycle_of_publish' => $real_value
+                    ]);
+                    $this->period_model->storePeriodWork($period_info);
+                }
             }
 
-            return $period_info;
+
+            // return $period_info;
 
 
             $strExplode = explode(' ', $request->get('tag'));
