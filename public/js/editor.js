@@ -237,20 +237,36 @@ function memoBalloon(e) {
             range.surroundContents(span);
             txt.removeAllRanges();
             txt.addRange(range);
-            if (!$(".textarea span:contains(" + txt + ")").hasClass('memoballoon')) {
-                $(".textarea span:contains(" + txt + ")").addClass("memoballoon");
+            if (
+                !$(".textarea span:contains(" + txt + ")").hasClass(
+                    "memoballoon"
+                )
+            ) {
+                $(".textarea span:contains(" + txt + ")").addClass(
+                    "memoballoon"
+                );
                 $(".textarea span:contains(" + txt + ")").prepend(
                     "<div id=" +
                     "'memoViewId" +
                     memoViewId +
                     "'" +
-                    "class='balloon' style='top:" + top + "px;' onclick='memoPopup(event," + memoViewId + ");'></div>" +
+                    "class='balloon' style='top:" +
+                    top +
+                    "px;' onclick='memoPopup(event," +
+                    memoViewId +
+                    ");'></div>" +
                     "<div id=" +
                     "'memoPopupId" +
                     memoPopupId +
                     "'" +
-                    "class='memoPopup' contenteditable='false' style='background-color:" + rand + "'>" +
-                    "<form method='POST' action='/store_memo/" + content_of_work + "/" + memoViewId + "'>" +
+                    "class='memoPopup' contenteditable='false' style='background-color:" +
+                    rand +
+                    "'>" +
+                    "<form method='POST' action='/store_memo/" +
+                    content_of_work +
+                    "/" +
+                    memoViewId +
+                    "'>" +
                     "<textarea name='content_of_memo' class='underline' autocorrect='false'>" +
                     "</textarea>" +
                     "<span>유저이름</span>" +
@@ -260,10 +276,17 @@ function memoBalloon(e) {
                     "</form>" +
                     "</div>"
                 );
-                $(".textarea span:contains(" + txt + ")").css('background-color', "yellow");
+                $(".textarea span:contains(" + txt + ")").css(
+                    "background-color",
+                    "yellow"
+                );
                 memoViewId++;
                 memoPopupId++;
-            } else if ($(".textarea span:contains(" + txt + ")").hasClass('memoballoon')) {
+            } else if (
+                $(".textarea span:contains(" + txt + ")").hasClass(
+                    "memoballoon"
+                )
+            ) {
                 console.log("실행되고잇니hasClass");
             }
         }
@@ -283,7 +306,7 @@ function addEpisode(sub, num) {
 //에피소드 수정
 function editEpisode(chgsub, orisub) {
     console.log("바뀐제목 : " + chgsub + " 원래제목 : " + orisub);
-    $('.ep-title').text(chgsub);
+    $(".ep-title").text(chgsub);
     $(".ep-list h4 a").each(function () {
         var text = $(this).text();
         console.log("text : " + text);
@@ -395,9 +418,9 @@ $(document).ready(function () {
     //템플릿//
 
     //리소스파일 리스팅
-    let folder = '';
-    var chng_text = '';
-    var folder_name = '';
+    let folder = "";
+    var chng_text = "";
+    var folder_name = "";
 
     function getResource() {
         $.ajax({
@@ -411,18 +434,24 @@ $(document).ready(function () {
             success: function (data) {
                 console.log(data);
                 for (var i = 0; i < 2; i++) {
-                    folder_name = Object.keys(data)[i].replace('_FOLDER', '');
-                    $("#resource-feild").append("<span id='obj_" + i + "' class='obj'><span class='obj_folder' style='background-image: url(\"/image/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" + folder_name + "</span></span");
+                    folder_name = Object.keys(data)[i].replace("_FOLDER", "");
+                    $("#resource-feild").append(
+                        "<span id='obj_" +
+                        i +
+                        "' class='obj'><span class='obj_folder' style='background-image: url(\"/image/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
+                        folder_name +
+                        "</span></span"
+                    );
                 }
             }
         });
     }
     $(document).on("click", ".obj", function () {
         // $('.resource-area').attr('id', 'dropZone').attr('ondrop', 'upload_file(event)').attr('ondragover', 'return false');
-        if (this.id == 'obj_0') {
-            folder = 'private';
-        } else if (this.id == 'obj_1') {
-            folder = 'public';
+        if (this.id == "obj_0") {
+            folder = "private";
+        } else if (this.id == "obj_1") {
+            folder = "public";
         }
         $.ajax({
             type: "GET",
@@ -439,42 +468,56 @@ $(document).ready(function () {
                 console.log(data);
                 data.reverse();
                 console.log("folder : " + folder);
-                $("#resource-feild").html('');
+                $("#resource-feild").html("");
                 $.each(data, function (index, item) {
                     // console.log("item.name : " + item.name);
                     // console.log("item.src : " + item.src);
                     // console.log("index : " + index);
                     chng_text = item.name.substr(0, 9) + "...";
-                    $("#resource-feild").append("<span id='obj_" + index + "' class='obj_file'><img src='" + item.src + "' class='obj_thum' /><span class='obj_name' title='" + item.name + "'>" + chng_text + "</span></span");
+                    $("#resource-feild").append(
+                        "<span id='obj_" +
+                        index +
+                        "' class='obj_file'><img src='" +
+                        item.src +
+                        "' class='obj_thum' /><span class='obj_name' title='" +
+                        item.name +
+                        "'>" +
+                        chng_text +
+                        "</span></span"
+                    );
                 });
-                $("#resource-feild").prepend("<div class='back'>뒤로가기</div>");
-                $('.back').after("<label for='image' class='upload_label'>+</label><input type='file' name='image' id='image' />");
+                $("#resource-feild").prepend(
+                    "<div class='back'>뒤로가기</div>"
+                );
+                $(".back").after(
+                    "<label for='image' class='upload_label'>+</label><input type='file' name='image' id='image' />"
+                );
             }
         });
     });
     $(document).on("click", ".back", function () {
-        $("#resource-feild").html('');
+        $("#resource-feild").html("");
         getResource();
     });
     getResource();
     //리소스파일 리스팅//
 
     //파일추가
-    $(document).on('change', 'input[type="file"]', function () {
-        var form = $('#file_form')[0];
+    $(document).on("change", 'input[type="file"]', function () {
+        var form = $("#file_form")[0];
         var formData = new FormData(form);
         formData.append("image", $("#image")[0].files[0]);
         console.log($("#image")[0].files[0]);
         console.log($("#image")[0]);
 
         $.ajax({
-            url: '/images',
+            url: "/images",
             processData: false,
             contentType: false,
             data: formData,
-            type: 'POST',
+            type: "POST",
             success: function () {
-                $('span').remove('#file_loading');
+                $("span").remove("#file_loading");
             },
             beforeSend: function () {
                 $("#image").after("<span id='file_loading'></span>");
@@ -489,28 +532,54 @@ $(document).ready(function () {
     });
     //파일추가//
 
-    //파일 우클릭
-    $(document).on('contextmenu', ".obj_file", function (e) {
-        let ididid = this.id;
+    //파일 우클릭 & 삭제
+    $(document).on("contextmenu", ".obj_file", function (e) {
+        let img = $(this)
+            .children("img")
+            .attr("src");
+        let image_data = img.replace(
+            "https://s3.ap-northeast-2.amazonaws.com/lanovebucket/",
+            ""
+        );
+        var ididid = this.id;
+        console.log(img);
+        console.log(image_data);
         console.log(ididid);
+
         event.preventDefault();
-        if ($('.custom-menu').length) {
-            $("div.custom-menu").hide();
+        if ($(".custom-menu").length) {
+            $("div.custom-menu").remove();
         }
+        $("div.custom-menu").remove();
         $("<div id='file-delete' class='custom-menu'>삭제</div>")
             .appendTo(".resource-area")
             .css({
                 top: event.pageY + "px",
                 left: event.pageX + "px"
-            }).bind("click", function (event) {
-                $("div.custom-menu").hide();
+            })
+            .bind("click", function (event) {
+                $("div.custom-menu").remove();
             });
-        $(document).on('click', '#file-delete', function () {
+        $(document).on("click", "#file-delete", function () {
             console.log("ididid : " + ididid);
-            $('#' + ididid).remove();
+            $("#" + ididid).remove();
+            $.ajax({
+                url: "/images",
+                data: image_data,
+                type: "POST",
+                success: function (data) {
+                    console.log("데이터" + data);
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        });
+        $(document).on("click", "body", function () {
+            $("div.custom-menu").remove();
         });
     });
-    //파일 우클릭//
+    //파일 우클릭 & 삭제//
 
     //텍스트에리어로 마우스 올라가면 p태그안의 thum클래스를 resize로 바꾸고 div로 감싼다
     // $('.textarea').hover(function () {

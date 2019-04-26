@@ -51,11 +51,11 @@ header li {
 .tool-bar {
     background-color: rgb(241, 241, 241);
     border-bottom: 3px solid rgb(50, 186, 231);
-    padding-left: 400px;
+    text-align: center;
 }
 
 .tool-btns {
-    display: inline;
+    display: inline-block;
 }
 
 .btn,
@@ -644,6 +644,17 @@ input[type="file"] {
     right: 3%;
     top: 40%;
     padding: 1px 0px 0px 0px;
+}
+
+.clearfix a {
+    margin: 3px;
+    left: 35px;
+}
+
+.chatting {}
+
+.mx-auto {
+    text-align: center;
 }
 
 /* //content */
