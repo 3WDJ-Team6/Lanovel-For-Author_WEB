@@ -285,7 +285,7 @@ class IndexController extends Controller
                 $this->period_model->storePeriodWork($period_info);
             }
 
-            // return $period_model;
+            return $period_info;
 
 
             $strExplode = explode(' ', $request->get('tag'));
