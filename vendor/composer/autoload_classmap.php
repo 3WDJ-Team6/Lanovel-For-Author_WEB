@@ -78,6 +78,7 @@ return array(
     'App\\Resource' => $baseDir . '/app/Models/Resource.php',
     'App\\Traits\\FileTrait' => $baseDir . '/app/Traits/FileTrait.php',
     'App\\Traits\\ModelScopes' => $baseDir . '/app/Traits/ModelScopes.php',
+    'App\\WorkOut\\ReadBook' => $baseDir . '/app/Models/ReadBook.php',
     'Asm89\\Stack\\Cors' => $vendorDir . '/asm89/stack-cors/src/Asm89/Stack/Cors.php',
     'Asm89\\Stack\\CorsService' => $vendorDir . '/asm89/stack-cors/src/Asm89/Stack/CorsService.php',
     'Aws\\ACMPCA\\ACMPCAClient' => $vendorDir . '/aws/aws-sdk-php/src/ACMPCA/ACMPCAClient.php',

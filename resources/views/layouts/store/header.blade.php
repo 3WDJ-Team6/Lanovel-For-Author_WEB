@@ -38,7 +38,8 @@
                     <a href="#"><img src="{{asset('image/store/heart.svg')}}" alt=""></a>
                 </div>
                 <div class="cart-area">
-                    <a href="#" id="essenceCartBtn"><img src="{{asset('image/store/bag.svg')}}" alt=""> <span>3</span></a>
+                    <a href="#" id="essenceCartBtn"><img src="{{asset('image/store/bag.svg')}}" alt="">
+                        <span>3</span></a>
                 </div>
                 <div class="user-login-info">
                     <a href="{{url('store/menu/mypage')}}"><img src="{{asset('image/store/user.svg')}}" alt=""></a>

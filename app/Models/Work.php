@@ -16,6 +16,7 @@ use App\Models\Contract;
 use App\Models\PeriodOfWork;
 use App\Models\ChapterOfWork;
 use App\Models\Memo;
+use App\Models\ReadBook;
 use Illuminate\Database\Eloquent\Model;
 
 class Work extends Model
@@ -117,6 +118,14 @@ class Work extends Model
         return $this->hasMany(WorkList::class, 'num_of_work');
     }
 
+    /**
+     * 하나의 작품은 여러 readbook 리스트를 가질 수 있다.
+     */
+    public function read_books()
+    {
+        return $this->hasMany(ReadBook::class, 'num_of_work');
+    }
+
 
     /**
      * 하나의 작품은 여러 푸쉬알람을 가질 수 있다.
@@ -163,7 +172,7 @@ class Work extends Model
      */
     public function category_works()
     {
-        return $this->hasMany(CategoryWork::class);
+        return $this->hasMany(CategoryWork::class, 'num_of_work');
     }
 
     /**
@@ -177,9 +186,9 @@ class Work extends Model
     /**
      * 하나의 작품은 하나의 연재 주기를 가질 수 있다.
      */
-    public function period_of_work()
+    public function period_of_works()
     {
-        return $this->hasOne(PeriodOfWork::class);
+        return $this->hasMany(PeriodOfWork::class);
     }
 
     /**

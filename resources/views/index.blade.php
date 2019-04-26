@@ -32,16 +32,22 @@
         <!-- Material inline 1 -->
         <form method="POST" id="filter">
             {{ csrf_field() }}
-            <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;">
-                <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;" name="type_of_work[]" value="3">
+            <div class="form-check form-check-inline"
+                style="width:100%; align-items: center; display: flex; justify-content: center;">
+                <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;"
+                    name="type_of_work[]" value="3">
                 <label class="form-check-label" for="materialInline1">회차</label>
-                <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;" name="type_of_work[]" value="2">
+                <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;"
+                    name="type_of_work[]" value="2">
                 <label class="form-check-label" for="materialInline2">단행본</label>
-                <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;" name="type_of_work[]" value="1">
+                <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;"
+                    name="type_of_work[]" value="1">
                 <label class="form-check-label" for="materialInline5">단편</label>
-                <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;" name="status_of_work[]" value="1">
+                <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;"
+                    name="status_of_work[]" value="1">
                 <label class="form-check-label" for="materialInline3">연재중</label>
-                <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;" name="status_of_work[]" value="2">
+                <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;"
+                    name="status_of_work[]" value="2">
                 <label class="form-check-label" for="materialInline4">완결작</label>
             </div>
         </form>
@@ -52,7 +58,8 @@
                 <div class="post-preview">
                     <a href="{{url('editor/main/book_add')}}">
                         <h3 class="post-title" style="margin-top:30px; margin-bottom:30px;">
-                            <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
+                            <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;"
+                                class="img-thumbnail">
                             작품추가
                         </h3>
                 </div>
@@ -60,19 +67,24 @@
                 <hr>
 
                 {{-- 작품 출력 부분  --}}
-                @foreach ($works as $row)
+                @foreach ($posts as $post)
                 <div class="post-preview">
-                    <a href="{{url('editor/main/chapter')}}/{{$row['num']}}">
+                    <a href="{{url('editor/main/chapter')}}/{{$post['num']}}">
 
-                        <img src="{{$row['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
+                        <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px;"
+                            class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
 
                         <div class="post-title" style="margin-top:30px; margin-bottom:30px; display:inline-flex;">
-                            {{$row->work_title}}
+                            {{ $post->work_title }}
                         </div>
                     </a>
                     <p class="post-meta">
-                        카테고리 : {{$row->tag}} <br>
-                        연재 종류 : @switch($row->type_of_work)
+                        카테고리 : @foreach ($tagCount as $ta)
+                        @if($post->num == $ta->num)
+                        {{ $ta->tag }}
+                        @endif
+                        @endforeach <br>
+                        연재 종류 : @switch( $post->type_of_work )
                         @case(1)
                         단편
                         @break
@@ -83,11 +95,53 @@
                         회차
                         @endswitch
                         <br>
-                        연재 주기 :{{$row->cycle_of_publish}} <br>
-                        협업 멤버 : @foreach($posts as $post) {{$post->work_lists[0]->user_id}} @endforeach <br>
-                        구매 : {{$row->buy_price}}<br>
-                        대여 : {{$row->rental_price}}<br>
-                        최근 수정 시간 : <br>
+                        연재 주기 :
+                        @foreach ($periodCount as $pe)
+                        @if($post->num == $pe->num)
+                        @switch( $pe->cycle_of_publish )
+                        @case('mon')
+                        월요일
+                        @break
+                        @case('tue')
+                        화요일
+                        @break
+                        @case('wed')
+                        수요일
+                        @break
+                        @case('thr')
+                        목요일
+                        @break
+                        @case('fri')
+                        금요일
+                        @break
+                        @case('sat')
+                        토요일
+                        @break
+                        @case('sun')
+                        일요일
+                        @break
+                        @default
+                        매달 {{ $pe->cycle_of_publish }}일
+                        @break
+                        @endswitch
+                        @endif
+                        @endforeach<br>
+                        협업 멤버 : @foreach ($user_lists as $user)
+                        @if($post->num == $user->num)
+                        {{ $user->nickname }}
+                        @endif
+                        @endforeach<br>
+                        구매 : {{ $post->buy_price }}<br>
+                        대여 : {{ $post->rental_price }}
+                        @if($post->rental_price == null)
+                        없음
+                        @endif
+                        <br>
+                        최근 수정 시간 : @foreach ($modify_time as $time)
+                        @if($post->num == $time->num_of_work)
+                        {{ $time->updated_at->diffForHumans() }}
+                        @endif
+                        @endforeach<br>
                     </p>
 
                 </div>

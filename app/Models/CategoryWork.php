@@ -23,6 +23,6 @@ class CategoryWork extends Model
      */
     public function work()
     {
-        return $this->belongsTo('App\Models\Work');
+        return $this->belongsTo('App\Models\Work', 'num_of_work');
     }
 }

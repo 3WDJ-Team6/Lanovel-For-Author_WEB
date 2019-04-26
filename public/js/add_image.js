@@ -24,8 +24,8 @@ function showPreview(objFileInput) {
         fileReader.onload = function (e) {
             $('#blah').attr('src', e.target.result);
             $("#targetLayer").html('<img src="' + e.target.result + '" width="200px" height="200px" class="upload-preview" />');
-            $("#targetLayer").css('opacity', '0.7');
-            $(".icon-choose-image").css('opacity', '0.5');
+            $("#targetLayer").css('opacity', '0.9');
+            $(".icon-choose-image").css('z-index', '-1');
         }
         fileReader.readAsDataURL(objFileInput.files[0]);
     }

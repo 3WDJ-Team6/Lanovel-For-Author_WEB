@@ -614,6 +614,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Resource' => __DIR__ . '/../..' . '/app/Models/Resource.php',
         'App\\Traits\\FileTrait' => __DIR__ . '/../..' . '/app/Traits/FileTrait.php',
         'App\\Traits\\ModelScopes' => __DIR__ . '/../..' . '/app/Traits/ModelScopes.php',
+        'App\\WorkOut\\ReadBook' => __DIR__ . '/../..' . '/app/Models/ReadBook.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/CorsService.php',
         'Aws\\ACMPCA\\ACMPCAClient' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/ACMPCA/ACMPCAClient.php',
