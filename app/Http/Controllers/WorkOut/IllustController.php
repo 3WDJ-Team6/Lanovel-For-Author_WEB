@@ -115,20 +115,20 @@ class IllustController extends Controller
         return view('.store.menu.contents')->with('products', $products);
     }
 
-    // 상세보기
-    public function detailView($num)
-    {
-        $product = IllustrationList::select(
-            'illustration_lists.*',
-            'illust_files.*',
-            'category_illustrations.*'
-        )->join('illust_files', 'illust_files.num_of_illust', 'illustration_lists.num')
-            ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
-            ->where('illustration_lists.num', $num)
-            ->get();
-
-        return view('store.detail.view')->with('product', $product);
-    }
+     // 상세보기
+     public function detailView($num)
+     {
+         $product = IllustrationList::select(
+             'illustration_lists.*',
+             'illust_files.*',
+             'category_illustrations.*'
+         )->join('illust_files', 'illust_files.num_of_illust', 'illustration_lists.num')
+             ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
+             ->where('illustration_lists.num', $num)
+             ->first();
+ 
+         return view('store.detail.view')->with('product', $product);
+     }
 
     /**
      * Show the form for creating a new resource.
