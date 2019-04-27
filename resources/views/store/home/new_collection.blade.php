@@ -11,8 +11,21 @@
 @section('content')
 
 <body>
+    <div class="form-check form-check-inline"
+        style="width:100%; align-items: center; display: flex; justify-content: center;">
+        <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;">
+        <label class="form-check-label" for="materialInline1">업데이트</label>
+        <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;">
+        <label class="form-check-label" for="materialInline2">조회수</label>
+        <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;">
+        <label class="form-check-label" for="materialInline3">좋아요</label>
+        <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;">
+        <label class="form-check-label" for="materialInline4">가격</label>
+    </div>
+
 
 <section class="new_arrivals_area section-padding-80 clearfix">
+
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -26,11 +39,11 @@
 
         <div class="row" style="margin-left:100px;">
             <!-- <div class="col-12" > -->
-            @foreach($products as $row)
+            @foreach($product as $row)
             <!-- 작품 -->
             <a href="{{url('/view')}}/{{$row['num']}}">
                 <div class="single-product-wrapper" style="display:inline-block; margin:40px;">
-                    <!-- 작품이미지 --> p
+                    <!-- 작품이미지 -->
                     <div class="product-img" style="width: 200px; height: 150px; overflow: hidden;">
                         <img src="{{$row['url_of_illustration']}}" alt="작품1" style="max-width: 300px; height: auto;">
                         <div class="product-favourite">
@@ -57,7 +70,7 @@
             </a>
             @endforeach
             <!-- </div> -->
-            </div>
+        </div>
         </div>
 
         <!-- </div> -->
@@ -69,5 +82,4 @@
 
 @section('footer')
 @include('layouts.store.footer')
-<script src="{{asset('js/store/popper.min.js')}}"></script>
 @endsection
