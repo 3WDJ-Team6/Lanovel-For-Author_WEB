@@ -173,3 +173,5 @@ Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationControl
 Route::get('/new_collection', function () {
     return view('store.home.new_collection');
 });
+
+Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
