@@ -70,11 +70,16 @@ class FileController extends Controller
         return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
     }
 
-    public function destroy($image)
+    // public function destroy($image)
+    // {
+    //     $filePath = $this->checkUserMakePath();
+    //     Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
+    //     return back()->withSuccess('성공적으로 삭제 되었습니다.');
+    // }
+
+    public function deleteFile(Request $request)
     {
-        $filePath = $this->checkUserMakePath();
-        Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
-        return back()->withSuccess('성공적으로 삭제 되었습니다.');
+        return $request;
     }
 
     public function lendBook()
