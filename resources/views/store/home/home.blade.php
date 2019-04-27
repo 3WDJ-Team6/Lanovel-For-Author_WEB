@@ -107,7 +107,7 @@
                     <div class="hero-content">
                         <br>
                         <h2>New Collection</h2>
-                        <a href="{{url('/new_collection')}}" class="btn essence-btn">view collection</a>
+                        <a href="{{url('/newCollection')}}" class="btn essence-btn">view collection</a>
                     </div>
                 </div>
             </div>

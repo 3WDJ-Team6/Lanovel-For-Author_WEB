@@ -84,7 +84,12 @@ class IndexController extends Controller
         $modify_time = ContentOfWork::select(
             'content_of_works.num_of_work',
             'content_of_works.updated_at'
-        )->get();
+        )
+            ->groupBy('content_of_works.num_of_work')
+            ->get();
+        // ->orderBy('content_of_works.updated_at', 'asc')->get();
+
+        // return $modify_time;
 
         // return response()->json($modify_time, 200, [], JSON_PRETTY_PRINT);
 
