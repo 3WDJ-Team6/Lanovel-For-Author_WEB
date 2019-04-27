@@ -1,5 +1,6 @@
 //버튼생성
-var commands = [{
+var commands = [
+    {
         cmd: "createLink",
         val: "https://youtu.be/BXcUred6iXc?t=14",
         name: "링크추가",
@@ -13,7 +14,8 @@ var commands = [{
         cmd: "fontSize",
         val: "3",
         name: "글자크기",
-        desc: "1(가장 작음)~7(가장 큼) 중 하나를 선택해 크기를 조절할 수 있습니다."
+        desc:
+            "1(가장 작음)~7(가장 큼) 중 하나를 선택해 크기를 조절할 수 있습니다."
     },
     {
         cmd: "indent",
@@ -59,8 +61,8 @@ function doCommand(cmdKey) {
 function init() {
     var html = "",
         template =
-        '<span class="btn tool-btn" id="%cmd%" onclick="doCommand(\'%cmd%\')">%nam%</span>';
-    commands.map(function (command, i) {
+            '<span class="btn tool-btn" id="%cmd%" onclick="doCommand(\'%cmd%\')">%nam%</span>';
+    commands.map(function(command, i) {
         commandRelation[command.cmd] = command;
         var temp = template;
         temp = temp.replace(/%cmd%/gi, command.cmd);
@@ -103,13 +105,13 @@ function popTool(ResultId, PopbndId) {
 
 popTool.prototype = {
     //도구버튼 숨기기
-    hiddenPopbtn: function () {
+    hiddenPopbtn: function() {
         if (popbtnobj != null) {
             popbtnobj.style.display = "none";
         }
     },
     //팝업창
-    popopen: function (e) {
+    popopen: function(e) {
         var event = window.event || e;
 
         var kwd = getSelectText();
@@ -175,34 +177,33 @@ function getScrollTop() {
 //텍스트 셀렉팅 도구//
 
 //리소스 드래그앤드랍
-function allowDrop(ev) {
-    ev.preventDefault();
-}
+// function allowDrop(ev) {
+//     ev.preventDefault();
+// }
 
-function drag(ev) {
-    var aaa = ev.dataTransfer.setData("text", ev.target.title);
-    console.log("aaa" + aaa);
-}
+// function drag(ev) {
+//     var aaa = ev.dataTransfer.setData("text", ev.target.title);
+//     console.log("aaa" + aaa);
+// }
 
-var drop_id = 0;
+// var drop_id = 0;
 
-function drop(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    var image =
-        "<span id='drop_id" +
-        drop_id +
-        "' class='effect'><img src=" +
-        "'" +
-        data +
-        "'" +
-        " class='resize'></span><br>";
-    $(document).ready(function () {
-        // $('#popup_result').selectable();
-        $(ev.target).append(image);
-        drop_id++;
-    });
-}
+// function drop(ev) {
+//     ev.preventDefault();
+//     var data = ev.dataTransfer.getData("text");
+//     var image =
+//         "<span id='drop_id" +
+//         drop_id +
+//         "' class='effect'><img src=" +
+//         "'" +
+//         data +
+//         "'" +
+//         " class='resize'></span><br>";
+//     $(document).ready(function () {
+//         $(ev.target).append(image);
+//         drop_id++;
+//     });
+// }
 //리소스 드래그앤드랍//
 
 //메모팝업
@@ -225,7 +226,7 @@ var memoPopupId = 1;
 
 function memoBalloon(e) {
     var span = document.createElement("span");
-    var top = e.clientY - 48;
+    var top = e.clientY - 53;
     var back = ["#ffc", "#cfc", "#ccf"];
     var rand = back[Math.floor(Math.random() * back.length)];
 
@@ -247,34 +248,34 @@ function memoBalloon(e) {
                 );
                 $(".textarea span:contains(" + txt + ")").prepend(
                     "<div id=" +
-                    "'memoViewId" +
-                    memoViewId +
-                    "'" +
-                    "class='balloon' style='top:" +
-                    top +
-                    "px;' onclick='memoPopup(event," +
-                    memoViewId +
-                    ");'></div>" +
-                    "<div id=" +
-                    "'memoPopupId" +
-                    memoPopupId +
-                    "'" +
-                    "class='memoPopup' contenteditable='false' style='background-color:" +
-                    rand +
-                    "'>" +
-                    "<form method='POST' action='/store_memo/" +
-                    content_of_work +
-                    "/" +
-                    memoViewId +
-                    "'>" +
-                    "<textarea name='content_of_memo' class='underline' autocorrect='false'>" +
-                    "</textarea>" +
-                    "<span>유저이름</span>" +
-                    "<button type='submit' class='memoSave'>" +
-                    "<span class='memoSaveSpan'><span>" +
-                    "</button>" +
-                    "</form>" +
-                    "</div>"
+                        "'memoViewId" +
+                        memoViewId +
+                        "'" +
+                        "class='balloon' style='top:" +
+                        top +
+                        "px;' onclick='memoPopup(event," +
+                        memoViewId +
+                        ");'></div>" +
+                        "<div id=" +
+                        "'memoPopupId" +
+                        memoPopupId +
+                        "'" +
+                        "class='memoPopup' contenteditable='false' style='background-color:" +
+                        rand +
+                        "'>" +
+                        "<form method='POST' action='/store_memo/" +
+                        num_of_work +
+                        "/" +
+                        memoViewId +
+                        "'>" +
+                        "<textarea name='content_of_memo' class='underline' autocorrect='false'>" +
+                        "</textarea>" +
+                        "<span>유저이름</span>" +
+                        "<button type='submit' class='memoSave'>" +
+                        "<span class='memoSaveSpan'><span>" +
+                        "</button>" +
+                        "</form>" +
+                        "</div>"
                 );
                 $(".textarea span:contains(" + txt + ")").css(
                     "background-color",
@@ -307,7 +308,7 @@ function addEpisode(sub, num) {
 function editEpisode(chgsub, orisub) {
     console.log("바뀐제목 : " + chgsub + " 원래제목 : " + orisub);
     $(".ep-title").text(chgsub);
-    $(".ep-list h4 a").each(function () {
+    $(".ep-list h4 a").each(function() {
         var text = $(this).text();
         console.log("text : " + text);
         $(this).text(text.replace(orisub, chgsub));
@@ -315,7 +316,7 @@ function editEpisode(chgsub, orisub) {
 }
 //에피소드 수정//
 
-$(document).ready(function () {
+$(document).ready(function() {
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
@@ -324,13 +325,13 @@ $(document).ready(function () {
 
     //포커스 미완
     $(".select").attr("tabindex", -1);
-    $(".area").mousemove(function () {
-        $(".select").focus(function () {
+    $(".area").mousemove(function() {
+        $(".select").focus(function() {
             $(this)
                 .css("border", "2px solid yellow")
                 .addClass("selected");
         });
-        $(".select.selected").blur(function () {
+        $(".select.selected").blur(function() {
             $(this)
                 .css("border", "0")
                 .removeClass("selected");
@@ -348,7 +349,7 @@ $(document).ready(function () {
     );
 
     //에피소드관리
-    $("#ep").click(function () {
+    $("#ep").click(function() {
         if ($(".ep-tem").prop("id") == "ep") {
             $(".tem").hide();
         }
@@ -360,33 +361,33 @@ $(document).ready(function () {
     //에피소드관리//
 
     //템플릿관리
-    $("#tem").click(function () {
+    $("#tem").click(function() {
         if ($("div").hasClass("ep")) {
             $(".ep").hide();
         }
         $(".tem").show();
     });
     //템플릿 효과
-    $("#shadow").click(function () {
+    $("#shadow").click(function() {
         $("ui-selected").toggleClass("shadow");
     });
-    $("#inshadow").click(function () {
+    $("#inshadow").click(function() {
         $(".ui-selected").toggleClass("inshadow");
     });
-    $("#spin").click(function () {
+    $("#spin").click(function() {
         $(".ui-selected").toggleClass("spin");
     });
-    $("#radius").click(function () {
+    $("#radius").click(function() {
         $(".ui-selected").toggleClass("radius");
     });
-    $("#oval").click(function () {
+    $("#oval").click(function() {
         $(".ui-selected").toggleClass("oval");
     });
     // $('#circle').click(function () {
     //     $('.resize').toggleClass('circle');
     // });
     var cir_flag = false;
-    $("#circle").click(function () {
+    $("#circle").click(function() {
         if (cir_flag === false) {
             cir_flag = true;
             $(".ui-selected").css({
@@ -406,13 +407,13 @@ $(document).ready(function () {
         // }
     });
 
-    $("#overlap").click(function () {
+    $("#overlap").click(function() {
         $(".ui-selected").toggleClass("overlap");
     });
-    $("#blur").click(function () {
+    $("#blur").click(function() {
         $(".ui-selected").toggleClass("blur");
     });
-    $("#album").click(function () {
+    $("#album").click(function() {
         $(".ui-selected").toggleClass("album");
     });
     //템플릿//
@@ -427,27 +428,26 @@ $(document).ready(function () {
             type: "GET",
             url: "/getDir/" + num_of_work, //private, public, 나중에 책의 num값도 넘겨줘야함
             dataType: "json",
-            error: function (e) {
+            error: function(e) {
                 console.log(e);
                 throw new Error("실-패");
             },
-            success: function (data) {
+            success: function(data) {
                 console.log(data);
                 for (var i = 0; i < 2; i++) {
                     folder_name = Object.keys(data)[i].replace("_FOLDER", "");
                     $("#resource-feild").append(
                         "<span id='obj_" +
-                        i +
-                        "' class='obj'><span class='obj_folder' style='background-image: url(\"/image/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
-                        folder_name +
-                        "</span></span"
+                            i +
+                            "' class='obj'><span class='obj_folder' style='background-image: url(\"/image/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
+                            folder_name +
+                            "</span></span"
                     );
                 }
             }
         });
     }
-    $(document).on("click", ".obj", function () {
-        // $('.resource-area').attr('id', 'dropZone').attr('ondrop', 'upload_file(event)').attr('ondragover', 'return false');
+    $(document).on("click", ".obj", function() {
         if (this.id == "obj_0") {
             folder = "private";
         } else if (this.id == "obj_1") {
@@ -457,37 +457,43 @@ $(document).ready(function () {
             type: "GET",
             url: "/getDir/" + num_of_work + "/" + folder,
             dataType: "json",
-            error: function (data) {
+            error: function(data) {
                 console.log(22222222);
                 console.log(data);
                 throw new Error("실-패");
             },
-            success: function (data) {
+            success: function(data) {
                 console.log(111111111);
                 console.log(343434434);
                 console.log(data);
                 data.reverse();
                 console.log("folder : " + folder);
                 $("#resource-feild").html("");
-                $.each(data, function (index, item) {
+                $.each(data, function(index, item) {
                     // console.log("item.name : " + item.name);
                     // console.log("item.src : " + item.src);
                     // console.log("index : " + index);
                     chng_text = item.name.substr(0, 9) + "...";
                     $("#resource-feild").append(
                         "<span id='obj_" +
-                        index +
-                        "' class='obj_file'><img src='" +
-                        item.src +
-                        "' class='obj_thum' /><span class='obj_name' title='" +
-                        item.name +
-                        "'>" +
-                        chng_text +
-                        "</span></span"
+                            index +
+                            "' class='obj_file'><img src='" +
+                            item.src +
+                            "' class='obj_thum' /><span class='obj_name' title='" +
+                            item.name +
+                            "'>" +
+                            chng_text +
+                            "</span></span>"
                     );
                 });
                 $("#resource-feild").prepend(
-                    "<div class='back'>뒤로가기</div>"
+                    "<div class='back'>" +
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512.001 512.001' style='enable-background:new 0 0 512.001 512.001;' xml:space='preserve' width='32px' height='32px' class=''><g><g>" +
+                        "<g>" +
+                        "<path d='M384.834,180.699c-0.698,0-348.733,0-348.733,0l73.326-82.187c4.755-5.33,4.289-13.505-1.041-18.26    c-5.328-4.754-13.505-4.29-18.26,1.041l-82.582,92.56c-10.059,11.278-10.058,28.282,0.001,39.557l82.582,92.561    c2.556,2.865,6.097,4.323,9.654,4.323c3.064,0,6.139-1.083,8.606-3.282c5.33-4.755,5.795-12.93,1.041-18.26l-73.326-82.188    c0,0,348.034,0,348.733,0c55.858,0,101.3,45.444,101.3,101.3s-45.443,101.3-101.3,101.3h-61.58    c-7.143,0-12.933,5.791-12.933,12.933c0,7.142,5.79,12.933,12.933,12.933h61.58c70.12,0,127.166-57.046,127.166-127.166    C512,237.745,454.954,180.699,384.834,180.699' data-original='#000000' class='active-path'" +
+                        "data-old_color='#B7CBFC' fill='#476ACD'/>" +
+                        "</g>" +
+                        "</div>"
                 );
                 $(".back").after(
                     "<label for='image' class='upload_label'>+</label><input type='file' name='image' id='image' />"
@@ -495,7 +501,7 @@ $(document).ready(function () {
             }
         });
     });
-    $(document).on("click", ".back", function () {
+    $(document).on("click", ".back", function() {
         $("#resource-feild").html("");
         getResource();
     });
@@ -503,12 +509,19 @@ $(document).ready(function () {
     //리소스파일 리스팅//
 
     //파일추가
-    $(document).on("change", 'input[type="file"]', function () {
+    $(document).on("change", 'input[type="file"]', function(event) {
+        var appendId = 0;
+        var reader = new FileReader();
         var form = $("#file_form")[0];
         var formData = new FormData(form);
         formData.append("image", $("#image")[0].files[0]);
+        var file_name = $("#image")[0].files[0].name;
+        console.log("file_name : " + file_name);
+        var chng_name = file_name.substr(0, 9) + "...";
+        console.log(reader);
+        console.log(form);
+        console.log($("#image")[0].files[0].name);
         console.log($("#image")[0].files[0]);
-        console.log($("#image")[0]);
 
         $.ajax({
             url: "/images",
@@ -516,16 +529,29 @@ $(document).ready(function () {
             contentType: false,
             data: formData,
             type: "POST",
-            success: function () {
+            success: function() {
                 $("span").remove("#file_loading");
             },
-            beforeSend: function () {
+            beforeSend: function() {
                 $("#image").after("<span id='file_loading'></span>");
             },
-            complete: function () {
+            complete: function() {
                 // $("#image").after("<span class='obj_file'><img src='" + item.src + "' class='obj_thum' /><span class='obj_name' title='" + item.name + "'>" + chng_text + "</span></span");
+                $("#image").after(
+                    "<span class='obj_file'><img id='append_" +
+                        appendId +
+                        "' class='obj_thum' /><span class='obj_name' title='" +
+                        file_name +
+                        "'>" +
+                        chng_name +
+                        "</span></span>"
+                );
+                var output = document.getElementById("append_" + appendId);
+                output.src = URL.createObjectURL(event.target.files[0]);
+                // $("#append_" + appendId).attr('src', e.target.result);
+                appendId++;
             },
-            error: function (e) {
+            error: function(e) {
                 console.log(e + "에러");
             }
         });
@@ -533,18 +559,25 @@ $(document).ready(function () {
     //파일추가//
 
     //파일 우클릭 & 삭제
-    $(document).on("contextmenu", ".obj_file", function (e) {
+    var image_id = "";
+    $(document).on("contextmenu", ".obj_file", function() {
         let img = $(this)
-            .children("img")
+            .children(".obj_thum")
             .attr("src");
-        let image_data = img.replace(
-            "https://s3.ap-northeast-2.amazonaws.com/lanovebucket/",
-            ""
-        );
-        var ididid = this.id;
-        console.log(img);
-        console.log(image_data);
-        console.log(ididid);
+        $image = $(this)
+            .children(".obj_name")
+            .attr("title");
+        $path = img
+            .replace(
+                "https://s3.ap-northeast-2.amazonaws.com/lanovebucket/",
+                ""
+            )
+            .replace("" + image, "");
+        image_id = this.id;
+        console.log("img : " + img);
+        console.log("img_path : " + $path);
+        console.log("img_name : " + $image);
+        console.log(image_id);
 
         event.preventDefault();
         if ($(".custom-menu").length) {
@@ -557,96 +590,100 @@ $(document).ready(function () {
                 top: event.pageY + "px",
                 left: event.pageX + "px"
             })
-            .bind("click", function (event) {
+            .bind("click", function() {
                 $("div.custom-menu").remove();
             });
-        $(document).on("click", "#file-delete", function () {
-            console.log("ididid : " + ididid);
-            $("#" + ididid).remove();
+        $(document).on("click", "#file-delete", function() {
+            console.log("ididid : " + image_id);
             $.ajax({
-                url: "/images",
-                data: image_data,
+                method: "delete",
+                url: "/images/" + $image,
                 type: "POST",
-                success: function (data) {
-                    console.log("데이터" + data);
+                success: function() {
+                    console.log("성공");
+                    console.log($image);
+                    $("#" + image_id).remove();
+                    // $("span span:contains(" + $image + ")").parent().remove();
                 },
-                error: function (data) {
+                error: function(data) {
                     console.log(data);
+                    console.log("에러");
                 }
             });
         });
-        $(document).on("click", "body", function () {
+        $(document).on("click", "body", function() {
             $("div.custom-menu").remove();
         });
     });
     //파일 우클릭 & 삭제//
 
-    //텍스트에리어로 마우스 올라가면 p태그안의 thum클래스를 resize로 바꾸고 div로 감싼다
+    //파일 툴에 넣었을 때
     // $('.textarea').hover(function () {
-    //     $('.textarea .obj_thumb').attr('class', 'resize').wrap('<div class="effect" id="selectable" style="display:inline-block;width:auto;height:auto;"></div>');
-    //     $('#selectable').selectable().append('<br/>');
-    //리소스//
+    //     $('.textarea .obj_thum').attr('class', 'resize').wrap('<div class="effect" style="display:inline-block;width:auto;height:auto;"></div>');
+    // });
+    //파일 툴에 넣었을 때//
 
     //미리보기+루비
-    $("#pre-btn").click(function () {
-        $(".textarea").each(function () {
+    $("#pre-btn").click(function() {
+        $(".textarea").each(function() {
             var text = $(".textarea").html();
+            d;
             $("#result").html(text);
             $("#result").html(
                 $("#result")
-                .html()
-                .replace(
-                    /[\|｜](.+?)《(.+?)》/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(
-                    /[\|｜](.+?)（(.+?)）/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(
-                    /[\|｜](.+?)\((.+?)\)/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(
-                    /([一-龠]+)《(.+?)》/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(
-                    /([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(
-                    /([一-龠]+)\(([ぁ-んァ-ヶ]+?)\)/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(/[\|｜]《(.+?)》/g, "《$1》")
-                .replace(/[\|｜]（(.+?)）/g, "（$1）")
-                .replace(/[\|｜]\((.+?)\)/g, "($1)")
+                    .html()
+                    .replace(
+                        /[\|｜](.+?)《(.+?)》/g,
+                        "<ruby>$1<rt>$2</rt></ruby>"
+                    )
+                    .replace(
+                        /[\|｜](.+?)（(.+?)）/g,
+                        "<ruby>$1<rt>$2</rt></ruby>"
+                    )
+                    .replace(
+                        /[\|｜](.+?)\((.+?)\)/g,
+                        "<ruby>$1<rt>$2</rt></ruby>"
+                    )
+                    .replace(
+                        /([一-龠]+)《(.+?)》/g,
+                        "<ruby>$1<rt>$2</rt></ruby>"
+                    )
+                    .replace(
+                        /([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g,
+                        "<ruby>$1<rt>$2</rt></ruby>"
+                    )
+                    .replace(
+                        /([一-龠]+)\(([ぁ-んァ-ヶ]+?)\)/g,
+                        "<ruby>$1<rt>$2</rt></ruby>"
+                    )
+                    .replace(/[\|｜]《(.+?)》/g, "《$1》")
+                    .replace(/[\|｜]（(.+?)）/g, "（$1）")
+                    .replace(/[\|｜]\((.+?)\)/g, "($1)")
             );
         });
     });
     //미리보기+루비//
 
     //a태그 드래그 금지
-    $("body").hover(function () {
+    $("body").hover(function() {
         $("a").attr("draggable", "false");
     });
     //a태그 드래그 금지//
 
     //템플릿 크게, 작게, 원래사이즈
-    $("#large").click(function () {
+    $("#large").click(function() {
         $("#e-size").width($("#e-size").width() + 50);
         $("#e-size").height($("#e-size").height("auto"));
         $(".ui-selected > img").width($(".ui-selected > img").width() + 50);
         $(".ui-selected > img").height($(".ui-selected > img").height("auto"));
     });
-    $("#small").click(function () {
+    $("#small").click(function() {
         $("#e-size").width($("#e-size").width() - 50);
         $("#e-size").height($("#e-size").height("auto"));
         $(".ui-selected > img").width($(".ui-selected > img").width() - 50);
         $(".ui-selected > img").height($(".ui-selected > img").height("auto"));
     });
-    $("#origin").click(function () {
+    $("#origin").click(function() {
         $("#e-size").width($("#e-size").width("400px"));
         $("#e-size").height($("#e-size").height("auto"));
         $(".ui-selected > img").width($(".ui-selected > img").width("400px"));
@@ -681,20 +718,20 @@ $(document).ready(function () {
     //     console.log(d+"4");
     // });
     var memoViewId = 0;
-    $("#memo").click(function () {
+    $("#memo").click(function() {
         $(".textarea").prepend(
             "<div id=" +
-            "'memoViewId" +
-            memoViewId +
-            "'" +
-            " class='balloon' onclick='memoPopup(event);'></div>"
+                "'memoViewId" +
+                memoViewId +
+                "'" +
+                " class='balloon' onclick='memoPopup(event);'></div>"
         );
         memoViewId++;
         $(".balloon").draggable();
         $("#memoPopup").append(
             '<span><form><input type="text" name="edit" style="width:160px;float:right;" readonly required><input style="float:right;" type="submit" name="memosave" value="save"></form></span>'
         );
-        $('[name="edit"]').on("click", function () {
+        $('[name="edit"]').on("click", function() {
             // var prev = $(this).prev('input'),
             var ro = $(this).prop("readonly");
             $(this)
@@ -710,11 +747,13 @@ $(document).ready(function () {
     //     console.log("살려줘2");
     //     $('#memoPopup').toggle().css({ "top": top ,"left": left });
     // });
-    $(".balloon").draggable();
+    // $(document).on("mouseover", ".balloon", function() {
+    //     $(".balloon").draggable();
+    // });
     //메모//
 
     //왼쪽 사이드바
-    $("#menuToggle_right").click(function (e) {
+    $("#menuToggle_right").click(function(e) {
         var $parent = $(this).parent("nav");
         $parent.toggleClass("open_right");
         if ($(".open_left").length > 0 && $(".open_right").length == 0) {
@@ -735,7 +774,7 @@ $(document).ready(function () {
     });
 
     //오른쪽사이드바
-    $("#menuToggle_left").click(function (e) {
+    $("#menuToggle_left").click(function(e) {
         var $parent = $(this).parent("nav");
         $parent.toggleClass("open_left");
         if ($(".open_right").length > 0 && $(".open_left").length == 0) {

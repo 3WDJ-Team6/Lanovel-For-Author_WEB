@@ -79,6 +79,7 @@ class FileController extends Controller
 
     public function deleteFile(Request $request)
     {
+
         return $request;
     }
 
