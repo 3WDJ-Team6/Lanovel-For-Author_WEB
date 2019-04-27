@@ -2,6 +2,7 @@
 namespace App\Traits;
 
 use Auth;
+use App\Models\Work;
 use Illuminate\Support\Facades\Storage;
 
 trait FileTrait
@@ -12,10 +13,31 @@ trait FileTrait
         return 'test';
     }
 
-    public function checkUserMakePath()
+    public function checkUserMakePath($folderPath = null, $bookNum = null)
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
-        $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images') . DIRECTORY_SEPARATOR;
+
+        switch ($folderPath) {
+            case 'private':
+                $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images') . DIRECTORY_SEPARATOR;
+                break;
+            case 'public':
+                if ($bookNum) {
+                    $bookInfo = Work::select('users.email', 'works.num', 'works.work_title')
+                        ->leftjoin('work_lists', 'works.num', 'work_lists.num_of_work')
+                        ->leftjoin('users', 'work_lists.user_id', 'users.id')
+                        ->where('works.num', '=', $bookNum)            //$num 숫자 부분은 변수로 전달 받아야함
+                        ->orderBy('work_lists.created_at', 'asc')
+                        ->first();  // 21번 작품을 쓴 작가 email = Author@test, bookTitle
+                }
+                $filePath = 'Author' . DIRECTORY_SEPARATOR . $bookInfo['email'] . DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR .
+                    $bookInfo['work_title'] . DIRECTORY_SEPARATOR . 'OEBPS' . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images') . DIRECTORY_SEPARATOR;
+                break;
+            default:
+                $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images') . DIRECTORY_SEPARATOR;
+                break;
+        }
+
         return $filePath;
     }
 
