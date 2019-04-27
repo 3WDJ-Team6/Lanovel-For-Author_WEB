@@ -536,7 +536,6 @@ $(document).ready(function() {
                 $("#image").after("<span id='file_loading'></span>");
             },
             complete: function() {
-                // $("#image").after("<span class='obj_file'><img src='" + item.src + "' class='obj_thum' /><span class='obj_name' title='" + item.name + "'>" + chng_text + "</span></span");
                 $("#image").after(
                     "<span class='obj_file'><img id='append_" +
                         appendId +
@@ -618,16 +617,19 @@ $(document).ready(function() {
     //파일 우클릭 & 삭제//
 
     //파일 툴에 넣었을 때
-    // $('.textarea').hover(function () {
-    //     $('.textarea .obj_thum').attr('class', 'resize').wrap('<div class="effect" style="display:inline-block;width:auto;height:auto;"></div>');
-    // });
+    $(".textarea").hover(function() {
+        $(".textarea .obj_thum")
+            .attr("class", "resize")
+            .wrap(
+                '<div class="effect" style="display:inline-block;width:auto;height:auto;"></div>'
+            );
+    });
     //파일 툴에 넣었을 때//
 
     //미리보기+루비
     $("#pre-btn").click(function() {
         $(".textarea").each(function() {
             var text = $(".textarea").html();
-            d;
             $("#result").html(text);
             $("#result").html(
                 $("#result")
