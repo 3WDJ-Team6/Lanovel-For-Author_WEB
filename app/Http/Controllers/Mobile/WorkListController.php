@@ -68,7 +68,6 @@ class WorkListController extends Controller
         // 회차 리스트 (1화, 2화, 3화 혹은 회차명),
         // 회차 업데이트 날짜
 
-
         return response()->json($worklist, 200, [], JSON_PRETTY_PRINT);
     }
 

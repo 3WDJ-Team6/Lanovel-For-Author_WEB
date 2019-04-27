@@ -23,7 +23,9 @@
         <label class="form-check-label" for="materialInline4">가격</label>
     </div>
 
-    <section class="new_arrivals_area section-padding-80 clearfix">
+
+<section class="new_arrivals_area section-padding-80 clearfix">
+
         <div class="container">
             <div class="row">
                 <div class="col-12">

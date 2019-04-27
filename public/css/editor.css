@@ -51,11 +51,11 @@ header li {
 .tool-bar {
     background-color: rgb(241, 241, 241);
     border-bottom: 3px solid rgb(50, 186, 231);
-    padding-left: 400px;
+    text-align: center;
 }
 
 .tool-btns {
-    display: inline;
+    display: inline-block;
 }
 
 .btn,
@@ -238,7 +238,7 @@ header li {
 
 .textarea {
     margin-top: 30px;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-right: 1px;
     padding-left: 30px;
     padding-right: 30px;
@@ -268,7 +268,7 @@ header li {
 img.resize {
     width: 400px;
     height: auto;
-    position: relative;
+    /* position: relative; */
 }
 
 .textarea .select {
@@ -305,21 +305,14 @@ pre {
     margin-top: -43px;
 }
 
-.thum {
-    width: 100px;
-    height: 100px;
-    margin-top: 8px;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
 .obj,
 .obj_file {
     display: inline-block;
     padding-left: 7px;
 }
 
-span:hover {
+.obj,
+.obj_file:hover {
     cursor: pointer;
 }
 
@@ -331,6 +324,11 @@ span:hover {
     object-fit: fill;
     border-radius: .25em;
     border: 1.5px solid white;
+}
+
+.obj_thum:hover {
+    width: 130px;
+    height: 130px;
 }
 
 .obj_folder {
@@ -348,7 +346,8 @@ span.obj_name {
 }
 
 .back {
-    margin-left: 10px;
+    margin-left: 15px;
+    margin-bottom: 10px;
 }
 
 .back:hover {
@@ -365,6 +364,7 @@ span.obj_name {
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    overflow-y: scroll;
 }
 
 a:hover {
@@ -479,6 +479,10 @@ input[readonly] {
     border-bottom-color: #e2e2e2;
     border-radius: .25em;
     top: 50px;
+}
+
+.upload_label:hover {
+    color: #a6a6a680;
 }
 
 input[type="file"] {
@@ -644,6 +648,15 @@ input[type="file"] {
     right: 3%;
     top: 40%;
     padding: 1px 0px 0px 0px;
+}
+
+.clearfix a {
+    margin: 3px;
+    left: 35px;
+}
+
+.mx-auto {
+    text-align: center;
 }
 
 /* //content */

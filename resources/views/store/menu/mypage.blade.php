@@ -16,6 +16,7 @@
 <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 <script src="{{asset('js/store/mypage_graph.js')}}" defer></script>
 <link rel="stylesheet" href="{{asset('css/store/mypage.css')}}">
+<link rel="stylesheet" href="{{asset('css/store/mypage_chat.css')}}">
 @endsection
 
 @section('header')
@@ -39,14 +40,14 @@
                         <img src="{{asset('image/store/product-1.png')}}">
                     </div>
                     <div class="form-group" id="nickname">
-                        sunsilver
+                        <p>{{$row->nickname}}</p>
                     </div>
                     <div class="form-group" id="ninckname">
-                        <p>그림 외주, 협업 다 받아요~</p><button type="submit" style="width:100px;">수정</button>
+                        <p>{{$row->introduction_message}}</p><button type="submit" style="width:100px;">수정</button>
                     </div>
                 </div>
                 <div class="form-group" id="left-bottom">
-                    <p>1000p</p><button type="submit" style="width:100px;">충전</button>
+                    <p>{{$row->point}}</p><button type="submit" style="width:100px;">충전</button>
                 </div>
             </div>
             <!-- 오른쪽 -->
@@ -85,13 +86,11 @@
                         <div class="tab-pane fade show active" id="home-tabs-above" role="tabpanel"
                             aria-labelledby="home-tab-tabs-above">
                             <div class="form-group" id="img">
-                                <img src="{{asset('image/store/product-5.png')}}" style="width: 150px; height: 150px;">
-                            </div>
-                            <div class="form-group" id="img">
-                                <img src="{{asset('image/store/product-5.png')}}" style="width: 150px; height: 150px;">
-                            </div>
-                            <div class="form-group" id="img">
-                                <img src="{{asset('image/store/product-5.png')}}" style="width: 150px; height: 150px;">
+                                <img src="{{$row->url_of_illustration)}}" style="width: 150px; height: 150px;">
+                                <div class="form-group">
+                                    <p>{{$row->illustration_title}}</p>
+                                    <p>{{$row->create_at}}</P>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="profile-tabs-above" role="tabpanel"
@@ -118,8 +117,8 @@
                                 </div>
                             </div>
                             <div class="form-group" style="display:inline-block; float:left; width:400px;">
-                            <div class="form-group">팔로워</div>
-                            <div>
+                                <div class="form-group">팔로워</div>
+                                <div>
                                     <div id="follow_profile"><img src="{{asset('image/store/product-6.png')}}"></div>
                                     <div id="follow_id">hongki_95</div>
                                 </div>
@@ -135,27 +134,238 @@
                         </div>
                         <div class="tab-pane fade" id="message-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
-                            <p>channel_on: 그림 너무 좋아요~</p>
+                            <div class="container">
+                                <div class="wrapper wrapper-content animated fadeInRight">
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="ibox chat-view">
+                                                <div class="ibox-title">
+                                                    <small class="pull-right text-muted">Last message: Mon Jan 26 2015 -
+                                                        18:39:23</small> Chat room panel
+                                                </div>
+                                                <div class="ibox-content">
+                                                    <div class="row">
+                                                        <div class="col-md-9 ">
+                                                            <div class="chat-discussion">
+
+                                                                <div class="chat-message left">
+                                                                    <img class="message-avatar"
+                                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                        alt="">
+                                                                    <div class="message">
+                                                                        <a class="message-author" href="#"> Michael
+                                                                            Smith </a>
+                                                                        <span class="message-date"> Mon Jan 26 2015 -
+                                                                            18:39:23 </span>
+                                                                        <span class="message-content">
+                                                                            Lorem ipsum dolor sit amet, consectetuer
+                                                                            adipiscing elit, sed diam nonummy nibh
+                                                                            euismod tincidunt ut laoreet dolore magna
+                                                                            aliquam erat volutpat.
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="chat-message right">
+                                                                    <img class="message-avatar"
+                                                                        src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                                                        alt="">
+                                                                    <div class="message">
+                                                                        <a class="message-author" href="#"> Karl Jordan
+                                                                        </a>
+                                                                        <span class="message-date"> Fri Jan 25 2015 -
+                                                                            11:12:36 </span>
+                                                                        <span class="message-content">
+                                                                            Many desktop publishing packages and web
+                                                                            page editors now use Lorem Ipsum as their
+                                                                            default model text, and a search for 'lorem
+                                                                            ipsum' will uncover.
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="chat-message right">
+                                                                    <img class="message-avatar"
+                                                                        src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                                                        alt="">
+                                                                    <div class="message">
+                                                                        <a class="message-author" href="#"> Michael
+                                                                            Smith </a>
+                                                                        <span class="message-date"> Fri Jan 25 2015 -
+                                                                            11:12:36 </span>
+                                                                        <span class="message-content">
+                                                                            There are many variations of passages of
+                                                                            Lorem Ipsum available, but the majority have
+                                                                            suffered alteration.
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="chat-message left">
+                                                                    <img class="message-avatar"
+                                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                        alt="">
+                                                                    <div class="message">
+                                                                        <a class="message-author" href="#"> Alice Jordan
+                                                                        </a>
+                                                                        <span class="message-date"> Fri Jan 25 2015 -
+                                                                            11:12:36 </span>
+                                                                        <span class="message-content">
+                                                                            All the Lorem Ipsum generators on the
+                                                                            Internet tend to repeat predefined chunks as
+                                                                            necessary, making this the first true
+                                                                            generator on the Internet.
+                                                                            It uses a dictionary of over 200 Latin
+                                                                            words.
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="chat-message right">
+                                                                    <img class="message-avatar"
+                                                                        src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                                                        alt="">
+                                                                    <div class="message">
+                                                                        <a class="message-author" href="#"> Mark Smith
+                                                                        </a>
+                                                                        <span class="message-date"> Fri Jan 25 2015 -
+                                                                            11:12:36 </span>
+                                                                        <span class="message-content">
+                                                                            All the Lorem Ipsum generators on the
+                                                                            Internet tend to repeat predefined chunks as
+                                                                            necessary, making this the first true
+                                                                            generator on the Internet.
+                                                                            It uses a dictionary of over 200 Latin
+                                                                            words.
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div class="chat-users">
+
+
+                                                                <div class="users-list">
+                                                                    <div class="chat-user">
+                                                                        <img class="chat-avatar"
+                                                                            src="https://bootdey.com/img/Content/avatar/avatar1.png"
+                                                                            alt="">
+                                                                        <div class="chat-user-name">
+                                                                            <a href="#">Karl Jordan</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="chat-user">
+                                                                        <img class="chat-avatar"
+                                                                            src="https://bootdey.com/img/Content/avatar/avatar2.png"
+                                                                            alt="">
+                                                                        <div class="chat-user-name">
+                                                                            <a href="#">Monica Smith</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="chat-user">
+                                                                        <span
+                                                                            class="pull-right label label-primary">Online</span>
+                                                                        <img class="chat-avatar"
+                                                                            src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                                                                            alt="">
+                                                                        <div class="chat-user-name">
+                                                                            <a href="#">Michael Smith</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="chat-user">
+                                                                        <span
+                                                                            class="pull-right label label-primary">Online</span>
+                                                                        <img class="chat-avatar"
+                                                                            src="https://bootdey.com/img/Content/avatar/avatar4.png"
+                                                                            alt="">
+                                                                        <div class="chat-user-name">
+                                                                            <a href="#">Janet Smith</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="chat-user">
+                                                                        <img class="chat-avatar"
+                                                                            src="https://bootdey.com/img/Content/avatar/avatar5.png"
+                                                                            alt="">
+                                                                        <div class="chat-user-name">
+                                                                            <a href="#">Alice Smith</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="chat-user">
+                                                                        <img class="chat-avatar"
+                                                                            src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                                                            alt="">
+                                                                        <div class="chat-user-name">
+                                                                            <a href="#">Monica Cale</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="chat-user">
+                                                                        <img class="chat-avatar"
+                                                                            src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                                                                            alt="">
+                                                                        <div class="chat-user-name">
+                                                                            <a href="#">Mark Jordan</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="chat-user">
+                                                                        <span
+                                                                            class="pull-right label label-primary">Online</span>
+                                                                        <img class="chat-avatar"
+                                                                            src="https://bootdey.com/img/Content/avatar/avatar8.png"
+                                                                            alt="">
+                                                                        <div class="chat-user-name">
+                                                                            <a href="#">Janet Smith</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="chat-message-form">
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control message-input"
+                                                                        name="message"
+                                                                        placeholder="Enter message text and press enter"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="like-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
                             <div class="form-group" id="img">
-                                <img src="{{asset('image/store/product-5.png')}}" style="width: 150px; height: 150px;">
-                                like
+                                <img src="{{$row->url_of_illustration)}}" style="width: 150px; height: 150px;">
+                                <div class="form-group">
+                                    <p>{{$row->illustration_title}}</p>
+                                    <p>{{$row->create_at}}</P>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="cart-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
                             <div class="form-group" id="img">
-                                <img src="{{asset('image/store/product-5.png')}}" style="width: 150px; height: 150px;">
-                                cart
+                                <img src="{{$row->url_of_illustration)}}" style="width: 150px; height: 150px;">
+                                <div class="form-group">
+                                    <p>{{$row->illustration_title}}</p>
+                                    <p>{{$row->create_at}}</P>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="buy-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
                             <div class="form-group" id="img">
-                                <img src="{{asset('image/store/product-5.png')}}" style="width: 150px; height: 150px;">
-                                buy
+                                <img src="{{$row->url_of_illustration)}}" style="width: 150px; height: 150px;">
+                                <div class="form-group">
+                                    <p>{{$row->illustration_title}}</p>
+                                    <p>{{$row->create_at}}</P>
+                                </div>
                             </div>
                         </div>
                     </div>
