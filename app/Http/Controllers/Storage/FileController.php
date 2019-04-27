@@ -73,8 +73,9 @@ class FileController extends Controller
     public function destroy($image)
     {
         $filePath = $this->checkUserMakePath();
+        // return $filePath;
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
-        return back()->withSuccess('성공적으로 삭제 되었습니다.');
+        // return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }
 
     public function lendBook()
