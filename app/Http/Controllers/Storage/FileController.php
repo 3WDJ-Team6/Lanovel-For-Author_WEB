@@ -53,10 +53,11 @@ class FileController extends Controller
         // );
     }
 
-    public function store(FilePost $request)                        #0 파일 저장하는 컨트롤러 asset store & editor 사용
+    public function store(FilePost $request, $folderPath = null, $bookNum = null)                        #0 파일 저장하는 컨트롤러 asset store & editor 사용
     {
         // // $validated = $request->validated();                   #유효성 검사가 실패하면 responese가 생성되어 이전 위치로 되돌려 보냄.
-        $filePath = $this->checkUserMakePath();
+
+        $filePath = $this->checkUserMakePath($folderPath, $bookNum);
         $this->hasFile($request, $filePath);                         #1~3 FileTrait에서 처리해줌
 
         $file = $request->file('image');                             #4 Request로 부터 불러온 정보를 변수에 저장

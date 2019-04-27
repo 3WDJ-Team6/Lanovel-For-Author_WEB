@@ -36,7 +36,7 @@ class DirectoryController extends Controller
         $privateFile = [];
         foreach ($privateFiles as $file) {
             $privateFile[] = [
-                'name' => str_replace($role . '/' . Auth::user()['email'] . '/' . $publicPath, '', $file),                              # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'name' => substr(str_replace($role . '/' . Auth::user()['email'] . '/' . $publicPath, '', $file), 10),                              # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
                 'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
                 'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
                 'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소
@@ -62,8 +62,8 @@ class DirectoryController extends Controller
         $publicFile = [];
         foreach ($publicFiles as $file) {
             $publicFile[] = [
-                'name' => str_replace('Author' . '/' . $bookInfo['email'] . '/' .
-                    'WorkSpace' . '/' . $bookInfo['work_title'] . '/' . 'OEBPS' . '/' . config('filesystems.disks.s3.images') . '/', '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'name' => substr(str_replace('Author' . '/' . $bookInfo['email'] . '/' .
+                    'WorkSpace' . '/' . $bookInfo['work_title'] . '/' . 'OEBPS' . '/' . config('filesystems.disks.s3.images') . '/', '', $file), 10), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
                 'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
                 'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
                 'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소
@@ -101,8 +101,8 @@ class DirectoryController extends Controller
                 break;
         }
 
-        return response()->json($rootDirectory[$dir], 200);
-        // return response()->json($rootDirectory[$dir], 200, [], JSON_PRETTY_PRINT);
+        // return response()->json($rootDirectory[$dir], 200);
+        return response()->json($rootDirectory[$dir], 200, [], JSON_PRETTY_PRINT);
 
         // 'metadata' => Storage::disk('s3')->getMetadata($file) / 모든 메타데이터 가져옴
 
