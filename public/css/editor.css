@@ -364,6 +364,7 @@ span.obj_name {
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    overflow-y: scroll;
 }
 
 a:hover {
