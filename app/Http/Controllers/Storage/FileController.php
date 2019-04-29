@@ -82,6 +82,9 @@ class FileController extends Controller
     public function readBook(Request $request, $folderPath = 'WorkSpace', $bookNum = null, $bookTitle = null)
     {
         //책을 읽을 수 있는 URL을 전달함
+        # 일단 칼럼이 있으면 구매 또는 렌탈한 책임. 렌탈한 날짜가 지나면 table값을 삭제 또는 접근 못하게 opf파일주소 눌렀을 때 기간이 초과한 작품이라고 적어 줌
+        # 요청이 렌탈이고 현재 렌탈칼럼에 값이 없다면 현재날짜 + 3일로 DB에 table create 있으면 DB저장 없이 OPF파일주소 보내줌.
+        # 요청이 구입이고 현재 구입칼럼에 값이 없다면 due_of_rental = NULL(구입),create 있으면 DB저장 없이 OPF파일주소 보내줌.
         # 요청 URL = lendBook/WorkSpace/28/냥멍이
         $bookTitle = '냥멍이';
         $filePath = $this->checkUserMakePath($folderPath, $bookNum);
