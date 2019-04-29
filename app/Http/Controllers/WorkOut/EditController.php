@@ -12,6 +12,7 @@ use App\Models\WorkList;
 use App\Models\Template;
 use App\Models\Memo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 
@@ -32,20 +33,9 @@ class EditController extends Controller
          */
         // return $this->middleware('auth');
     }
-<<<<<<< HEAD
-    /*
-    * 목차 리스트 보기
-=======
-
     /** 목차 리스트 보기
-<<<<<<< HEAD
->>>>>>> 6802d317b0032ae7137d9c5636553ade685921b8
     * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
     */
-=======
-     * 필요한 데이터 - 챕터 제목 (or 권수), 회차 제목 (or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
-     */
->>>>>>> d6b4b96e277f433e5d7a74ec0f0fbee51ce0301b
 
     public function index($num)
     {
@@ -74,7 +64,7 @@ class EditController extends Controller
          ->where('work_lists.accept_request',0)
          ->groupBy('works.work_title')
          ->orderBy('work_lists.created_at','asc');
-
+/*
             SELECT works.work_title, works.introduction_of_work, works.bookcover_of_work,
         (SELECT count(num_of_work) FROM recommend_of_works WHERE recommend_of_works.num_of_work = works.num ) AS recommends ,
         (SELECT round(avg(grade),1) FROM grades WHERE grades.num_of_work = works.num AND grades.role_of_work=1) AS grade
@@ -82,7 +72,7 @@ class EditController extends Controller
         WHERE work_lists.accept_request = 0
         GROUP BY works.work_title            // 참여자 수만큼 나와서 묶음
         ORDER BY work_lists.created_at ASC   // 생성순 (필요에 따라 수정)
-
+*/
 
         return view('editor.main.list')
             ->with('chapter_of_works', $chapter_of_works)->with('num', $num);
@@ -392,15 +382,6 @@ class EditController extends Controller
         return $request;
     }
 
-<<<<<<< HEAD
-    // public function store_memo(Request $request, $num)
-    // {
-    //     $memos = new Memo();
-
-    //     $memos->content_of_work = $request->num;
-    //     $memos->user_id = Auth::user()['id'];
-    //     $memos->content_of_memo = $request->content_of_memo;
-=======
     public function store_memo(Request $request, $num_of_content, $num)
     {
         // return $num_of_content;
@@ -409,15 +390,10 @@ class EditController extends Controller
         $memos->num_of_content = $num_of_content;
         $memos->user_id = Auth::user()['id'];
         $memos->content_of_memo = $request->content_of_memo;
->>>>>>> 6802d317b0032ae7137d9c5636553ade685921b8
 
     //     // 메모 저장
     //     $memos->save();
 
-<<<<<<< HEAD
     //     return "메모 저장됨";
-    // }
-=======
     }
->>>>>>> 6802d317b0032ae7137d9c5636553ade685921b8
 }

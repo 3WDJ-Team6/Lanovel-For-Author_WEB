@@ -11,38 +11,83 @@ use Illuminate\Support\Str;
 
 
 class InviteUserController extends Controller{
-    public function loadModal(){
-        $work_titles = Work::select(
-            'works.work_title',
-            'works.num'
-        )
-        ->join('work_lists','works.num','=','work_lists.num_of_work')
-        ->whereIn('works.num', function ($query) {
-            $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']); // 최신순 정렬
-        })->orderBy('works.created_at', 'desc')
-        ->get();
-        $text ='
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">invite user</h4>
+    public function loadSearchModal(){
+        $userlist = User::select(
+            'users.email',
+            'users.nickname',
+            'users.introduction_message',
+            'users.profile_photo'
+        )->get();
+
+        $text ="
+        <script src='".asset('/js/invite_user.js')."'></script>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h4 class='modal-title'>search user</h4>
             </div>
-            <div class="modal-body">
-                <form action="'.url('inviteUser').'">
+            <div class='modal-body'>
+                <form>
                     <label>user E-mail</label>
-                    <input type="text" placeholder ="상대방의 E-mail로 초대" name="userid" id="userid" class="form-control"/>
-                    <label>user nickname</label>
-                    <input type="text" placeholder ="상대방의 닉네임으로 초대" name="usernn" id="usernn" class="form-control"/>
-                    <label>Work Title : </label>
-                    <select name = "title">';
-                    foreach($work_titles as $i => $row){
-                        $text = $text.'<option value='.$row['num'].'>'.$row['work_title'].'</option>';
+                    <input type='text' placeholder ='상대방의 E-mail로 초대' name='userid' id='userid' class='form-control'/>
+                    <div style='width:100%; height:200px; overflow:auto'>
+                    <ul id='userlists'>
+                    ";
+                    foreach($userlist as $i => $user){
+                        $text = $text."
+                        <a href='".url("loadUserInfoModal/".$user['email'])."' style='display:block; display:none' rel='modal:open' title='".$user['email']."'>
+                            <div style='display:inline-block'>
+                            <img src='".$user['profile_photo']."' style='width:80px;height:50%;float:left;margin-top:5px;' onError=javascript:this.src='".asset('image/no_image.png')."'>
+                            </div>
+                            <div id='info' class='".$user['email']."'style='display:inline-block; width:500px;float:right;left:-60px;position:relative;'>"
+                            .$user['nickname']."<br>".$user['introduction_message']."<br>
+                            ".$user['email']."
+                            </div>
+                        </a>
+                        ";
                     }
-                    $text =$text.
-                    '</select><br>
-                    <input type="submit" value="초대">
+                $text = $text."
+                </ul>
+                </div>
                 </form>
             </div>
-        </div>';
+            <div id='invite' class='modal1' role='dialog'>
+        </div>";
+
+        return $text;
+    }
+    public function loadUserInfoModal($UserEmail){
+        $nickname = User::select(
+            'users.nickname'
+        )->where('users.email','=',$UserEmail)
+        ->first()->nickname;
+        $introduction_message = User::select(
+            'users.introduction_message'
+        )->where('users.email','=',$UserEmail)
+        ->first()->introduction_message;
+        $profile_photo = User::select(
+            'users.profile_photo'
+        )->where('users.email','=',$UserEmail)
+        ->first()->profile_photo;
+        // return $nickname;
+        $text = "
+        <div>
+            <div>
+                <img src='".$profile_photo."' onError=javascript:this.src='".asset('image/no_image.png')."' style='width:80px;height:50%;float:center;'>
+            </div>
+            <div>
+                ".$nickname."<br>".$introduction_message."
+            </div>
+            ".$UserEmail."
+            <ul class='navbar-nav ml-auto' style='display:block'>
+            <li class='nav-item' style='display:inline-block; float:left'>
+                <a class='nav-link' style='color:#45b4e6'>View profile</a>
+            </li>
+            <li class='nav-item' style='display:inline-block; float:right;'>
+                <a class='nav-link' style='color:#45b4e6;'>Send invite Message</a>
+            </li>
+        </ul>
+        </div>
+        ";
         return $text;
     }
     public function SendingInviteMessage(){
@@ -75,3 +120,43 @@ class InviteUserController extends Controller{
 
     }
 }
+
+
+/*
+                    <label>user nickname</label>
+                    <input type='text' placeholder ='상대방의 닉네임으로 초대' name='usernn' id='usernn' class='form-control'/>
+                    <label>Work Title : </label>
+                    <select name = 'title'>";
+                    foreach($work_titles as $i => $row){
+                        $text = $text."<option value=".$row["num"].">".$row["work_title"]."</option>";
+                    }
+                    $text =$text.
+                    "</select><br>
+                    <label>message for invite</label><br>
+                    <textarea name='message' style='resize:none' cols ='85' rows='5'></textarea><br>
+                    <input type='submit' value='초대'>
+
+        $work_titles = Work::select(
+            'works.work_title',
+            'works.num'
+        )
+        ->join('work_lists','works.num','=','work_lists.num_of_work')
+        ->whereIn('works.num', function ($query) {
+            $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']); // 최신순 정렬
+        })->orderBy('works.created_at', 'desc')
+        ->get();
+
+                    <label>Work Title : </label>
+                    <select name = 'title'>";
+                    foreach($work_titles as $i => $row){
+                        $text = $text."<option value=".$row["num"].">".$row["work_title"]."</option>";
+                    }
+
+
+                <br>
+                    <label>message for invite</label><br>
+                    <textarea name='message' style='resize:none' cols ='85' rows='5'></textarea><br>
+                    <input type='submit' value='초대'>
+
+
+*/

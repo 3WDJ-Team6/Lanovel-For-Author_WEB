@@ -1,6 +1,5 @@
 <!-- Navigation -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="{{asset('/js/invite_user.js') }}"></script>
  {{--  모달창  --}}
 <script src="{{ asset('js/jquery/jquery.modal.min.1.js') }}" defer></script>
 {{--  모달창 css  --}}
@@ -16,7 +15,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     {{--  <a class="nav-link" id ="inv_btn" href="#invite" rel="modal:open" style="color:#45b4e6">INVITE USER</a>  --}}
-                    <a class="nav-link" id ="inv_btn" href="{{url('/loadModal')}}" rel="modal:open" style="color:#45b4e6">INVITE USER</a>
+                    <a class="nav-link" id ="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal:open" style="color:#45b4e6">SEARCH USER</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{url('/graph')}}" style="color:#45b4e6">Revenue graph</a>
@@ -41,6 +40,6 @@
     </div>
 </nav>
 
-<div id="invite" class="modal" role="dialog">
+<div id="search" class="modal" role="dialog">
 
 </div>

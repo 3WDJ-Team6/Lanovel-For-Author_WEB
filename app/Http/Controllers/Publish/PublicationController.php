@@ -22,17 +22,8 @@ class PublicationController extends Controller
         2. 사용자가 사용할려면 epubcheck.jar 및 기타 부속품이 필요한데 어케 해결할지
         3. 사용자별로 epubcheck.jar 파일위치가 달라질텐데 ...
     */
-<<<<<<< HEAD
-
-    public function publish($num_of_work,$num_of_chapter){
-=======
     public function publish($num_of_work, $num_of_chapter)
     {
-<<<<<<< HEAD
->>>>>>> 6802d317b0032ae7137d9c5636553ade685921b8
-=======
-
->>>>>>> d6b4b96e277f433e5d7a74ec0f0fbee51ce0301b
         $work_title = Work::select(                                                         // 작품 제목 가져오기
             'works.work_title'
         )->where('works.num', '=', $num_of_work)->first()->work_title;
@@ -75,49 +66,8 @@ class PublicationController extends Controller
             'content_of_works.subsubtitle',
             'content_of_works.content',
             'content_of_works.created_at'
-<<<<<<< HEAD
         )->where('content_of_works.num_of_chapter','=',$num_of_chapter)->get();
 
-        // mkdir("C:/".$title.$chapter_title."/".$title.$chapter_title."/images",0777,true);
-        // mkdir("C:/".$title.$chapter_title."/".$title.$chapter_title."/css",0777,true);
-        // mkdir("C:/".$title.$chapter_title."/".$title.$chapter_title."/js",0777,true);
-        // mkdir("C:/".$title.$chapter_title."/META-INF",0777,true);                           // 폴더 생성
-        $file=fopen("C:/".$title.$chapter_title."/mimetype","w");
-        $text = "application/epub+zip";+
-        fwrite($file,$text);
-        fclose($file);
-
-        $file=fopen("C:/".$title.$chapter_title."/".$title.$chapter_title."/js/test.js","w");
-        $text = "<script>test</script> ";+
-        fwrite($file,$text);
-=======
-        )->where('content_of_works.num_of_chapter', '=', $num_of_chapter)->get();
-
-<<<<<<< HEAD
-        mkdir("C:/" . $title . $chapter_title . "/" . $title . $chapter_title . "/images", 0777, true);
-        mkdir("C:/" . $title . $chapter_title . "/" . $title . $chapter_title . "/css", 0777, true);
-        mkdir("C:/" . $title . $chapter_title . "/META-INF", 0777, true);                           // 폴더 생성
-        $file = fopen("C:/" . $title . $chapter_title . "/mimetype", "w");
-        $text = "application/epub+zip";
-        +fwrite($file, $text);
->>>>>>> 6802d317b0032ae7137d9c5636553ade685921b8
-        fclose($file);                                                                                          // mimetype 파일
-
-        $file = fopen("C:/" . $title . $chapter_title . "/META-INF/container.xml", "w");
-        $text =
-            /*full-path 부분 수정해야함.
-        --------------------------수정 했음*/
-            "<?xml version='1.0'?>\n
-        <container version='1.0' xmlns='urn:oasis:names:tc:opendocument:xmlns:container'>\n
-            <rootfiles>\n
-                <rootfile full-path='" . $title . $chapter_title . "/" . $title . $chapter_title . ".opf' media-type='application/oebps-package+xml'/>\n
-            </rootfiles>\n
-        </container>\n";
-        fwrite($file, $text);
-        fclose($file);                                                                                      // container 파일
-
-        $file = fopen("C:/" . $title . $chapter_title . "/" . $title . $chapter_title . "/" . $title . $chapter_title . ".opf", "w");
-=======
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS') || !Storage::disk('s3')->exists($filePath . 'META-INF')) {
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'text', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'images', 0777, true);
@@ -138,9 +88,6 @@ class PublicationController extends Controller
 
         Storage::disk('s3')->put($filePath . '/META-INF/container.xml', $container); // container 파일
 
-        // $file = fopen("C:/" . $work_title . $chapter_title . "/" . $work_title . $chapter_title . "/" . $work_title . $chapter_title . ".opf", "w");
-
->>>>>>> d6b4b96e277f433e5d7a74ec0f0fbee51ce0301b
         $isodate = date('Y-m-d\TH:i:s\Z');
         $opf =
             '<?xml version="1.0"?>
@@ -202,28 +149,6 @@ class PublicationController extends Controller
                                 <ol>
                                 ';
         foreach ($chapter_list as $i => $clist) {
-<<<<<<< HEAD
-            $text = $text . '<li> <a href="main' . $i . '.xhtml">' . $clist['subsubtitle'] . '</a></li>
-                                    ';
-<<<<<<< HEAD
-                                }
-                                $text=$text.'
-=======
-        }
-
-        $text = $text . '
->>>>>>> 6802d317b0032ae7137d9c5636553ade685921b8
-                                </ol>
-                            </li>
-                        </ol>
-                    </nav>
-                </section>
-            </body>
-        </html>
-        ';
-        fwrite($file, $text);
-        fclose($file);                                                //nav 파일
-=======
             $nav = $nav . '<li> <a href="main' . $i . '.xhtml">' . $clist['subsubtitle'] . '</a></li>';
         }
 
@@ -236,7 +161,6 @@ class PublicationController extends Controller
         </html>';                                           //nav 파일
 
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'nav.xhtml', $nav);
->>>>>>> d6b4b96e277f433e5d7a74ec0f0fbee51ce0301b
 
         $cover =  //Cover는 bookURL 가지고 와야함
             "<?xml version='1.0' encoding='UTF-8'?>
@@ -279,30 +203,15 @@ class PublicationController extends Controller
         h3 { font-size: 1.2em; }
         h4 { font-size: 1.1em; }
         p { font-size: 1em; }
-<<<<<<< HEAD
         ";
-        fwrite($file, $text);
-        fclose($file);                                              // css전체
-        // 아직 이부분은 민수랑 협의 해야됨
 
         $cover = "Author\test@test\\이건 살려줘/OEBPS/images/1555411438KakaoTalk_20190414_144049483.png";
 
         // 주소 수정하기.
-<<<<<<< HEAD
-        // $text = Storage::disk('s3')->directories("Author/949765751/WorkSpace/recollections-of-wartime/");
-        $file = 'java -jar c:\epubcheck-4.1.1\epubcheck.jar -mode exp -save "C:\\'.$title.$chapter_title.'"';
-        // $file = 'java -jar c:\epubcheck-4.1.1\epubcheck.jar -mode exp -save '.$text;
-
-        return shell_exec($file);
-=======
         $file = 'java -jar c:\epubcheck-4.1.1\epubcheck.jar -mode exp -save "C:\\' . $title . $chapter_title . '"';
         shell_exec($file);
         return $file;
->>>>>>> 6802d317b0032ae7137d9c5636553ade685921b8
-=======
-            ";
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);   // css전체
->>>>>>> d6b4b96e277f433e5d7a74ec0f0fbee51ce0301b
 
         $jsNmae = 'viewer';
         $jsFile =
