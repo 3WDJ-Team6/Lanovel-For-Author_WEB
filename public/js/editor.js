@@ -469,15 +469,27 @@ $(document).ready(function() {
                 data.reverse();
                 console.log("folder : " + folder);
                 $("#resource-feild").html("");
+                $("#resource-feild").prepend(
+                    "<span class='back'>" +
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512.001 512.001' style='enable-background:new 0 0 512.001 512.001;' xml:space='preserve' width='32px' height='32px' class=''><g><g>" +
+                        "<g>" +
+                        "<path d='M384.834,180.699c-0.698,0-348.733,0-348.733,0l73.326-82.187c4.755-5.33,4.289-13.505-1.041-18.26    c-5.328-4.754-13.505-4.29-18.26,1.041l-82.582,92.56c-10.059,11.278-10.058,28.282,0.001,39.557l82.582,92.561    c2.556,2.865,6.097,4.323,9.654,4.323c3.064,0,6.139-1.083,8.606-3.282c5.33-4.755,5.795-12.93,1.041-18.26l-73.326-82.188    c0,0,348.034,0,348.733,0c55.858,0,101.3,45.444,101.3,101.3s-45.443,101.3-101.3,101.3h-61.58    c-7.143,0-12.933,5.791-12.933,12.933c0,7.142,5.79,12.933,12.933,12.933h61.58c70.12,0,127.166-57.046,127.166-127.166    C512,237.745,454.954,180.699,384.834,180.699' data-original='#000000' class='active-path'" +
+                        "data-old_color='#B7CBFC' fill='#476ACD'/>" +
+                        "</g>" +
+                        "</span>"
+                );
+                $(".back").after(
+                    "<label for='image' class='upload_label'>+</label><input type='file' name='image' id='image' /></div><div id='obj_feild'>"
+                );
                 $.each(data, function(index, item) {
                     // console.log("item.name : " + item.name);
                     // console.log("item.src : " + item.src);
                     // console.log("index : " + index);
                     chng_text = item.name.substr(0, 9) + "...";
-                    $("#resource-feild").append(
-                        "<span id='obj_" +
+                    $("#obj_feild").append(
+                        "<span class='obj_file'><img id='obj_" +
                             index +
-                            "' class='obj_file'><img src='" +
+                            "' src='" +
                             item.src +
                             "' class='obj_thum' /><span class='obj_name' title='" +
                             item.name +
@@ -486,18 +498,6 @@ $(document).ready(function() {
                             "</span></span>"
                     );
                 });
-                $("#resource-feild").prepend(
-                    "<div class='back'>" +
-                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512.001 512.001' style='enable-background:new 0 0 512.001 512.001;' xml:space='preserve' width='32px' height='32px' class=''><g><g>" +
-                        "<g>" +
-                        "<path d='M384.834,180.699c-0.698,0-348.733,0-348.733,0l73.326-82.187c4.755-5.33,4.289-13.505-1.041-18.26    c-5.328-4.754-13.505-4.29-18.26,1.041l-82.582,92.56c-10.059,11.278-10.058,28.282,0.001,39.557l82.582,92.561    c2.556,2.865,6.097,4.323,9.654,4.323c3.064,0,6.139-1.083,8.606-3.282c5.33-4.755,5.795-12.93,1.041-18.26l-73.326-82.188    c0,0,348.034,0,348.733,0c55.858,0,101.3,45.444,101.3,101.3s-45.443,101.3-101.3,101.3h-61.58    c-7.143,0-12.933,5.791-12.933,12.933c0,7.142,5.79,12.933,12.933,12.933h61.58c70.12,0,127.166-57.046,127.166-127.166    C512,237.745,454.954,180.699,384.834,180.699' data-original='#000000' class='active-path'" +
-                        "data-old_color='#B7CBFC' fill='#476ACD'/>" +
-                        "</g>" +
-                        "</div>"
-                );
-                $(".back").after(
-                    "<label for='image' class='upload_label'>+</label><input type='file' name='image' id='image' />"
-                );
             }
         });
     });
@@ -507,10 +507,9 @@ $(document).ready(function() {
     });
     getResource();
     //리소스파일 리스팅//
-
     //파일추가
+    let appendId = 0;
     $(document).on("change", 'input[type="file"]', function(event) {
-        var appendId = 0;
         var reader = new FileReader();
         var form = $("#file_form")[0];
         var formData = new FormData(form);
@@ -522,9 +521,24 @@ $(document).ready(function() {
         console.log(form);
         console.log($("#image")[0].files[0].name);
         console.log($("#image")[0].files[0]);
+        var path = folder;
+        console.log("path : " + path);
+
+        switch (path) {
+            case "public":
+                var publicUrl = "/images/" + path + "/" + num_of_work;
+                break;
+            case "private":
+                var publicUrl = "/images";
+                break;
+            default:
+                break;
+        }
+        console.log("publicUrl : " + publicUrl);
 
         $.ajax({
-            url: "/images",
+            // public 폴더에 등록할 때 images/public/책번호
+            url: publicUrl,
             processData: false,
             contentType: false,
             data: formData,
@@ -536,8 +550,10 @@ $(document).ready(function() {
                 $("#image").after("<span id='file_loading'></span>");
             },
             complete: function() {
-                $("#image").after(
-                    "<span class='obj_file'><img id='append_" +
+                $("#obj_feild").prepend(
+                    "<span id='objAp_" +
+                        appendId +
+                        "' class='obj_file'><img id='append_" +
                         appendId +
                         "' class='obj_thum' /><span class='obj_name' title='" +
                         file_name +
@@ -545,9 +561,9 @@ $(document).ready(function() {
                         chng_name +
                         "</span></span>"
                 );
-                var output = document.getElementById("append_" + appendId);
-                output.src = URL.createObjectURL(event.target.files[0]);
-                // $("#append_" + appendId).attr('src', e.target.result);
+                var output = document.getElementById("objAp_" + appendId);
+                var child = output.children[0];
+                child.src = URL.createObjectURL(event.target.files[0]);
                 appendId++;
             },
             error: function(e) {
@@ -556,7 +572,6 @@ $(document).ready(function() {
         });
     });
     //파일추가//
-
     //파일 우클릭 & 삭제
     var image_id = "";
     $(document).on("contextmenu", ".obj_file", function() {
@@ -594,9 +609,24 @@ $(document).ready(function() {
             });
         $(document).on("click", "#file-delete", function() {
             console.log("ididid : " + image_id);
+            var path = folder;
+            console.log("path : " + path);
+
+            switch (path) {
+                case "public":
+                    var publicUrl = "/images/" + path + "/" + num_of_work;
+                    break;
+                case "private":
+                    var publicUrl = "/images";
+                    break;
+                default:
+                    break;
+            }
+            console.log("publicUrl : " + publicUrl);
+
             $.ajax({
                 method: "delete",
-                url: "/images/" + $image,
+                url: publicUrl,
                 type: "POST",
                 success: function() {
                     console.log("성공");
@@ -616,15 +646,32 @@ $(document).ready(function() {
     });
     //파일 우클릭 & 삭제//
 
-    //파일 툴에 넣었을 때
-    $(".textarea").hover(function() {
-        $(".textarea .obj_thum")
-            .attr("class", "resize")
-            .wrap(
-                '<div class="effect" style="display:inline-block;width:auto;height:auto;"></div>'
-            );
+    //파일을 textarea에 넣었을 때
+    // document
+    //     .getElementById("popup_result")
+    //     .addEventListener("input", function() {
+    //         var img_src = $(".textarea .obj_thum").attr("src");
+    //         console.log(img_src);
+    //         $(".textarea .obj_thum").replaceWith("<div class='resize'></div>");
+    //         $(".resize").css("background", "url(" + img_src + ")");
+    //     });
+    document
+        .getElementById("popup_result")
+        .addEventListener("input", function() {
+            var imgId = $(".textarea .obj_thum").attr("id");
+            imgId = imgId + "Id";
+            $(".textarea .obj_thum").attr("id", "" + imgId + "");
+            $(".textarea .obj_thum").attr("class", "resize");
+        });
+    //파일을 textarea에 넣었을 때//
+
+    //resize된 파일을 클릭했을 때
+    $(document).on("click", ".resize", function() {
+        var imgId = $(this).attr("id");
+        imgId = imgId + "Id";
+        console.log(imgId);
     });
-    //파일 툴에 넣었을 때//
+    //resize된 파일을 클릭했을 때//
 
     //미리보기+루비
     $("#pre-btn").click(function() {
@@ -674,51 +721,26 @@ $(document).ready(function() {
 
     //템플릿 크게, 작게, 원래사이즈
     $("#large").click(function() {
-        $("#e-size").width($("#e-size").width() + 50);
-        $("#e-size").height($("#e-size").height("auto"));
-        $(".ui-selected > img").width($(".ui-selected > img").width() + 50);
+        $(".resize").width($(".resize").width() + 25);
+        $(".resize").height($(".resize").height("auto"));
+        $(".ui-selected > img").width($(".ui-selected > img").width() + 25);
         $(".ui-selected > img").height($(".ui-selected > img").height("auto"));
     });
     $("#small").click(function() {
-        $("#e-size").width($("#e-size").width() - 50);
-        $("#e-size").height($("#e-size").height("auto"));
-        $(".ui-selected > img").width($(".ui-selected > img").width() - 50);
+        $(".resize").width($(".resize").width() - 25);
+        $(".resize").height($(".resize").height("auto"));
+        $(".ui-selected > img").width($(".ui-selected > img").width() - 25);
         $(".ui-selected > img").height($(".ui-selected > img").height("auto"));
     });
     $("#origin").click(function() {
-        $("#e-size").width($("#e-size").width("400px"));
-        $("#e-size").height($("#e-size").height("auto"));
+        $(".resize").width($(".resize").width("400px"));
+        $(".resize").height($(".resize").height("auto"));
         $(".ui-selected > img").width($(".ui-selected > img").width("400px"));
         $(".ui-selected > img").height($(".ui-selected > img").height("auto"));
     });
     //템플릿 크게, 작게, 원래사이즈//
 
     //메모
-    // var memoViewId = 0;
-    // $('#memo').click(function(e){
-    //     var divTop = e.clientY + 60;
-    //     var divLeft = e.clientX + 60;
-    //     console.log(divTop);
-    //     console.log(divLeft);
-    //     document.ready.append("<div id='memoView"+memoViewId+"' class='memoView' style='top:"+divTop+";left:"+divLeft+";position:absolute;'></div>");
-    //     memoViewId++;
-    //     $('#memoView')('<textarea style="position:absolute;top:5px;right:5px;"></textarea>');
-    //     $('.memoView').css({ "top": divTop ,"left": divLeft , "position": "absolute" }).show();
-    // });
-    // $('#memo').on('click', function(){
-    //     var cursorPos = $('#popup_result').prop('selectionEnd');
-    //     var v = $('#popup_result');
-    //     console.log(v);
-    //     var textBefore = v.substring(0,  cursorPos );
-    //     console.log(textBefore);
-    //     var textAfter  = v.substring( cursorPos, v.length );
-    //     console.log(textAfter);
-    //     $('#popup_result').val( textBefore + $(this).val() + textAfter );
-    // });
-    // $('#memo').click(function(){
-    //     $('.textarea').after('aa');
-    //     console.log(d+"4");
-    // });
     var memoViewId = 0;
     $("#memo").click(function() {
         $(".textarea").prepend(
