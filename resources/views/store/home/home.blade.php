@@ -100,14 +100,14 @@
 
     <!-- 새작품 -->
     <section class="welcome_area bg-img background-overlay"
-        style="height:500px; background-image:url('image/store/girl.jpg');">
+        style="height:500px; margin-top:80px; background-image:url('image/store/girl.jpg');">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="hero-content">
                         <br>
                         <h2>New Collection</h2>
-                        <a href="{{url('/new_collection')}}" class="btn essence-btn">view collection</a>
+                        <a href="{{url('/newCollection')}}" class="btn essence-btn">view collection</a>
                     </div>
                 </div>
             </div>

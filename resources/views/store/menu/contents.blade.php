@@ -39,9 +39,10 @@
             <!-- <div class="col-12" > -->
             @foreach($products as $row)
             <!-- 작품 -->
+
             <a href="{{url('/view')}}/{{$row['num']}}">
                 <div class="single-product-wrapper" style="display:inline-block; margin:40px;">
-                    <!-- 작품이미지 --> p
+                    <!-- 작품이미지 -->
                     <div class="product-img" style="width: 200px; height: 150px; overflow: hidden;">
                         <img src="{{$row['url_of_illustration']}}" alt="작품1" style="max-width: 300px; height: auto;">
                         <div class="product-favourite">
@@ -51,7 +52,7 @@
                     <!-- 작품설명 -->
                     <div class="product-description">
                         {{$row->user_id}}
-                        <a href="single-product-details.html">
+                        <a href="{{url('/view')}}/{{$row['num']}}">
                             <h6>{{$row->illustration_title}}</h6>
                         </a>
                         <p class="product-price">{{$row->price_of_illustration}}</p>
@@ -68,7 +69,6 @@
             </a>
             @endforeach
             <!-- </div> -->
-            </div>
         </div>
 
         <!-- </div> -->

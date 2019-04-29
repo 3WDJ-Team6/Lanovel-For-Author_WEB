@@ -105,27 +105,56 @@ class IllustController extends Controller
             // 작품번호
             'illustration_lists.*',
             'users.nickname',
-            'illust_files.url_of_illustration'
+            'illust_files.*'
         )->join('users', 'users.id', 'illustration_lists.user_id')
             ->join('illust_files', 'illustration_lists.num', 'illust_files.num_of_illust')
             ->where('illustration_lists.division_of_illustration', $category)
-            ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
+            ->groupBy('illust_files.num_of_illust')
+            ->orderBy('illust_files.id', 'desc')->get();
+
+        /**
+         * 썸네일 만드는 법
+         * 
+         * IllustFile 에서 num_of_illust 의 값이 같은 것 끼리 묶은 뒤 id의 desc -> first()
+         */
+        $thumbnail = IllustFile::select(
+            '*'
+        )->groupBy('num_of_illust')
+            ->orderBy('id', 'desc')->get();
+
+        // return response()->json($thumbnail, 200, [], JSON_PRETTY_PRINT);
+        return view('.store.menu.contents')->with('products', $products)->with('thumbnail', $thumbnail);
+    }
+
+    public function newContent()
+    {
+        $products = IllustrationList::select(
+            // 작품번호
+            'illustration_lists.*',
+            'users.nickname',
+            'illust_files.url_of_illustration'
+        )->join('users', 'users.id', 'illustration_lists.user_id')
+            ->join('illust_files', 'illustration_lists.num', 'illust_files.num_of_illust')
+            ->orderByRaw('illustration_lists.created_at', 'desc')
             ->get();
 
         return view('.store.menu.contents')->with('products', $products);
     }
 
-    // 상세보기
+    // 상세보기_
     public function detailView($num)
     {
         $product = IllustrationList::select(
             'illustration_lists.*',
             'illust_files.*',
-            'category_illustrations.*'
+            'category_illustrations.*',
+            DB::raw('(select count(illust_files.id) from illust_files where illust_files.num_of_illust = illustration_lists.num) count')
         )->join('illust_files', 'illust_files.num_of_illust', 'illustration_lists.num')
             ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
             ->where('illustration_lists.num', $num)
             ->get();
+
+        // return response()->json($product, 200, [], JSON_PRETTY_PRINT);
 
         return view('store.detail.view')->with('product', $product);
     }
@@ -140,6 +169,16 @@ class IllustController extends Controller
         return view('store/menu/upload');
     }
 
+    public function myPage()
+    {
+        $myPageInfo = User::select(
+            'users.*',
+            'illustration_lists.*',
+            'illust_files.*'
+        )->where('users.id', '=', Auth::user()['id'])->get();
+
+        return $myPageInfo;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -188,12 +227,10 @@ class IllustController extends Controller
         if ($request->has('attachments')) {
             foreach ($request->attachments as $file) {
                 $attach = IllustFile::find($file);
-                $attach->illustration_list()->associate($illust_info);    //belongsTo 관계를 변경 할 때 associate 메소드를 사용할 수 있음, 이 메소드는 자식 모델에 외래 키를 지정함
+                $attach->illustration_lists()->associate($illust_info);    //belongsTo 관계를 변경 할 때 associate 메소드를 사용할 수 있음, 이 메소드는 자식 모델에 외래 키를 지정함
                 $attach->save();
             }
         }
-
-
 
         return redirect('/store')->with('message', "success");
     }

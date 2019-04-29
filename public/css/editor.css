@@ -265,9 +265,11 @@ header li {
     border: 1px solid lightgray;
 }
 
-img.resize {
+.resize {
     width: 400px;
     height: auto;
+    background-size: auto;
+    background-repeat: no-repeat;
     /* position: relative; */
 }
 
@@ -317,6 +319,7 @@ pre {
 }
 
 .obj_thum {
+    float: left;
     display: inline-block;
     width: 120px;
     height: 120px;
@@ -346,6 +349,7 @@ span.obj_name {
 }
 
 .back {
+    display: block;
     margin-left: 15px;
     margin-bottom: 10px;
 }
@@ -364,6 +368,7 @@ span.obj_name {
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    overflow-y: scroll;
 }
 
 a:hover {
@@ -497,6 +502,7 @@ input[type="file"] {
 }
 
 #file_loading {
+    position: relative;
     display: inline-block;
     background: url("/image/file_loading.gif") no-repeat center center;
     width: 120px;
@@ -504,6 +510,16 @@ input[type="file"] {
     margin-left: 13px;
     object-fit: fill;
 
+}
+
+/* .upload_loading {
+    width: 280px;
+    height: 120px;
+} */
+
+#obj_feild {
+    display: inline-block;
+    float: left;
 }
 
 .custom-menu {

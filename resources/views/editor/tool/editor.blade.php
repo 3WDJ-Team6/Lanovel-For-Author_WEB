@@ -7,7 +7,7 @@
 
 
 <script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
+<link href="{{ asset('css/editor.css?aaa') }}" rel="stylesheet">
 <header>
     {{-- 타이틀과 목차 --}}
     <div class="title-bar">
@@ -97,7 +97,7 @@
                 {{-- 템플릿 에리어 --}}
                 <div class="tem">
                     <div class="tem-list">
-                        <div class="tem-li" id="shadow">그림자</div>
+                        {{--<div class="tem-li" id="shadow">그림자</div>
                         <div class="tem-li" id="inshadow">내부그림자</div>
                         <div class="tem-li" id="spin">회전</div>
                         <div class="tem-li" id="radius">둥근모서리</div>
@@ -105,7 +105,7 @@
                         <div class="tem-li" id="circle">원</div>
                         <div class="tem-li" id="overlap">오버랩</div>
                         <div class="tem-li" id="blur">블러</div>
-                        <div class="tem-li" id="album">사진첩</div>
+                        <div class="tem-li" id="album">사진첩</div>--}}
                         <div class="tem-li" id="large">크게</div>
                         <div class="tem-li" id="small">작게</div>
                         <div class="tem-li" id="origin">원래사이즈</div>
