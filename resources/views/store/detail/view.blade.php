@@ -46,8 +46,12 @@
                             <p>{{$product->updated_at}}</p>
                         </div>
                     </div>
-                    <div class="tag" name="tag" style="width:800px; margin:10px; ">
-                        <p>#{{$product->moreTag}}</p>
+                    <div class="tag" name="tag" style="width:800px; margin:30px; background-color:#EAEAEA;">
+                      <p>
+                          @foreach($tags as $tag)
+                            #{{$tag->moreTag}}
+                          @endforeach
+                      </p>
                     </div>
 
                     <div class="" name="" style="width:800px; margin:10px; ">

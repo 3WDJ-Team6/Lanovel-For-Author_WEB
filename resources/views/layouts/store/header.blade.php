@@ -38,7 +38,8 @@
                     <a href="#"><img src="{{asset('image/store/heart.svg')}}" alt=""></a>
                 </div>
                 <div class="cart-area">
-                    <a href="#" id="essenceCartBtn"><img src="{{asset('image/store/bag.svg')}}" alt="">
+                    <a href="#" id="essenceCartBtn">
+                        <img src="{{asset('image/store/bag.svg')}}" alt="">
                         <span>3</span></a>
                 </div>
                 <!-- ##### Right Side Cart Area ##### -->
@@ -127,7 +128,8 @@
                 <!-- ##### Right Side Cart End ##### -->
 
                 <div class="user-login-info">
-                    <a href="{{url('/mypage')}}"><img src="{{asset('image/store/user.svg')}}" alt=""></a>
+                    <a href="{{url('/myPage')}}"><img src="{{asset('image/store/user.svg')}}" alt=""></a>
+
                 </div>
                 <div class="user-login-info">
                     <form method="post" action="{{route('logout')}}" id="frm">

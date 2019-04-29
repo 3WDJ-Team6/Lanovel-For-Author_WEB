@@ -261,36 +261,24 @@ class IndexController extends Controller
             $this->work_list_model->storeWorklist($work_list_info);
 
 
-            // dd($myCheckboxes);
-
-            // if (is_array($_POST['cycle_of_work'])) {
-            //     foreach ($_POST['cycle_of_work'] as $value) {
-            //         echo $value;
-            //     }
-            // } else {
-            //     $value = $_POST['cycle_of_work'];
-            // }
-
-            // $strExplode = explode(' ', $request->get('tag'));
-            // $strReplace = str_replace("#", "", $strExplode);
 
             $type_of_periods = $request->radio_C;
             $periods = $request->input('cycle_of_work');
-            // 연재 주기 추가
-            // $period = new PeriodOfWork();
-            // $period->num_of_work = $recentWork->num;
 
-            $num = 0;
-            // return $periods;
+            // 주간일 경우
             if ($type_of_periods == '2-1') {
-                foreach ($periods as $value) {
+                $notNull = array_filter($periods);
+
+                foreach ($notNull as $value) {
                     // echo $num++;
                     $period_info = array([
                         'num_of_work' => $recentWork->num,
                         'cycle_of_publish' => $value
                     ]);
+
                     $this->period_model->storePeriodWork($period_info);
                 }
+                // 월간일 경우
             } else {
                 foreach ($periods as $value) {
                     $real_value = substr($value, 3, 2);
@@ -301,8 +289,6 @@ class IndexController extends Controller
                     $this->period_model->storePeriodWork($period_info);
                 }
             }
-
-
             // return $period_info;
 
 

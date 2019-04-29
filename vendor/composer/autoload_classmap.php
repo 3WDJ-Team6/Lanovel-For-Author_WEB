@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\BookFile' => $baseDir . '/app/Models/BookFile.php',
+    'App\\CartOfIllustration' => $baseDir . '/app/Models/CartOfIllustration.php',
     'App\\Console\\Commands\\SendSms' => $baseDir . '/app/Console/Commands/SendSms.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Events\\ChatEvent' => $baseDir . '/app/Events/ChatEvent.php',
@@ -56,6 +57,7 @@ return array(
     'App\\Models\\Grade' => $baseDir . '/app/Models/Grade.php',
     'App\\Models\\IllustFile' => $baseDir . '/app/Models/IllustFile.php',
     'App\\Models\\IllustrationList' => $baseDir . '/app/Models/IllustrationList.php',
+    'App\\Models\\LikeOfIllustration' => $baseDir . '/app/Models/LikeOfIllustration.php',
     'App\\Models\\Memo' => $baseDir . '/app/Models/Memo.php',
     'App\\Models\\Message' => $baseDir . '/app/Models/Message.php',
     'App\\Models\\PeriodOfWork' => $baseDir . '/app/Models/PeriodOfWork.php',

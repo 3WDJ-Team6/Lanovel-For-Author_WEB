@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBuyerOfIllustrationsTable extends Migration
+class CreateCartOfIllustrationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateBuyerOfIllustrationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('buyer_of_illustrations', function (Blueprint $table) {
-            $table->integer('num_of_illustration')->comment("일러스트번호")->unsigned();
-            $table->foreign('num_of_illustration')
-                ->references('num')->on('illustration_lists');
+        Schema::create('cart_of_illustrations', function (Blueprint $table) {
+            $table->increments('id')->comment("주문번호");
+
+            $table->integer('num_of_illust')->comment("일러스트번호")->unsigned();
+            $table->foreign('num_of_illust')
+                ->references('num')->on('illustration_lists')
+                ->onDelete('cascade');
 
             $table->integer('user_id')->comment("회원번호")->unsigned();
             $table->foreign('user_id')
@@ -34,6 +37,6 @@ class CreateBuyerOfIllustrationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('buyer_of_illustrations');
+        Schema::dropIfExists('cart_of_illustrations');
     }
 }
