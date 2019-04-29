@@ -152,11 +152,23 @@ class IllustController extends Controller
         )->join('illust_files', 'illust_files.num_of_illust', 'illustration_lists.num')
             ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
             ->where('illustration_lists.num', $num)
-            ->get();
+            ->first();
+
+        $posts = IllustFile::select(
+            '*'
+            // DB::raw('(select count(illust_files.id) from illust_files where illust_files.num_of_illust = illustration_lists.num) count')
+        )->join('illustration_lists', 'illustration_lists.num', 'illust_files.num_of_illust')
+            ->where('illustration_lists.num', $num)->get();
 
         // return response()->json($product, 200, [], JSON_PRETTY_PRINT);
 
-        return view('store.detail.view')->with('product', $product);
+        // 유저 정보
+        $userInfo = User::select(
+            'users.*'
+        )->where('users.id', '=', Auth::user()['id'])
+            ->first();
+
+        return view('store.detail.view')->with('product', $product)->with('posts', $posts)->with('users', $userInfo);
     }
 
     /**
@@ -171,14 +183,44 @@ class IllustController extends Controller
 
     public function myPage()
     {
-        $myPageInfo = User::select(
-            'users.*',
+        // 유저 정보
+        $userInfo = User::select(
+            'users.*'
+        )->where('users.id', '=', Auth::user()['id'])
+            ->first();
+
+        // 내 작품 보기
+        $myIllustInfo = IllustrationList::select(
             'illustration_lists.*',
             'illust_files.*'
-        )->where('users.id', '=', Auth::user()['id'])->get();
+        )->join('illust_files', 'illust_files.num_of_illust', 'illustration_lists.num')
+            ->groupBy('illust_files.num_of_illust')
+            ->orderBy('illust_files.id', 'desc')
+            ->where('illustration_lists.user_id', '=', Auth::user()['id'])
+            ->get();
 
-        return $myPageInfo;
-    }
+            // 팔로우
+            // 메시지
+            // 좋아요 작품
+            // $likeInfo = LikeOfIllustration::select(
+            //     'like_of_illustrations.*',
+            //     'illustration_lists.*',
+            //     'illust_files.*'
+            // )->join('illust_files', 'illust_files.num_of_illust', 'like_of_illustrations.num_of_illust')
+            //     ->join('illustration_lists', 'illustration_lists.num', 'like_of_illustrations.num_of_illust')
+            //     ->groupBy('illust_files.num_of_illust')
+            //     ->orderBy('illust_files.id', 'desc')
+            //     ->where('like_of_illustrations.user_id', '=', Auth::user()['id'])
+            //     ->get();
+    
+            // 장바구니 작품
+            // 구입 리스트
+    
+            // return response()->json($myPageInfo, 200, [], JSON_PRETTY_PRINT);
+    
+            return view('store.menu.mypage')->with('row', $userInfo)->with('products', $myIllustInfo);
+            }
+    
     /**
      * Store a newly created resource in storage.
      *

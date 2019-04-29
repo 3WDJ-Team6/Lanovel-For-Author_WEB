@@ -162,9 +162,7 @@ Route::post('store/find/search', function () {
 
 Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
 
-Route::get('store/menu/mypage', function () {
-    return view('store.menu.mypage');
-});
+Route::get('/mypage', 'WorkOut\IllustController@myPage');
 
 Route::post('/destroy', 'Auth\LoginController@destroy');
 
