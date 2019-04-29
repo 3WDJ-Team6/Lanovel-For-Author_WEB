@@ -487,7 +487,9 @@ $(document).ready(function() {
                     // console.log("index : " + index);
                     chng_text = item.name.substr(0, 9) + "...";
                     $("#obj_feild").append(
-                        "<span class='obj_file'><img id='obj_" +
+                        "<span id='objLi_" +
+                            index +
+                            "' class='obj_file'><img id='obj_" +
                             index +
                             "' src='" +
                             item.src +
@@ -587,11 +589,10 @@ $(document).ready(function() {
                 ""
             )
             .replace("" + image, "");
-        image_id = this.id;
+        image_id = $(this).attr("id");
         console.log("img : " + img);
         console.log("img_path : " + $path);
         console.log("img_name : " + $image);
-        console.log(image_id);
 
         event.preventDefault();
         if ($(".custom-menu").length) {
@@ -608,16 +609,17 @@ $(document).ready(function() {
                 $("div.custom-menu").remove();
             });
         $(document).on("click", "#file-delete", function() {
-            console.log("ididid : " + image_id);
+            console.log("image_id : " + image_id);
             var path = folder;
             console.log("path : " + path);
 
             switch (path) {
                 case "public":
-                    var publicUrl = "/images/" + path + "/" + num_of_work;
+                    var publicUrl =
+                        "/images/" + path + "/" + num_of_work + "/" + $image;
                     break;
                 case "private":
-                    var publicUrl = "/images";
+                    var publicUrl = "/images/" + $image + "/" + path;
                     break;
                 default:
                     break;
@@ -628,8 +630,8 @@ $(document).ready(function() {
                 method: "delete",
                 url: publicUrl,
                 type: "POST",
-                success: function() {
-                    console.log("성공");
+                success: function(data) {
+                    console.log(data);
                     console.log($image);
                     $("#" + image_id).remove();
                     // $("span span:contains(" + $image + ")").parent().remove();
