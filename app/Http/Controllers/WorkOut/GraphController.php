@@ -27,7 +27,6 @@ class GraphController extends Controller
      */
     public function index()
     {
-
         $work_arrays = DB::table('all_count_view')->select(
             'all_count_view.num',
             'all_count_view.work_title',
@@ -44,23 +43,6 @@ class GraphController extends Controller
         )->join('work_lists', 'work_lists.num_of_work', '=', 'all_count_view.num')
             ->where('work_lists.user_id', Auth::user()['id'])
             ->groupBy('all_count_view.date')->get();
-
-        // return $date_arrays;
-
-        // $plucked = $date_arrays->pluck('sumPrice', 'date');
-        // return $plucked->toArray();
-
-        // return $work_arrays;
-
-        // 날짜별 수익 데이터값
-
-        // $rental = Rental::select(
-        //     'onlyDate'
-        // )->join('work_lists', 'work_lists.num_of_work', '=', 'rentals.num_of_work')->where('work_lists.user_id', Auth::user()['id'])->get();
-        // return $rental;
-        // $onlyDate = \Carbon\Carbon::parse($rentals->created_at)->format('Y/m/d');
-
-        // return $onlyDate;
 
         // 그 달 날짜 전부
         $today = today();
@@ -99,24 +81,28 @@ class GraphController extends Controller
             }
             $isSuccess = false;
         }
-        // return $resultA;
 
-        // // return $result[7]['date'];
-        // return response()->json($is_sumPrice, 200, [], JSON_PRETTY_PRINT);
-
-        // data_fill($date_arrays, 'all_count_view.sumPrice', 0);
-
-        // // return $date_arrays;
-        // return response()->json(array(
-        //     $dates
-        // ), 200, [], JSON_PRETTY_PRINT);
-
-        // return response()->json($list, 200, [], JSON_PRETTY_PRINT);
-        // return $resultA;
         return view('editor.main.graph', compact('work_arrays', 'resultA'));
     }
 
+    public function IllustoreIndex()
+    {
+        $illust_array = BuyerOfIllustration::select(
+            'buyer_of_illustrations.num_of_illustration',
+            'illustration_lists.illustration_title',
+            DB::raw('(count(*) * illustration_lists.price_of_illustration) sumPrice')
+        )->join('illustration_lists', 'illustration_lists.num', '=', 'buyer_of_illustrations.num_of_illustration')
+            ->where('illustration_lists.user_id', Auth::user()['id'])->get();
+
+
+        return $illust_array;
+    }
+
+
+
+
     /**
+     * 
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

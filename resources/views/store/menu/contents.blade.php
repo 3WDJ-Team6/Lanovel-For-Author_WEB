@@ -52,7 +52,7 @@
                     <!-- 작품설명 -->
                     <div class="product-description">
                         {{$row->user_id}}
-                        <a href="{{url('/view')}}/{{$row['num']}}">
+                        <a href="{{url('/view')}}/{{$row->num}}">
                             <h6>{{$row->illustration_title}}</h6>
                         </a>
                         <p class="product-price">{{$row->price_of_illustration}}</p>
@@ -61,7 +61,8 @@
                         <div class="hover-content">
                             <!-- 장바구니 -->
                             <div class="add-to-cart-btn">
-                                <a href="#" class="btn essence-btn" style="width:100px;">Add to Cart</a>
+                                <a href="{{url('/addCart')}}/{{$row->num}}" class="btn essence-btn"
+                                    style="width:100px;">Add to Cart</a>
                             </div>
                         </div>
                     </div>

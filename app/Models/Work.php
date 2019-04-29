@@ -192,6 +192,14 @@ class Work extends Model
     }
 
     /**
+     * 하나의 작품은 여러 좋아요 테이블을 가질 수 있다.
+     */
+    public function like_of_illustrations()
+    {
+        return $this->hasMany(LikeOfIllustration::class);
+    }
+
+    /**
      * 하나의 작품은 여러 챕터를 가질 수 있다.
      */
     public function chapter_of_works()

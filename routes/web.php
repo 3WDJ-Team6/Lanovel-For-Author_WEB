@@ -160,11 +160,15 @@ Route::post('store/find/search', function () {
     return view('store.find.search');
 });
 
+// 일러스토어 장바구니 추가
+Route::get('/addCart/{num}', 'WorkOut\IllustController@addCart');
+
+// 장바구니
+Route::get('/cartIndex', 'WorkOut\IllustController@cartIndex');
+
 Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
 
-Route::get('store/menu/mypage', function () {
-    return view('store.menu.mypage');
-});
+Route::get('/myPage', 'WorkOut\IllustController@myPage');
 
 Route::post('/destroy', 'Auth\LoginController@destroy');
 

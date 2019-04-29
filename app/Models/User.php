@@ -72,6 +72,14 @@ class User extends Authenticatable
     }
 
     /**
+     * 하나의 회원은 여러 메시지를 가질 수 있다.
+     */
+    public function like_of_illustrations()
+    {
+        return $this->hasMany('App\Models\LikeOfIllustration');
+    }
+
+    /**
      * 하나의 회원은 여러 팔로잉 회원을 가질 수 있다.
      */
     public function followings()

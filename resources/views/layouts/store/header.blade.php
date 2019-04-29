@@ -38,17 +38,19 @@
                     <a href="#"><img src="{{asset('image/store/heart.svg')}}" alt=""></a>
                 </div>
                 <div class="cart-area">
-                    <a href="#" id="essenceCartBtn"><img src="{{asset('image/store/bag.svg')}}" alt="">
+                    <a href="#" id="essenceCartBtn">
+                        <img src="{{asset('image/store/bag.svg')}}" alt="">
                         <span>3</span></a>
                 </div>
                 <div class="user-login-info">
-                    <a href="{{url('store/menu/mypage')}}"><img src="{{asset('image/store/user.svg')}}" alt=""></a>
+                    <a href="{{url('/myPage')}}"><img src="{{asset('image/store/user.svg')}}" alt=""></a>
                 </div>
                 <div class="user-login-info">
-                <form method="post" action="{{route('logout')}}" id="frm">
-                    @csrf
-                    <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{asset('image/store/logout.png')}}" style="width:80px;"></a>
-                </form>
+                    <form method="post" action="{{route('logout')}}" id="frm">
+                        @csrf
+                        <a href="#" onclick="document.getElementById('frm').submit();"><img
+                                src="{{asset('image/store/logout.png')}}" style="width:80px;"></a>
+                    </form>
                 </div>
 
                 @else

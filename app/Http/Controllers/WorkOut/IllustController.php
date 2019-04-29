@@ -5,11 +5,13 @@ namespace App\Http\Controllers\WorkOut;
 use Auth;
 use App\Models\IllustrationList;
 
+use lluminate\Http\RedirectResponse;
 use App\Models\Work;
 use App\Models\WorkList;
 use App\Models\RecommendOfWork;
 use App\Models\Grade;
 use App\Models\CategoryIllustration;
+use App\Models\LikeOfIllustration;
 use App\Models\IllustFile;
 use App\Models\BuyerOfIllustration;
 use App\Models\User;
@@ -20,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\FilePost;
 use App\Traits\FileTrait;
+use App\Models\CartOfIllustration;
 
 class IllustController extends Controller
 {
@@ -28,6 +31,7 @@ class IllustController extends Controller
     private $illustration_model = null;
     private $illust_file_model = null;
     private $category_illust_model = null;
+    private $cart_illust_model = null;
 
     public function __construct()
     {
@@ -35,6 +39,7 @@ class IllustController extends Controller
         $this->illustration_model = new IllustrationList();
         $this->illust_file_model = new IllustFile();
         $this->category_illust_model = new CategoryIllustration();
+        $this->cart_illust_model = new CartOfIllustration();
     }
 
     public function illustUpload(FilePost $request)
@@ -135,6 +140,8 @@ class IllustController extends Controller
             'illust_files.url_of_illustration'
         )->join('users', 'users.id', 'illustration_lists.user_id')
             ->join('illust_files', 'illustration_lists.num', 'illust_files.num_of_illust')
+            ->groupBy('illust_files.num_of_illust')
+            ->orderBy('illust_files.id', 'desc')
             ->orderByRaw('illustration_lists.created_at', 'desc')
             ->get();
 
@@ -147,16 +154,31 @@ class IllustController extends Controller
         $product = IllustrationList::select(
             'illustration_lists.*',
             'illust_files.*',
-            'category_illustrations.*',
             DB::raw('(select count(illust_files.id) from illust_files where illust_files.num_of_illust = illustration_lists.num) count')
         )->join('illust_files', 'illust_files.num_of_illust', 'illustration_lists.num')
-            ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
             ->where('illustration_lists.num', $num)
-            ->get();
+            ->first();
+
+        $tags = CategoryIllustration::select(
+            'category_illustrations.*'
+        )->join('illustration_lists', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
+            ->where('category_illustrations.num_of_illustration', $num)->get();
+
+        $posts = IllustFile::select(
+            '*'
+            // DB::raw('(select count(illust_files.id) from illust_files where illust_files.num_of_illust = illustration_lists.num) count')
+        )->join('illustration_lists', 'illustration_lists.num', 'illust_files.num_of_illust')
+            ->where('illustration_lists.num', $num)->get();
 
         // return response()->json($product, 200, [], JSON_PRETTY_PRINT);
 
-        return view('store.detail.view')->with('product', $product);
+        // 유저 정보
+        $userInfo = User::select(
+            'users.*'
+        )->where('users.id', '=', Auth::user()['id'])
+            ->first();
+
+        return view('store.detail.view')->with('product', $product)->with('posts', $posts)->with('users', $userInfo)->with('tags', $tags);
     }
 
     /**
@@ -171,14 +193,76 @@ class IllustController extends Controller
 
     public function myPage()
     {
-        $myPageInfo = User::select(
-            'users.*',
+        // 유저 정보
+        $userInfo = User::select(
+            'users.*'
+        )->where('users.id', '=', Auth::user()['id'])
+            ->first();
+
+        // 내 작품 보기
+        $myIllustInfo = IllustrationList::select(
             'illustration_lists.*',
             'illust_files.*'
-        )->where('users.id', '=', Auth::user()['id'])->get();
+        )->join('illust_files', 'illust_files.num_of_illust', 'illustration_lists.num')
+            ->groupBy('illust_files.num_of_illust')
+            ->orderBy('illust_files.id', 'desc')
+            ->where('illustration_lists.user_id', '=', Auth::user()['id'])
+            ->get();
 
-        return $myPageInfo;
+        // 팔로우
+        // 메시지
+        // 좋아요 작품
+        $likeInfo = LikeOfIllustration::select(
+            'like_of_illustrations.*',
+            'illustration_lists.*',
+            'illust_files.*'
+        )->join('illust_files', 'illust_files.num_of_illust', 'like_of_illustrations.num_of_illust')
+            ->join('illustration_lists', 'illustration_lists.num', 'like_of_illustrations.num_of_illust')
+            ->groupBy('illust_files.num_of_illust')
+            ->orderBy('illust_files.id', 'desc')
+            ->where('like_of_illustrations.user_id', '=', Auth::user()['id'])
+            ->get();
+
+        // 장바구니 작품
+        // 구입 리스트
+
+
+
+        // return response()->json($myPageInfo, 200, [], JSON_PRETTY_PRINT);
+
+        return view('store.menu.mypage')->with('row', $userInfo)->with('products', $myIllustInfo)->with('likeProducts', $likeInfo);
     }
+
+    public function addCart($num)
+    {
+        $cart_info = array([
+            'num_of_illust' => $num,
+            'user_id' => Auth::user()['id'],
+            'created_at' => Carbon::now()
+        ]);
+
+        // return $cart_info;
+        $this->cart_illust_model->storeCart($cart_info);
+
+        return redirect()->back()->with('message', "add cart!!");
+    }
+
+    public function cartIndex()
+    {
+        $cartProducts = CartOfIllustration::select(
+            'cart_of_illustrations.*',
+            'illustration_lists.*',
+            'illust_files.*'
+        )->join('illustration_lists', 'cart_of_illustrations.num_of_illust', 'illustration_lists.num')
+            ->join('illust_files', 'cart_of_illustrations.num_of_illust', 'illust_files.num_of_illust')
+            ->groupBy('illust_files.num_of_illust')
+            ->orderBy('illust_files.id', 'desc')
+            ->where('cart_of_illustrations.user_id', Auth::user()['id'])
+            ->get();
+
+        return $cartProducts;
+    }
+
     /**
      * Store a newly created resource in storage.
      *

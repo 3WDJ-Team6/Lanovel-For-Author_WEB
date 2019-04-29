@@ -38,8 +38,14 @@
                         <p>{{$product->updated_at}}</p>
                     </div>
                 </div>
+
                 <div class="tag" name="tag" style="width:800px; margin:30px; background-color:#EAEAEA;">
-                    <p>{{$product->moreTag}}</p>
+                    <p>
+                        @foreach($tags as $tag)
+                        #{{$tag->moreTag}}
+                        @endforeach
+                    </p>
+
                 </div>
                 <div class="price" name="price_of_illustration"
                     style="width:800px; margin:30px; background-color:#EAEAEA;">
@@ -236,25 +242,12 @@
                     <div id="row">
 
                         <!-- 상세보기 일러스트 -->
+                        @foreach($posts as $post)
                         <div class="mySlides">
-                            <div class="numbertext">1 / 4</div>
-                            <img src="{{asset('image/store/product-1.png')}}">
+                            <div class="numbertext"> / {{$product->count}}</div>
+                            <img src="{{$post->url_of_illustration}}">
                         </div>
-
-                        <div class="mySlides">
-                            <div class="numbertext">2 / 4</div>
-                            <img src="{{asset('image/store/product-2.png')}}">
-                        </div>
-
-                        <div class="mySlides">
-                            <div class="numbertext">3 / 4</div>
-                            <img src="{{asset('image/store/product-3.png')}}">
-                        </div>
-
-                        <div class="mySlides">
-                            <div class="numbertext">4 / 4</div>
-                            <img src="{{asset('image/store/product-4.png')}}">
-                        </div>
+                        @endforeach
 
                         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                         <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -264,22 +257,12 @@
                         </div>
 
                         <!-- 그 외 일러스트 -->
+                        @foreach($posts as $post)
                         <div class="column">
-                            <img class="demo cursor" src="{{asset('image/store/product-1.png')}}" style="width:100%"
+                            <img class="demo cursor" src="{{$post->url_of_illustration}}" style="width:100%"
                                 onclick="currentSlide(1)" alt="Nature and sunrise">
                         </div>
-                        <div class="column">
-                            <img class="demo cursor" src="{{asset('image/store/product-2.png')}}" style="width:100%"
-                                onclick="currentSlide(2)" alt="Snow">
-                        </div>
-                        <div class="column">
-                            <img class="demo cursor" src="{{asset('image/store/product-3.png')}}" style="width:100%"
-                                onclick="currentSlide(3)" alt="Mountains and fjords">
-                        </div>
-                        <div class="column">
-                            <img class="demo cursor" src="{{asset('image/store/product-4.png')}}" style="width:100%"
-                                onclick="currentSlide(4)" alt="Northern Lights">
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

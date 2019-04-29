@@ -16,12 +16,12 @@ class CreateBuyerOfIllustrationsTable extends Migration
         Schema::create('buyer_of_illustrations', function (Blueprint $table) {
             $table->integer('num_of_illustration')->comment("일러스트번호")->unsigned();
             $table->foreign('num_of_illustration')
-                  ->references('num')->on('illustration_lists');
-    
+                ->references('num')->on('illustration_lists');
+
             $table->integer('user_id')->comment("회원번호")->unsigned();
             $table->foreign('user_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });

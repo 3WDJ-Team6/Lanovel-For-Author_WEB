@@ -57,10 +57,12 @@
                         <li class="nav-item"><a class="nav-link active" id="home" href="#home-tabs-above" role="tab"
                                 data-toggle="tab" data-url="/site/fetch-tab?tab=1" aria-controls="home"
                                 aria-expanded="true"><i class="fa fa-home"></i> 내작품</a></li>
+
                         <li class="nav-item"><a class="nav-link" id="profile" href="#profile-tabs-above" role="tab"
                                 data-toggle="tab" data-url="/site/fetch-tab?tab=2" aria-controls="profile"><i
                                     class="fa fa-user"></i>
                                 수익정산</a></li>
+
                         <li class="nav-item"><a class="nav-link" id="follow" href="#follow-tabs-above" role="tab"
                                 data-toggle="tab" data-url="/site/fetch-tab?tab=2" aria-controls="profile"><i
                                     class="fa fa-user"></i>
@@ -85,20 +87,30 @@
                     <div id="myTabContent-tabs-above" class="tab-content" style="width:100%">
                         <div class="tab-pane fade show active" id="home-tabs-above" role="tabpanel"
                             aria-labelledby="home-tab-tabs-above">
+                            @foreach($products as $product)
                             <div class="form-group" id="img">
-                                <img src="{{$row->url_of_illustration)}}" style="width: 150px; height: 150px;">
+                                <img src="{{$product->url_of_illustration}}" style="width: 150px; height: 150px;">
                                 <div class="form-group">
-                                    <p>{{$row->illustration_title}}</p>
-                                    <p>{{$row->create_at}}</P>
+                                    <p>{{$product->illustration_title}}</p>
+                                    <p>{{$product->create_at}}</P>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
+                        <!-- 수익 그래프 -->
                         <div class="tab-pane fade" id="profile-tabs-above" role="tabpanel"
                             aria-labelledby="profile-tabs-above">
                             <div class="form-group" style="">
                                 <div id="chartdiv"></div>
                             </div>
                         </div>
+
+                        <script>
+                            console.log("읽힘 성공성공");
+
+                        </script>
+
+                        <!-- 팔로잉 -->
                         <div class="tab-pane fade" id="follow-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-1">
                             <div class="form-group" style="display:inline-block; float:left; width:400px;">
@@ -340,18 +352,20 @@
                         </div>
                         <div class="tab-pane fade" id="like-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
+                            @foreach($likeProducts as $product)
                             <div class="form-group" id="img">
-                                <img src="{{$row->url_of_illustration)}}" style="width: 150px; height: 150px;">
+                                <img src="{{$product->url_of_illustration}}" style="width: 150px; height: 150px;">
                                 <div class="form-group">
-                                    <p>{{$row->illustration_title}}</p>
-                                    <p>{{$row->create_at}}</P>
+                                    <p>{{$product->illustration_title}}</p>
+                                    <p>{{$product->create_at}}</P>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                         <div class="tab-pane fade" id="cart-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
                             <div class="form-group" id="img">
-                                <img src="{{$row->url_of_illustration)}}" style="width: 150px; height: 150px;">
+                                <img src="{{$row->url_of_illustration}}" style="width: 150px; height: 150px;">
                                 <div class="form-group">
                                     <p>{{$row->illustration_title}}</p>
                                     <p>{{$row->create_at}}</P>
@@ -361,7 +375,7 @@
                         <div class="tab-pane fade" id="buy-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
                             <div class="form-group" id="img">
-                                <img src="{{$row->url_of_illustration)}}" style="width: 150px; height: 150px;">
+                                <img src="{{$row->url_of_illustration}}" style="width: 150px; height: 150px;">
                                 <div class="form-group">
                                     <p>{{$row->illustration_title}}</p>
                                     <p>{{$row->create_at}}</P>

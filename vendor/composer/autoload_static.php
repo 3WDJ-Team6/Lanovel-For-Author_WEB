@@ -543,6 +543,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
 
     public static $classMap = array (
         'App\\BookFile' => __DIR__ . '/../..' . '/app/Models/BookFile.php',
+        'App\\CartOfIllustration' => __DIR__ . '/../..' . '/app/Models/CartOfIllustration.php',
         'App\\Console\\Commands\\SendSms' => __DIR__ . '/../..' . '/app/Console/Commands/SendSms.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Events\\ChatEvent' => __DIR__ . '/../..' . '/app/Events/ChatEvent.php',
@@ -592,6 +593,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Models\\Grade' => __DIR__ . '/../..' . '/app/Models/Grade.php',
         'App\\Models\\IllustFile' => __DIR__ . '/../..' . '/app/Models/IllustFile.php',
         'App\\Models\\IllustrationList' => __DIR__ . '/../..' . '/app/Models/IllustrationList.php',
+        'App\\Models\\LikeOfIllustration' => __DIR__ . '/../..' . '/app/Models/LikeOfIllustration.php',
         'App\\Models\\Memo' => __DIR__ . '/../..' . '/app/Models/Memo.php',
         'App\\Models\\Message' => __DIR__ . '/../..' . '/app/Models/Message.php',
         'App\\Models\\PeriodOfWork' => __DIR__ . '/../..' . '/app/Models/PeriodOfWork.php',
