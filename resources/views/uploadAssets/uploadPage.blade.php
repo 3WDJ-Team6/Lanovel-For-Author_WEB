@@ -51,7 +51,7 @@
                                     <button type="submit" class="btn btn-default">Remove</button>
                                 </form> -->
 
-                                <form action="{{ url('images/' . $image['name']) }}" method="POST">
+                                <form action="{{ url('images/' . $image['name']) .'/private?'.'/bookNum?' }}" method="POST">
                                     @method('DELETE')
                                     @csrf
                                     <button type="submit" class="btn btn-default">Remove</button>
