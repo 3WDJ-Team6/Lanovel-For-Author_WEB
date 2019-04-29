@@ -103,8 +103,9 @@ Route::view('/graph3', 'editor/main/graph3');
 // Route::group(['prefix' => 'admin'], function () { }); prifix는 실제 api 요청하는 url의 앞 부분에 넘어온 문자열/ 로 url을 만듦 이 그룹에선 admin/~~
 Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있는 route들은 해당 미들웨어를 거쳐서 감
     Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
-    Route::resource('/images/{folderPath?}/{bookNum?}', 'Storage\FileController', ['only' => ['store', 'destroy']]); // 해당 함수만 라우팅함
-    Route::get('/lendbook', 'Storage\FileController@lendBook')->name('lendBook');
+    Route::resource('/images/{folderPath?}/{bookNum?}', 'Storage\FileController', ['only' => ['store',]]); // 해당 함수만 라우팅함
+    Route::delete('/images/{folderPath?}/{bookNum?}', 'Storage\FileController@destroy');
+    Route::get('/readBook/{folderPath?}/{bookNum?}', 'Storage\FileController@readBook')->name('readBook');
     # 일러스토어 일러스트 파일 업로드
     Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
     Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');
@@ -168,7 +169,7 @@ Route::get('/cartIndex', 'WorkOut\IllustController@cartIndex');
 
 Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
 
-Route::get('/myPage', 'WorkOut\IllustController@myPage');
+Route::get('/mypage', 'WorkOut\IllustController@myPage');
 
 Route::post('/destroy', 'Auth\LoginController@destroy');
 

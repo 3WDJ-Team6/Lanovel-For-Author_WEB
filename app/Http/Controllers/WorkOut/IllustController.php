@@ -179,6 +179,7 @@ class IllustController extends Controller
             ->first();
 
         return view('store.detail.view')->with('product', $product)->with('posts', $posts)->with('users', $userInfo)->with('tags', $tags);
+
     }
 
     /**
@@ -262,7 +263,6 @@ class IllustController extends Controller
 
         return $cartProducts;
     }
-
     /**
      * Store a newly created resource in storage.
      *

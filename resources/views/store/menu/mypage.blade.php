@@ -3,9 +3,9 @@
 @section('head')
 @include('layouts.store.head')
 <style>
-    #chartdiv {
+    #chartdiv #chartdiv2 {
         width: 100%;
-        height: 500px;
+        height: 800px;
     }
 
 </style>
@@ -15,6 +15,8 @@
 <script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
 <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 <script src="{{asset('js/store/mypage_graph.js')}}" defer></script>
+<script src="{{asset('js/store/mypage_graph2.js')}}" defer></script>
+<script src="{{asset('js/store/mypage_graph_make.js')}}" defer></script>
 <link rel="stylesheet" href="{{asset('css/store/mypage.css')}}">
 <link rel="stylesheet" href="{{asset('css/store/mypage_chat.css')}}">
 @endsection
@@ -88,20 +90,29 @@
                         <div class="tab-pane fade show active" id="home-tabs-above" role="tabpanel"
                             aria-labelledby="home-tab-tabs-above">
                             @foreach($products as $product)
-                            <div class="form-group" id="img">
-                                <img src="{{$product->url_of_illustration}}" style="width: 150px; height: 150px;">
-                                <div class="form-group">
-                                    <p>{{$product->illustration_title}}</p>
-                                    <p>{{$product->create_at}}</P>
-                                </div>
+
+                            <div class="form-group" id="img" style="width:150px; height:150px;">
+                                <a href="{{url('/view')}}/{{$row['num']}}">
+                                    <img src="{{$product->url_of_illustration}}" style="width: 150px; height: 150px;">
+                                    <div class="form-group">
+                                        <p>{{$product->illustration_title}}</p>
+                                        <p>{{$product->create_at}}</P>
+                                    </div>
+                                </a>
                             </div>
                             @endforeach
                         </div>
                         <!-- 수익 그래프 -->
                         <div class="tab-pane fade" id="profile-tabs-above" role="tabpanel"
                             aria-labelledby="profile-tabs-above">
-                            <div class="form-group" style="">
-                                <div id="chartdiv"></div>
+                            <div id="sidenav" style="margin-top:0px; width:120px; display:inline-block;">
+                                <span class="btn" id="first" name="graph" value="">작품별 수익</span>
+                                <hr>
+                                <span class="btn" id="second" name="graph" value="">날짜별 수익</a></span>
+                            </div>
+                            <div class="graph-box" id="graph-box" name="graph" style="width:600px; height:500px; display:inline-block;">
+                                <div id="chartdiv" class="chartdiv" style="width:500px; height:500px;"></div>
+                                <div id="chartdiv2" class="chartdiv2" style="width:500px; height:500px;">두번째 그래프..!! 두둥</div>
                             </div>
                         </div>
 
@@ -200,41 +211,6 @@
                                                                         src="https://bootdey.com/img/Content/avatar/avatar6.png"
                                                                         alt="">
                                                                     <div class="message">
-                                                                        <a class="message-author" href="#"> Michael
-                                                                            Smith </a>
-                                                                        <span class="message-date"> Fri Jan 25 2015 -
-                                                                            11:12:36 </span>
-                                                                        <span class="message-content">
-                                                                            There are many variations of passages of
-                                                                            Lorem Ipsum available, but the majority have
-                                                                            suffered alteration.
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="chat-message left">
-                                                                    <img class="message-avatar"
-                                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                                                                        alt="">
-                                                                    <div class="message">
-                                                                        <a class="message-author" href="#"> Alice Jordan
-                                                                        </a>
-                                                                        <span class="message-date"> Fri Jan 25 2015 -
-                                                                            11:12:36 </span>
-                                                                        <span class="message-content">
-                                                                            All the Lorem Ipsum generators on the
-                                                                            Internet tend to repeat predefined chunks as
-                                                                            necessary, making this the first true
-                                                                            generator on the Internet.
-                                                                            It uses a dictionary of over 200 Latin
-                                                                            words.
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="chat-message right">
-                                                                    <img class="message-avatar"
-                                                                        src="https://bootdey.com/img/Content/avatar/avatar6.png"
-                                                                        alt="">
-                                                                    <div class="message">
                                                                         <a class="message-author" href="#"> Mark Smith
                                                                         </a>
                                                                         <span class="message-date"> Fri Jan 25 2015 -
@@ -249,14 +225,10 @@
                                                                         </span>
                                                                     </div>
                                                                 </div>
-
                                                             </div>
-
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class="chat-users">
-
-
                                                                 <div class="users-list">
                                                                     <div class="chat-user">
                                                                         <img class="chat-avatar"
@@ -362,6 +334,7 @@
                             </div>
                             @endforeach
                         </div>
+
                         <div class="tab-pane fade" id="cart-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
                             <div class="form-group" id="img">
