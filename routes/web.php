@@ -104,7 +104,7 @@ Route::view('/graph3', 'editor/main/graph3');
 Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있는 route들은 해당 미들웨어를 거쳐서 감
     Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
     Route::resource('/images/{folderPath?}/{bookNum?}', 'Storage\FileController', ['only' => ['store',]]); // 해당 함수만 라우팅함
-    Route::delete('/images/{folderPath?}/{bookNum?}', 'Storage\FileController@destroy');
+    Route::delete('/images/{image}/{folderPath?}/{bookNum?}', 'Storage\FileController@destroy');
     Route::get('/readBook/{folderPath?}/{bookNum?}', 'Storage\FileController@readBook')->name('readBook');
     # 일러스토어 일러스트 파일 업로드
     Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
