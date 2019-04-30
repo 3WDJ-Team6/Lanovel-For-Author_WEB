@@ -77,7 +77,7 @@ class FileController extends Controller
     {
         $filePath = $this->checkUserMakePath($folderPath, $bookNum);
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
-        return back()->withSuccess('성공적으로 삭제 되었습니다.');
+        // return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }
     public function readBook(Request $request, $folderPath = 'WorkSpace', $bookNum = null, $bookTitle = null)
     {
