@@ -99,6 +99,9 @@ Route::get('/editor/main/popup', function () {
 
 Route::view('/graph3', 'editor/main/graph3');
 
+# 작가 페이지 (작품 등록)
+
+
 # aws s3 asset upload 기능
 // Route::group(['prefix' => 'admin'], function () { }); prifix는 실제 api 요청하는 url의 앞 부분에 넘어온 문자열/ 로 url을 만듦 이 그룹에선 admin/~~
 Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있는 route들은 해당 미들웨어를 거쳐서 감
