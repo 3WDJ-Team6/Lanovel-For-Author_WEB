@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Storage;
 
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
-use App\Models\Work;
-use Auth;
 use App\Traits\FileTrait;
+use App\Models\Work;
 
 class DirectoryController extends Controller
 {
