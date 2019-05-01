@@ -313,6 +313,10 @@ pre {
     padding-left: 7px;
 }
 
+/* .obj_file {
+    float: left;
+} */
+
 .obj,
 .obj_file:hover {
     cursor: pointer;
@@ -512,13 +516,15 @@ input[type="file"] {
 
 }
 
-/* .upload_loading {
+.upload_loading {
     width: 280px;
     height: 120px;
-} */
+}
 
 #obj_feild {
+    margin-top: 10px;
     display: inline-block;
+    position: relative;
     float: left;
 }
 

@@ -479,7 +479,7 @@ $(document).ready(function() {
                         "</span>"
                 );
                 $(".back").after(
-                    "<label for='image' class='upload_label'>+</label><input type='file' name='image' id='image' /></div><div id='obj_feild'>"
+                    "<div class='upload_loading'><label for='image' class='upload_label'>+</label><input type='file' name='image' id='image' /></div><div><div id='obj_feild'>"
                 );
                 $.each(data, function(index, item) {
                     // console.log("item.name : " + item.name);
@@ -493,6 +493,8 @@ $(document).ready(function() {
                             index +
                             "' src='" +
                             item.src +
+                            "' servername='" +
+                            item.fileName +
                             "' class='obj_thum' /><span class='obj_name' title='" +
                             item.name +
                             "'>" +
@@ -576,23 +578,32 @@ $(document).ready(function() {
     //파일추가//
     //파일 우클릭 & 삭제
     var image_id = "";
+    var img = "";
+    var image = "";
+    var path = "";
+    var server_name = "";
+    var publicUrl = "";
     $(document).on("contextmenu", ".obj_file", function() {
-        let img = $(this)
+        img = $(this)
             .children(".obj_thum")
             .attr("src");
-        $image = $(this)
+        image = $(this)
             .children(".obj_name")
             .attr("title");
-        $path = img
+        path = img
             .replace(
                 "https://s3.ap-northeast-2.amazonaws.com/lanovebucket/",
                 ""
             )
             .replace("" + image, "");
+        server_name = $(this)
+            .children(".obj_thum")
+            .attr("servername");
         image_id = $(this).attr("id");
+        console.log("server_name : " + server_name);
         console.log("img : " + img);
-        console.log("img_path : " + $path);
-        console.log("img_name : " + $image);
+        console.log("img_path : " + path);
+        console.log("img_name : " + image);
 
         event.preventDefault();
         if ($(".custom-menu").length) {
@@ -610,16 +621,19 @@ $(document).ready(function() {
             });
         $(document).on("click", "#file-delete", function() {
             console.log("image_id : " + image_id);
-            var path = folder;
-            console.log("path : " + path);
 
-            switch (path) {
+            switch (folder) {
                 case "public":
-                    var publicUrl =
-                        "/images/" + path + "/" + num_of_work + "/" + $image;
+                    publicUrl =
+                        "/images/" +
+                        server_name +
+                        "/" +
+                        path +
+                        "/" +
+                        num_of_work;
                     break;
                 case "private":
-                    var publicUrl = "/images/" + $image + "/" + path;
+                    publicUrl = "/images/" + server_name;
                     break;
                 default:
                     break;
@@ -632,7 +646,7 @@ $(document).ready(function() {
                 type: "POST",
                 success: function(data) {
                     console.log(data);
-                    console.log($image);
+                    console.log(image);
                     $("#" + image_id).remove();
                     // $("span span:contains(" + $image + ")").parent().remove();
                 },
@@ -668,12 +682,39 @@ $(document).ready(function() {
     //파일을 textarea에 넣었을 때//
 
     //resize된 파일을 클릭했을 때
+    var tool_imgId = "";
     $(document).on("click", ".resize", function() {
-        var imgId = $(this).attr("id");
-        imgId = imgId + "Id";
-        console.log(imgId);
+        tool_imgId = $(this).attr("id");
+        console.log(tool_imgId);
     });
     //resize된 파일을 클릭했을 때//
+
+    //resize된 파일을 우클릭했을 때
+    var tool_image_id = "";
+    $(document).on("contextmenu", ".resize", function() {
+        tool_image_id = $(this).attr("id");
+        event.preventDefault();
+        if ($(".custom-menu").length) {
+            $("div.custom-menu").remove();
+        }
+        $("div.custom-menu").remove();
+        $("<div id='file-delete' class='custom-menu'>삭제</div>")
+            .appendTo(".textarea")
+            .css({
+                top: event.pageY + "px",
+                left: event.pageX + "px"
+            })
+            .bind("click", function() {
+                $("div.custom-menu").remove();
+            });
+        $(document).on("click", "#file-delete", function() {
+            $("#" + tool_image_id).remove();
+        });
+        $(document).on("click", "body", function() {
+            $("div.custom-menu").remove();
+        });
+    });
+    //resize된 파일을 우클릭했을 때//
 
     //미리보기+루비
     $("#pre-btn").click(function() {
@@ -723,22 +764,19 @@ $(document).ready(function() {
 
     //템플릿 크게, 작게, 원래사이즈
     $("#large").click(function() {
-        $(".resize").width($(".resize").width() + 25);
-        $(".resize").height($(".resize").height("auto"));
-        $(".ui-selected > img").width($(".ui-selected > img").width() + 25);
-        $(".ui-selected > img").height($(".ui-selected > img").height("auto"));
+        console.log(tool_imgId);
+        $("#" + tool_imgId).width($("#" + tool_imgId).width() + 25);
+        $("#" + tool_imgId).height($("#" + tool_imgId).height("auto"));
+        // $(".resize").width($(".resize").width() + 25);
+        // $(".resize").height($(".resize").height("auto"));
     });
     $("#small").click(function() {
-        $(".resize").width($(".resize").width() - 25);
-        $(".resize").height($(".resize").height("auto"));
-        $(".ui-selected > img").width($(".ui-selected > img").width() - 25);
-        $(".ui-selected > img").height($(".ui-selected > img").height("auto"));
+        $("#" + tool_imgId).width($("#" + tool_imgId).width() - 25);
+        $("#" + tool_imgId).height($("#" + tool_imgId).height("auto"));
     });
     $("#origin").click(function() {
-        $(".resize").width($(".resize").width("400px"));
-        $(".resize").height($(".resize").height("auto"));
-        $(".ui-selected > img").width($(".ui-selected > img").width("400px"));
-        $(".ui-selected > img").height($(".ui-selected > img").height("auto"));
+        $("#" + tool_imgId).width($("#" + tool_imgId).width("400px"));
+        $("#" + tool_imgId).height($("#" + tool_imgId).height("auto"));
     });
     //템플릿 크게, 작게, 원래사이즈//
 
@@ -755,7 +793,8 @@ $(document).ready(function() {
         memoViewId++;
         $(".balloon").draggable();
         $("#memoPopup").append(
-            '<span><form><input type="text" name="edit" style="width:160px;float:right;" readonly required><input style="float:right;" type="submit" name="memosave" value="save"></form></span>'
+            '<span><form><input type="text" name="edit" style="width:160px;float:right;"' +
+                'readonly required><input style="float:right;" type="submit" name="memosave" value="save"></form></span>'
         );
         $('[name="edit"]').on("click", function() {
             // var prev = $(this).prev('input'),

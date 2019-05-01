@@ -7,7 +7,7 @@
 
 
 <script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?aaa') }}" rel="stylesheet">
+<link href="{{ asset('css/editor.css?aaaaaa') }}" rel="stylesheet">
 <header>
     {{-- 타이틀과 목차 --}}
     <div class="title-bar">
