@@ -11,6 +11,11 @@ class LikeOfIllustration extends Model
 {
     protected $table = 'like_of_illustrations';
 
+    public function storeLikeIllust(array $like_info)
+    {
+        LikeOfIllustration::insert($like_info);
+    }
+
     /**
      * 하나의 작품은 여러 좋아요를 가질 수 있다.
      */

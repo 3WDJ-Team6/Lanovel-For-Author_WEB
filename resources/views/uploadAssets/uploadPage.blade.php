@@ -46,9 +46,14 @@
                         <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                             <img class="d-block w-100" src="{{ $image['src'] }}" alt="First slide">
                             <div class="carousel-caption">
-                                <form action="{{ url('images/' . $image['name']) }}" method="POST">
+                                <!-- <form action="{{ url('images/' . $image['name']) }}" method="POST">
                                     {{ csrf_field() }} {{ method_field('DELETE') }}
-                                    <!-- 메서드 스푸핑!! -->
+                                    <button type="submit" class="btn btn-default">Remove</button>
+                                </form> -->
+
+                                <form action="{{ url('images/' . $image['name']) .'/private?'.'/bookNum?' }}" method="POST">
+                                    @method('DELETE')
+                                    @csrf
                                     <button type="submit" class="btn btn-default">Remove</button>
                                 </form>
                             </div>
@@ -71,6 +76,7 @@
             <div class="col-sm-4">
                 <div class="card border-0 text-center">
                     <form action="{{ url('/images') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                        @csrf
                         <div class="form-group">
                             <input type="file" name="image" id="image"> <!-- 파일 선택칸 만들고 image라는 name로 controller에 전달 -->
                         </div>
@@ -86,4 +92,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 </body>
 
-</html> 
+</html>

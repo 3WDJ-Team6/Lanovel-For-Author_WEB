@@ -3,11 +3,12 @@
 
 <script>
     var num_of_work = <?php echo json_encode($content_of_works['num_of_work']); ?>;
+
 </script>
 
 
 <script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?aaaaaaaaaa') }}" rel="stylesheet">
+<link href="{{ asset('css/editor.css?aaa') }}" rel="stylesheet">
 <header>
     {{-- 타이틀과 목차 --}}
     <div class="title-bar">
@@ -83,7 +84,7 @@
                         {{-- 회차 리스트 띄워주기 --}}
                         @foreach($content_lists as $row)
                         <h4>
-                            <a href="{{url('/editor/tool/editor')}}/{{$row['num']}}">- {{$row['subsubtitle']}}<br></a>
+                            <a href="{{url('/editor/tool/editor')}}/{{$row['num']}}"> {{$row['subsubtitle']}}<br></a>
                         </h4>
                         @endforeach
                     </div>
@@ -97,7 +98,7 @@
                 {{-- 템플릿 에리어 --}}
                 <div class="tem">
                     <div class="tem-list">
-                        <div class="tem-li" id="shadow">그림자</div>
+                        {{--<div class="tem-li" id="shadow">그림자</div>
                         <div class="tem-li" id="inshadow">내부그림자</div>
                         <div class="tem-li" id="spin">회전</div>
                         <div class="tem-li" id="radius">둥근모서리</div>
@@ -105,7 +106,7 @@
                         <div class="tem-li" id="circle">원</div>
                         <div class="tem-li" id="overlap">오버랩</div>
                         <div class="tem-li" id="blur">블러</div>
-                        <div class="tem-li" id="album">사진첩</div>
+                        <div class="tem-li" id="album">사진첩</div>--}}
                         <div class="tem-li" id="large">크게</div>
                         <div class="tem-li" id="small">작게</div>
                         <div class="tem-li" id="origin">원래사이즈</div>
@@ -123,13 +124,13 @@
         {{-- 리소스 에리어 --}}
         <div class="resource-area">
             <form action="{{url('/images')}}" id="file_form" method="POST" enctype="multipart/form-data">
-            @csrf
-            <nav class="nav_right">
-                <a href="" id="menuToggle_right">
-                    <span class="sidebar_right"></span>
-                </a>
-                <div id="resource-feild"></div>
-            </nav>
+                @csrf
+                <nav class="nav_right">
+                    <a href="" id="menuToggle_right">
+                        <span class="sidebar_right"></span>
+                    </a>
+                    <div id="resource-feild"></div>
+                </nav>
             </form>
         </div>
 

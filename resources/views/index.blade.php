@@ -56,7 +56,7 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="post-preview">
-                    <a href="{{url('editor/main/book_add')}}">
+                    <a href="{{url('/createBook')}}">
                         <h3 class="post-title" style="margin-top:30px; margin-bottom:30px;">
                             <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;"
                                 class="img-thumbnail">
@@ -131,7 +131,7 @@
                         {{ $user->nickname }}
                         @endif
                         @endforeach<br>
-                        구매 : {{ $post->buy_price }}<br>
+                        구매 : ¥ {{ $post->buy_price }}<br>
                         대여 : {{ $post->rental_price }}
                         @if($post->rental_price == null)
                         없음

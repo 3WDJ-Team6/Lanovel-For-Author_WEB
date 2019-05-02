@@ -13,4 +13,10 @@ class CartOfIllustration extends Model
     {
         CartOfIllustration::insert($cart_info);
     }
+
+    public function dropCart($num)
+    {
+        $cartDelete = CartOfIllustration::where('num_of_illust', $num);
+        $cartDelete->delete();
+    }
 }

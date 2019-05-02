@@ -14,57 +14,67 @@
 @section('content')
 
 <body>
-    <section class="new_arrivals_area" style="width:100%; margin-top:100px; margin-bottom:50px;">
-        <h2 style="text-align:center; color:black;">My page</h2>
+    <section class="new_arrivals_area" style="width:100%; margin-top:120px; margin-bottom:50px;">
         <!-- 전부 -->
         <div class="row" style="justify-content:center; width:100%;">
 
             <!-- 사진칸 -->
-            <div class="form-group" style="margin:30px; display:inline-block;">
+            <div class="form-group" style="margin:40px; margin-top:50px; display:inline-block;">
                 <!-- 왼쪽 -->
-                <img src="{{$product->url_of_illustration}}" style="width: 500px; height: 300px;"
+                <img src="{{$product->url_of_illustration}}" style="width: 600px; height: 350px;"
                     onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
             </div>
             <!-- 오른쪽 -->
-            <div class="form-group" display:inline-block;>
-                <div class="title" name="illustration_title"
-                    style="width:800px; text-align:center; margin:30px; background-color:#EAEAEA;">
-                    <h4>{{$product->illustration_title}}</h4>
-                </div>
-                <div class="introduce" name="introduction_of_illustration"
-                    style="width:800px; height:150px; margin:30px; background-color:#EAEAEA;">
-                    <p>{{$product->introduction_of_illustration}}</p>
-                    <div class="date" name="crated_at" style="float:right; margin-top:0px;">
-                        <p>{{$product->updated_at}}</p>
+            <div class="form-group" style=" margin:30px; margin-top:50px; display:inline-block;">
+                <div class="form-group" style=" background-color:#EAEAEA;">
+                    <div class="form-group" style="width:100%; height:50px;">
+                        <div class="title" name="illustration_title"
+                            style="width:600px; margin:10px; display:inline-block;">
+                            <h3>{{$product->illustration_title}}</h3>
+                        </div>
+                        <div class="price" name="price_of_illustration"
+                            style="width:200px; margin:10px; display:inline-block; text-align:right;">
+                            <h5>Price : {{$product->price_of_illustration}} <input type="button"
+                                    onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'" style=""
+                                    value="구매">
+                            </h5>
+                        </div>
                     </div>
-                </div>
+                    <div class="nickname" name="nickname"
+                        style="width:800px; text-align:center; margin:10px;text-align:left;">
+                        <p>{{$users->nickname}}</p>
+                    </div>
+                    <div class="introduce" name="introduction_of_illustration"
+                        style="width:800px; height:120px; margin:10px;">
+                        <h6>{{$product->introduction_of_illustration}}</h6>
+                        <div class="date" name="crated_at" style="float:right; margin-top:0px;">
+                            <p>{{$product->updated_at}}</p>
+                        </div>
+                    </div>
+                    <div class="tag" name="tag" style="width:800px; margin:30px; background-color:#EAEAEA;">
+                        <p>
+                            @foreach($tags as $tag)
+                            #{{$tag->moreTag}}
+                            @endforeach
+                        </p>
+                    </div>
 
-                <div class="tag" name="tag" style="width:800px; margin:30px; background-color:#EAEAEA;">
-                    <p>
-                        @foreach($tags as $tag)
-                        #{{$tag->moreTag}}
-                        @endforeach
-                    </p>
-
-                </div>
-                <div class="price" name="price_of_illustration"
-                    style="width:800px; margin:30px; background-color:#EAEAEA;">
-                    <p>{{$product->price_of_illustration}} <input type="button" value="구매"></p>
-                </div>
-                <div class="" name="" style="width:800px; margin:30px; background-color:#EAEAEA;s">
-                    <button type="button" style="margin:10px;"><img src="{{asset('image/store/view.png')}}"
-                            style="width:40px; height:40px;">
+                    <div class="" name="" style="width:800px; margin:10px; ">
+                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/view.png')}}"
+                                style="width:40px; height:40px;"></button>
                         <button type="button" style="margin:10px;"><img src="{{asset('image/store/hand.png')}}"
-                                style="width:40px; height:40px;">
-                            <button type="button" style="margin:10px;"><img src="{{asset('image/store/like.png')}}"
-                                    style="width:40px; height:40px;">
-                                <button type="button" style="margin:10px;"><img src="{{asset('image/store/share.png')}}"
-                                        style="width:40px; height:40px;">
-                                    <button type="button" style="margin:10px;"><img
-                                            src="{{asset('image/store/warning.png')}}" style="width:40px; height:40px;">
+                                style="width:40px; height:40px;"></button>
+                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/like.png')}}"
+                                style="width:40px; height:40px;"></button>
+                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/share.png')}}"
+                                style="width:40px; height:40px;"></button>
+                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/warning.png')}}"
+                                style="width:40px; height:40px;"></button>
+
+                    </div>
+
                 </div>
                 <hr style="width:850px;">
-
 
                 <div class="container">
                     <div class="row">
@@ -240,12 +250,11 @@
                 <span class="close cursor" onclick="closeModal()">&times;</span>
                 <div class="modal-content">
                     <div id="row">
-
                         <!-- 상세보기 일러스트 -->
-                        @foreach($posts as $post)
+                        @foreach ($posts as $post)
                         <div class="mySlides">
-                            <div class="numbertext"> / {{$product->count}}</div>
-                            <img src="{{$post->url_of_illustration}}">
+                            <div class="numbertext">{{$product->count}}</div>
+                            <img src="{{$post->url_of_illustration}}" style="width:800px; height:500px;">
                         </div>
                         @endforeach
 
