@@ -104,8 +104,9 @@ Route::view('/graph3', 'editor/main/graph3');
 Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있는 route들은 해당 미들웨어를 거쳐서 감
     Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
     Route::resource('/images/{folderPath?}/{bookNum?}', 'Storage\FileController', ['only' => ['store',]]); // 해당 함수만 라우팅함
-    Route::delete('/images/{image}/{folderPath?}/{bookNum?}', 'Storage\FileController@destroy');
-    Route::get('/readBook/{folderPath?}/{bookNum?}', 'Storage\FileController@readBook')->name('readBook');
+    Route::delete('/images/{folderPath?}/{bookNum?}', 'Storage\FileController@destroy');
+    # 파일 구매시 다운로드
+    Route::get('downLoadBook/{folderPath?}/{bookNum?}', 'Storage\FileController@fromS3toZip');
     # 일러스토어 일러스트 파일 업로드
     Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
     Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');
@@ -113,16 +114,17 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/getDir/{bookNum}/{dir?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
-# Mobile work info
-Route::get('/worklists', 'Mobile\WorkListController@index');
-Route::get('/works/{workNum}/{chapterNum}/{userId}', 'Mobile\WorkListController@show');
+Route::group(['prefix' => 'reader'], function () {
+    # 뷰어에 책 URL 전달 -> reader
+    Route::get('/readBook/{folderPath?}/{bookNum?}/{bookTitle?}/{action?}', 'Mobile\BookController@show');
+    # 도서 정보 전달 -> APP
+    Route::get('/worklists', 'Mobile\WorkListController@index');
+    Route::get('/works/{workNum}/{chapterNum}/{userId}', 'Mobile\WorkListController@show');
+});
 
-// Route::get('editor/tool/innerchat', 'Chat\ChatController@chat');
-// Route::get('editor/innerchat', 'Chat|ChatController@chat');
-// Route::get('innerchat', 'Chat\Controller@chat');
-Route::get('editor/tool/editor/innerchat', 'Chat\ChatController@chat');
-Route::get('chat', 'Chat\ChatController@chat');
-Route::post('send', 'Chat\ChatController@send');
+Route::get('/editor/tool/editor/innerchat', 'Chat\ChatController@chat');
+Route::post('/send', 'Chat\ChatController@send');
+
 
 # authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
@@ -172,6 +174,8 @@ Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
 Route::get('/mypage', 'WorkOut\IllustController@myPage');
 
 Route::post('/destroy', 'Auth\LoginController@destroy');
+
+// Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
 

@@ -62,6 +62,6 @@ class ChatController extends Controller
         $chat->save();
         event(new ChatEvent($messages, $user));
 
-        return $request->all();
+        return response()->json($request->all(), 200);
     }
 }

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Publish;
 
-use App\Http\Controllers\Controller;
-use App\Models\ChapterOfWork;
 use App\Models\User;
 use App\Models\Work;
 use App\Models\WorkList;
+use App\Models\ChapterOfWork;
 use App\Models\ContentOfWork;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 class PublicationController extends Controller
 {
@@ -186,7 +186,8 @@ class PublicationController extends Controller
             <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='ko' lang='ko'>
                 <head>
                     <title>" . $clist['subsubtitle'] . "</title>
-                    <link rel='stylesheet' href='css/stylesheet.css' type='text/css' />
+                    <link rel='stylesheet' href='css/stylesheet.css' type='text/css'/>
+                    <script src='viewer.js'></script>
                 </head>
                 <body>
                     <h1>" . $clist['subsubtitle'] . "</h1>
@@ -211,12 +212,13 @@ class PublicationController extends Controller
 
         $jsNmae = 'viewer';
         $jsFile =
-            "
+            "$(document).ready(function(){
             $('#result').html().replace(/[\|｜](.+?)《(.+?)》/g, '<ruby>$1<rt>$2</rt></ruby>')
             .replace(/[\|｜](.+?)（(.+?)）/g, '<ruby>$1<rt>$2</rt></ruby>').replace(/[\|｜](.+?)\((.+?)\)/g, '<ruby>$1<rt>$2</rt></ruby>')
             .replace(/([一-龠]+)《(.+?)》/g, '<ruby>$1<rt>$2</rt></ruby>').replace(/([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g, '<ruby>$1<rt>$2</rt></ruby>')
             .replace(/([一-龠]+)\(([ぁ-んァ-ヶ]+?)\)/g, '<ruby>$1<rt>$2</rt></ruby>').replace(/[\|｜]《(.+?)》/g, '《$1》')
             .replace(/[\|｜]（(.+?)）/g, '（$1）').replace(/[\|｜]\((.+?)\)/g, '($1)');
+            });
             ";
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsFile);   // css전체
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
