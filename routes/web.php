@@ -122,10 +122,9 @@ Route::group(['prefix' => 'reader'], function () {
     Route::get('/works/{workNum}/{chapterNum}/{userId}', 'Mobile\WorkListController@show');
 });
 
-
-
 Route::get('/editor/tool/editor/innerchat', 'Chat\ChatController@chat');
 Route::post('/send', 'Chat\ChatController@send');
+
 
 # authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
