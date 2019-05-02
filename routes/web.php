@@ -120,9 +120,9 @@ Route::get('/works/{workNum}/{chapterNum}/{userId}', 'Mobile\WorkListController@
 // Route::get('editor/tool/innerchat', 'Chat\ChatController@chat');
 // Route::get('editor/innerchat', 'Chat|ChatController@chat');
 // Route::get('innerchat', 'Chat\Controller@chat');
-// Route::get('editor/tool/editor/innerchat', 'Chat\ChatController@chat');
-// Route::get('chat', 'Chat\ChatController@chat');
-// Route::post('send', 'Chat\ChatController@send');
+Route::get('editor/tool/editor/innerchat', 'Chat\ChatController@chat');
+Route::get('chat', 'Chat\ChatController@chat');
+Route::post('send', 'Chat\ChatController@send');
 
 # authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
