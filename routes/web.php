@@ -117,18 +117,21 @@ Route::post('/send', 'Chat\ChatController@send');
 
 # authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
-Auth::routes(); //로그인에 관한 모든 기능 연결
 
-# kakao login
+// 에디터 진입
+Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
+
+//메모
+Route::post('/store_memo/{num_of_content}/{num}', 'WorkOut\EditController@store_memo');
+
 Route::group(['middleware' => ['guest']], function () { # guest만 사용가능한 Route
     Route::get('/loginForKakao', 'Auth\KakaoLoginController@index');
     Route::get('/auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
     Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
 });
-
-
+Auth::routes(); //로그인에 관한 모든 기능 연결
 Route::post('/destroy', 'Auth\LoginController@destroy');
-
 // Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
 
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');

@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Storage;
 class BookController extends Controller
 {
     use FileTrait;
-
     /**
      * Display a listing of the resource.
      *
