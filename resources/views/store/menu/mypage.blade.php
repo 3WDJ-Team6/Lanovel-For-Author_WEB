@@ -10,13 +10,6 @@
 
 </style>
 
-<script src="https://www.amcharts.com/lib/4/core.js"></script>
-<script src="https://www.amcharts.com/lib/4/charts.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-<script src="{{asset('js/store/mypage_graph.js')}}" defer></script>
-<script src="{{asset('js/store/mypage_graph2.js')}}" defer></script>
-<script src="{{asset('js/store/mypage_graph_make.js')}}" defer></script>
 <link rel="stylesheet" href="{{asset('css/store/mypage.css')}}">
 <link rel="stylesheet" href="{{asset('css/store/mypage_chat.css')}}">
 @endsection
@@ -56,23 +49,20 @@
             <div class="form-group" style="display:inline-block">
                 <div class='tabs-x tabs-above tab-bordered tabs-krajee' id="right">
                     <ul id="myTab-tabs-above" class="nav nav-tabs" role="tablist">
+                        @if(Auth::check())
+                        @if(Auth::user()['roles']==3)
                         <li class="nav-item"><a class="nav-link active" id="home" href="#home-tabs-above" role="tab"
                                 data-toggle="tab" data-url="/site/fetch-tab?tab=1" aria-controls="home"
                                 aria-expanded="true"><i class="fa fa-home"></i> 내작품</a></li>
-
                         <li class="nav-item"><a class="nav-link" id="profile" href="#profile-tabs-above" role="tab"
                                 data-toggle="tab" data-url="/site/fetch-tab?tab=2" aria-controls="profile"><i
                                     class="fa fa-user"></i>
                                 수익정산</a></li>
-
-                        <li class="nav-item"><a class="nav-link" id="follow" href="#follow-tabs-above" role="tab"
-                                data-toggle="tab" data-url="/site/fetch-tab?tab=2" aria-controls="profile"><i
-                                    class="fa fa-user"></i>
-                                팔로우</a></li>
                         <li class="nav-item"><a class="nav-link" id="message" href="#message-tabs-above" role="tab"
                                 data-toggle="tab" data-url="/site/fetch-tab?tab=2" aria-controls="profile"><i
                                     class="fa fa-user"></i>
                                 메시지</a></li>
+                        @else
                         <li class="nav-item"><a class="nav-link" id="like" href="#like-tabs-above" role="tab"
                                 data-toggle="tab" data-url="/site/fetch-tab?tab=2" aria-controls="profile"><i
                                     class="fa fa-user"></i>
@@ -85,6 +75,8 @@
                                 data-toggle="tab" data-url="/site/fetch-tab?tab=2" aria-controls="profile"><i
                                     class="fa fa-user"></i>
                                 구입</a></li>
+                        @endif
+                        @endif
                     </ul>
                     <div id="myTabContent-tabs-above" class="tab-content" style="width:100%">
                         <div class="tab-pane fade show active" id="home-tabs-above" role="tabpanel"
@@ -102,6 +94,7 @@
                             </div>
                             @endforeach
                         </div>
+
                         <!-- 수익 그래프 -->
                         <div class="tab-pane fade" id="profile-tabs-above" role="tabpanel"
                             aria-labelledby="profile-tabs-above">
@@ -110,16 +103,14 @@
                                 <hr>
                                 <span class="btn" id="second" name="graph" value="">날짜별 수익</a></span>
                             </div>
-                            <div class="graph-box" id="graph-box" name="graph" style="width:600px; height:500px; display:inline-block;">
+                            <div class="graph-box" id="graph-box" name="graph"
+                                style="width:600px; height:500px; display:inline-block;">
                                 <div id="chartdiv" class="chartdiv" style="width:500px; height:500px;"></div>
-                                <div id="chartdiv2" class="chartdiv2" style="width:500px; height:500px;">두번째 그래프..!! 두둥</div>
+                                <div id="chartdiv2" class="chartdiv2" style="width:500px; height:500px;"></div>
                             </div>
                         </div>
 
-                        <script>
-                            console.log("읽힘 성공성공");
 
-                        </script>
 
                         <!-- 팔로잉 -->
                         <div class="tab-pane fade" id="follow-tabs-above" role="tabpanel"
@@ -329,31 +320,38 @@
                                 <img src="{{$product->url_of_illustration}}" style="width: 150px; height: 150px;">
                                 <div class="form-group">
                                     <p>{{$product->illustration_title}}</p>
-                                    <p>{{$product->create_at}}</P>
+                                    <!-- <p>{{$product->created_at}}</P> -->
                                 </div>
                             </div>
                             @endforeach
                         </div>
 
+
                         <div class="tab-pane fade" id="cart-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
+                            @foreach($cartInfos as $product)
                             <div class="form-group" id="img">
-                                <img src="{{$row->url_of_illustration}}" style="width: 150px; height: 150px;">
+                                <img src="{{$product->url_of_illustration}}" style="width: 150px; height: 150px;">
                                 <div class="form-group">
-                                    <p>{{$row->illustration_title}}</p>
-                                    <p>{{$row->create_at}}</P>
+                                    <p>{{$product->illustration_title}}</p>
+                                    <!-- <p>{{$product->created_at}}</P> -->
                                 </div>
                             </div>
+                            @endforeach
                         </div>
+
+
                         <div class="tab-pane fade" id="buy-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
+                            @foreach($buyProducts as $product)
                             <div class="form-group" id="img">
-                                <img src="{{$row->url_of_illustration}}" style="width: 150px; height: 150px;">
+                                <img src="{{$product->url_of_illustration}}" style="width: 150px; height: 150px;">
                                 <div class="form-group">
-                                    <p>{{$row->illustration_title}}</p>
-                                    <p>{{$row->create_at}}</P>
+                                    <p>{{$product->illustration_title}}</p>
+                                    <!-- <p>{{$row->created_at}}</P> -->
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -362,6 +360,27 @@
         </div>
     </section>
 
+    <script type="text/javascript">
+        var illust_arrays = <?php echo json_encode($illust_arrays); ?>;
+
+        var illust_profit = new Array();
+        for (var i in illust_arrays) {
+            illust_profit[i] = {
+                "title": illust_arrays[i].illustration_title,
+                "profit": illust_arrays[i].sumPrice
+            };
+        }
+
+    </script>
+
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <script src="{{asset('js/store/mypage_graph.js')}}" defer></script>
+    <script src="{{asset('js/store/mypage_graph_make.js')}}" defer></script>
+    <script src="{{asset('js/store/mypage_graph2.js')}}" defer></script>
 </body>
 
 @endsection

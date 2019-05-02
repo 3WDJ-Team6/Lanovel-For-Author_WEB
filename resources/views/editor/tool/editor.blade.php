@@ -84,7 +84,9 @@
                         {{-- 회차 리스트 띄워주기 --}}
                         @foreach($content_lists as $row)
 
+
                             <a href="{{url('/editor/tool/editor')}}/{{$row['num']}}">- {{$row['subsubtitle']}}<br></a>
+
 
                         @endforeach
                     </div>

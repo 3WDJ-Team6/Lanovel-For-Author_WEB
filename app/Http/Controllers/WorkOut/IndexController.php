@@ -105,10 +105,6 @@ class IndexController extends Controller
             })->orderBy('works.created_at', 'desc')
             ->get();
 
-
-        // return response()->json($count, 200, [], JSON_PRETTY_PRINT);
-        $tagCounts = $tagCount->pluck('count', 'num')->all();
-
         $periodCount = Work::select(
             'works.num',
             'period_of_works.cycle_of_publish',
@@ -120,45 +116,6 @@ class IndexController extends Controller
             })->orderBy('works.created_at', 'desc')
             ->get();
 
-        $periodCounts = $periodCount->pluck('count', 'num')->all();
-
-        // foreach ($periodCount as $pe) {
-        //     if ($num_value != $pe->num) {
-        //         $real = $pe->cycle_of_publish;
-        //         echo $pe->num . $real . "   ";
-        //         $value = $real;
-        //     } else {
-        //         echo ',' . $pe->cycle_of_publish . "  ";
-        //     }
-
-        //     $num_value = $pe->num;
-        // }
-        // return  response()->json($user_lists, 200, [], JSON_PRETTY_PRINT);
-
-        // foreach ($work_nums as $work_num) {
-        //     echo $work_num;
-        // }
-
-        // return response()->json($works, 200, [], JSON_PRETTY_PRINT);
-
-        // $periods = PeriodOfWork::select(
-        //     'period_of_works.*'
-        // )->join('work_lists', 'work_lists.num_of_work', '=', 'period_of_works.num_of_work')
-        //     ->whereIn('period_of_works.num_of_work', function ($query) {
-        //         $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']);
-        //     })->get();
-
-        // return $periods;
-        // return $works;
-
-        // return response()->json($works, 200, [], JSON_PRETTY_PRINT);
-
-        // $plucked = $works->pluck('num')->all();
-        // $posts = Work::with('work_lists', 'category_works', 'period_of_works')->find($plucked);
-
-        // return $posts;
-
-        // return response()->json($posts, 200, array(), JSON_PRETTY_PRINT);
 
         return view('index')->with('posts', $posts)->with('periodCount', $periodCount)
             ->with('tagCount', $tagCount)->with('user_lists', $user_lists)->with('modify_time', $modify_time);
@@ -183,7 +140,7 @@ class IndexController extends Controller
      */
     public function create()
     {
-        //
+        return view('editor.main.book_add');
     }
 
     /**

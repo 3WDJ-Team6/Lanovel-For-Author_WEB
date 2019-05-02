@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
+use App\Models\BuyerOfIllustration;
 use Auth;
 use DateTime;
 use DateInterval;
@@ -85,17 +86,18 @@ class GraphController extends Controller
         return view('editor.main.graph', compact('work_arrays', 'resultA'));
     }
 
-    public function IllustoreIndex()
+    public function illustIndex()
     {
-        $illust_array = BuyerOfIllustration::select(
-            'buyer_of_illustrations.num_of_illustration',
+        $illust_arrays = BuyerOfIllustration::select(
             'illustration_lists.illustration_title',
-            DB::raw('(count(*) * illustration_lists.price_of_illustration) sumPrice')
+            DB::raw('(count(buyer_of_illustrations.num_of_illustration) * illustration_lists.price_of_illustration) sumPrice')
         )->join('illustration_lists', 'illustration_lists.num', '=', 'buyer_of_illustrations.num_of_illustration')
-            ->where('illustration_lists.user_id', Auth::user()['id'])->get();
+            ->where('illustration_lists.user_id', Auth::user()['id'])
+            ->groupBy('buyer_of_illustrations.num_of_illustration')
+            ->get();
 
 
-        return $illust_array;
+        return response()->json($illust_arrays, 200);
     }
 
 
