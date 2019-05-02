@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,15 +37,10 @@ class LoginController extends Controller
     // {
     //     return 'nickname';
     // }
-    public function logout()
+    public function logout(Request $request)
     {
         auth()->logout(); #Auth::logout();
-        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
-        if ($role == 'Author') {
-            return redirect('/')->with('message', '로그아웃 하였습니다.');
-        } else {
-            return redirect('/store')->with('message', '로그아웃 하였습니다.');
-        }
+        return back()->withSuccess('로그아웃 하였습니다.');
     }
 
     public function store()
@@ -61,9 +56,13 @@ class LoginController extends Controller
         // dd(Auth::attempt($credentials)); // type 반환
         // return $credentials;
         //post방식에서 redirect 권장하지 않음
-        if (Auth::attempt($credentials)) {  //로그인 성공시
-            // return Auth::user();
 
+
+        if (Auth::attempt($credentials)) {  //로그인 성공시
+            if (Auth::user()['roles'] === 1) {
+                return response()->json(Auth::user(), 200);
+            }
+            return back()->withSuccess('로그인 되었습니다');
             if (Auth::user()['roles'] == 2) {
                 return redirect('/')->with('message', '로그인 되었습니다.');
             } else {

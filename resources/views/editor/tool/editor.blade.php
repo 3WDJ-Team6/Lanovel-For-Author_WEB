@@ -8,7 +8,7 @@
 
 
 <script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?aaa') }}" rel="stylesheet">
+<link href="{{ asset('css/editor.css?aaaaaaaa') }}" rel="stylesheet">
 <header>
     {{-- 타이틀과 목차 --}}
     <div class="title-bar">
@@ -26,11 +26,11 @@
             <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
                 @csrf
                 <ul>
-                    <li class="nav-btn"><a href="#invite" rel="modal:open" style="color:black;">초대</a>
+                    <li class="nav-btn"><span id="chatting">채팅</span></li>
+                    <li class="nav-btn"><a href="#invite" rel="modal:open" style="color:black;">초대</a></li>
                     <li class="nav-btn">멤버리스트</li>
-                    <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a>
-                    </li>
-                    <li class="nav-btn"> <button type="submit" id='sub'>저장</button></li>
+                    <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
+                    <li class="nav-btn"><button type="submit" id='sub'>저장</button></li>
                 </ul>
             </form>
         </div>
@@ -48,9 +48,9 @@
 <div class="content">
 
     {{-- 툴버튼들 생성칸--}}
-    <div class="tool-bar">
+    {{--<div class="tool-bar">
         <div class="tool-btns"></div>
-    </div>
+    </div>--}}
     {{-- 전체 에리어 --}}
     <div class="area">
         {{-- 에피소드랑 템플릿 에리어 --}}
@@ -83,9 +83,11 @@
                     <div class="ep-list">
                         {{-- 회차 리스트 띄워주기 --}}
                         @foreach($content_lists as $row)
-                        <h4>
-                            <a href="{{url('/editor/tool/editor')}}/{{$row['num']}}"> {{$row['subsubtitle']}}<br></a>
-                        </h4>
+
+
+                            <a href="{{url('/editor/tool/editor')}}/{{$row['num']}}">- {{$row['subsubtitle']}}<br></a>
+
+
                         @endforeach
                     </div>
                     <div class="ep-btns">
@@ -107,9 +109,10 @@
                         <div class="tem-li" id="overlap">오버랩</div>
                         <div class="tem-li" id="blur">블러</div>
                         <div class="tem-li" id="album">사진첩</div>--}}
-                        <div class="tem-li" id="large">크게</div>
-                        <div class="tem-li" id="small">작게</div>
-                        <div class="tem-li" id="origin">원래사이즈</div>
+                        <div class="btn tem-li" id="large">크게</div>
+                        <div class="btn tem-li" id="small">작게</div>
+                        <div class="btn tem-li" id="origin">원래사이즈</div>
+                        <div class="btn tem-li" id="play_add1">소리1</div>
                     </div>
                 </div>
             </nav>
@@ -135,21 +138,14 @@
         </div>
 
         {{-- 글쓰기도구팝업 --}}
-        <div id="popbutton"
-            style="display:none; Z-INDEX: 1; POSITION: absolute; background:#dddddd; top:0px; left:0px;">
-            <button class="fontStyle" onclick="document.execCommand('italic',false,null);"
-                title="Italicize Highlighted Text"><i>I</i></button>
-            <button class="fontStyle" onclick="document.execCommand('bold',false,null);"
-                title="Bold Highlighted Text"><b>B</b></button>
-            <button class="fontStyle" onclick="document.execCommand('underline',false,null);"><u>U</u></button>
-            <button class="fontStyle" onclick="document.execCommand('strikeThrough',false,null);"><s>S</s></button>
-            <button class="fontStyle" onclick="memoBalloon(event);">메모</button>
+        <div id="popbutton">
+            <div class="tool_popup_box"></div>
         </div>
 
         {{-- 메모창 --}}
-        <div id="memoPopup">
+        {{--<div id="memoPopup">
             <span class="underline" contenteditable="true" autocorrect="false"></span>
-        </div>
+        </div>--}}
     </div>
     <script>
         jQuery(document).ready(function () {
@@ -185,7 +181,6 @@
         });
 
     </script>
-</div>
 </div>
 @include('layouts/footer')
 @endsection

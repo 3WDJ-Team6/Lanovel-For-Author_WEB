@@ -543,7 +543,6 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
 
     public static $classMap = array (
         'App\\BookFile' => __DIR__ . '/../..' . '/app/Models/BookFile.php',
-        'App\\CartOfIllustration' => __DIR__ . '/../..' . '/app/Models/CartOfIllustration.php',
         'App\\Console\\Commands\\SendSms' => __DIR__ . '/../..' . '/app/Console/Commands/SendSms.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Events\\ChatEvent' => __DIR__ . '/../..' . '/app/Events/ChatEvent.php',
@@ -581,6 +580,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Listeners\\ChatListener' => __DIR__ . '/../..' . '/app/Listeners/ChatListener.php',
         'App\\Listeners\\LogVerifiedUser' => __DIR__ . '/../..' . '/app/Listeners/LogVerifiedUser.php',
         'App\\Models\\BuyerOfIllustration' => __DIR__ . '/../..' . '/app/Models/BuyerOfIllustration.php',
+        'App\\Models\\CartOfIllustration' => __DIR__ . '/../..' . '/app/Models/CartOfIllustration.php',
         'App\\Models\\CategoryIllustration' => __DIR__ . '/../..' . '/app/Models/CategoryIllustration.php',
         'App\\Models\\CategoryWork' => __DIR__ . '/../..' . '/app/Models/CategoryWork.php',
         'App\\Models\\ChapterOfWork' => __DIR__ . '/../..' . '/app/Models/ChapterOfWork.php',

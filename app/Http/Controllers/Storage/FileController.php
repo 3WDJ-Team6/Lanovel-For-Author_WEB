@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\Storage;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Auth;
+use ZipArchive;
+use Aws\AwsClientTrait;
+use App\Http\Controllers\tools;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\FilePost;
+use Illuminate\Http\Request;
+use App\Traits\FileTrait;
+use App\Models\Rental;
 use App\Models\User;
 use Carbon\Carbon;
-use Auth;
-use App\Http\Requests\FilePost;
-use App\Http\Controllers\tools;
-use Aws\AwsClientTrait;
-use App\Traits\FileTrait;
 
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use ZipArchive;
+
 # https://laracasts.com/discuss/channels/laravel/how-to-get-properties-name-size-type-of-a-file-retrieved-from-storage?page=1
 # 컨트롤러 전역함수 만들어서 쓰기
 
@@ -77,28 +79,56 @@ class FileController extends Controller
     {
         $filePath = $this->checkUserMakePath($folderPath, $bookNum);
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
-        return back()->withSuccess('성공적으로 삭제 되었습니다.');
+        // return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }
-    public function readBook(Request $request, $folderPath = 'WorkSpace', $bookNum = null, $bookTitle = null)
+
+    public function fromS3toZip(Request $request, $folderPath = 'WorkSpace', $bookNum = 28, $bookTitle = 'BOOKNAME')
     {
-        //책을 읽을 수 있는 URL을 전달함
-        # 일단 칼럼이 있으면 구매 또는 렌탈한 책임. 렌탈한 날짜가 지나면 table값을 삭제 또는 접근 못하게 opf파일주소 눌렀을 때 기간이 초과한 작품이라고 적어 줌
-        # 요청이 렌탈이고 현재 렌탈칼럼에 값이 없다면 현재날짜 + 3일로 DB에 table create 있으면 DB저장 없이 OPF파일주소 보내줌.
-        # 요청이 구입이고 현재 구입칼럼에 값이 없다면 due_of_rental = NULL(구입),create 있으면 DB저장 없이 OPF파일주소 보내줌.
-        # 요청 URL = lendBook/WorkSpace/28/냥멍이
-        $bookTitle = '냥멍이';
+
+        #https://stackoverflow.com/questions/44900585/aws-s3-copy-and-replicate-folder-in-laravel
         $filePath = $this->checkUserMakePath($folderPath, $bookNum);
         $this->hasFile($request, $filePath);
-        # '/Author\Author@test\WorkSpace\폴더구조테스트\OEBPS\폴더구조테스트.opf'
-        $opfPath = Storage::disk('s3')->url($filePath . DIRECTORY_SEPARATOR . 'OEBPS' . DIRECTORY_SEPARATOR . $bookTitle . '.opf');
+        // return $filePath; #Author\Author@test\WorkSpace\냥멍이
 
-        return $opfPath;
-        //책의 opf파일을 리턴해줌
+        $zipArchive = new ZipArchive();
+
+        //The full path to where we want to save the zip file.
+        $zipFilePath = public_path() . '/zip/example.zip';
+
+        //Call the open function.
+        $status = $zipArchive->open($zipFilePath,  ZipArchive::CREATE);
+
+        $filesToAdd = Storage::disk('s3')->allFiles($filePath);
+        // return response()->json($filesToAdd, 200, [], JSON_PRETTY_PRINT);
+        //An array of files that we want to add to our zip archive.
+        //You should list the full path to each file.
+
+        //Add our files to the archive by using the addFile function.
+        foreach ($filesToAdd as $fileToAdd) {
+            //Add the file in question using the addFile function.
+            $zipArchive->addFile(Storage::disk('s3')->url($fileToAdd));
+        }
+
+        //Finally, close the active archive.
+        $zipArchive->close();
+
+        //Get the basename of the zip file.
+        $zipBaseName = basename($zipFilePath);
+
+        //Set the Content-Type, Content-Disposition and Content-Length headers.
+        header("Content-Type: application/zip");
+        header("Content-Disposition: attachment; filename=$zipBaseName");
+        header("Content-Length: " . filesize($zipFilePath));
+
+        //Read the file data and exit the script.
+        readfile($zipFilePath);
+        exit;
+        return 0;
     }
 
     public function copyBook(Request $request, $folderPath = 'WorkSpace', $bookNum = null, $bookTitle = 'BOOKNAME')
     {
-
+        #https://stackoverflow.com/questions/44900585/aws-s3-copy-and-replicate-folder-in-laravel
         $filePath = $this->checkUserMakePath($folderPath, $bookNum);
         $this->hasFile($request, $filePath);
 
