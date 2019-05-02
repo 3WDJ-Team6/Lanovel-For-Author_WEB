@@ -1,13 +1,6 @@
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="{{asset('/js/chat.js') }}"></script>
-<div id="ccc"></div>
-
-<div class="clearfix" style="text-align:right;top:100%">
-    <input type="button" class="chatting" id="chatting" value="채팅">
-</div>
-
 <div class="clearfix" style="text-align:center;">
-    <a class="btn btn-primary" href="{{url('/store')}}">Illustore store &rarr;</a>
+    <a style="display:inline-block;" class="btn btn-primary" href="{{url('/store')}}">Illustore store &rarr;</a>
+    <input style="display:inline-block;float:right;" type="button" class="chatting" id="chatting" value="채팅">
 </div>
 
 <!-- Footer -->

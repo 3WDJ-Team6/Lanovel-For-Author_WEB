@@ -51,11 +51,11 @@ header li {
 .tool-bar {
     background-color: rgb(241, 241, 241);
     border-bottom: 3px solid rgb(50, 186, 231);
-    padding-left: 20px;
+    text-align: center;
 }
 
 .tool-btns {
-    display: inline;
+    display: inline-block;
 }
 
 .btn,
@@ -238,7 +238,7 @@ header li {
 
 .textarea {
     margin-top: 30px;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-right: 1px;
     padding-left: 30px;
     padding-right: 30px;
@@ -268,7 +268,7 @@ header li {
 img.resize {
     width: 400px;
     height: auto;
-    position: relative;
+    /* position: relative; */
 }
 
 .textarea .select {
@@ -296,20 +296,13 @@ pre {
     height: 502px;
 }
 
-/* #resource-feild {
+#resource-feild {
+    height: 452px;
     overflow-y: scroll;
-} */
+}
 
 #listing {
     margin-top: -43px;
-}
-
-.thum {
-    width: 100px;
-    height: 100px;
-    margin-top: 8px;
-    margin-left: 5px;
-    margin-right: 5px;
 }
 
 .obj,
@@ -318,7 +311,8 @@ pre {
     padding-left: 7px;
 }
 
-span:hover {
+.obj,
+.obj_file:hover {
     cursor: pointer;
 }
 
@@ -328,6 +322,13 @@ span:hover {
     height: 120px;
     margin-left: 7px;
     object-fit: fill;
+    border-radius: .25em;
+    border: 1.5px solid white;
+}
+
+.obj_thum:hover {
+    width: 130px;
+    height: 130px;
 }
 
 .obj_folder {
@@ -345,7 +346,8 @@ span.obj_name {
 }
 
 .back {
-    margin-left: 10px;
+    margin-left: 15px;
+    margin-bottom: 10px;
 }
 
 .back:hover {
@@ -362,6 +364,7 @@ span.obj_name {
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    overflow-y: scroll;
 }
 
 a:hover {
@@ -458,6 +461,50 @@ textarea {
 
 input[readonly] {
     background: none;
+}
+
+.upload_label {
+    float: left;
+    display: inline-block;
+    width: 120px;
+    height: 120px;
+    margin-left: 13px;
+    color: #a6a6a6;
+    font-size: 4.7em;
+    line-height: normal;
+    text-align: center;
+    background-color: #fdfdfd;
+    cursor: pointer;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: .25em;
+    top: 50px;
+}
+
+.upload_label:hover {
+    color: #a6a6a680;
+}
+
+input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    top: 50px;
+}
+
+#file_loading {
+    display: inline-block;
+    background: url("/image/file_loading.gif") no-repeat center center;
+    width: 120px;
+    height: 120px;
+    margin-left: 13px;
+    object-fit: fill;
+
 }
 
 .custom-menu {
@@ -598,9 +645,19 @@ input[readonly] {
     position: absolute;
     width: 300px;
     height: 335px;
-    right: 3%;
-    top: 40%;
-    padding: 1px 0px 0px 0px;
+    right: 0%;
+    top: 50%;
+    padding: 0px 0px 0px 0px;
+    z-index: 50;
+}
+
+.clearfix a {
+    margin: 3px;
+    left: 35px;
+}
+
+.mx-auto {
+    text-align: center;
 }
 
 /* //content */

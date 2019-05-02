@@ -3,12 +3,14 @@
 
 <script>
     var num_of_work = <?php echo json_encode($content_of_works['num_of_work']); ?>;
-
 </script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="{{asset('/js/chat.js') }}"></script>
+<div id="ccc"></div>
 
 
 <script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?fyaaaaaaA') }}" rel="stylesheet">
+<link href="{{ asset('css/editor.css?aaaaaaaaaa') }}" rel="stylesheet">
 <header>
     {{-- 타이틀과 목차 --}}
     <div class="title-bar">
@@ -118,14 +120,14 @@
         </div>
 
         {{-- 글쓰는에리어 --}}
-        <div id="popup_result" class="textarea" contentEditable="true" autocorrect="false" ondrop="drop(event)"
-            ondragover="allowDrop(event)">
+        {{--<div id="popup_result" class="textarea" contentEditable="true" autocorrect="false" ondrop="drop(event)" ondragover="allowDrop(event)">--}}
+        <div id="popup_result" class="textarea" contentEditable="true" autocorrect="false">
             {!! $content_of_works['content'] !!}
         </div>
 
         {{-- 리소스 에리어 --}}
         <div class="resource-area">
-        <form action="{{url('/images')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{url('/images')}}" id="file_form" method="POST" enctype="multipart/form-data">
             @csrf
             <nav class="nav_right">
                 <a href="" id="menuToggle_right">
@@ -149,9 +151,9 @@
         </div>
 
         {{-- 메모창 --}}
-        {{-- <div id="memoPopup">
+        <div id="memoPopup">
             <span class="underline" contenteditable="true" autocorrect="false"></span>
-        </div> --}}
+        </div>
     </div>
     <script>
         jQuery(document).ready(function () {

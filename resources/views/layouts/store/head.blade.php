@@ -11,11 +11,23 @@
 
     <!-- <script src="{{asset('bower_components/jquery/dist/jquery.js')}}" -->
     <!-- Core Style CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     
     <link rel="stylesheet" href="{{asset('css/store/core-style.css')}}">
+
     <link rel="stylesheet" href="{{asset('css/store/style.css')}}">
     
-        <script src="{{ asset('js/store/jquery-2.2.4.min.js') }}"></script>
+    <link rel="stylesheet" href="{{asset('css/store/animate.css')}}">
+
+    <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
+
+    <link rel="stylesheet" href="{{asset('css/store/classy-nav.min.css')}}">
+
+    <link rel="stylesheet" href="{{asset('css/store/owl.carousel.css')}}">
+
+    <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+
+        <script src="{{asset('js/store/jquery-2.2.4.min.js')}}"></script>
  
         <script src="{{ asset('js/store/popper.min.js') }}"></script>
 

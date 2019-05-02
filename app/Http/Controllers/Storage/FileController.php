@@ -53,10 +53,11 @@ class FileController extends Controller
         // );
     }
 
-    public function store(FilePost $request)                        #0 파일 저장하는 컨트롤러 asset store & editor 사용
+    public function store(FilePost $request, $folderPath = null, $bookNum = null)                        #0 파일 저장하는 컨트롤러 asset store & editor 사용
     {
         // // $validated = $request->validated();                   #유효성 검사가 실패하면 responese가 생성되어 이전 위치로 되돌려 보냄.
-        $filePath = $this->checkUserMakePath();
+
+        $filePath = $this->checkUserMakePath($folderPath, $bookNum);
         $this->hasFile($request, $filePath);                         #1~3 FileTrait에서 처리해줌
 
         $file = $request->file('image');                             #4 Request로 부터 불러온 정보를 변수에 저장
@@ -65,19 +66,23 @@ class FileController extends Controller
         Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
             'visibility' => 'public',
             'Metadata' => ['Content-Type' => 'image/jpeg'],
-            'Expires' => now()->addMinute(5),                        #7 expire 현재시간 + 5분 적용 외않되
+            // 'Expires' => now()->addMinute(5),                        #7 expire 현재시간 + 5분 적용 외않되
         ]);
         return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
     }
 
-    public function destroy($image)
+    // public function destroy($image)
+    // {
+    //     $filePath = $this->checkUserMakePath();
+    //     Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
+    //     return back()->withSuccess('성공적으로 삭제 되었습니다.');
+    // }
+
+    public function deleteFile(Request $request)
     {
-        $filePath = $this->checkUserMakePath();
-        Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
-        return back()->withSuccess('성공적으로 삭제 되었습니다.');
+
+        return $request;
     }
-
-
 
     public function lendBook()
     {

@@ -6,6 +6,7 @@
 <script src="{{asset('js/book_add_type.js')}}" defer></script>
 <script src="{{asset('js/book_add_cycle.js')}}" defer></script>
 <script src="{{asset('js/book_add_cycle_month.js')}}" defer></script>
+<script src="{{asset('js/book_add_price.js')}}" defer></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="{{asset('css/image_add.css')}}">
 <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
@@ -88,9 +89,9 @@
                                 {{-- 회차 선택 시 --}}
                                 <div id="change3">
                                     연재방식<br>
-                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="3-1"
+                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="2-1"
                                             style="margin:10px;">주간</label>
-                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="3-2"
+                                    <label><input type="radio" name="radio_C" id="changeRadio_C" value="2-2"
                                             style="margin:10px;">월간</label>
                                 </div>
                             </div>
@@ -100,35 +101,34 @@
 
                                 {{-- 주간 선택 시 --}}
                                 <div id="change_w">
-                                    <label>월</label><input type="checkbox" name="cycle_of_work" value="월"
+                                    <label>월</label><input type="checkbox" name="cycle_of_work[]" value="mon"
                                         style="margin-right:10px;">
-                                    <label>화</label><input type="checkbox" name="cycle_of_work" value="화"
+                                    <label>화</label><input type="checkbox" name="cycle_of_work[]" value="tue"
                                         style="margin-right:10px;">
-                                    <label>수</label><input type="checkbox" name="cycle_of_work" value="수"
+                                    <label>수</label><input type="checkbox" name="cycle_of_work[]" value="wed"
                                         style="margin-right:10px;">
-                                    <label>목</label><input type="checkbox" name="cycle_of_work" value="목"
+                                    <label>목</label><input type="checkbox" name="cycle_of_work[]" value="thu"
                                         style="margin-right:10px;">
-                                    <label>금</label><input type="checkbox" name="cycle_of_work" value="금"
+                                    <label>금</label><input type="checkbox" name="cycle_of_work[]" value="fri"
                                         style="margin-right:10px;">
-                                    <label>토</label><input type="checkbox" name="cycle_of_work" value="토"
+                                    <label>토</label><input type="checkbox" name="cycle_of_work[]" value="sat"
                                         style="margin-right:10px;">
-                                    <label>일</label><input type="checkbox" name="cycle_of_work" value="일"
+                                    <label>일</label><input type="checkbox" name="cycle_of_work[]" value="sun"
                                         style="margin-right:10px;">
                                 </div>
                                 {{-- 월간 선택 시 --}}
                                 <div id="change_c">
-                                    <p>Date: <input type="text" id="datepicker" size="30" select id="anim"></p>
+                                    <p>Date: <input type="text" id="datepicker" name="cycle_of_work[]" size="30" select
+                                            id="anim"></p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            가격<input type="text" name="buy_price" class="form-control" placeholder=" " value=""
-                                style="width:400px;" />원
+                            가격<input type="text" name="buy_price" class="form-control" style="width:400px;" id="comma" onkeyup="commas(this)"/>원
                         </div>
                         <div class="form-group" id="rent">
-                            대여 가격<input type="text" name="rental_price" class="form-control" id="rent" placeholder=" "
-                                value="" style="width:400px;" />원
+                            대여 가격<input type="text" name="rental_price" class="form-control" id="rent" style="width:400px;" numberOnly/>원
                         </div>
                         <div class="form-group">
                             작품 소개<input type="text" name="introduction_of_work" class="form-control" placeholder="제한 없음"

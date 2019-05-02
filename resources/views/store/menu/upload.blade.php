@@ -25,16 +25,16 @@
         <div class="form-check form-check-inline" style="width:100%; display: flex; justify-content: center;">
             <div class="row">
                 <div class="container">
-                    <form action="{{url('/fileUpload')}}" class="dropzone" id="dropzone" method="post"
+                    <form action="{{url('/illustUpload')}}" class="dropzone" id="dropzone" method="post"
                         enctype="multipart/form-data">
                         @csrf
                     </form>
-                    <form action="{{url('/illustUpload')}}" method="post" enctype="multipart/form-data" id="store">
+                    <form action="{{url('/illustStore')}}" method="post" enctype="multipart/form-data" id="store">
                         {{csrf_field()}}
                         <div class="form-group">
                             제목<input type="text" class="form-control" name="illustration_title" placeholder="70자 이내"
                                 value="" />
-                            <div class="form- group">
+                            <div class="form-group">
                                 태그<input type="text" class="form-control" name="moreTag" placeholder="#칼 #여자"
                                     value="" /><br>
 
@@ -56,7 +56,7 @@
                                         가격<br>
                                         <label><input type="radio" name="radio_P" id="premium" value="paid"
                                                 style="margin:10px;">유료</label>
-                                        <label><input type="radio" name="price_of_illustration" id="#" value="0"
+                                        <label><input type="radio" name="radio_P" id="#" value="0"
                                                 style="margin:10px;">무료</label>
                                     </div>
 
@@ -82,6 +82,13 @@
         </div>
     </div>
     </div>
+
+    <script>
+        $('#paid_form').change(function () {
+            $('#premium').val($(this).val());
+        });
+
+    </script>
 
 </body>
 

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\WorkOut;
 
 use Auth;
-
+use Carbon\Carbon;
 
 use App\Models\ContentOfWork;
 use App\Models\ChapterOfWork;
@@ -51,28 +51,6 @@ class EditController extends Controller
             ->join('content_of_works', 'content_of_works.num_of_chapter', '=', 'chapter_of_works.num')
             ->where('chapter_of_works.num', '=', $num)
             ->get();
-
-        $results = Work::select(
-            'works.work_title',
-            'works.introduction_of_work',
-            'works.bookcover_of_work',
-            DB::raw('count(recommend_of_works.num_of_work) recommends'),
-            DB::raw('round(avg(grades.grade),1) grade')
-        )->leftjoin('work_lists','works.num','=','work_lists.num_of_work')
-         ->join('recommend_of_works', 'recommend_of_works.num_of_work','=','works.num')
-         ->join('grades', 'grades.num_of_work','=','works.num')
-         ->where('work_lists.accept_request',0)
-         ->groupBy('works.work_title')
-         ->orderBy('work_lists.created_at','asc');
-/*
-            SELECT works.work_title, works.introduction_of_work, works.bookcover_of_work,
-        (SELECT count(num_of_work) FROM recommend_of_works WHERE recommend_of_works.num_of_work = works.num ) AS recommends ,
-        (SELECT round(avg(grade),1) FROM grades WHERE grades.num_of_work = works.num AND grades.role_of_work=1) AS grade
-        FROM works LEFT JOIN work_lists ON works.num = work_lists.num_of_work
-        WHERE work_lists.accept_request = 0
-        GROUP BY works.work_title            // 참여자 수만큼 나와서 묶음
-        ORDER BY work_lists.created_at ASC   // 생성순 (필요에 따라 수정)
-*/
 
         return view('editor.main.list')
             ->with('chapter_of_works', $chapter_of_works)->with('num', $num);
@@ -391,9 +369,7 @@ class EditController extends Controller
         $memos->user_id = Auth::user()['id'];
         $memos->content_of_memo = $request->content_of_memo;
 
-    //     // 메모 저장
-    //     $memos->save();
-
-    //     return "메모 저장됨";
+        // 메모 저장
+        $memos->save();
     }
 }

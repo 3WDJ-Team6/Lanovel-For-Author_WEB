@@ -27,6 +27,7 @@ class GraphController extends Controller
      */
     public function index()
     {
+
         $work_arrays = DB::table('all_count_view')->select(
             'all_count_view.num',
             'all_count_view.work_title',

@@ -3,7 +3,6 @@
 //     console.log("리시트쇼");
 
 $(document).on("keyup", "input[type='text']", function () {
-
     var k = $(this).val();
     $("#userlists > a").hide();
     // $(".userlist_li:contains('" + k + "')").hide();
@@ -14,6 +13,11 @@ $(document).on("keyup", "input[type='text']", function () {
     $("#userlists > a > div:contains('" + k + "')").parent().show();
     if (k.length == 0) {
         $("#userlists > a").hide();
+    }
+})
+$(document).on(function () {
+    function load() {
+        $("#alramimg").parent().show();
     }
 })
 // });

@@ -11,6 +11,7 @@ use App\Models\RecommendOfWork;
 use App\Models\Grade;
 use App\Models\CategoryIllustration;
 use App\Models\IllustFile;
+use App\Models\Message;
 use App\Models\BuyerOfIllustration;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,9 +20,12 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\FilePost;
+use App\Traits\FileTrait;
 
 class IllustController extends Controller
 {
+    use FileTrait;
+
     private $illustration_model = null;
     private $illust_file_model = null;
     private $category_illust_model = null;
@@ -34,53 +38,39 @@ class IllustController extends Controller
         $this->category_illust_model = new CategoryIllustration();
     }
 
-    public function fileUpload(Request $request)
+    public function illustUpload(FilePost $request)
     {
-        Auth::user()['roles'] === 3 ? $role = "Illustrator" : $role = "Author";
-
         $attachments = null;
+        $filePath = $this->checkUserMakePath();
+        $this->hasFile($request, $filePath);
 
-        if ($request->hasFile('image')) {
-            $s3Path = config('filesystems.disks.s3.images');
+        $file = $request->file('image');
+        $saveFileName = time() . $file->getClientOriginalName();
+        $saveFilePath = $filePath . $saveFileName;
+        $illustFileUrl = config('filesystems.disks.s3.url') . $saveFilePath;
+        Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [
+            'visibility' => 'public',
+            'Metadata' => ['Content-Type' => 'image/jpeg'],
+        ]);
+        $illust_file_info = [
+            'url_of_illustration' => $illustFileUrl,
+            'name_of_illustration' => $file->getClientOriginalName(),
+            'savename_of_illustration' => $saveFileName,
+            'folderPath' => 'Illustrator' . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images') . DIRECTORY_SEPARATOR,
+            'created_at' => Carbon::now()
+        ];
+        $attachments = IllustFile::create($illust_file_info);  //file을 비동기방식으로 업로드 한 뒤
 
-            $file = $request->file('image');            // C:\xampp\tmp\php3F38.tmp
-            $name = $file->getClientOriginalName();     // KakaoTalk_20190415_223355385.jpg
-            $filePath = $role . '/' . Auth::user()['email'] . '/' . $s3Path . '/';  // Illustrator/test@test/image/
-            $filename =  time() . $name;                // 1555999560KakaoTalk_20190415_223355053.jpg
-            $saveFilePath = $filePath . $filename;          // Illustrator/test@test/image/KakaoTalk_20190415_223355385.jpg
-
-            $illustFileUrl = config('filesystems.disks.s3.url') . $saveFilePath;
-
-            Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [
-                'visibility' => 'public',
-                'Metadata' => ['Content-Type' => 'image/jpeg'],
-            ]);
-
-            $illust_file_info = [
-                'position_of_illustration' => $illustFileUrl,
-                'name_of_illustration' => $name,
-                'created_at' => Carbon::now()
-            ];
-            $attachments = IllustFile::create($illust_file_info);  //file을 비동기방식으로 업로드 한 뒤
-
-            return response()->json($attachments, 200);  //업로드 된 파일의 정보를 front에 전달
-        }
+        return response()->json($attachments, 200);  //업로드 된 파일의 정보를 front에 전달
     }
 
     public function fileDelete(Request $request, $id)
     {
-        $filename = $request->filename;
-
         $attachments = IllustFile::find($id);
-        $attachments->deleteUploadedFile($filename);
-        $attachments->delete();
-        /*
-        $path = public_path('files') . DIRECTORY_SEPARATOR .  $user->id . DIRECTORY_SEPARATOR . $filename;
-        if (file_exists($path)) {
-            unlink($path);
-        }
-        */
-        return $filename;
+        return $attachments;
+        $folderPath = $attachments->folderPath;
+        $fileName = $attachments->savename_of_illustration;
+        Storage::disk('s3')->delete($folderPath . $fileName);
     }
 
 
@@ -91,21 +81,26 @@ class IllustController extends Controller
      */
     public function index()
     {
-
         $products = IllustrationList::select(
             // 작품번호
             'illustration_lists.*',
-            'users.nickname'
+            'users.nickname',
+            'illust_files.url_of_illustration'
         )->join('users', 'users.id', 'illustration_lists.user_id')
+            ->join('illust_files', 'illustration_lists.num', 'illust_files.num_of_illust')
             ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
             ->limit(5)
             ->get();
 
-        // $best = IllustrationList::selece(
-        //     'i'
-        // )
-
-        return view('/store/home/home')->with('products', $products);
+        $check_message = Message::select(
+            'u1.id as to_id',
+            DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0 and message_title like 'invite%' and to_id = ".Auth::user()['id'].") count")
+        )->leftjoin('users as u1','u1.id','messages.to_id')
+        ->where('message_title','like','invite%')
+        ->where('to_id','=',Auth::user()['id'])
+        ->get();
+        // return $check_message;
+        return view('/store/home/home')->with('products', $products)->with('invite_message',$check_message);
     }
 
     // 대메뉴 구별 (background | character | object)
@@ -114,29 +109,59 @@ class IllustController extends Controller
         $products = IllustrationList::select(
             // 작품번호
             'illustration_lists.*',
-            'users.nickname'
+            'users.nickname',
+            'illust_files.*'
         )->join('users', 'users.id', 'illustration_lists.user_id')
+            ->join('illust_files', 'illustration_lists.num', 'illust_files.num_of_illust')
             ->where('illustration_lists.division_of_illustration', $category)
-            ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
+            ->groupBy('illust_files.num_of_illust')
+            ->orderBy('illust_files.id', 'desc')->get();
+
+        /**
+         * 썸네일 만드는 법
+         *
+         * IllustFile 에서 num_of_illust 의 값이 같은 것 끼리 묶은 뒤 id의 desc -> first()
+         */
+        $thumbnail = IllustFile::select(
+            '*'
+        )->groupBy('num_of_illust')
+            ->orderBy('id', 'desc')->get();
+
+        // return response()->json($thumbnail, 200, [], JSON_PRETTY_PRINT);
+        return view('.store.menu.contents')->with('products', $products)->with('thumbnail', $thumbnail);
+    }
+
+    public function newContent()
+    {
+        $products = IllustrationList::select(
+            // 작품번호
+            'illustration_lists.*',
+            'users.nickname',
+            'illust_files.url_of_illustration'
+        )->join('users', 'users.id', 'illustration_lists.user_id')
+            ->join('illust_files', 'illustration_lists.num', 'illust_files.num_of_illust')
+            ->orderByRaw('illustration_lists.created_at', 'desc')
             ->get();
 
         return view('.store.menu.contents')->with('products', $products);
     }
 
-    // 상세메뉴검색
-    public function detailMenuIndex($category, $moreCategory)
+    // 상세보기_
+    public function detailView($num)
     {
-        $products = IllustrationList::select(
-            // 작품번호
+        $product = IllustrationList::select(
             'illustration_lists.*',
-            'users.nickname'
-        )->join('users', 'users.id', 'illustration_lists.user_id')
+            'illust_files.*',
+            'category_illustrations.*',
+            DB::raw('(select count(illust_files.id) from illust_files where illust_files.num_of_illust = illustration_lists.num) count')
+        )->join('illust_files', 'illust_files.num_of_illust', 'illustration_lists.num')
             ->join('category_illustrations', 'category_illustrations.num_of_illustration', 'illustration_lists.num')
-            ->where('category_illustrations.tag', $category)
-            ->where('category_illustrations.moreTag', $moreCategory)
+            ->where('illustration_lists.num', $num)
             ->get();
 
-        return view('.store.menu.contents')->with('products', $products);
+        // return response()->json($product, 200, [], JSON_PRETTY_PRINT);
+
+        return view('store.detail.view')->with('product', $product);
     }
 
     /**
@@ -149,6 +174,20 @@ class IllustController extends Controller
         return view('store/menu/upload');
     }
 
+    public function myPage()
+    {
+        $myPageInfo = User::select(
+            'users.*',
+            'illustration_lists.*',
+            'illust_files.*'
+        )->where('users.id', '=', Auth::user()['id'])->get();
+
+        $myPageInfo = User::with(['illustration_lists', 'illust_files'])
+            ->where('id', Auth::user()->id)->get();
+
+
+        return $myPageInfo;
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -163,7 +202,7 @@ class IllustController extends Controller
         $illust_info = new IllustrationList();
         $illust_info->illustration_title = $request->illustration_title;
         $illust_info->user_id = Auth::user()['id'];
-        $illust_info->price_of_illustration = $request->price_of_illustration;
+        $illust_info->price_of_illustration = $request->radio_P;
         $illust_info->hits_of_illustration = 0;
         $illust_info->introduction_of_illustration = $request->introduction_of_illustration;
         $illust_info->division_of_illustration = $request->division_of_illustration;

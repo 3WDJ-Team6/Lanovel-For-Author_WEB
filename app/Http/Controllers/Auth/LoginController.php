@@ -37,19 +37,22 @@ class LoginController extends Controller
     // {
     //     return 'nickname';
     // }
-
+    public function logout()
+    {
+        auth()->logout(); #Auth::logout();
+        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
+        if ($role == 'Author') {
+            return redirect('/')->with('message', '로그아웃 하였습니다.');
+        } else {
+            return redirect('/store')->with('message', '로그아웃 하였습니다.');
+        }
+    }
 
     public function store()
     {
         //로그인 검증
 
         return redirect()->intended('/'); // 로그인 하면 내가 요청했던 곳으로 감
-    }
-
-    public function destroy()
-    {
-        auth()->logout(); #Auth::logout();
-        return redirect('/')->with('message', '로그아웃 하였습니다.');
     }
 
     public function login(Request $request)
