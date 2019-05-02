@@ -129,7 +129,6 @@ Route::post('/send', 'Chat\ChatController@send');
 
 # authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
-Auth::routes(); //로그인에 관한 모든 기능 연결
 
 
 // 에디터 진입
@@ -141,12 +140,15 @@ Route::get('/res', 'WorkOut\EditController@res');
 //메모
 Route::post('/store_memo/{num_of_content}/{num}', 'WorkOut\EditController@store_memo');
 
-# kakao login
+# login (kakao)
 Route::group(['middleware' => ['guest']], function () { # guest만 사용가능한 Route
     Route::get('/loginForKakao', 'Auth\KakaoLoginController@index');
     Route::get('/auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
     Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
 });
+Auth::routes(); //로그인에 관한 모든 기능 연결
+Route::post('/destroy', 'Auth\LoginController@destroy');
+// Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 // 일러스트 등록 페이지
 Route::get('/illustCreate', 'WorkOut\IllustController@create');
@@ -173,10 +175,6 @@ Route::get('/cartIndex', 'WorkOut\IllustController@cartIndex');
 Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
 
 Route::get('/mypage', 'WorkOut\IllustController@myPage');
-
-Route::post('/destroy', 'Auth\LoginController@destroy');
-
-// Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
 

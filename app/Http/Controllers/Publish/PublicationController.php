@@ -15,7 +15,7 @@ use App\Http\Controllers\Controller;
 
 class PublicationController extends Controller
 {
-
+    // Open eBook Publication Structure
     /*
     남은 일 :
         1. db에 있는 bookcover 이미지 다운받아서 image 폴더에 넣어주기.
@@ -63,7 +63,7 @@ class PublicationController extends Controller
         $work_list = str::after($work_list, '["');
         $work_list = str::before($work_list, '"]');
 
-        $chapter_list = ContentOfWork::select(                                                // 각 목차 이름 내용 생성시간.
+        return $chapter_list = ContentOfWork::select(                                                // 각 목차 이름 내용 생성시간.
             'content_of_works.subsubtitle',
             'content_of_works.content',
             'content_of_works.created_at'
@@ -93,17 +93,22 @@ class PublicationController extends Controller
 
         $isodate = date('Y-m-d\TH:i:s\Z');
         $opf =
-            '<?xml version="1.0"?>
-        <package version="3.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="bookID">
+            '<?xml version="1.0" encoding="UTF-8">
+        <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang:"JP" prefix="rendition: http://www.idpf.org/vocab/rendition/#" unique-identifier="bookID">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-                <dc:title>' . $work_title . '</dc:title>
-                <dc:identifier id="bookID">urn:uuid:C44729F0-0820-11EF-892E-0800200C9A66</dc:identifier>
+                <dc:title id="title">' . $work_title . '</dc:title>
+                <dc:identifier id="bookID">' . strtolower($work_title) . '</dc:identifier>
                 <dc:date>' . $isodate . '</dc:date>
                 <dc:creator id="__dccreator1">' . $work_list . '</dc:creator>
+                <dc:contributor id="contrib1">' . 'Illustrator' . '</dc:contributor>
+                <dc:language>JP</dc:language>
+                <dc:date></dc:date>
                 <meta refines="#__dccreator1" property="role" scheme="marc:relators" id="role">aut</meta>
-                <dc:publisher>OO출판사</dc:publisher>
+                <dc:publisher>영진출판사</dc:publisher>
                 <meta property="dcterms:modified">' . $isodate . '</meta>
-                <dc:language>ko</dc:language>
+                <meta property="rendition:layout">pre-paginated</meta>
+	            <meta property="rendition:orientation">landscape</meta>
+	            <meta property="rendition:spread">auto</meta>
             </metadata>
 
             <manifest>
@@ -112,10 +117,10 @@ class PublicationController extends Controller
                 <item id="coverimage" properties="cover-image" href="images/' . $coverName . 'media-type="image/png"/>
                 <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
                 ';
+
         foreach ($chapter_list as $i => $clist) {
-            $opf = $opf . '<item id="main' . $i . '"';
-            $opf = $opf . ' href="main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
-                ';
+            $opf = $opf . '<item id="main' . $i . '" href="main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
+                        ';
         }
 
         $opf = $opf . '</manifest>
@@ -124,9 +129,8 @@ class PublicationController extends Controller
             <itemref idref="toc" linear="yes" />
             ';
         foreach ($chapter_list as $i => $clist) {
-            $opf = $opf . '<itemref idref="main' . $i . '"';
-            $opf = $opf . ' linear="yes" />
-            ';
+            $opf = $opf . '<itemref idref="main' . $i . '" linear="yes" />
+                ';
         }
         $opf = $opf . '</spine>
         </package>
@@ -136,27 +140,26 @@ class PublicationController extends Controller
             'visibility' => 'public',
         ]); // opf파일
 
-
         $nav =
             '<?xml version="1.0" encoding="UTF-8"?>
-            <!DOCTYPE html>
-            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="ko" lang="ko">
-            <head><title></title></head>
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/opf" xml:lang="jp" lang="jp">
+            <head>
+                <meta http-equiv="default-style" content="text/html; charset=utf-8" />
+                <title>Navigation</title>
+                <link rel="stylesheet" href="css/stylesheet.css" type="text/css" />
+            </head>
             <body>
                 <section class="frontmatter TableOfContents">
                     <nav epub:type="toc" id="toc">
-                        <h1>목차</h1>
-                        <ol>
-                            <li><a href="cover.xhtml">' . $work_title . '</a></li>
-                            <li><a href="nav.xhtml">목차</a>
-                                <ol>
+                        <h1>Contents</h1>
+                        <ol epub:type="list">
+                            <li><a href="cover.xhtml">' . 'cover' . $work_title . '</a></li>
+                            <li><a href="nav.xhtml">Contents</a></li>
                                 ';
         foreach ($chapter_list as $i => $clist) {
             $nav = $nav . '<li> <a href="main' . $i . '.xhtml">' . $clist['subsubtitle'] . '</a></li>';
         }
-
-        $nav = $nav . '</ol>
-                     </li>
+        $nav = $nav . '
                    </ol>
                  </nav>
               </section>
@@ -164,51 +167,63 @@ class PublicationController extends Controller
         </html>';                                           //nav 파일
 
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'nav.xhtml', $nav);
-
+        //<!DOCTYPE html> why?
         $cover =  //Cover는 bookURL 가지고 와야함
             "<?xml version='1.0' encoding='UTF-8'?>
-        <!DOCTYPE html>
-        <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='ko' lang='ko'>
-        <head><title></title></head>
-            <body>
-                <img src='images/" . $coverName . "' alt='" . $work_title . "'/>
+        <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
+        <head>
+        <meta http-equiv='default-style' content='text/html; charset=utf-8'/>
+        <title>" . $work_title . "</title>
+        <meta name='viewport' content='width=1366, height=768'/>
+        <link rel='stylesheet' type='text/css' href='css/stylesheet.css'/>
+        </head>
+            <body style='margin:0.00em; text-align:center;'>
+            <section class='cover cover-rw Cover-rw' style='text-align:center;' epub:type='cover'><img style='height: 100%;' alt='" . $work_title . "' src='images/" . $coverName . "'/></section>
+                <img src='images/" . $coverName . "' alt='" . $work_title . "'/> 이부분 수정?
             </body>
         </html>
         ";
 
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'cover.xhtml', $cover);
 
-
+        // <!DOCTYPE html>?
         foreach ($chapter_list as $i => $clist) {
             $contents =
                 "<?xml version='1.0' encoding='UTF-8'?>
-            <!DOCTYPE html>
-            <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='ko' lang='ko'>
-                <head>
-                    <title>" . $clist['subsubtitle'] . "</title>
-                    <link rel='stylesheet' href='css/stylesheet.css' type='text/css'/>
-                    <script src='viewer.js'></script>
-                </head>
+                 <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
+                   <head>
+                   <meta http-equiv='default-style' content='text/html; charset=utf-8'/>
+                   <title>" . $clist['subsubtitle'] . "</title>
+                   <meta name='viewport' content='width=1366, height=768'/>
+                   <link rel='stylesheet' href='css/stylesheet.css' type='text/css'/>
+                   <script src='jquery.js'></script>
+                   <script src='viewer.js'></script>
+                   </head>
                 <body>
+                <div class='galley-rw'>
+                <section class='frontmatter-rw Dedication-rw exclude-auto-rw page-open-auto-rw' id='Dedication1'
+                   epub:type='frontmatter dedication'>
                     <h1>" . $clist['subsubtitle'] . "</h1>
                     " . $clist['content'] . "
+                </div>
+                </section>
                 </body>
             </html>
             ";
             Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'text' . DIRECTORY_SEPARATOR . 'main' . $i . '.xhtml', $contents);
         }                                                     // 각 목차 내용
-
-        $cssNmae = 'stylesheet';
-        $cssFile =
-            "
-        body { font-size: 1em; }
-        h1 { font-size: 1.6em; }
-        h2 { font-size: 1.4em; }
-        h3 { font-size: 1.2em; }
-        h4 { font-size: 1.1em; }
-        p { font-size: 1em; }
-            ";
-        Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);   // css전체
+        // custom css
+        // $cssNmae = 'stylesheet';
+        // $cssFile =
+        //     "
+        // body { font-size: 1em; }
+        // h1 { font-size: 1.6em; }
+        // h2 { font-size: 1.4em; }
+        // h3 { font-size: 1.2em; }
+        // h4 { font-size: 1.1em; }
+        // p { font-size: 1em; }
+        //     ";
+        // Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);   // css전체
 
         $jsNmae = 'viewer';
         $jsFile =
@@ -223,6 +238,7 @@ class PublicationController extends Controller
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsFile);   // css전체
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');
+            Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'stylesheet.css', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css');
         } // 직접 제작한 js와 css는 resource폴더에 보관하고 있다가 발행시 넣어줌.
         return back()->withSuccess($work_title . '의 ' . $chapter_title . ' 이(가) 정상적으로 발행 되었습니다.');
         /*
