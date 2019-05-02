@@ -166,6 +166,7 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ViewServiceProvider::class,
 
 
         Aws\Laravel\AwsServiceProvider::class, #Aws Provider add

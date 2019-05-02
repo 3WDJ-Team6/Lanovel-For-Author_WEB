@@ -28,11 +28,16 @@
             <div class="form-group" style=" margin:30px; margin-top:50px; display:inline-block;">
                 <div class="form-group" style=" background-color:#EAEAEA;">
                     <div class="form-group" style="width:100%; height:50px;">
-                        <div class="title" name="illustration_title" style="width:600px; margin:10px; display:inline-block;">
+                        <div class="title" name="illustration_title"
+                            style="width:600px; margin:10px; display:inline-block;">
                             <h3>{{$product->illustration_title}}</h3>
                         </div>
-                        <div class="price" name="price_of_illustration" style="width:200px; margin:10px; display:inline-block; text-align:right;">
-                            <h5>Price : {{$product->price_of_illustration}} <input type="button" style="" value="구매"></h5>
+                        <div class="price" name="price_of_illustration"
+                            style="width:200px; margin:10px; display:inline-block; text-align:right;">
+                            <h5>Price : {{$product->price_of_illustration}} <input type="button"
+                                    onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'" style=""
+                                    value="구매">
+                            </h5>
                         </div>
                     </div>
                     <div class="nickname" name="nickname"
@@ -47,11 +52,11 @@
                         </div>
                     </div>
                     <div class="tag" name="tag" style="width:800px; margin:30px; background-color:#EAEAEA;">
-                      <p>
-                          @foreach($tags as $tag)
+                        <p>
+                            @foreach($tags as $tag)
                             #{{$tag->moreTag}}
-                          @endforeach
-                      </p>
+                            @endforeach
+                        </p>
                     </div>
 
                     <div class="" name="" style="width:800px; margin:10px; ">
