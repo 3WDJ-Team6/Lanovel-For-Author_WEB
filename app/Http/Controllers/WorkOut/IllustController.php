@@ -123,7 +123,7 @@ class IllustController extends Controller
 
         /**
          * 썸네일 만드는 법
-         * 
+         *
          * IllustFile 에서 num_of_illust 의 값이 같은 것 끼리 묶은 뒤 id의 desc -> first()
          */
         $thumbnail = IllustFile::select(
@@ -368,7 +368,8 @@ class IllustController extends Controller
             'created_at' => Carbon::now()
         ]);
 
-        $this->buy_illust_model->storeIllustBuy($illust_buy_info);
+        // return $illust_buy_info;
+        $this->buy_illust_model->storeIllustBuy($illust_buy_info, $num, Auth::user()['id']);
 
         $illust_info = BuyerOfIllustration::select(
             'users.point',
@@ -377,11 +378,16 @@ class IllustController extends Controller
         )->join('illust_files', 'illust_files.num_of_illust', 'buyer_of_illustrations.num_of_illustration')
             ->join('users', 'users.id', 'buyer_of_illustrations.user_id')
             ->where('buyer_of_illustrations.user_id', '=', Auth::user()['id'])
-            ->where('buyer_of_illustrations.num_of_illustrations', '=', $num)
+            ->where('buyer_of_illustrations.num_of_illustration', '=', $num)
             ->get();
 
-        // return response()->json($illust_info, 200, [], JSON_PRETTY_PRINT);
+        $userPath = $this->checkUserMakePath('buy');
 
+        foreach ($illust_info as $i => $urls) {
+            // return response()->json($urls->savename_of_illustration, 200, [], JSON_PRETTY_PRINT);
+            Storage::disk('s3')->copy($urls->folderPath . $urls->savename_of_illustration, $userPath . $urls->savename_of_illustration);
+        }
+        return response()->json($illust_info, 200, [], JSON_PRETTY_PRINT);
         return redirect()->back()->with('message', '구매 성공')->with('illust_info', $illust_info);
     }
 

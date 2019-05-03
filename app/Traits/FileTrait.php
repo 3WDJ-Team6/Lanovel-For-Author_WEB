@@ -41,6 +41,12 @@ trait FileTrait
                     return 'bookNum을 넘겨주세요';
                 }
                 break;
+            case 'buy':
+                $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'purchase' . DIRECTORY_SEPARATOR;
+                if (!Storage::disk('s3')->exists($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'purchase')) {
+                    Storage::disk('s3')->makeDirectory($filePath, 0777, true);
+                }
+                break;
             default:
                 $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images') . DIRECTORY_SEPARATOR;
                 break;
