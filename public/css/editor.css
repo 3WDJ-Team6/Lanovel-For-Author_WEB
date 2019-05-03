@@ -55,6 +55,8 @@ li>button {
     padding-top: 5px;
     width: 100%;
     height: 83%;
+    position: relative;
+    overflow: auto;
 }
 
 /* 세로가 최소 700px일때 */
@@ -296,6 +298,11 @@ li>button {
         left: -50px;
         top: 47%;
     }
+
+    #ccc {
+        top: 42%;
+        left: 83.5%;
+    }
 }
 
 /* 끝 세로가 최소 900px일때 */
@@ -374,6 +381,11 @@ li>button {
         left: -50px;
         top: 47%;
     }
+
+    #ccc {
+        top: 42%;
+        left: 83.5%;
+    }
 }
 
 /* 끝 가로가 최소900px 최대958px이고 세로가 최소 900px일때 */
@@ -446,67 +458,67 @@ li>button {
 }
 
 #italic {
-    background: url("/image/italic.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/italic.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #bold {
-    background: url("/image/bold.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/bold.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #underline {
-    background: url("/image/underline.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/underline.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #strikeThrough {
-    background: url("/image/strikethrough.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/strikethrough.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #fontSize {
-    background: url("/image/font-size.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/font-size.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #createLink {
-    background: url("/image/add-link.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/add-link.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #unlink {
-    background: url("/image/remove-link.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/remove-link.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #indent {
-    background: url("/image/indent-right.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/indent-right.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #outdent {
-    background: url("/image/indent-left.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/indent-left.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 /* #insertHorizontalRule {
-    background: url("/image/horizontal-line.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/horizontal-line.png") no-repeat center center;
     background-size: 32px 32px;
 } */
 
 #justifyCenter {
-    background: url("/image/justify-center.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/justify-center.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #justifyLeft {
-    background: url("/image/justify-left.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/justify-left.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #justifyRight {
-    background: url("/image/justify-right.png") no-repeat center center;
+    background: url("/image/tool_menu_icon/justify-right.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
@@ -638,6 +650,7 @@ li>button {
 }
 
 .textarea {
+    position: relative;
     height: 93%;
     max-width: 100%;
     max-height: 93%;
@@ -842,6 +855,10 @@ textarea {
     background-color: transparent;
 }
 
+.textarea p {
+    margin-bottom: 0;
+}
+
 .underline {
     text-decoration: underline wavy rgb(23, 24, 24);
     outline: 0px solid transparent;
@@ -903,7 +920,7 @@ input[type="file"] {
 #file_loading {
     position: relative;
     display: inline-block;
-    background: url("/image/file_loading.gif") no-repeat center center;
+    background: url("/image/tool_icon/file_loading.gif") no-repeat center center;
     width: 120px;
     height: 120px;
     margin-left: 13px;
@@ -1036,6 +1053,64 @@ input[type="file"] {
     right: 40%;
     top: 50%;
     transform: rotate(45deg);
+}
+
+.tem_effect {
+    display: inline-block;
+}
+
+#cherryBlossom1,
+#cherryBlossom2,
+#rain,
+#snow,
+#starlight,
+#yellowstar,
+#lightning,
+#fire1,
+#fire2 {
+    display: inline-block;
+    position: absolute;
+    /* z-index: 1; */
+}
+
+#cherryBlossom1 {
+    background: url("/image/css_effect/cherryBlossom1.gif");
+}
+
+#cherryBlossom2 {
+    background: url("/image/css_effect/cherryBlossom2.gif");
+}
+
+#rain {
+    background: url("/image/css_effect/rain.gif");
+}
+
+#snow {
+    background: url("/image/css_effect/snow.gif");
+}
+
+#starlight {
+    background: url("/image/css_effect/starlight.gif");
+}
+
+#yellowstar {
+    background: url("/image/css_effect/yellowstar.gif");
+}
+
+#lightning {
+    background: url("/image/css_effect/lightning.gif");
+}
+
+#fire1 {
+    background: url("/image/css_effect/fire1.gif");
+    background-repeat: no-repeat;
+    bottom: 100px;
+}
+
+#fire2 {
+    background: url("/image/css_effect/fire2.gif");
+    background-repeat: no-repeat;
+    bottom: 100px;
 }
 
 /* //content */
