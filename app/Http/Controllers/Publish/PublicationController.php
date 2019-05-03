@@ -63,7 +63,7 @@ class PublicationController extends Controller
         $work_list = str::after($work_list, '["');
         $work_list = str::before($work_list, '"]');
 
-        return $chapter_list = ContentOfWork::select(                                                // 각 목차 이름 내용 생성시간.
+        $chapter_list = ContentOfWork::select(                                                // 각 목차 이름 내용 생성시간.
             'content_of_works.subsubtitle',
             'content_of_works.content',
             'content_of_works.created_at'
@@ -81,9 +81,9 @@ class PublicationController extends Controller
         Storage::disk('s3')->put($filePath . "mimetype", "application/epub+zip");
 
         $container = "<?xml version='1.0'?>\n
-    <container version='1.0' xmlns='urn:oasis:names:tc:opendocument:xmlns:container'>\n
+    <container version='1.0'. xmlns='urn:oasis:names:tc:opendocument:xmlns:container'>\n
         <rootfiles>\n
-            <rootfile full-path='" . $filePath . 'OEBPS' . "/" . $work_title . ".opf' media-type='application/oebps-package+xml'/>\n
+            <rootfile full-path='" . 'OEBPS' . "/" . $work_title . ".opf' media-type='application/oebps-package+xml'/>\n
         </rootfiles>\n
     </container>\n";
 
@@ -93,8 +93,8 @@ class PublicationController extends Controller
 
         $isodate = date('Y-m-d\TH:i:s\Z');
         $opf =
-            '<?xml version="1.0" encoding="UTF-8">
-        <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang:"JP" prefix="rendition: http://www.idpf.org/vocab/rendition/#" unique-identifier="bookID">
+            '<?xml version="1.0" encoding="UTF-8"?>
+        <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="rendition: http://www.idpf.org/vocab/rendition/#" unique-identifier="bookID">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
                 <dc:title id="title">' . $work_title . '</dc:title>
                 <dc:identifier id="bookID">' . strtolower($work_title) . '</dc:identifier>
@@ -102,7 +102,7 @@ class PublicationController extends Controller
                 <dc:creator id="__dccreator1">' . $work_list . '</dc:creator>
                 <dc:contributor id="contrib1">' . 'Illustrator' . '</dc:contributor>
                 <dc:language>JP</dc:language>
-                <dc:date></dc:date>
+                <dc:date>2019</dc:date>
                 <meta refines="#__dccreator1" property="role" scheme="marc:relators" id="role">aut</meta>
                 <dc:publisher>영진출판사</dc:publisher>
                 <meta property="dcterms:modified">' . $isodate . '</meta>
@@ -114,12 +114,12 @@ class PublicationController extends Controller
             <manifest>
                 <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml"/>
                 <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml"/>
-                <item id="coverimage" properties="cover-image" href="images/' . $coverName . 'media-type="image/png"/>
+                <item id="cover-image" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/png"/>
                 <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
                 ';
 
         foreach ($chapter_list as $i => $clist) {
-            $opf = $opf . '<item id="main' . $i . '" href="main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
+            $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
                         ';
         }
 
@@ -157,7 +157,7 @@ class PublicationController extends Controller
                             <li><a href="nav.xhtml">Contents</a></li>
                                 ';
         foreach ($chapter_list as $i => $clist) {
-            $nav = $nav . '<li> <a href="main' . $i . '.xhtml">' . $clist['subsubtitle'] . '</a></li>';
+            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml">' . $clist['subsubtitle'] . '</a></li>';
         }
         $nav = $nav . '
                    </ol>
@@ -192,12 +192,12 @@ class PublicationController extends Controller
                 "<?xml version='1.0' encoding='UTF-8'?>
                  <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                    <head>
-                   <meta http-equiv='default-style' content='text/html; charset=utf-8'/>
+                   <meta http-equiv='default-style' content='text/html; charset=utf-8' />
                    <title>" . $clist['subsubtitle'] . "</title>
-                   <meta name='viewport' content='width=1366, height=768'/>
-                   <link rel='stylesheet' href='css/stylesheet.css' type='text/css'/>
-                   <script src='jquery.js'></script>
-                   <script src='viewer.js'></script>
+                   <meta name='viewport' content='width=1366, height=768' />
+                   <link rel='stylesheet' href='../css/stylesheet.css' type='text/css' />
+                   <script src='../js/jquery.js'></script>
+                   <script src='../js/viewer.js'></script>
                    </head>
                 <body>
                 <div class='galley-rw'>

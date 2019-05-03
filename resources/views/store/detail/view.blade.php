@@ -21,31 +21,24 @@
             <!-- 사진칸 -->
             <div class="form-group" style="margin:40px; margin-top:50px; display:inline-block;">
                 <!-- 왼쪽 -->
-                <img src="{{$product->url_of_illustration}}" style="width: 600px; height: 350px;"
-                    onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
+                <img src="{{$product->url_of_illustration}}" style="width: 600px; height: 350px;" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
             </div>
             <!-- 오른쪽 -->
             <div class="form-group" style=" margin:30px; margin-top:50px; display:inline-block;">
                 <div class="form-group" style=" background-color:#EAEAEA;">
                     <div class="form-group" style="width:100%; height:50px;">
-                        <div class="title" name="illustration_title"
-                            style="width:600px; margin:10px; display:inline-block;">
+                        <div class="title" name="illustration_title" style="width:600px; margin:10px; display:inline-block;">
                             <h3>{{$product->illustration_title}}</h3>
                         </div>
-                        <div class="price" name="price_of_illustration"
-                            style="width:200px; margin:10px; display:inline-block; text-align:right;">
-                            <h5>Price : {{$product->price_of_illustration}} <input type="button"
-                                    onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'" style=""
-                                    value="구매">
+                        <div class="price" name="price_of_illustration" style="width:200px; margin:10px; display:inline-block; text-align:right;">
+                            <h5>Price : {{$product->price_of_illustration}} <input type="button" onclick="location.href='{{url('buyIllust')}}/{{$product->num}}'" style="" value="구매">
                             </h5>
                         </div>
                     </div>
-                    <div class="nickname" name="nickname"
-                        style="width:800px; text-align:center; margin:10px;text-align:left;">
+                    <div class="nickname" name="nickname" style="width:800px; text-align:center; margin:10px;text-align:left;">
                         <p>{{$users->nickname}}</p>
                     </div>
-                    <div class="introduce" name="introduction_of_illustration"
-                        style="width:800px; height:120px; margin:10px;">
+                    <div class="introduce" name="introduction_of_illustration" style="width:800px; height:120px; margin:10px;">
                         <h6>{{$product->introduction_of_illustration}}</h6>
                         <div class="date" name="crated_at" style="float:right; margin-top:0px;">
                             <p>{{$product->updated_at}}</p>
@@ -60,16 +53,11 @@
                     </div>
 
                     <div class="" name="" style="width:800px; margin:10px; ">
-                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/view.png')}}"
-                                style="width:40px; height:40px;"></button>
-                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/hand.png')}}"
-                                style="width:40px; height:40px;"></button>
-                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/like.png')}}"
-                                style="width:40px; height:40px;"></button>
-                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/share.png')}}"
-                                style="width:40px; height:40px;"></button>
-                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/warning.png')}}"
-                                style="width:40px; height:40px;"></button>
+                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/view.png')}}" style="width:40px; height:40px;"></button>
+                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/hand.png')}}" style="width:40px; height:40px;"></button>
+                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/like.png')}}" style="width:40px; height:40px;"></button>
+                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/share.png')}}" style="width:40px; height:40px;"></button>
+                        <button type="button" style="margin:10px;"><img src="{{asset('image/store/warning.png')}}" style="width:40px; height:40px;"></button>
 
                     </div>
 
@@ -96,9 +84,7 @@
                                         <ul class="media-list">
                                             <li class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object img-circle"
-                                                        src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg"
-                                                        alt="profile">
+                                                    <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
                                                 </a>
                                                 <div class="media-body">
                                                     <div class="well well-lg">
@@ -118,9 +104,7 @@
                                             </li>
                                             <li class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object img-circle"
-                                                        src="https://s3.amazonaws.com/uifaces/faces/twitter/lady_katherine/128.jpg"
-                                                        alt="profile">
+                                                    <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/lady_katherine/128.jpg" alt="profile">
                                                 </a>
                                                 <div class="media-body">
                                                     <div class="well well-lg">
@@ -137,9 +121,7 @@
                                                     <ul class="media-list">
                                                         <li class="media media-replied">
                                                             <a class="pull-left" href="#">
-                                                                <img class="media-object img-circle"
-                                                                    src="https://s3.amazonaws.com/uifaces/faces/twitter/jackiesaik/128.jpg"
-                                                                    alt="profile">
+                                                                <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/jackiesaik/128.jpg" alt="profile">
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -148,20 +130,16 @@
                                         </ul>
                                     </div>
                                     <div class="tab-pane" id="add-comment">
-                                        <form action="#" method="post" class="form-horizontal" id="commentForm"
-                                            role="form">
+                                        <form action="#" method="post" class="form-horizontal" id="commentForm" role="form">
                                             <div class="form-group">
                                                 <label for="email" class="col-sm-2 control-label">Comment</label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control" name="addComment" id="addComment"
-                                                        rows="5"></textarea>
+                                                    <textarea class="form-control" name="addComment" id="addComment" rows="5"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
-                                                    <button class="btn btn-success btn-circle text-uppercase"
-                                                        type="submit" id="submitComment"><span
-                                                            class="glyphicon glyphicon-send"></span> Summit
+                                                    <button class="btn btn-success btn-circle text-uppercase" type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> Summit
                                                         comment</button>
                                                 </div>
                                             </div>
@@ -176,8 +154,7 @@
                             <div class="page-header">
                                 <h3 class="reviews">Leave your comment</h3>
                                 <div class="logout">
-                                    <button class="btn btn-default btn-circle text-uppercase" type="button"
-                                        onclick="$('#login').hide(); $('#logout').show()">
+                                    <button class="btn btn-default btn-circle text-uppercase" type="button" onclick="$('#login').hide(); $('#logout').show()">
                                         <span class="glyphicon glyphicon-off"></span> Login
                                     </button>
                                 </div>
@@ -196,9 +173,7 @@
                                         <ul class="media-list">
                                             <li class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object img-circle"
-                                                        src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg"
-                                                        alt="profile">
+                                                    <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
                                                 </a>
                                                 <div class="media-body">
                                                     <div class="well well-lg">
@@ -218,9 +193,7 @@
 
                                             <li class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object img-circle"
-                                                        src="https://s3.amazonaws.com/uifaces/faces/twitter/lady_katherine/128.jpg"
-                                                        alt="profile">
+                                                    <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/lady_katherine/128.jpg" alt="profile">
                                                 </a>
                                                 <div class="media-body">
                                                     <div class="well well-lg">
@@ -268,8 +241,7 @@
                         <!-- 그 외 일러스트 -->
                         @foreach($posts as $post)
                         <div class="column">
-                            <img class="demo cursor" src="{{$post->url_of_illustration}}" style="width:100%"
-                                onclick="currentSlide(1)" alt="Nature and sunrise">
+                            <img class="demo cursor" src="{{$post->url_of_illustration}}" style="width:100%" onclick="currentSlide(1)" alt="Nature and sunrise">
                         </div>
                         @endforeach
                     </div>
