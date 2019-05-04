@@ -40,7 +40,7 @@
             <!-- {{-- 회차 출력 부분  --}} -->
             @foreach( $chapter_of_works as $row )
             <div class="post-preview">
-                <a href="{{url('/editor/tool/editor')}}/{{$row['num']}}">
+                <a href="{{url('/editor')}}/{{$row['num']}}">
                     <h3 class="post-subtitle">
                         {{ $row->subsubtitle }}
                     </h3>

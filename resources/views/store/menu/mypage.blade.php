@@ -11,13 +11,6 @@
 
 </style>
 
-<script src="https://www.amcharts.com/lib/4/core.js"></script>
-<script src="https://www.amcharts.com/lib/4/charts.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-<script src="{{asset('js/store/mypage_graph.js')}}" defer></script>
-<script src="{{asset('js/store/mypage_graph2.js')}}" defer></script>
-<script src="{{asset('js/store/mypage_graph_make.js')}}" defer></script>
 <link rel="stylesheet" href="{{asset('css/store/mypage.css')}}">
 <link rel="stylesheet" href="{{asset('css/store/mypage_chat.css')}}">
 @endsection
@@ -104,6 +97,7 @@
                             </div>
                             @endforeach
                         </div>
+
                         <!-- 수익 그래프 -->
                         <div class="tab-pane fade" id="profile-tabs-above" role="tabpanel"
                             aria-labelledby="profile-tabs-above">
@@ -122,10 +116,7 @@
                             </div>
                         </div>
 
-                        <script>
-                            console.log("읽힘 성공성공");
 
-                        </script>
 
                         <!-- 팔로잉 -->
                         <div class="tab-pane fade" id="follow-tabs-above" role="tabpanel"
@@ -335,31 +326,38 @@
                                 <img src="{{$product->url_of_illustration}}" style="width: 150px; height: 150px;">
                                 <div class="form-group">
                                     <p>{{$product->illustration_title}}</p>
-                                    <p>{{$product->create_at}}</P>
+                                    <!-- <p>{{$product->created_at}}</P> -->
                                 </div>
                             </div>
                             @endforeach
                         </div>
 
+
                         <div class="tab-pane fade" id="cart-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
+                            @foreach($cartInfos as $product)
                             <div class="form-group" id="img">
-                                <img src="{{$row->url_of_illustration}}" style="width: 150px; height: 150px;">
+                                <img src="{{$product->url_of_illustration}}" style="width: 150px; height: 150px;">
                                 <div class="form-group">
-                                    <p>{{$row->illustration_title}}</p>
-                                    <p>{{$row->create_at}}</P>
+                                    <p>{{$product->illustration_title}}</p>
+                                    <!-- <p>{{$product->created_at}}</P> -->
                                 </div>
                             </div>
+                            @endforeach
                         </div>
+
+
                         <div class="tab-pane fade" id="buy-tabs-above" role="tabpanel"
                             aria-labelledby="dropdown-tab-tabs-above-2">
+                            @foreach($buyProducts as $product)
                             <div class="form-group" id="img">
-                                <img src="{{$row->url_of_illustration}}" style="width: 150px; height: 150px;">
+                                <img src="{{$product->url_of_illustration}}" style="width: 150px; height: 150px;">
                                 <div class="form-group">
-                                    <p>{{$row->illustration_title}}</p>
-                                    <p>{{$row->create_at}}</P>
+                                    <p>{{$product->illustration_title}}</p>
+                                    <!-- <p>{{$row->created_at}}</P> -->
                                 </div>
                             </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -368,6 +366,27 @@
         </div>
     </section>
 
+    <script type="text/javascript">
+        var illust_arrays = <?php echo json_encode($illust_arrays); ?>;
+
+        var illust_profit = new Array();
+        for (var i in illust_arrays) {
+            illust_profit[i] = {
+                "title": illust_arrays[i].illustration_title,
+                "profit": illust_arrays[i].sumPrice
+            };
+        }
+
+    </script>
+
+    <script src="https://www.amcharts.com/lib/4/core.js"></script>
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/frozen.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+    <script src="{{asset('js/store/mypage_graph.js')}}" defer></script>
+    <script src="{{asset('js/store/mypage_graph_make.js')}}" defer></script>
+    <script src="{{asset('js/store/mypage_graph2.js')}}" defer></script>
 </body>
 
 @endsection

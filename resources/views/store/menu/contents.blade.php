@@ -11,6 +11,7 @@
 @section('content')
 
 <body>
+
     <div class="form-check form-check-inline"
         style="width:100%; align-items: center; display: flex; justify-content: center;">
         <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;">
@@ -23,6 +24,7 @@
         <label class="form-check-label" for="materialInline4">가격</label>
     </div>
 
+
     <section class="new_arrivals_area section-padding-80 clearfix">
         <div class="container">
             <div class="row">
@@ -30,7 +32,11 @@
                     <div class="section-heading text-center">
                         <h2>Products</h2>
                     </div>
+                    <!-- @if(Session::has('message'))
+                    <div class="alert alert-info">{{ Session::get('message') }}</div>
+                    @endif -->
                 </div>
+
             </div>
         </div>
         <!-- <div class="container"> -->
@@ -46,7 +52,7 @@
                     <div class="product-img" style="width: 200px; height: 150px; overflow: hidden;">
                         <img src="{{$row['url_of_illustration']}}" alt="작품1" style="max-width: 300px; height: auto;">
                         <div class="product-favourite">
-                            <a href="#" class="favme fa fa-heart"></a>
+                            <a href="{{url('/addLike')}}/{{$row->num}}" class="favme fa fa-heart"></a>
                         </div>
                     </div>
                     <!-- 작품설명 -->

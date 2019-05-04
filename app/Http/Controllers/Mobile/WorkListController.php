@@ -105,6 +105,7 @@ class WorkListController extends Controller
         // 책 이미지, 책 제목, 작가명, 일러스트레이터명, 평점, 단행본|연재작 여부, 가격, 대여기간, 카테고리(해시태그), 줄거리, 업데이트 날짜
 
         $works = Work::select(
+            'works.num',
             'works.work_title',
             'works.introduction_of_work',
             'works.bookcover_of_work',

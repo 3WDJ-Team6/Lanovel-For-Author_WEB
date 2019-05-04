@@ -147,9 +147,7 @@
                                                     <ul class="media-list">
                                                         <li class="media media-replied">
                                                             <a class="pull-left" href="#">
-                                                                <img class="media-object img-circle"
-                                                                    src="https://s3.amazonaws.com/uifaces/faces/twitter/jackiesaik/128.jpg"
-                                                                    alt="profile">
+                                                                <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/jackiesaik/128.jpg" alt="profile">
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -186,20 +184,17 @@
                                         </ul>
                                     </div>
                                     <div class="tab-pane" id="add-comment">
-                                        <form action="#" method="post" class="form-horizontal" id="commentForm"
-                                            role="form">
+                                        <form action="#" method="post" class="form-horizontal" id="commentForm" role="form">
                                             <div class="form-group">
                                                 <label for="email" class="col-sm-2 control-label">Comment</label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control" name="addComment" id="addComment"
-                                                        rows="5"></textarea>
+                                                    <textarea class="form-control" name="addComment" id="addComment" rows="5"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
                                                     <button class="btn btn-success btn-circle text-uppercase"
-                                                        type="submit" id="submitComment"><span
-                                                            class="glyphicon glyphicon-send"></span> 등록</button>
+                                                        type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> 등록</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -213,8 +208,7 @@
                             <div class="page-header">
                                 <h3 class="reviews">Leave your comment</h3>
                                 <div class="logout">
-                                    <button class="btn btn-default btn-circle text-uppercase" type="button"
-                                        onclick="$('#login').hide(); $('#logout').show()">
+                                    <button class="btn btn-default btn-circle text-uppercase" type="button" onclick="$('#login').hide(); $('#logout').show()">
                                         <span class="glyphicon glyphicon-off"></span> Login
                                     </button>
                                 </div>
@@ -233,9 +227,7 @@
                                         <ul class="media-list">
                                             <li class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object img-circle"
-                                                        src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg"
-                                                        alt="profile">
+                                                    <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
                                                 </a>
                                                 <div class="media-body">
                                                     <div class="well well-lg">
@@ -255,9 +247,7 @@
 
                                             <li class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object img-circle"
-                                                        src="https://s3.amazonaws.com/uifaces/faces/twitter/lady_katherine/128.jpg"
-                                                        alt="profile">
+                                                    <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/lady_katherine/128.jpg" alt="profile">
                                                 </a>
                                                 <div class="media-body">
                                                     <div class="well well-lg">
@@ -292,8 +282,7 @@
                         <div class="mySlides">
                             <div class="numbertext" style="color:black;">/{{$product->count}}</div>
                             <img src="{{$post->url_of_illustration}}" style="width:800px; height:500px; align-items: center;
-display: flex;
-justify-content: center;">
+                                display: flex; justify-content: center;">
                         </div>
                         @endforeach
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,15 +37,10 @@ class LoginController extends Controller
     // {
     //     return 'nickname';
     // }
-    public function logout()
+    public function logout(Request $request)
     {
         auth()->logout(); #Auth::logout();
-        Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
-        if ($role == 'Author') {
-            return redirect('/')->with('message', '로그아웃 하였습니다.');
-        } else {
-            return redirect('/store')->with('message', '로그아웃 하였습니다.');
-        }
+        return back()->withSuccess('로그아웃 하였습니다.');
     }
 
     public function store()
@@ -54,23 +49,34 @@ class LoginController extends Controller
 
         return redirect()->intended('/'); // 로그인 하면 내가 요청했던 곳으로 감
     }
-
+    #
     public function login(Request $request)
     {
+        // return dd($request->server);
+        // return $request->server('HTTP_USER_AGENT');
         $credentials = $request->only('email', 'password'); //회원 정보중 email, password만 가져옴
         // dd(Auth::attempt($credentials)); // type 반환
         // return $credentials;
         //post방식에서 redirect 권장하지 않음
-        if (Auth::attempt($credentials)) {  //로그인 성공시
-            // return Auth::user();
-
+        if (Auth::attempt($credentials)) {  //로그인 성공시 (로그인 된 상태)
+            //session id값을 header에 포함시켜 주고
+            // if (strpos($request, 'Dalvik')) {
+            if (Auth::user()['roles'] === 1) {
+                return response()->json(Auth::user(), 200);
+                // }
+            }
+            return back()->withSuccess('로그인 되었습니다');
             if (Auth::user()['roles'] == 2) {
                 return redirect('/')->with('message', '로그인 되었습니다.');
             } else {
                 return redirect('store')->with('message', '로그인 되었습니다.');
             }
         } else {                            //로그인 실패시
-            return redirect('/')->with('message', '존재하지 않는 아이디 이거나 비밀번호를 확인 해 주세요!');
+            if (Auth::user()['roles'] === 1) {
+                return false;
+            } else {
+                return redirect('/')->with('message', '존재하지 않는 아이디 이거나 비밀번호를 확인 해 주세요!');
+            }
         }
     }
 

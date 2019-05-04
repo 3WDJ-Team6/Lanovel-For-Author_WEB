@@ -35,13 +35,12 @@
     <!-- 인기작품 -->
     <section class="new_arrivals_area section-padding-80 clearfix">
         <div class="container">
-            <div class="row"
-                <div class="col-12">
-                    <div class="section-heading text-center">
-                        <h2>Popular Products</h2>
-                    </div>
+            <div class="row" div class="col-12">
+                <div class="section-heading text-center">
+                    <h2>Popular Products</h2>
                 </div>
             </div>
+        </div>
         </div>
 
         <!-- <div class="container"> -->
@@ -63,7 +62,7 @@
                                     <img class="hover-img" src="{{$row->url_of_illustration}}" alt="">
                                     <!-- Favourite -->
                                     <div class="product-favourite">
-                                        <a href="#" class="favme fa fa-heart"></a>
+                                        <a href="{{url('/addLike')}}/{{$row->num}}" class="favme fa fa-heart"></a>
                                     </div>
                                 </a>
                             </div>
@@ -80,7 +79,8 @@
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="#" class="btn essence-btn">Add to Cart</a>
+                                        <a href="{{url('/addCart')}}/{{$row->num}}" class="btn essence-btn">Add to
+                                            Cart</a>
                                     </div>
                                 </div>
                             </div>
