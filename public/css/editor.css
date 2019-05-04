@@ -59,6 +59,14 @@ li>button {
     overflow: auto;
 }
 
+#preview {
+    z-index: 201;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    overflow-y: scroll;
+}
+
 /* 세로가 최소 700px일때 */
 @media screen and (min-height: 700px) {
     header {
@@ -136,6 +144,15 @@ li>button {
     #ccc {
         top: 42%;
         left: 83.5%;
+    }
+
+    #preview {
+        border: 13px solid #000000;
+        border-bottom: 60px solid #000000;
+    }
+
+    .modal {
+        width: 25%;
     }
 }
 
@@ -220,6 +237,15 @@ li>button {
         top: 41.5%;
         left: 67%;
     }
+
+    #preview {
+        border: 13px solid #000000;
+        border-bottom: 60px solid #000000;
+    }
+
+    .modal {
+        width: 50%;
+    }
 }
 
 /* 끝 세로가 최소 700px 가로가 최소 700px 최대 899px일때 */
@@ -303,6 +329,15 @@ li>button {
         top: 42%;
         left: 83.5%;
     }
+
+    #preview {
+        border: 20px solid #000000;
+        border-bottom: 80px solid #000000;
+    }
+
+    .modal {
+        width: 25%;
+    }
 }
 
 /* 끝 세로가 최소 900px일때 */
@@ -385,6 +420,15 @@ li>button {
     #ccc {
         top: 42%;
         left: 83.5%;
+    }
+
+    #preview {
+        border: 20px solid #000000;
+        border-bottom: 80px solid #000000;
+    }
+
+    .modal {
+        width: 50%;
     }
 }
 
@@ -775,14 +819,6 @@ span.obj_name {
 
 }
 
-#preview {
-    z-index: 201;
-    user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    overflow-y: scroll;
-}
-
 a:hover {
     text-decoration-line: none;
 }
@@ -1073,31 +1109,49 @@ input[type="file"] {
     /* z-index: 1; */
 }
 
-#cherryBlossom1 {
+#css_eft_cB1,
+#css_eft_cB2,
+#css_eft_rain,
+#css_eft_snow,
+#css_eft_starlight,
+#css_eft_yellowstar,
+#css_eft_lightning {
+    width: 120px;
+    height: 120px;
+}
+
+#cherryBlossom1,
+#css_eft_cB1 {
     background: url("/image/css_effect/cherryBlossom1.gif");
 }
 
-#cherryBlossom2 {
+#cherryBlossom2,
+#css_eft_cB2 {
     background: url("/image/css_effect/cherryBlossom2.gif");
 }
 
-#rain {
+#rain,
+#css_eft_rain {
     background: url("/image/css_effect/rain.gif");
 }
 
-#snow {
+#snow,
+#css_eft_snow {
     background: url("/image/css_effect/snow.gif");
 }
 
-#starlight {
+#starlight,
+#css_eft_starlight {
     background: url("/image/css_effect/starlight.gif");
 }
 
-#yellowstar {
+#yellowstar,
+#css_eft_yellowstar {
     background: url("/image/css_effect/yellowstar.gif");
 }
 
-#lightning {
+#lightning,
+#css_eft_lightning {
     background: url("/image/css_effect/lightning.gif");
 }
 
@@ -1111,6 +1165,17 @@ input[type="file"] {
     background: url("/image/css_effect/fire2.gif");
     background-repeat: no-repeat;
     bottom: 100px;
+}
+
+.css_eft_name {
+    padding: 10px;
+    border: 3px solid white;
+    top: 25%;
+    position: relative;
+}
+
+.css_eft_name:hover {
+    border: 3px solid rgb(118, 206, 235);
 }
 
 /* //content */

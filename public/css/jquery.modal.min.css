@@ -33,7 +33,7 @@
     position: relative;
     z-index: 200;
     box-sizing: border-box;
-    width: 50%;
+    width: 40%;
     background: #fff;
     padding: 15px 30px;
     -webkit-border-radius: 8px;
@@ -46,7 +46,7 @@
     -o-box-shadow: 0 0 10px #000;
     -ms-box-shadow: 0 0 10px #000;
     box-shadow: 0 0 10px #000;
-    text-align: left
+    text-align: left;
 }
 
 .modal a.close-modal {
@@ -101,7 +101,7 @@
     animation-delay: -0.9s
 }
 
-@-webkit-keyframes sk-stretchdelay {
+/* @-webkit-keyframes sk-stretchdelay {
 
     0%,
     40%,
@@ -112,9 +112,9 @@
     20% {
         -webkit-transform: scaleY(1.0)
     }
-}
+} */
 
-@keyframes sk-stretchdelay {
+/* @keyframes sk-stretchdelay {
 
     0%,
     40%,
@@ -127,4 +127,4 @@
         transform: scaleY(1.0);
         -webkit-transform: scaleY(1.0)
     }
-}
+} */

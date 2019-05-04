@@ -351,12 +351,16 @@ $(document).ready(function() {
         }
     });
 
+    //툴 팝업 링크해제 뒤로 한칸내리는역할
     $("#unlink").after("<div></div>");
+    //툴 팝업 링크해제 뒤로 한칸내리는역할//
 
+    //글쓰는 곳에서 엔터키누르면 앞에 태그에따라 자동생성되던 태그를 p태그로 변경
     $(".textarea").keyup = e => {
         e = e || window.event;
         if (e.keyCode === 13) document.execCommand("formatBlock", false, "p");
     };
+    //글쓰는 곳에서 엔터키누르면 앞에 태그에따라 자동생성되던 태그를 p태그로 변경//
 
     //포커스 미완
     $(".select").attr("tabindex", -1);
@@ -518,6 +522,7 @@ $(document).ready(function() {
     });
     getResource();
     //리소스파일 리스팅//
+
     //파일추가
     let appendId = null;
     $(document).on("change", 'input[type="file"]', function(event) {
@@ -669,7 +674,7 @@ $(document).ready(function() {
     });
     //파일 우클릭 & 삭제//
 
-    //파일을 textarea에 넣었을 때
+    //리소스 파일을 textarea에 넣으면 class를 resize로 변경
     var imgId = "";
     var resize_num = null;
     document
@@ -683,11 +688,11 @@ $(document).ready(function() {
             $(".textarea .obj_thum").attr("id", "" + imgId + "");
             $(".textarea .obj_thum").attr("class", "resize");
         });
-    //파일을 textarea에 넣었을 때//
+    //리소스 파일을 textarea에 넣으면 class를 resize로 변경//
 
     //resize된 파일을 클릭했을 때
     var tool_imgId = "";
-    $(document).on("click", ".resize", function() {
+    $(document).on("click", ".resize, .css_eft", function() {
         tool_imgId = $(this).attr("id");
         console.log(tool_imgId);
     });
@@ -786,13 +791,45 @@ $(document).ready(function() {
         tool_imgId_width = $("#" + tool_imgId).width();
         tool_imgId_height = $("#" + tool_imgId).height();
         console.log($($("#" + tool_imgId).prev()));
-
-        if (
+        if ($("#" + tool_imgId).hasClass("css_eft")) {
+            console.log("이미 새로고침하고 클래스 씌워져있어");
+            switch (css_eft_val) {
+                case "css_eft_cB1": //벚꽃1
+                    $("#" + tool_imgId).attr("id", "cherryBlossom1");
+                    break;
+                case "css_eft_cB2": //벚꽃2
+                    $("#" + tool_imgId).attr("id", "cherryBlossom2");
+                    break;
+                case "css_eft_rain": //비
+                    $("#" + tool_imgId).attr("id", "rain");
+                    break;
+                case "css_eft_snow": //눈
+                    $("#" + tool_imgId).attr("id", "snow");
+                    break;
+                case "css_eft_starlight": //반짝임
+                    $("#" + tool_imgId).attr("id", "starlight");
+                    break;
+                case "css_eft_yellowstar": //노란별
+                    $("#" + tool_imgId).attr("id", "yellowstar");
+                    break;
+                case "css_eft_lightning": //번개
+                    $("#" + tool_imgId).attr("id", "lightning");
+                    break;
+                case "css_eft_fire1": //불1
+                    $("#" + tool_imgId).attr("id", "fire1");
+                    break;
+                case "css_eft_fire2": //불2
+                    $("#" + tool_imgId).attr("id", "fire2");
+                    break;
+                default:
+                    break;
+            }
+        } else if (
             $("#" + tool_imgId)
                 .prev()
                 .hasClass("css_eft")
         ) {
-            console.log("이미중복있어");
+            console.log("이미 씌운거있어서 따른효과로 바꿨어");
 
             switch (css_eft_val) {
                 case "css_eft_cB1": //벚꽃1
@@ -844,7 +881,7 @@ $(document).ready(function() {
                     break;
             }
         } else {
-            console.log("응없어");
+            console.log("없어서 효과 입혔어");
 
             $("#" + tool_imgId).wrap("<div class='tem_effect'></div>");
             switch (css_eft_val) {

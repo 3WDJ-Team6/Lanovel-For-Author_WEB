@@ -112,16 +112,16 @@
                         <div class="btn tem-li size_control" id="large">크게</div>
                         <div class="btn tem-li size_control" id="small">작게</div>
                         <div class="btn tem-li size_control" id="origin">원래사이즈</div>
-                        <div class="btn tem-li" id="play_add1">소리1</div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_cB1">벚꽃1</div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_cB2">벚꽃2</div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_rain">비</div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_snow">눈</div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_starlight">반짝임</div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_yellowstar">노란별</div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_lightning">번개</div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_fire1">불1</div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_fire2">불2</div>
+                        {{-- <div class="btn tem-li" id="play_add1">소리1</div>--}}
+                        <div class="btn tem-li css_eft_control" id="css_eft_cB1"><div class="css_eft_name">벚꽃</div></div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_cB2"><div class="css_eft_name">벚꽃</div></div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_rain"><div class="css_eft_name">비</div></div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_snow"><div class="css_eft_name">눈</div></div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_starlight"><div class="css_eft_name">반짝임</div></div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_yellowstar"><div class="css_eft_name">노란별</div></div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_lightning"><div class="css_eft_name">번개</div></div>
+                        {{-- <div class="btn tem-li css_eft_control" id="css_eft_fire1">불1</div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_fire2">불2</div> --}}
                     </div>
                 </div>
             </nav>
