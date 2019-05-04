@@ -46,11 +46,11 @@
                     <!-- 제목/가격 -->
                     <div class="form-group" style="width:100%;">
                         <div class="title" name="illustration_title"
-                            style="width:380px; margin:20px; display:inline-block;">
+                            style="width:350px; margin:20px; display:inline-block;">
                             <h3>{{$product->illustration_title}}</h3>
                         </div>
                         <div class="price" name="price_of_illustration"
-                            style="width:230px; margin:20px; display:inline-block;">
+                            style="width:260px; margin:20px; text-align:right; display:inline-block;">
                             <h5>Price : {{$product->price_of_illustration}} <button type="button" class="btn btn-light"
                                     style="width:80px;">구매</h5>
                         </div>
@@ -78,9 +78,9 @@
                     </div>
                     <div class="form-group" style=" text-align:right; height:50px;">
                         <div class="" name="" style="width:400px; height:45px; margin:15px; display:inline-block;">
-                            <button type="button" class="btn btn-light btn-like" style="margin:10px;"><img
+                            <button type="button" class="btn btn-light btn-like" style="margin:10px; display:inline-block;"><img
                                     src="{{asset('image/store/like.png')}}" style="width:30px; height:30px;"></button>
-                            <button type="button" class="btn btn-light" style="margin:10px;"><img
+                            <button type="button" class="btn btn-light" style="margin:10px;display:inline-block;"><img
                                     src="{{asset('image/store/share.png')}}" style="width:30px; height:30px;"></button>
                         </div>
                     </div>
