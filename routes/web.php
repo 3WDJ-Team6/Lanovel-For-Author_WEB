@@ -100,7 +100,7 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
     Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');
     # s3 directory dynamic listing
-    Route::get('/getDir/{bookNum}/{dir?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
+    Route::get('/getDir/{bookNum}/{dir?}/{forderName?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
 Route::group(['prefix' => 'reader'], function () {
