@@ -33,6 +33,7 @@ return array(
     'Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Symfony\\Bridge\\PsrHttpMessage\\' => array($vendorDir . '/symfony/psr-http-message-bridge'),
+    'StreamLab\\StreamLabProvider\\' => array($vendorDir . '/5dmatweb/streamlab/src'),
     'SocialiteProviders\\Manager\\' => array($vendorDir . '/socialiteproviders/manager/src'),
     'SocialiteProviders\\Kakao\\' => array($vendorDir . '/socialiteproviders/kakao'),
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),

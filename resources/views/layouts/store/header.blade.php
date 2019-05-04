@@ -36,7 +36,6 @@
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </form>
                 </div>
-
                 <form action="{{url('store/find/search')}}" method="post">
 
                     <button type="submit" style="margin:30px;"><i class="fa fa-search">세부검색</i></button>
@@ -72,13 +71,15 @@
             var div=document.getElementById("alramimg");
             div.style.display='inline-block';
         </script>
-    @foreach ($invite_message as $i => $im)
-        <script type="text/javascript">
-            var text = document.getElementById("messagecount").innerHTML;
-            if(text =='0'){
-                document.getElementById("messagecount").style.display='none';
-            }
-            document.getElementById("messagecount").innerHTML='<?php echo $im['count']?>';
-        </script>
-    @endforeach
+    @isset($invite_message)
+        @foreach ($invite_message as $i => $im)
+            <script type="text/javascript">
+                var text = document.getElementById("messagecount").innerHTML;
+                if(text =='0'){
+                    document.getElementById("messagecount").style.display='none';
+                }
+                document.getElementById("messagecount").innerHTML='<?php echo $im['count']?>';
+            </script>
+        @endforeach
+    @endif
     </header>

@@ -84,6 +84,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Bridge\\PsrHttpMessage\\' => 30,
+            'StreamLab\\StreamLabProvider\\' => 28,
             'SocialiteProviders\\Manager\\' => 27,
             'SocialiteProviders\\Kakao\\' => 25,
         ),
@@ -297,6 +298,10 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'Symfony\\Bridge\\PsrHttpMessage\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/psr-http-message-bridge',
+        ),
+        'StreamLab\\StreamLabProvider\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/5dmatweb/streamlab/src',
         ),
         'SocialiteProviders\\Manager\\' => 
         array (
@@ -578,6 +583,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Requests\\FilePost' => __DIR__ . '/../..' . '/app/Http/Requests/FilePost.php',
+        'App\\Lesson' => __DIR__ . '/../..' . '/app/Lesson.php',
         'App\\Listeners\\ChatListener' => __DIR__ . '/../..' . '/app/Listeners/ChatListener.php',
         'App\\Listeners\\LogVerifiedUser' => __DIR__ . '/../..' . '/app/Listeners/LogVerifiedUser.php',
         'App\\Models\\BuyerOfIllustration' => __DIR__ . '/../..' . '/app/Models/BuyerOfIllustration.php',
@@ -4376,6 +4382,10 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'SocialiteProviders\\Manager\\OAuth2\\User' => __DIR__ . '/..' . '/socialiteproviders/manager/src/OAuth2/User.php',
         'SocialiteProviders\\Manager\\ServiceProvider' => __DIR__ . '/..' . '/socialiteproviders/manager/src/ServiceProvider.php',
         'SocialiteProviders\\Manager\\SocialiteWasCalled' => __DIR__ . '/..' . '/socialiteproviders/manager/src/SocialiteWasCalled.php',
+        'StreamLab\\StreamLabProvider\\Curl' => __DIR__ . '/..' . '/5dmatweb/streamlab/src/Curl.php',
+        'StreamLab\\StreamLabProvider\\Facades\\StreamLabFacades' => __DIR__ . '/..' . '/5dmatweb/streamlab/src/Facades/StreamLabFacades.php',
+        'StreamLab\\StreamLabProvider\\StreamLab' => __DIR__ . '/..' . '/5dmatweb/streamlab/src/StreamLab.php',
+        'StreamLab\\StreamLabProvider\\StreamLabServiceProvider' => __DIR__ . '/..' . '/5dmatweb/streamlab/src/StreamLabServiceProvider.php',
         'Symfony\\Bridge\\PsrHttpMessage\\Factory\\DiactorosFactory' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/Factory/DiactorosFactory.php',
         'Symfony\\Bridge\\PsrHttpMessage\\Factory\\HttpFoundationFactory' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/Factory/HttpFoundationFactory.php',
         'Symfony\\Bridge\\PsrHttpMessage\\Factory\\PsrHttpFactory' => __DIR__ . '/..' . '/symfony/psr-http-message-bridge/Factory/PsrHttpFactory.php',

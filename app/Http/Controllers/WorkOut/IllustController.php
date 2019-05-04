@@ -91,16 +91,21 @@ class IllustController extends Controller
             ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
             ->limit(5)
             ->get();
-
-        $check_message = Message::select(
-            'u1.id as to_id',
-            DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0 and message_title like 'invite%' and to_id = ".Auth::user()['id'].") count")
-        )->leftjoin('users as u1','u1.id','messages.to_id')
-        ->where('message_title','like','invite%')
-        ->where('to_id','=',Auth::user()['id'])
-        ->get();
-        // return $check_message;
-        return view('/store/home/home')->with('products', $products)->with('invite_message',$check_message);
+            $uid = Auth::user()['id'];
+        if(isset($uid)){
+            $check_message = Message::select(
+                'u1.id as to_id',
+                DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0 and message_title like 'invite%' and to_id = ".Auth::user()['id'].") count")
+            )->leftjoin('users as u1','u1.id','messages.to_id')
+            ->where('message_title','like','invite%')
+            ->where('to_id','=',$uid)
+            ->get();
+            // return $check_message;
+            return view('/store/home/home')->with('products', $products)->with('invite_message',$check_message);
+        }
+        else{
+            return view('/store/home/home')->with('products', $products);
+        }
     }
 
     // 대메뉴 구별 (background | character | object)

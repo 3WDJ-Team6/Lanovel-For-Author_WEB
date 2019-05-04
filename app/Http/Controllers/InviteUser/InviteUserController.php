@@ -226,6 +226,8 @@ class InviteUserController extends Controller{
             ";
 
         }
+        $text = "aaaa";
+        $text += "bbbb";
         return $text;
     }
     public function acceptInvite($messagenum){
