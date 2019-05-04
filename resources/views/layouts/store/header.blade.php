@@ -1,8 +1,7 @@
 <header class="header_area">
     <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
         <nav class="classy-navbar" id="essenceNav">
-            <a class="nav-brand" href="{{ asset('/store') }}"><img src="{{ asset('image/store/illustore.png') }}" alt=""
-                    style="width:200px;" /></a>
+            <a class="nav-brand" href="{{ asset('/store') }}"><img src="{{ asset('image/store/illustore.png') }}" alt="" style="width:200px;" /></a>
 
             <div class="classy-navbar-toggler">
                 <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -76,8 +75,7 @@
                                     <img src="{{$product->url_of_illustration}}" class="cart-thumb" alt="" />
                                     <!-- Cart Item Desc -->
                                     <div class="cart-item-desc">
-                                        <span class="product-remove"><i class="fa fa-close"
-                                                aria-hidden="true"></i></span>
+                                        <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
                                         <!-- <span class="badge">{{$product->nickname}}</span> -->
                                         <h6>
                                             {{$product->illustration_title}}
@@ -126,8 +124,7 @@
                 <div class="user-login-info">
                     <form method="post" action="{{ route('logout') }}" id="frm">
                         @csrf
-                        <a href="#" onclick="document.getElementById('frm').submit();"><img
-                                src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
+                        <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
                     </form>
                 </div>
 
@@ -141,8 +138,7 @@
             <div class="user-login-info">
                 <form method="post" action="{{ route('logout') }}" id="frm">
                     @csrf
-                    <a href="#" onclick="document.getElementById('frm').submit();"><img
-                            src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
+                    <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
                 </form>
             </div>
 
