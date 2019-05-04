@@ -22,11 +22,11 @@
 <body>
 
     <div class="container" style="height:100%; margin-top:70px;">
-        <div class="form-check form-check-inline" style="width:100%; display: flex; justify-content: center;">
+        <div class="form-check form-check-inline" style="width:100%; display: flex; justify-content: center; margin-top:150px; margin-bottom:100px;">
             <div class="row">
                 <div class="container">
                     <form action="{{url('/illustUpload')}}" class="dropzone" id="dropzone" method="post"
-                        enctype="multipart/form-data">
+                        enctype="multipart/form-data" style="width:700px;">
                         @csrf
                     </form>
                     <form action="{{url('/illustStore')}}" method="post" enctype="multipart/form-data" id="store">

@@ -169,7 +169,7 @@ Route::get('/cartIndex', 'WorkOut\IllustController@cartIndex');
 
 Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
 
-Route::get('/mypage', 'WorkOut\IllustController@myPage');
+Route::get('/myPage', 'WorkOut\IllustController@myPage');
 
 Route::post('/destroy', 'Auth\LoginController@destroy');
 

@@ -145,7 +145,7 @@ class IllustController extends Controller
             ->orderByRaw('illustration_lists.created_at', 'desc')
             ->get();
 
-        return view('.store.menu.contents')->with('products', $products);
+        return view('.store.home.new_collection')->with('product', $products);
     }
 
     // 상세보기_

@@ -17,8 +17,7 @@
     @endif
 
     <!-- 새작품 -->
-    <section class="welcome_area bg-img background-overlay"
-        style="height:500px; margin-top:80px; background-image:url('image/store/girl.jpg');">
+    <section class="welcome_area bg-img background-overlay" style="height:500px; margin-top:70px; background-image:url('image/store/girl.jpg');">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
@@ -92,7 +91,7 @@
             </div>
         </div>
         <!-- </div> -->
-    </section>
+        </section>
     <!-- 인기작품 End -->
 
 </body>
