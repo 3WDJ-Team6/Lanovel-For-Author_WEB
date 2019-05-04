@@ -129,7 +129,36 @@ Route::group(['middleware' => ['guest']], function () { # guest만 사용가능�
     Route::get('/auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
     Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
 });
+
+// 일러스트 등록 페이지
+Route::get('/illustCreate', 'WorkOut\IllustController@create');
+
+// 일러스트 등록
+Route::post('/illustStore', 'WorkOut\IllustController@store');
+
+// 일러스토어 대메뉴 페이지
+Route::get('/menu/{category}', 'WorkOut\IllustController@menuIndex');
+
+// 일러스토어 상세메뉴 페이지
+Route::get('/menu/{category}/{moreCategory}', 'WorkOut\IllustController@detailMenuIndex');
+
+Route::post('store/find/search', function () {
+    return view('store.find.search');
+});
+
+// 일러스토어 장바구니 추가
+Route::get('/addCart/{num}', 'WorkOut\IllustController@addCart');
+
+// 장바구니
+Route::get('/cartIndex', 'WorkOut\IllustController@cartIndex');
+
+Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
+
+Route::get('/myPage', 'WorkOut\IllustController@myPage');
+
+
 Auth::routes(); //로그인에 관한 모든 기능 연결
+
 Route::post('/destroy', 'Auth\LoginController@destroy');
 // Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 

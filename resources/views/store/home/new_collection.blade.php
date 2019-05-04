@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="section-heading text-center">
-                        <h2>Products</h2>
+                        <h2>New collection</h2>
                     </div>
                 </div>
             </div>
