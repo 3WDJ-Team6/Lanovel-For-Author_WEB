@@ -760,7 +760,8 @@ pre {
 }
 
 .obj,
-.obj_file {
+.obj_file,
+.obj_kinds {
     display: inline-block;
     padding-left: 7px;
 }
@@ -770,6 +771,7 @@ pre {
 } */
 
 .obj,
+.obj_kinds,
 .obj_file:hover {
     cursor: pointer;
 }
