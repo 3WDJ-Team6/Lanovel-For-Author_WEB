@@ -59,17 +59,20 @@ class FileController extends Controller
     }
 
     #유효성 검사가 실패(FilePost를 통과하지 못)하면 responese가 생성되어 이전 위치로 되돌려 보냄.
-    public function store(FilePost $request, $folderPath = null, $bookNum = null)                        #0 파일 저장하는 컨트롤러 asset store & editor 사용
+    public function store(Request $request, $folderPath = null, $bookNum = null, $folderName = null)                        #0 파일 저장하는 컨트롤러 asset store & editor 사용
     {
-        $filePath = $this->checkUserMakePath($folderPath, $bookNum);
+        // $folderPath = 'private';
+        // $folderName = "video";
+        $filePath = $this->checkUserMakePath($folderPath, $bookNum, $folderName);
         $this->hasFile($request, $filePath);                         #1~3 FileTrait에서 처리해줌
+        $file = $request->file('image') ? $request->file('image') : $request->file('file'); #4 Request로 부터 불러온 정보를 변수에 저장
+        // return dd($file);
 
-        $file = $request->file('image');                             #4 Request로 부터 불러온 정보를 변수에 저장
         $name = time() . $file->getClientOriginalName();             #5 파일명이 겹칠 수 있으니 시간 + 원본명으로 저장
         $saveFilePath = $filePath . $name;                           #6 저장 파일 경로 = 폴더 경로 + 파일 이름
         Storage::disk('s3')->put($saveFilePath, file_get_contents($file), [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
             'visibility' => 'public',
-            'Metadata' => ['Content-Type' => 'image/jpeg'],
+            // 'Metadata' => ['Content-Type' => 'image/jpeg'],
             // 'Expires' => now()->addMinute(5),                        #7 expire 현재시간 + 5분 적용 외않되
         ]);
         return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
@@ -81,6 +84,8 @@ class FileController extends Controller
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
         // return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }
+
+
 
     public function fromS3toZip(Request $request, $folderPath = 'WorkSpace', $bookNum = 28, $bookTitle = 'BOOKNAME')
     {
@@ -263,33 +268,21 @@ class FileController extends Controller
 
     public function functionSet()
     {
-
         Storage::disk('s3')->directories(); #해당 경로에 있는 모든 directory (폴더만)
-
         Storage::disk('s3')->allFiles();    #해당 경로에 있는 모든 file (파일만)
-
         $fileSize = file_size(Storage::disk('s3')->size('images/' . $imageName));
-
-        $naming = time() . $file->getClientOriginalName(); # 시간 + 원본명으로 저장
-
+        $naming = getClientOriginalName(); # 원본명
         //$request->hasFile('image');                        # image 파일이 있으면
-
         Storage::disk('s3')->exists($filePath);            # 폴더가 있으면 ture 없으면 fasle
-
         Storage::disk('s3')->makeDirectory($filePath, 0777, true);    # 폴더가 없으면 해당 경로에 폴더를 만들어 줌 $filePath에 / 기준으로 폴더가 생성됨
-
         //$file = $request->file('image');                   # Request로 부터 불러온 정보를 변수에 저장
-
-        //$saveFilePath = $filePath . $name;                 # 저장 파일 경로 = 폴더 경로 + 파일 이름
-
-        Storage::disk('s3')->put($saveFilePath, file_get_contents($file)); #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
-
+        Storage::disk('s3')->put($saveFilePath, file_get_contents($file)); # 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
+        return Storage::disk('s3')->url(); //s3 url 가져오는 함수
         // $images = Storage::disk('s3')->allFiles('oldfolder/image/');
         // foreach ($images as $image) {
         //     $new_loc = str_replace('oldfolder/image/', 'newfolder/image/', $image);
         //     $s3->copy($image, $new_loc);
         // }
-        return Storage::disk('s3')->url(); //s3 url 가져오는 함수
 
     }
 }
