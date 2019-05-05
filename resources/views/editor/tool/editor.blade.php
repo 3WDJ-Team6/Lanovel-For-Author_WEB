@@ -3,9 +3,7 @@
 
 <script>
     var num_of_work = <?php echo json_encode($content_of_works['num_of_work']); ?>;
-
 </script>
-
 
 <script src="{{ asset('/js/editor.js') }}" defer></script>
 <link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
