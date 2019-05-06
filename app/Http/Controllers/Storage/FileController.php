@@ -76,6 +76,7 @@ class FileController extends Controller
             // 'Expires' => now()->addMinute(5),                        #7 expire 현재시간 + 5분 적용 외않되
         ]);
         return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
+
     }
 
     public function destroy($image, $folderPath = null, $bookNum = null)
@@ -86,6 +87,51 @@ class FileController extends Controller
     }
 
 
+    public function downLoadEpub()
+    {
+        shell_exec('mkdir /mnt/epubz');
+        shell_exec('zip /mnt/epubz/resource.zip -j /mnt/mountpoint/resource/*/');
+
+        $filepath = '/mnt/epubz/resource.zip';
+        $filesize = filesize($filepath);
+        $path_parts = pathinfo($filepath);
+        $filename = $path_parts['basename'];
+        $extension = $path_parts['extension'];
+
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Content-Type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=$filename");
+        header("Content-Transfer-Encoding: binary");
+        header("Content-Length: $filesize");
+
+        ob_clean();
+        flush();
+        readfile($filepath);
+    }
+
+    public function makeEpub($bookNum = null, $folderPath = null, $bookTitle = null)
+    {
+        $bookTitle = "냥멍이";
+        $folderPath = "WorkSpace";
+        $filePath = $this->checkUserMakePath($folderPath, $bookNum);
+        return $filePath;
+
+        if ($heart->exists()) {
+            // $heart->update(['dl_check' => true]);
+            shell_exec('mkdir /mnt/zip-point/' . $filePath);
+            shell_exec('chmod 777 /mnt/zip-point/' . $filePath);
+        }
+
+        //$fileNames = File::where('user_id', \Auth::user()->id)
+        //             ->where('dl_check', 0)
+        //             ->pluck('name');
+        //
+        foreach ($fileNames as $name) {
+            shell_exec('cp /mnt/mountpoint/files/bbb@naver.com/' . $name . ' /mnt/zip-point/aaa@naver.com/' . $name);
+            //      shell_exec('cp /mnt/zip-point/bbb@naver.com/1.txt /mnt/zip-point/aaa@naver.com/1.txt');
+        }
+    }
 
     public function fromS3toZip(Request $request, $folderPath = 'WorkSpace', $bookNum = 28, $bookTitle = 'BOOKNAME')
     {

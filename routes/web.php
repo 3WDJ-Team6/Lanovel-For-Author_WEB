@@ -94,8 +94,8 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
     Route::resource('/images/{folderPath?}/{bookNum?}', 'Storage\FileController', ['only' => ['store',]]); // 해당 함수만 라우팅
     Route::delete('/images/{folderPath?}/{bookNum?}', 'Storage\FileController@destroy');
-    # 파일 구매시 다운로드
-    Route::get('downLoadBook/{folderPath?}/{bookNum?}', 'Storage\FileController@fromS3toZip');
+    # 파일 구매시 다운로드  # Make Epub File
+    Route::get('downLoadBook/{folderPath?}/{bookNum?}', 'Storage\FileController@makeEpub');
     # 일러스토어 일러스트 파일 업로드
     Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
     Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');
