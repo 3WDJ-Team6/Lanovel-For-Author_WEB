@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\InviteUser;
 
 use Auth;
+use App\Events\InviteEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\User;
@@ -144,6 +145,9 @@ class InviteUserController extends Controller{
         $message->message_title = 'invite message';
         $message->message_content = $nickname."님이 ".$work_title.'작품에 초대하셧습니다.';
         $message->save();
+        event(new InviteEvent(Auth::user()['nickname'] ,$nickname,'invite message',$nickname."님이 ".$work_title.'작품에 초대하셧습니다.'));
+
+        return 1;
         return redirect()->back()->withInput();
 
     }
@@ -217,6 +221,7 @@ class InviteUserController extends Controller{
 
         // return $invite_message;
         foreach ($invite_message as $i => $im) {
+
             $text = "
             <div>보낸 사람 ".$im['from_id']."</div>
             <div>받은 시간 ".$im['created_at']."</div>
@@ -226,8 +231,6 @@ class InviteUserController extends Controller{
             ";
 
         }
-        $text = "aaaa";
-        $text += "bbbb";
         return $text;
     }
     public function acceptInvite($messagenum){

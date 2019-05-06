@@ -150,7 +150,7 @@ class EditController extends Controller
         ///////$subsubtitle의 값을 디비 $content_of_works의 subsubtitle에 넣고
         $content_of_works->subsubtitle = $subsubtitle;
         // 회차 내용 디폴트값 넣어주기
-        $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
+        $content_of_works->content = "<p>物語《ものがたり》を書《か》きましょう</p>";
         $content_of_works->save();
         $titleNum = $content_of_works->num;
         ///////부모창의 addEpisode()함수에 '$subsubtitle' 값 전달

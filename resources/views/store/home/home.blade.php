@@ -16,6 +16,7 @@
     <div class="alert alert-info">{{ Session::get('message') }}</div>
     @endif
 
+<<<<<<< HEAD
     <!-- ##### Right Side Cart Area ##### -->
     <div class="cart-bg-overlay"></div>
 
@@ -98,9 +99,10 @@
     </div>
     <!-- ##### Right Side Cart End ##### -->
 
+=======
+>>>>>>> b17c5a58a753c749f1b3861c03da3d59d4f8e673
     <!-- 새작품 -->
-    <section class="welcome_area bg-img background-overlay"
-        style="height:500px; margin-top:80px; background-image:url('image/store/girl.jpg');">
+    <section class="welcome_area bg-img background-overlay" style="height:500px; margin-top:70px; background-image:url('image/store/girl.jpg');">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
@@ -118,13 +120,12 @@
     <!-- 인기작품 -->
     <section class="new_arrivals_area section-padding-80 clearfix">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="section-heading text-center">
-                        <h2>Popular Products</h2>
-                    </div>
+            <div class="row" div class="col-12">
+                <div class="section-heading text-center">
+                    <h2>Popular Products</h2>
                 </div>
             </div>
+        </div>
         </div>
 
         <!-- <div class="container"> -->
@@ -139,15 +140,14 @@
                             <!-- Product Image -->
                             <div class="product-img" style="width: 250px; height: 150px; overflow: hidden;">
                                 <a href="{{url('/view')}}/{{$row['num']}}">
-
-                                    <img src="{{$row['url_of_illustration']}}" alt=""
+                                    <img src="{{$row->url_of_illustration}}" alt=""
                                         onerror="this.src='{{asset('image/no_image.png')}}'">
 
                                     <!-- Hover Thumb -->
-                                    <img class="hover-img" src="{{$row['url_of_illustration']}}" alt="">
+                                    <img class="hover-img" src="{{$row->url_of_illustration}}" alt="">
                                     <!-- Favourite -->
                                     <div class="product-favourite">
-                                        <a href="#" class="favme fa fa-heart"></a>
+                                        <a href="{{url('/addLike')}}/{{$row->num}}" class="favme fa fa-heart"></a>
                                     </div>
                                 </a>
                             </div>
@@ -164,7 +164,8 @@
                                 <div class="hover-content">
                                     <!-- Add to Cart -->
                                     <div class="add-to-cart-btn">
-                                        <a href="#" class="btn essence-btn">Add to Cart</a>
+                                        <a href="{{url('/addCart')}}/{{$row->num}}" class="btn essence-btn">Add to
+                                            Cart</a>
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +176,7 @@
             </div>
         </div>
         <!-- </div> -->
-    </section>
+        </section>
     <!-- 인기작품 End -->
 
 </body>

@@ -26,7 +26,8 @@ class CreateRentalsTable extends Migration
                 ->references('num')->on('works')
                 ->onDelete('cascade');
 
-            $table->integer('due_of_rental')->default(3)->nullable()->comment("대여기간");
+            $table->dateTime('due_of_rental')->nullable()->comment("대여날짜");
+            $table->string('file_path')->nullable()->comment("파일경로");
             $table->integer('chapter_of_work')->comment("회차,권");
             $table->date('onlyDate')->useCurrent()->comment("날짜");
             $table->timestamps();

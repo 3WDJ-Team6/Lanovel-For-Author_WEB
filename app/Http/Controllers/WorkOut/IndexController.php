@@ -103,10 +103,6 @@ class IndexController extends Controller
             })->orderBy('works.created_at', 'desc')
             ->get();
 
-
-        // return response()->json($count, 200, [], JSON_PRETTY_PRINT);
-        $tagCounts = $tagCount->pluck('count', 'num')->all();
-
         $periodCount = Work::select(
             'works.num',
             'period_of_works.cycle_of_publish',
@@ -118,45 +114,6 @@ class IndexController extends Controller
             })->orderBy('works.created_at', 'desc')
             ->get();
 
-        $periodCounts = $periodCount->pluck('count', 'num')->all();
-
-        // foreach ($periodCount as $pe) {
-        //     if ($num_value != $pe->num) {
-        //         $real = $pe->cycle_of_publish;
-        //         echo $pe->num . $real . "   ";
-        //         $value = $real;
-        //     } else {
-        //         echo ',' . $pe->cycle_of_publish . "  ";
-        //     }
-
-        //     $num_value = $pe->num;
-        // }
-        // return  response()->json($user_lists, 200, [], JSON_PRETTY_PRINT);
-
-        // foreach ($work_nums as $work_num) {
-        //     echo $work_num;
-        // }
-
-        // return response()->json($works, 200, [], JSON_PRETTY_PRINT);
-
-        // $periods = PeriodOfWork::select(
-        //     'period_of_works.*'
-        // )->join('work_lists', 'work_lists.num_of_work', '=', 'period_of_works.num_of_work')
-        //     ->whereIn('period_of_works.num_of_work', function ($query) {
-        //         $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']);
-        //     })->get();
-
-        // return $periods;
-        // return $works;
-
-        // return response()->json($works, 200, [], JSON_PRETTY_PRINT);
-
-        // $plucked = $works->pluck('num')->all();
-        // $posts = Work::with('work_lists', 'category_works', 'period_of_works')->find($plucked);
-
-        // return $posts;
-
-        // return response()->json($posts, 200, array(), JSON_PRETTY_PRINT);
 
         return view('index')->with('posts', $posts)->with('periodCount', $periodCount)
             ->with('tagCount', $tagCount)->with('user_lists', $user_lists)->with('modify_time', $modify_time);
@@ -181,7 +138,7 @@ class IndexController extends Controller
      */
     public function create()
     {
-        //
+        return view('editor.main.book_add');
     }
 
     /**
@@ -259,36 +216,24 @@ class IndexController extends Controller
             $this->work_list_model->storeWorklist($work_list_info);
 
 
-            // dd($myCheckboxes);
-
-            // if (is_array($_POST['cycle_of_work'])) {
-            //     foreach ($_POST['cycle_of_work'] as $value) {
-            //         echo $value;
-            //     }
-            // } else {
-            //     $value = $_POST['cycle_of_work'];
-            // }
-
-            // $strExplode = explode(' ', $request->get('tag'));
-            // $strReplace = str_replace("#", "", $strExplode);
 
             $type_of_periods = $request->radio_C;
             $periods = $request->input('cycle_of_work');
-            // 연재 주기 추가
-            // $period = new PeriodOfWork();
-            // $period->num_of_work = $recentWork->num;
 
-            $num = 0;
-            // return $periods;
+            // 주간일 경우
             if ($type_of_periods == '2-1') {
-                foreach ($periods as $value) {
+                $notNull = array_filter($periods);
+
+                foreach ($notNull as $value) {
                     // echo $num++;
                     $period_info = array([
                         'num_of_work' => $recentWork->num,
                         'cycle_of_publish' => $value
                     ]);
+
                     $this->period_model->storePeriodWork($period_info);
                 }
+                // 월간일 경우
             } else {
                 foreach ($periods as $value) {
                     $real_value = substr($value, 3, 2);
@@ -299,8 +244,6 @@ class IndexController extends Controller
                     $this->period_model->storePeriodWork($period_info);
                 }
             }
-
-
             // return $period_info;
 
 

@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Storage;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Auth;
+use ZipArchive;
+use Aws\AwsClientTrait;
+use App\Http\Controllers\tools;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\FilePost;
+use Illuminate\Http\Request;
+use App\Traits\FileTrait;
+use App\Models\Rental;
 use App\Models\User;
 use Carbon\Carbon;
-use Auth;
-use App\Http\Requests\FilePost;
-use App\Http\Controllers\tools;
-use Aws\AwsClientTrait;
-use App\Traits\FileTrait;
+
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 # https://laracasts.com/discuss/channels/laravel/how-to-get-properties-name-size-type-of-a-file-retrieved-from-storage?page=1
 # 컨트롤러 전역함수 만들어서 쓰기
@@ -53,10 +58,9 @@ class FileController extends Controller
         // );
     }
 
+    #유효성 검사가 실패(FilePost를 통과하지 못)하면 responese가 생성되어 이전 위치로 되돌려 보냄.
     public function store(FilePost $request, $folderPath = null, $bookNum = null)                        #0 파일 저장하는 컨트롤러 asset store & editor 사용
     {
-        // // $validated = $request->validated();                   #유효성 검사가 실패하면 responese가 생성되어 이전 위치로 되돌려 보냄.
-
         $filePath = $this->checkUserMakePath($folderPath, $bookNum);
         $this->hasFile($request, $filePath);                         #1~3 FileTrait에서 처리해줌
 
@@ -71,23 +75,190 @@ class FileController extends Controller
         return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
     }
 
-    // public function destroy($image)
-    // {
-    //     $filePath = $this->checkUserMakePath();
-    //     Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
-    //     return back()->withSuccess('성공적으로 삭제 되었습니다.');
-    // }
-
-    public function deleteFile(Request $request)
+    public function destroy($image, $folderPath = null, $bookNum = null)
     {
-
-        return $request;
+        $filePath = $this->checkUserMakePath($folderPath, $bookNum);
+        Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
+        // return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }
 
-    public function lendBook()
+    public function fromS3toZip(Request $request, $folderPath = 'WorkSpace', $bookNum = 28, $bookTitle = 'BOOKNAME')
     {
+
+        #https://stackoverflow.com/questions/44900585/aws-s3-copy-and-replicate-folder-in-laravel
+        $filePath = $this->checkUserMakePath($folderPath, $bookNum);
+        $this->hasFile($request, $filePath);
+        // return $filePath; #Author\Author@test\WorkSpace\냥멍이
+
+        $zipArchive = new ZipArchive();
+
+        //The full path to where we want to save the zip file.
+        $zipFilePath = public_path() . '/zip/example.zip';
+
+        //Call the open function.
+        $status = $zipArchive->open($zipFilePath,  ZipArchive::CREATE);
+
+        $filesToAdd = Storage::disk('s3')->allFiles($filePath);
+        // return response()->json($filesToAdd, 200, [], JSON_PRETTY_PRINT);
+        //An array of files that we want to add to our zip archive.
+        //You should list the full path to each file.
+
+        //Add our files to the archive by using the addFile function.
+        foreach ($filesToAdd as $fileToAdd) {
+            //Add the file in question using the addFile function.
+            $zipArchive->addFile(Storage::disk('s3')->url($fileToAdd));
+        }
+
+        //Finally, close the active archive.
+        $zipArchive->close();
+
+        //Get the basename of the zip file.
+        $zipBaseName = basename($zipFilePath);
+
+        //Set the Content-Type, Content-Disposition and Content-Length headers.
+        header("Content-Type: application/zip");
+        header("Content-Disposition: attachment; filename=$zipBaseName");
+        header("Content-Length: " . filesize($zipFilePath));
+
+        //Read the file data and exit the script.
+        readfile($zipFilePath);
+        exit;
+        return 0;
+    }
+
+    public function copyBook(Request $request, $folderPath = 'WorkSpace', $bookNum = null, $bookTitle = 'BOOKNAME')
+    {
+        #https://stackoverflow.com/questions/44900585/aws-s3-copy-and-replicate-folder-in-laravel
+        $filePath = $this->checkUserMakePath($folderPath, $bookNum);
+        $this->hasFile($request, $filePath);
+
+
+        // return $filePath; #Author\Author@test\WorkSpace\냥멍이
+        $files = Storage::disk('s3')->allFiles($filePath);
+
+        return response()->json($files, 200, [], JSON_PRETTY_PRINT);
+
+        $test = explode('/', $files[0])[5];
+        $newFilePath = 'Reader' . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'lent' . DIRECTORY_SEPARATOR . $bookTitle . DIRECTORY_SEPARATOR;
+        // return 'OldFilePath : ' . explode('/', $files[0])[5] . '         To       ' . 'newFilePath : ' . $newFilePath;
+        // return $files[0] . '--' . $newFilePath . explode('/', $files[0])[5];;
+        Storage::disk('s3')->copy($files[0], $newFilePath . $test);
+        foreach ($files as $file) {
+            $explode = expload('/', $file);
+            if (!Storage::disk('s3')->exists($newFilePath)) Storage::disk('s3')->copy($file, $newFilePath);
+        }
+
+        return 0;
+
+        $images = Storage::disk('s3')->allFiles($filePath);
+        // return response()->json($images, 200, [], JSON_PRETTY_PRINT);
+        if (!Storage::disk('s3')->makeDirectory('Reader' . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'lent' . DIRECTORY_SEPARATOR . $bookTitle)) {
+            Storage::disk('s3')->makeDirectory('Reader' . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'lent' . DIRECTORY_SEPARATOR . $bookTitle, 0777, true);
+        }
+        $a = 'Reader' . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'lent' . DIRECTORY_SEPARATOR . $bookTitle . DIRECTORY_SEPARATOR;
+
+
+        foreach ($images as $image) {
+            Storage::disk('s3')->copy($image, $a);
+        }
+
+
+        return response()->json($arr, 200, [], JSON_PRETTY_PRINT);
+
         // Storage::disk('s3')->getDriver()->put('Path', 'test?', ['visibillity' => 'public', 'Expires, GMT date()']);
-        return Storage::disk('s3')->get('Author');
+        // $arr[$i] = array(
+        //     'from' => $image,
+        //     'to' => $moveTo
+        // );
+    }
+
+    public function downloadZip()
+    {
+        $s3 = Storage::disk('s3');
+        $client = $s3->getDriver()->getAdapter()->getClient();
+        $client->registerStreamWrapper();
+        $expiry = "+10 minutes";
+
+        // Create a new zipstream object
+        $zip = new ZipStream($zipName . '.zip');
+
+        foreach ($files as $file) {
+            $filename = $file->original_filename;
+
+            // We need to use a command to get a request for the S3 object
+            //  and then we can get the presigned URL.
+            $command = $client->getCommand('GetObject', [
+                'Bucket' => config('filesystems.disks.s3.bucket'),
+                'Key' => $file->path()
+            ]);
+
+            $signedUrl = $request = $client->createPresignedRequest($command, $expiry)->getUri();
+
+            // We want to fetch the file to a file pointer so we create it here
+            //  and create a curl request and store the response into the file
+            //  pointer.
+            // After we've fetched the file we add the file to the zip file using
+            //  the file pointer and then we close the curl request and the file
+            //  pointer.
+            // Closing the file pointer removes the file.
+            $fp = tmpfile();
+            $ch = curl_init($signedUrl);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 120);
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_exec($ch);
+            curl_close($ch);
+            $zip->addFileFromStream($filename, $fp);
+            fclose($fp);
+        }
+
+        $zip->finish();
+
+        $source = [];
+        foreach ($images as $i => $image) {
+            $source[$i] = array(Storage::disk('s3')->readStream($image));
+            echo $source[$i];
+        }
+
+
+        $tmpfname = tempnam(sys_get_temp_dir(), "tmp");
+        $destination = fopen($tmpfname, "w");
+        while (!feof($source)) {
+            fwrite($destination, fread($source, 8192));
+        }
+        fclose($source);
+        fclose($destination);
+
+        $zipfile = sys_get_temp_dir() . '/file.zip';
+        $zip = new ZipArchive;
+        $zip->open($zipfile);
+
+        $zip->addFile($tmpfname, 'file.txt');
+
+        $zip->close();
+
+        unlink($tmpfname);
+
+        // upload zip back to S3, or you could stream it to the browser if that is what you need.  Make sure to delete the local file after though
+
+        // To upload back to S3
+        Storage::disk('s3')->put('file.zip', $zipfile);
+        unlink($zipfile);
+
+        // to stream the file to the browser
+        $response = new StreamedResponse();
+        $response->setCallback(function () use ($zipfile) {
+            readfile($zipfile);
+            unlink($zipfile);
+        });
+        $response->headers->set('Content-Type', 'application/x-zip-compressed');
+        $response->headers->set('Cache-Control', '');
+        $response->headers->set('Content-Length', filesize($zipfile));
+        $response->headers->set('Last-Modified', gmdate('D, d M Y H:i:s'));
+        $contentDisposition = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, basename($zipfile));
+        $response->headers->set('Content-Disposition', $contentDisposition);
+
+        return $response;
     }
 
     public function functionSet()
