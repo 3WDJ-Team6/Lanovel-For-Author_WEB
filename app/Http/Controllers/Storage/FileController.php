@@ -79,35 +79,51 @@ class FileController extends Controller
 
     }
 
-    public function destroy($image = null, $folderPath = null, $bookNum = null)
+    public function destroy($image, $folderPath = null, $bookNum = null, $folderName = null)
+
     {
-        $filePath = $this->checkUserMakePath($folderPath, $bookNum);
+        $image = "이미지명";
+        $folderPath = "private";
+        $folderName = "sound";
+        $filePath = $this->checkUserMakePath($folderPath, $bookNum, $folderName);
+        return $filePath . $image;
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
+
         // return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }
 
 
-    public function downLoadEpub()
+    public function downLoadEpub(Request $request, $bookTitle = null, $authorPath = null)
     {
+        $bookTitle = '냥멍이';
+        $authorPath = 'Author@test';
+        /*
+        issue : 마운트 시킨 s3폴더 내에 depth가 깊어서 -j 명령어로 뒷 폴더를 잘라야 하고 -r 명령어로 모든 파일 및 폴더를 압축 해야하는데,
+                명령어는 두개를 사용할 수 없음.
+        resolve : bin(전역)에 shell script(zipdir)를 만들고, 해당 스크립트에 변수를 넘기고, 실행시켜서 폴더로 접근한 뒤 압축함.
+        */
         shell_exec('mkdir /mnt/epubz');
-        shell_exec('zip /mnt/epubz/resource.zip -j /mnt/mountpoint/resource/*/');
+        //shell_exec('cd /mnt/mountpoint/Author/Author@test/WorkSpace'); // shell_exec('zip /mnt/epubz/folder.zip -r 폴더구조테스트/*'); // 해당 폴더 압축 ->shell로 대체
+        shell_exec('zipdir ' . $authorPath . ' ' . $bookTitle); // zip 유저명 폴더명 $1 $2 shell폴더안에 있는 zipdir.sh (shell프로그램)
+        # zip 으로 만드는건 끝
 
-        $filepath = '/mnt/epubz/resource.zip';
+        $filepath = '/mnt/epubz/' . $bookTitle . '.zip';
         $filesize = filesize($filepath);
         $path_parts = pathinfo($filepath);
         $filename = $path_parts['basename'];
         $extension = $path_parts['extension'];
 
+
         header("Pragma: public");
         header("Expires: 0");
         header("Content-Type: application/octet-stream");
-        header("Content-Disposition: attachment; filename=$filename");
+        header("Content-Disposition: attachment; filename=" . $bookTitle . '.zip');
         header("Content-Transfer-Encoding: binary");
         header("Content-Length: $filesize");
 
-        ob_clean();
-        flush();
-        readfile($filepath);
+        ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
+        flush();                # 시스템 출력 버퍼를 비움
+        readfile($filepath);    # file을 출력하는 php 함수
     }
 
     public function makeEpub($bookNum = null, $folderPath = null, $bookTitle = null)
@@ -117,6 +133,8 @@ class FileController extends Controller
         $filePath = $this->checkUserMakePath($folderPath, $bookNum);
         return $filePath;
 
+        $heart = Work::select()->get();
+        # 테이블에 값이 있으면 실행.
         if ($heart->exists()) {
             // $heart->update(['dl_check' => true]);
             shell_exec('mkdir /mnt/zip-point/' . $filePath);
@@ -126,8 +144,8 @@ class FileController extends Controller
         //$fileNames = File::where('user_id', \Auth::user()->id)
         //             ->where('dl_check', 0)
         //             ->pluck('name');
-        //
-        foreach ($fileNames as $name) {
+
+        foreach ($fileNames as $name) { //올린 파일을 구매하려는 사용자의 폴더로 옮김 (결제시 옮겨진 폴더를 압축시킴.)
             shell_exec('cp /mnt/mountpoint/files/bbb@naver.com/' . $name . ' /mnt/zip-point/aaa@naver.com/' . $name);
             //      shell_exec('cp /mnt/zip-point/bbb@naver.com/1.txt /mnt/zip-point/aaa@naver.com/1.txt');
         }
