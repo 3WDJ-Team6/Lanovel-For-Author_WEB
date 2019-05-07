@@ -25,7 +25,7 @@ class ChatController extends Controller
     public function chat()
     {
         $pageurl = url()->previous();
-        $num = str::after($pageurl, 'editor/tool/editor/');
+        $num = str::after($pageurl, 'editor/');
         $num_of_work = ContentOfWork::select(
             'content_of_works.num_of_work'
         )->where('content_of_works.num', '=', $num)
@@ -46,7 +46,7 @@ class ChatController extends Controller
     public function send(request $request)
     {
         $pageurl = url()->previous();
-        $num = str::after($pageurl, 'editor/tool/editor/');
+        $num = str::after($pageurl, 'editor/');
         $num_of_work = ContentOfWork::select(
             'content_of_works.num_of_work'
         )->where('content_of_works.num', '=', $num)
