@@ -15227,7 +15227,6 @@ window.Vue = __webpack_require__(13);
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll___default.a);
 
-// Vue.component('message', require('./components/Vuemessage.vue').default);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('message', __WEBPACK_IMPORTED_MODULE_2__components_Vuemessage_vue___default.a);
 
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
@@ -15283,7 +15282,7 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             _this2.chat.user.push(e.user);
             _this2.chat.color.push('warning');
             _this2.chat.time.push(_this2.getTime());
-            // console.log(e);
+            console.log(e);
         }).listenForWhisper('typing', function (e) {
             if (e.name != '') {
                 _this2.typing = 'typing...';
@@ -59087,7 +59086,7 @@ exports = module.exports = __webpack_require__(46)(false);
 
 
 // module
-exports.push([module.i, "\nmark{\n    background-color:#45b4e61a;\n}\n#time{\n    font-size:9px;\n    color:black;\n}\n", ""]);
+exports.push([module.i, "\nmark {\n  background-color: #45b4e61a;\n}\n.list-group-item-success:not(.you) {\n  width: 90%;\n  float: left;\n}\n.you {\n  width: 90%;\n  float: right;\n}\n#time {\n  font-size: 9px;\n  color: black;\n}\n#chatcontent2 {\n  width: 90%;\n  float: left;\n}\n#usernickname {\n  left: 0px;\n}\n", ""]);
 
 // exports
 
@@ -59558,21 +59557,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'message',
-    props: ['color', 'user', 'time'],
-    computed: {
-        className: function className() {
-            return 'list-group-item-' + this.color;
-        },
-        badgeClass: function badgeClass() {
-            return 'badge-' + this.color;
-        }
+  name: "message",
+  props: ["color", "user", "time"],
+  computed: {
+    usernn: function usernn() {
+      return this.user;
     },
-    mounted: function mounted() {
-        // console.log('Component mounted.');
+    badgeClass: function badgeClass() {
+      return "badge-" + this.color;
     }
+  },
+  mounted: function mounted() {
+    // console.log('Component mounted.');
+  }
 });
 
 /***/ }),
@@ -59584,13 +59585,19 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("small", { staticClass: "badge float-left", class: _vm.badgeClass }, [
-      _vm._v(_vm._s(_vm.user))
-    ]),
+    _c(
+      "small",
+      { staticClass: "badge float-left", attrs: { id: "usernickname" } },
+      [_vm._v(_vm._s(_vm.user))]
+    ),
     _vm._v(" "),
     _c(
       "li",
-      { staticClass: "list-group-item", class: _vm.className },
+      {
+        staticClass: "list-group-item list-group-item-success",
+        class: _vm.usernn,
+        attrs: { id: "chatContent2" }
+      },
       [_vm._t("default")],
       2
     ),
