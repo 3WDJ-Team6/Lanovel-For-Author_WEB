@@ -20,5 +20,5 @@
     <script src="{{ asset('js/store/classy-nav.min.js') }}"></script>
 
     <script src="{{ asset('js/store/active.js') }}"></script>
-    
+
     <!-- ##### Footer Area End ##### -->

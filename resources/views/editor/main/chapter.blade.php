@@ -12,8 +12,13 @@
     }
 </script>
 <script>
+<<<<<<< HEAD
+    function receiver(){
+        {{--  document.  --}}
+=======
     function receiver() {
         document.
+>>>>>>> d6b4b96e277f433e5d7a74ec0f0fbee51ce0301b
     }
 </script>
 @endsection

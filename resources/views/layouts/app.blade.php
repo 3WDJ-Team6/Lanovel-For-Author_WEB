@@ -28,6 +28,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/res.css') }}" rel="stylesheet">
     <link href="{{ asset('css/jquery.modal.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery.modal.min.1.css') }}" rel="stylesheet">
     <link href="{{ asset('css/template.css') }}" rel="stylesheet">
     <link href="{{ asset('bower_components\jquery-ui\themes\base\jquery-ui.css') }}" rel="stylesheet">
 </head>

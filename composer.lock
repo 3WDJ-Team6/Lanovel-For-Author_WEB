@@ -4,8 +4,52 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9b49a4dfa797de0039fe0b6c071dd579",
+    "content-hash": "8c4d804194e69a0a06b89315584cb3ab",
     "packages": [
+        {
+            "name": "5dmatweb/streamlab",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/streamlab-io/5dmatweb-streamlab.git",
+                "reference": "4e5178b986a1393776d4e9be5e042e70fa4d2dc3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/streamlab-io/5dmatweb-streamlab/zipball/4e5178b986a1393776d4e9be5e042e70fa4d2dc3",
+                "reference": "4e5178b986a1393776d4e9be5e042e70fa4d2dc3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "package",
+            "autoload": {
+                "psr-4": {
+                    "StreamLab\\StreamLabProvider\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "5dmatweb Team",
+                    "email": "admin@5dmat-web.com",
+                    "homepage": "https://streamlab.io",
+                    "role": "Developer"
+                }
+            ],
+            "description": "RealTime messages services streamlab.io",
+            "keywords": [
+                "Streamlab",
+                "laravel",
+                "messages",
+                "realtime"
+            ],
+            "time": "2017-03-25T15:10:30+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "1.2.0",
@@ -2669,6 +2713,56 @@
             ],
             "description": "kakao api for laravel 5",
             "time": "2016-11-23T04:32:41+00:00"
+        },
+        {
+            "name": "predis/predis",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nrk/predis.git",
+                "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/f0210e38881631afeafb56ab43405a92cafd9fd1",
+                "reference": "f0210e38881631afeafb56ab43405a92cafd9fd1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "suggest": {
+                "ext-curl": "Allows access to Webdis when paired with phpiredis",
+                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Predis\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniele Alessandri",
+                    "email": "suppakilla@gmail.com",
+                    "homepage": "http://clorophilla.net"
+                }
+            ],
+            "description": "Flexible and feature-complete Redis client for PHP and HHVM",
+            "homepage": "http://github.com/nrk/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "time": "2016-06-16T16:22:20+00:00"
         },
         {
             "name": "psr/cache",
@@ -6380,7 +6474,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "5dmatweb/streamlab": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

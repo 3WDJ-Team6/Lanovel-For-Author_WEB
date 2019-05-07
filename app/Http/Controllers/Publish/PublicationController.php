@@ -9,6 +9,7 @@ use App\Models\ChapterOfWork;
 use App\Models\ContentOfWork;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -24,7 +25,6 @@ class PublicationController extends Controller
     */
     public function publish($num_of_work, $num_of_chapter)
     {
-
         $work_title = Work::select(                                                         // 작품 제목 가져오기
             'works.work_title'
         )->where('works.num', '=', $num_of_work)->first()->work_title;
@@ -42,7 +42,8 @@ class PublicationController extends Controller
         $coverName = str_replace(config('filesystems.disks.s3.url') . 'Author' . DIRECTORY_SEPARATOR . Auth::user()['email'] .
             DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR . $work_title . DIRECTORY_SEPARATOR .
             'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR, '', $book_cover);
-
+// return $book_cover;
+// return $coverName;
         // $book_cover = Work::select(                                                      // 커버 이미지 위치.
         //     'works.bookcover_of_work'
         // )->where('works.num','=',$num_of_work)->pluck('bookcover_of_work');
@@ -67,14 +68,37 @@ class PublicationController extends Controller
             'content_of_works.subsubtitle',
             'content_of_works.content',
             'content_of_works.created_at'
-        )->where('content_of_works.num_of_chapter', '=', $num_of_chapter)->get();
+        )->where('content_of_works.num_of_chapter','=',$num_of_chapter)->get();
+$text='';
+$imglist=[];
+$test;
+$count = 0;
+            foreach($chapter_list as $i => $clist){
+                $text = $clist['content'];
+                while(1){
+                    if(str::contains($text,'lanovebucket/Author/Author@test/images/')){
+                        $text = str::after($text,'lanovebucket/Author/Author@test/images/');
+                        $test = str::before($text,'" ');
+                        $imglist = Arr::add($imglist,'name'.$count,$test);
+                    }else{
+                        break;
+                    }
+                // echo $imglist["name".$count]."<br>";
+                $count+=1;
+                }
+            }
 
+
+            // return $imglist["name1"];
+            // return $imglist;
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS') || !Storage::disk('s3')->exists($filePath . 'META-INF')) {
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'text', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'images', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'css', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'js', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'fonts', 0777, true);
+            Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'audio', 0777, true);
+            Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'video', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'META-INF', 0777, true);
         }
 
@@ -87,9 +111,8 @@ class PublicationController extends Controller
         </rootfiles>\n
     </container>\n";
 
+        // return $chapter_list;
         Storage::disk('s3')->put($filePath . '/META-INF/container.xml', $container); // container 파일
-
-        // $file = fopen("C:/" . $work_title . $chapter_title . "/" . $work_title . $chapter_title . "/" . $work_title . $chapter_title . ".opf", "w");
 
         $isodate = date('Y-m-d\TH:i:s\Z');
         $opf =
@@ -117,11 +140,15 @@ class PublicationController extends Controller
                 <item id="cover-image" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/png"/>
                 <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
                 ';
+                foreach ($imglist as $i => $il) {
 
-        foreach ($chapter_list as $i => $clist) {
-            $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
-                        ';
-        }
+                    $opf = $opf . '<item id="images-' . $i . '" href="https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/Author@test/images/' . $il. '" media-type="application/xhtml+xml"/>
+                                ';
+                }
+                foreach ($chapter_list as $i => $clist) {
+                    $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
+                                ';
+                }
 
         $opf = $opf . '</manifest>
             <spine page-progression-direction="ltr">
@@ -175,11 +202,12 @@ class PublicationController extends Controller
         <meta http-equiv='default-style' content='text/html; charset=utf-8'/>
         <title>" . $work_title . "</title>
         <meta name='viewport' content='width=1366, height=768'/>
-        <link rel='stylesheet' type='text/css' href='css/stylesheet.css'/>
+        <link rel='stylesheet' type='text/css' href='css/stylesheet.css' />
         </head>
             <body style='margin:0.00em; text-align:center;'>
-            <section class='cover cover-rw Cover-rw' style='text-align:center;' epub:type='cover'><img style='height: 100%;' alt='" . $work_title . "' src='images/" . $coverName . "'/></section>
-                <img src='images/" . $coverName . "' alt='" . $work_title . "'/> 이부분 수정?
+            <section class='cover cover-rw Cover-rw' style='text-align:center;' epub:type='cover'></section>
+                <img id='coverimg' src='" . $coverName . "' alt='" . $work_title . "' />
+                <span><h1>$work_title</h1></span>
             </body>
         </html>
         ";
@@ -188,6 +216,7 @@ class PublicationController extends Controller
 
         // <!DOCTYPE html>?
         foreach ($chapter_list as $i => $clist) {
+            // return $clist['content'];
             $contents =
                 "<?xml version='1.0' encoding='UTF-8'?>
                  <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
@@ -205,25 +234,39 @@ class PublicationController extends Controller
                    epub:type='frontmatter dedication'>
                     <h1>" . $clist['subsubtitle'] . "</h1>
                     " . $clist['content'] . "
-                </div>
                 </section>
+                </div>
                 </body>
             </html>
             ";
             Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'text' . DIRECTORY_SEPARATOR . 'main' . $i . '.xhtml', $contents);
         }                                                     // 각 목차 내용
         // custom css
-        // $cssNmae = 'stylesheet';
-        // $cssFile =
-        //     "
-        // body { font-size: 1em; }
-        // h1 { font-size: 1.6em; }
-        // h2 { font-size: 1.4em; }
-        // h3 { font-size: 1.2em; }
-        // h4 { font-size: 1.1em; }
-        // p { font-size: 1em; }
-        //     ";
-        // Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);   // css전체
+        $cssNmae = 'stylesheet';
+        $cssFile =
+            "
+            body {
+                font-size: 1em;
+                width : 1200px;
+                height : 900px;
+            }
+            h1 { font-size: 1.6em; }
+            h2 { font-size: 1.4em; }
+            h3 { font-size: 1.2em; }
+            h4 { font-size: 1.1em; }
+            p { font-size: 1em; }
+            #coverimg {
+                text-indent : 0;
+                text-align : center;
+                margin : 0;
+                padding : 0;
+                max-width : 100%;
+                height : 80%;
+                box-shadow : 10px 10px 10px;
+            }
+            ";
+            // 표지 이미지 css 입히기.!
+        Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);   // css전체
 
         $jsNmae = 'viewer';
         $jsFile =
