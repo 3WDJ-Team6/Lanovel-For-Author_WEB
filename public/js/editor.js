@@ -344,6 +344,412 @@ function play1() {
 }
 //이미지에 추가된 음악 재생//
 
+//리소스파일 리스팅
+getResource();
+let folder = "";
+var chng_text = "";
+var folder_name = "";
+var folder_name_ko = "";
+
+function getResource() {
+    $.ajax({
+        type: "GET",
+        url: "/getDir/" + num_of_work, //private, public, 나중에 책의 num값도 넘겨줘야함
+        dataType: "json",
+        error: function(e) {
+            console.log(e);
+            throw new Error("실-패");
+        },
+        success: function(data) {
+            console.log(data);
+            $("#resource-feild").html("");
+            for (var i = 0; i < 2; i++) {
+                folder_name = Object.keys(data)[i].replace("_FOLDERS", "");
+                // folder_name = Object.keys(data)[i];
+                console.log(folder_name);
+                switch (folder_name) {
+                    case "PUBLIC":
+                        folder_name_ko = folder_name.replace(
+                            "PUBLIC",
+                            "공용 폴더"
+                        );
+                        break;
+                    case "PRIVATE":
+                        folder_name_ko = folder_name.replace(
+                            "PRIVATE",
+                            "개인 폴더"
+                        );
+                        break;
+                    default:
+                        console.log(folder_name);
+                        break;
+                }
+                console.log("폴더이름 : " + folder_name_ko);
+                $("#resource-feild").append(
+                    "<span id='obj_" +
+                        i +
+                        "' class='obj' onclick='getFolders()'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
+                        folder_name_ko +
+                        "</span></span>"
+                );
+            }
+        }
+    });
+}
+var folder_name_kinds = "";
+function getFolders() {
+    $(document).on("click", ".obj, .back.folderkinds", function() {
+        if (this.id == "obj_0") {
+            folder = "private";
+        } else if (this.id == "obj_1") {
+            folder = "public";
+        }
+        $.ajax({
+            type: "GET",
+            url: "/getDir/" + num_of_work + "/" + folder,
+            dataType: "json",
+            error: function(data) {
+                console.log(22222222);
+                console.log(data);
+                throw new Error("실-패");
+            },
+            success: function(data) {
+                switch (folder) {
+                    case "private":
+                        folder_name_ko = "개인 폴더";
+                        break;
+                    case "public":
+                        folder_name_ko = "공용 폴더";
+                        break;
+                    default:
+                        break;
+                }
+                console.log(111111111);
+                console.log(data);
+                console.log("folder : " + folder);
+                console.log("folder_name_ko : " + folder_name_ko);
+                $("#resource-feild").html("");
+                $("#resource-feild").prepend(
+                    "<span class='folder_name'>" +
+                        folder_name_ko +
+                        "</span>" +
+                        "<span class='back foldername'>" +
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512.001 512.001' style='enable-background:new 0 0 512.001 512.001;' xml:space='preserve' width='32px' height='32px' class=''><g><g>" +
+                        "<g>" +
+                        "<path d='M384.834,180.699c-0.698,0-348.733,0-348.733,0l73.326-82.187c4.755-5.33,4.289-13.505-1.041-18.26    c-5.328-4.754-13.505-4.29-18.26,1.041l-82.582,92.56c-10.059,11.278-10.058,28.282,0.001,39.557l82.582,92.561    c2.556,2.865,6.097,4.323,9.654,4.323c3.064,0,6.139-1.083,8.606-3.282c5.33-4.755,5.795-12.93,1.041-18.26l-73.326-82.188    c0,0,348.034,0,348.733,0c55.858,0,101.3,45.444,101.3,101.3s-45.443,101.3-101.3,101.3h-61.58    c-7.143,0-12.933,5.791-12.933,12.933c0,7.142,5.79,12.933,12.933,12.933h61.58c70.12,0,127.166-57.046,127.166-127.166    C512,237.745,454.954,180.699,384.834,180.699' data-original='#000000' class='active-path'" +
+                        "data-old_color='#B7CBFC' fill='#476ACD'/>" +
+                        "</g>" +
+                        "</span>"
+                );
+                for (var i = 0; i < data.length - 1; i++) {
+                    folder_name = data[i];
+                    // console.log(folder_name);
+                    folder_name = folder_name.split("/");
+                    // console.log(folder_name);
+                    folder_name = folder_name[data.length - 3];
+                    // console.log(folder_name);
+                    switch (folder_name) {
+                        case "video":
+                            folder_name_kinds = folder_name.replace(
+                                "video",
+                                "동영상"
+                            );
+                            break;
+                        case "sound":
+                            folder_name_kinds = folder_name.replace(
+                                "sound",
+                                "효과음"
+                            );
+                            break;
+                        case "purchase":
+                            folder_name_kinds = folder_name.replace(
+                                "purchase",
+                                "구매"
+                            );
+                            break;
+                        case "images":
+                            folder_name_kinds = folder_name.replace(
+                                "images",
+                                "이미지"
+                            );
+                            break;
+                        default:
+                            // console.log(folder_name);
+                            break;
+                    }
+                    $("#resource-feild").append(
+                        "<span id='obj_" +
+                            i +
+                            "' class='obj_kinds'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
+                            folder_name_kinds +
+                            "</span>" +
+                            "</span>"
+                    );
+                }
+            }
+        });
+    });
+}
+
+var folder_kinds = "";
+var folder_files = "";
+$(document).on("click", ".obj_kinds", function() {
+    if (this.id == "obj_0") {
+        folder_kinds = "images";
+        folder_name_kinds = "이미지";
+    } else if (this.id == "obj_1") {
+        folder_kinds = "purchase";
+        folder_name_kinds = "구매";
+    } else if (this.id == "obj_2") {
+        folder_kinds = "sound";
+        folder_name_kinds = "효과음";
+    } else if (this.id == "obj_3") {
+        folder_kinds = "video";
+        folder_name_kinds = "동영상";
+    }
+    console.log(folder);
+    switch (folder) {
+        case "private":
+            folder_files = "privateFiles";
+            break;
+        case "public":
+            folder_files = "publicFiles";
+            break;
+        default:
+            break;
+    }
+    $.ajax({
+        type: "GET",
+        url: "/getDir/" + num_of_work + "/" + folder_files + "/" + folder_kinds,
+        dataType: "json",
+        error: function(data) {
+            console.log(
+                "/getDir/" +
+                    num_of_work +
+                    "/" +
+                    folder_files +
+                    "/" +
+                    folder_kinds
+            );
+            console.log(44444444);
+            console.log(data);
+            throw new Error("실-패");
+        },
+        success: function(data) {
+            console.log(
+                "/getDir/" +
+                    num_of_work +
+                    "/" +
+                    folder_files +
+                    "/" +
+                    folder_kinds
+            );
+            console.log(33333333);
+            console.log(data);
+            data.reverse();
+            console.log("folder : " + folder);
+            $("#resource-feild").html("");
+            $("#resource-feild").prepend(
+                "<span class='folder_name'>" +
+                    folder_name_kinds +
+                    "</span>" +
+                    "<span class='back folderkinds'>" +
+                    "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512.001 512.001' style='enable-background:new 0 0 512.001 512.001;' xml:space='preserve' width='32px' height='32px' class=''><g><g>" +
+                    "<g>" +
+                    "<path d='M384.834,180.699c-0.698,0-348.733,0-348.733,0l73.326-82.187c4.755-5.33,4.289-13.505-1.041-18.26    c-5.328-4.754-13.505-4.29-18.26,1.041l-82.582,92.56c-10.059,11.278-10.058,28.282,0.001,39.557l82.582,92.561    c2.556,2.865,6.097,4.323,9.654,4.323c3.064,0,6.139-1.083,8.606-3.282c5.33-4.755,5.795-12.93,1.041-18.26l-73.326-82.188    c0,0,348.034,0,348.733,0c55.858,0,101.3,45.444,101.3,101.3s-45.443,101.3-101.3,101.3h-61.58    c-7.143,0-12.933,5.791-12.933,12.933c0,7.142,5.79,12.933,12.933,12.933h61.58c70.12,0,127.166-57.046,127.166-127.166    C512,237.745,454.954,180.699,384.834,180.699' data-original='#000000' class='active-path'" +
+                    "data-old_color='#B7CBFC' fill='#476ACD'/>" +
+                    "</g>" +
+                    "</span>"
+            );
+            if (folder_kinds == "purchase") {
+                $(".back").after("<div id='obj_feild'></div>");
+            } else {
+                $(".back").after(
+                    "<div class='upload_loading'><label for='image' class='upload_label'>+</label><input type='file' name='image' id='image' /></div><div id='obj_feild'></div>"
+                );
+            }
+            $.each(data, function(index, item) {
+                // console.log("item.name : " + item.name);
+                // console.log("item.src : " + item.src);
+                // console.log("index : " + index);
+                chng_text = item.name.substr(0, 9) + "...";
+                $("#obj_feild").append(
+                    "<span id='objLi_" +
+                        index +
+                        "' class='obj_file'><img id='obj_" +
+                        index +
+                        "' src='" +
+                        item.src +
+                        "' servername='" +
+                        item.fileName +
+                        "' class='obj_thum' /><span class='obj_name' title='" +
+                        item.name +
+                        "'>" +
+                        chng_text +
+                        "</span></span>"
+                );
+            });
+        }
+    });
+});
+$(document).on("click", ".back.foldername", function() {
+    // $("#resource-feild").html("");
+    // if ($(".back").hasClass("folderkinds")) {
+    //     console.log("folderkinds있음");
+    //     getFolders();
+    // } else {
+    //     console.log("folderkinds없음");
+    //     getResource();
+    // }
+    getResource();
+    // getResource();
+});
+//리소스파일 리스팅//
+
+//파일추가
+let appendId = null;
+var publicUrl = "";
+$(document).on("change", 'input[type="file"]', function(event) {
+    var reader = new FileReader();
+    var form = $("#file_form")[0];
+    var formData = new FormData(form);
+    formData.append("image", $("#image")[0].files[0]);
+    var file_name = $("#image")[0].files[0].name;
+    console.log("file_name : " + file_name);
+    var chng_name = file_name.substr(0, 9) + "...";
+    console.log(reader);
+    console.log(form);
+    console.log($("#image")[0].files[0].name);
+    console.log($("#image")[0].files[0]);
+    var path = folder;
+    console.log("path : " + path);
+    appendId = $(".obj_file").length;
+    switch (path) {
+        case "public":
+            publicUrl = "/images/" + path + "/" + num_of_work;
+            break;
+        case "private":
+            publicUrl = "/images/" + path + "/" + folder_kinds;
+            break;
+        default:
+            break;
+    }
+    console.log("publicUrl : " + publicUrl);
+
+    $.ajax({
+        // public 폴더에 등록할 때 images/public/책번호
+        url: publicUrl,
+        processData: false,
+        contentType: false,
+        data: formData,
+        type: "POST",
+        success: function() {
+            $("span").remove("#file_loading");
+        },
+        beforeSend: function() {
+            $("#image").after("<span id='file_loading'></span>");
+        },
+        complete: function() {
+            $("#obj_feild").prepend(
+                "<span id='objLi_" +
+                    appendId +
+                    "' class='obj_file'><img id='obj_" +
+                    appendId +
+                    "' class='obj_thum' /><span class='obj_name' title='" +
+                    file_name +
+                    "'>" +
+                    chng_name +
+                    "</span></span>"
+            );
+            var output = document.getElementById("objLi_" + appendId);
+            var child = output.children[0];
+            child.src = URL.createObjectURL(event.target.files[0]);
+            // appendId++;
+        },
+        error: function(e) {
+            console.log(e + "에러");
+        }
+    });
+});
+//파일추가//
+
+//파일 우클릭 & 삭제
+var image_id = "";
+var img = "";
+var image = "";
+var path = "";
+var server_name = "";
+var publicUrl = "";
+$(document).on("contextmenu", ".obj_file", function() {
+    img = $(this)
+        .children(".obj_thum")
+        .attr("src");
+    image = $(this)
+        .children(".obj_name")
+        .attr("title");
+    path = img
+        .replace("https://s3.ap-northeast-2.amazonaws.com/lanovebucket/", "")
+        .replace("" + image, "");
+    server_name = $(this)
+        .children(".obj_thum")
+        .attr("servername");
+    image_id = $(this).attr("id");
+    console.log("server_name : " + server_name);
+    console.log("img : " + img);
+    console.log("img_path : " + path);
+    console.log("img_name : " + image);
+
+    event.preventDefault();
+    if ($(".custom-menu").length) {
+        $("div.custom-menu").remove();
+    }
+    $("div.custom-menu").remove();
+    $("<div id='file-delete' class='custom-menu'>삭제</div>")
+        .appendTo(".resource-area")
+        .css({
+            top: event.pageY + "px",
+            left: event.pageX + "px"
+        })
+        .bind("click", function() {
+            $("div.custom-menu").remove();
+        });
+    $(document).on("click", "#file-delete", function() {
+        console.log("image_id : " + image_id);
+
+        switch (folder) {
+            case "public":
+                publicUrl =
+                    "/images/" + server_name + "/" + path + "/" + num_of_work;
+                break;
+            case "private":
+                publicUrl = "/images/" + server_name;
+                break;
+            default:
+                break;
+        }
+        console.log("publicUrl : " + publicUrl);
+
+        $.ajax({
+            method: "delete",
+            url: publicUrl,
+            type: "POST",
+            success: function(data) {
+                console.log(data);
+                console.log(image);
+                $("#" + image_id).remove();
+            },
+            error: function(data) {
+                console.log(data);
+                console.log("에러");
+            }
+        });
+    });
+    $(document).on("click", "body", function() {
+        $("div.custom-menu").remove();
+    });
+});
+//파일 우클릭 & 삭제//
+
 $(document).ready(function() {
     $.ajaxSetup({
         headers: {
@@ -351,12 +757,16 @@ $(document).ready(function() {
         }
     });
 
+    //툴 팝업 링크해제 뒤로 한칸내리는역할
     $("#unlink").after("<div></div>");
+    //툴 팝업 링크해제 뒤로 한칸내리는역할//
 
+    //글쓰는 곳에서 엔터키누르면 앞에 태그에따라 자동생성되던 태그를 p태그로 변경
     $(".textarea").keyup = e => {
         e = e || window.event;
         if (e.keyCode === 13) document.execCommand("formatBlock", false, "p");
     };
+    //글쓰는 곳에서 엔터키누르면 앞에 태그에따라 자동생성되던 태그를 p태그로 변경//
 
     //포커스 미완
     $(".select").attr("tabindex", -1);
@@ -401,275 +811,7 @@ $(document).ready(function() {
     });
     //템플릿//
 
-    //리소스파일 리스팅
-    let folder = "";
-    var chng_text = "";
-    var folder_name = "";
-    var folder_name_ko = "";
-
-    function getResource() {
-        $.ajax({
-            type: "GET",
-            url: "/getDir/" + num_of_work, //private, public, 나중에 책의 num값도 넘겨줘야함
-            dataType: "json",
-            error: function(e) {
-                console.log(e);
-                throw new Error("실-패");
-            },
-            success: function(data) {
-                console.log(data);
-                for (var i = 0; i < 2; i++) {
-                    folder_name = Object.keys(data)[i].replace("_FOLDER", "");
-                    switch (folder_name) {
-                        case "PUBLIC":
-                            folder_name_ko = folder_name.replace(
-                                "PUBLIC",
-                                "공용 폴더"
-                            );
-                            break;
-                        case "PRIVATE":
-                            folder_name_ko = folder_name.replace(
-                                "PRIVATE",
-                                "개인 폴더"
-                            );
-                            break;
-                        default:
-                            console.log(folder_name);
-                            break;
-                    }
-                    console.log("폴더이름 : " + folder_name_ko);
-                    $("#resource-feild").append(
-                        "<span id='obj_" +
-                            i +
-                            "' class='obj'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
-                            folder_name_ko +
-                            "</span></span>"
-                    );
-                }
-            }
-        });
-    }
-    $(document).on("click", ".obj", function() {
-        if (this.id == "obj_0") {
-            folder = "private";
-            folder_name_ko = "개인 폴더";
-        } else if (this.id == "obj_1") {
-            folder = "public";
-            folder_name_ko = "공용 폴더";
-        }
-        $.ajax({
-            type: "GET",
-            url: "/getDir/" + num_of_work + "/" + folder,
-            dataType: "json",
-            error: function(data) {
-                console.log(22222222);
-                console.log(data);
-                throw new Error("실-패");
-            },
-            success: function(data) {
-                console.log(111111111);
-                console.log(343434434);
-                console.log(data);
-                data.reverse();
-                console.log("folder : " + folder);
-                $("#resource-feild").html("");
-                $("#resource-feild").prepend(
-                    "<span class='folder_name'>" +
-                        folder_name_ko +
-                        "</span>" +
-                        "<span class='back'>" +
-                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512.001 512.001' style='enable-background:new 0 0 512.001 512.001;' xml:space='preserve' width='32px' height='32px' class=''><g><g>" +
-                        "<g>" +
-                        "<path d='M384.834,180.699c-0.698,0-348.733,0-348.733,0l73.326-82.187c4.755-5.33,4.289-13.505-1.041-18.26    c-5.328-4.754-13.505-4.29-18.26,1.041l-82.582,92.56c-10.059,11.278-10.058,28.282,0.001,39.557l82.582,92.561    c2.556,2.865,6.097,4.323,9.654,4.323c3.064,0,6.139-1.083,8.606-3.282c5.33-4.755,5.795-12.93,1.041-18.26l-73.326-82.188    c0,0,348.034,0,348.733,0c55.858,0,101.3,45.444,101.3,101.3s-45.443,101.3-101.3,101.3h-61.58    c-7.143,0-12.933,5.791-12.933,12.933c0,7.142,5.79,12.933,12.933,12.933h61.58c70.12,0,127.166-57.046,127.166-127.166    C512,237.745,454.954,180.699,384.834,180.699' data-original='#000000' class='active-path'" +
-                        "data-old_color='#B7CBFC' fill='#476ACD'/>" +
-                        "</g>" +
-                        "</span>"
-                );
-                $(".back").after(
-                    "<div class='upload_loading'><label for='image' class='upload_label'>+</label><input type='file' name='image' id='image' /></div><div><div id='obj_feild'>"
-                );
-                $.each(data, function(index, item) {
-                    // console.log("item.name : " + item.name);
-                    // console.log("item.src : " + item.src);
-                    // console.log("index : " + index);
-                    chng_text = item.name.substr(0, 9) + "...";
-                    $("#obj_feild").append(
-                        "<span id='objLi_" +
-                            index +
-                            "' class='obj_file'><img id='obj_" +
-                            index +
-                            "' src='" +
-                            item.src +
-                            "' servername='" +
-                            item.fileName +
-                            "' class='obj_thum' /><span class='obj_name' title='" +
-                            item.name +
-                            "'>" +
-                            chng_text +
-                            "</span></span>"
-                    );
-                });
-            }
-        });
-    });
-    $(document).on("click", ".back", function() {
-        $("#resource-feild").html("");
-        getResource();
-    });
-    getResource();
-    //리소스파일 리스팅//
-    //파일추가
-    let appendId = null;
-    $(document).on("change", 'input[type="file"]', function(event) {
-        var reader = new FileReader();
-        var form = $("#file_form")[0];
-        var formData = new FormData(form);
-        formData.append("image", $("#image")[0].files[0]);
-        var file_name = $("#image")[0].files[0].name;
-        console.log("file_name : " + file_name);
-        var chng_name = file_name.substr(0, 9) + "...";
-        console.log(reader);
-        console.log(form);
-        console.log($("#image")[0].files[0].name);
-        console.log($("#image")[0].files[0]);
-        var path = folder;
-        console.log("path : " + path);
-        appendId = $(".obj_file").length;
-        switch (path) {
-            case "public":
-                var publicUrl = "/images/" + path + "/" + num_of_work;
-                break;
-            case "private":
-                var publicUrl = "/images";
-                break;
-            default:
-                break;
-        }
-        console.log("publicUrl : " + publicUrl);
-
-        $.ajax({
-            // public 폴더에 등록할 때 images/public/책번호
-            url: publicUrl,
-            processData: false,
-            contentType: false,
-            data: formData,
-            type: "POST",
-            success: function() {
-                $("span").remove("#file_loading");
-            },
-            beforeSend: function() {
-                $("#image").after("<span id='file_loading'></span>");
-            },
-            complete: function() {
-                $("#obj_feild").prepend(
-                    "<span id='objLi_" +
-                        appendId +
-                        "' class='obj_file'><img id='obj_" +
-                        appendId +
-                        "' class='obj_thum' /><span class='obj_name' title='" +
-                        file_name +
-                        "'>" +
-                        chng_name +
-                        "</span></span>"
-                );
-                var output = document.getElementById("objLi_" + appendId);
-                var child = output.children[0];
-                child.src = URL.createObjectURL(event.target.files[0]);
-                // appendId++;
-            },
-            error: function(e) {
-                console.log(e + "에러");
-            }
-        });
-    });
-    //파일추가//
-
-    //파일 우클릭 & 삭제
-    var image_id = "";
-    var img = "";
-    var image = "";
-    var path = "";
-    var server_name = "";
-    var publicUrl = "";
-    $(document).on("contextmenu", ".obj_file", function() {
-        img = $(this)
-            .children(".obj_thum")
-            .attr("src");
-        image = $(this)
-            .children(".obj_name")
-            .attr("title");
-        path = img
-            .replace(
-                "https://s3.ap-northeast-2.amazonaws.com/lanovebucket/",
-                ""
-            )
-            .replace("" + image, "");
-        server_name = $(this)
-            .children(".obj_thum")
-            .attr("servername");
-        image_id = $(this).attr("id");
-        console.log("server_name : " + server_name);
-        console.log("img : " + img);
-        console.log("img_path : " + path);
-        console.log("img_name : " + image);
-
-        event.preventDefault();
-        if ($(".custom-menu").length) {
-            $("div.custom-menu").remove();
-        }
-        $("div.custom-menu").remove();
-        $("<div id='file-delete' class='custom-menu'>삭제</div>")
-            .appendTo(".resource-area")
-            .css({
-                top: event.pageY + "px",
-                left: event.pageX + "px"
-            })
-            .bind("click", function() {
-                $("div.custom-menu").remove();
-            });
-        $(document).on("click", "#file-delete", function() {
-            console.log("image_id : " + image_id);
-
-            switch (folder) {
-                case "public":
-                    publicUrl =
-                        "/images/" +
-                        server_name +
-                        "/" +
-                        path +
-                        "/" +
-                        num_of_work;
-                    break;
-                case "private":
-                    publicUrl = "/images/" + server_name;
-                    break;
-                default:
-                    break;
-            }
-            console.log("publicUrl : " + publicUrl);
-
-            $.ajax({
-                method: "delete",
-                url: publicUrl,
-                type: "POST",
-                success: function(data) {
-                    console.log(data);
-                    console.log(image);
-                    $("#" + image_id).remove();
-                },
-                error: function(data) {
-                    console.log(data);
-                    console.log("에러");
-                }
-            });
-        });
-        $(document).on("click", "body", function() {
-            $("div.custom-menu").remove();
-        });
-    });
-    //파일 우클릭 & 삭제//
-
-    //파일을 textarea에 넣었을 때
+    //리소스 파일을 textarea에 넣으면 class를 resize로 변경
     var imgId = "";
     var resize_num = null;
     document
@@ -683,11 +825,11 @@ $(document).ready(function() {
             $(".textarea .obj_thum").attr("id", "" + imgId + "");
             $(".textarea .obj_thum").attr("class", "resize");
         });
-    //파일을 textarea에 넣었을 때//
+    //리소스 파일을 textarea에 넣으면 class를 resize로 변경//
 
     //resize된 파일을 클릭했을 때
     var tool_imgId = "";
-    $(document).on("click", ".resize", function() {
+    $(document).on("click", ".resize, .css_eft", function() {
         tool_imgId = $(this).attr("id");
         console.log(tool_imgId);
     });
@@ -786,13 +928,45 @@ $(document).ready(function() {
         tool_imgId_width = $("#" + tool_imgId).width();
         tool_imgId_height = $("#" + tool_imgId).height();
         console.log($($("#" + tool_imgId).prev()));
-
-        if (
+        if ($("#" + tool_imgId).hasClass("css_eft")) {
+            console.log("이미 새로고침하고 클래스 씌워져있어");
+            switch (css_eft_val) {
+                case "css_eft_cB1": //벚꽃1
+                    $("#" + tool_imgId).attr("id", "cherryBlossom1");
+                    break;
+                case "css_eft_cB2": //벚꽃2
+                    $("#" + tool_imgId).attr("id", "cherryBlossom2");
+                    break;
+                case "css_eft_rain": //비
+                    $("#" + tool_imgId).attr("id", "rain");
+                    break;
+                case "css_eft_snow": //눈
+                    $("#" + tool_imgId).attr("id", "snow");
+                    break;
+                case "css_eft_starlight": //반짝임
+                    $("#" + tool_imgId).attr("id", "starlight");
+                    break;
+                case "css_eft_yellowstar": //노란별
+                    $("#" + tool_imgId).attr("id", "yellowstar");
+                    break;
+                case "css_eft_lightning": //번개
+                    $("#" + tool_imgId).attr("id", "lightning");
+                    break;
+                case "css_eft_fire1": //불1
+                    $("#" + tool_imgId).attr("id", "fire1");
+                    break;
+                case "css_eft_fire2": //불2
+                    $("#" + tool_imgId).attr("id", "fire2");
+                    break;
+                default:
+                    break;
+            }
+        } else if (
             $("#" + tool_imgId)
                 .prev()
                 .hasClass("css_eft")
         ) {
-            console.log("이미중복있어");
+            console.log("이미 씌운거있어서 따른효과로 바꿨어");
 
             switch (css_eft_val) {
                 case "css_eft_cB1": //벚꽃1
@@ -844,7 +1018,7 @@ $(document).ready(function() {
                     break;
             }
         } else {
-            console.log("응없어");
+            console.log("없어서 효과 입혔어");
 
             $("#" + tool_imgId).wrap("<div class='tem_effect'></div>");
             switch (css_eft_val) {

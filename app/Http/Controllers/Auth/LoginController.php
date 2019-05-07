@@ -58,20 +58,27 @@ class LoginController extends Controller
         // dd(Auth::attempt($credentials)); // type 반환
         // return $credentials;
         //post방식에서 redirect 권장하지 않음
-        if (Auth::attempt($credentials)) {  //로그인 성공시 (로그인 된 상태)
+        if (Auth::attempt($credentials)) {  # 로그인 성공시 (로그인 된 상태)
+
             //session id값을 header에 포함시켜 주고
-            // if (strpos($request, 'Dalvik')) {
-            if (Auth::user()['roles'] === 1) {
-                return response()->json(Auth::user(), 200);
-                // }
+            // if (strpos($request, 'Dalvik'))
+
+            switch (Auth::user()['roles']) {
+                case 1:
+                    return response()->json(Auth::user(), 200);
+                    break;
+                case 2:
+                    return redirect('/')->with('success', '로그인 되었습니다');
+                    break;
+                case 3:
+                    return redirect('/store')->with('success', '로그인 되었습니다');
+                    break;
+                default:
+                    return back()->withSuccess('로그인 되었습니다');
+                    break;
             }
-            return back()->withSuccess('로그인 되었습니다');
-            if (Auth::user()['roles'] == 2) {
-                return redirect('/')->with('message', '로그인 되었습니다.');
-            } else {
-                return redirect('store')->with('message', '로그인 되었습니다.');
-            }
-        } else {                            //로그인 실패시
+            // return dd(Auth::user()['roles'] == 3);
+        } else {  //로그인 실패시
             if (Auth::user()['roles'] === 1) {
                 return false;
             } else {

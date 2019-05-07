@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#chatting').click(function () {
-        $('#ccc').load('innerchat');
+        $('#ccc').load("tool/editor/innerchat");
         $('#ccc').toggle();
     });
 });

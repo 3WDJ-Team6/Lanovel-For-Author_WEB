@@ -201,6 +201,7 @@ class IndexController extends Controller
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
+            echo "<script>alert('asd');</script>";
             $this->work_model->storeWork($work_info);
 
             $recentWork = Work::select('num')->orderBy('created_at', 'DESC')->first();

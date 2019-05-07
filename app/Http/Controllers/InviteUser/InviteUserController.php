@@ -147,7 +147,7 @@ class InviteUserController extends Controller{
         $message->save();
         event(new InviteEvent(Auth::user()['nickname'] ,$nickname,'invite message',$nickname."님이 ".$work_title.'작품에 초대하셧습니다.'));
 
-        return 1;
+        // return 1;
         return redirect()->back()->withInput();
 
     }

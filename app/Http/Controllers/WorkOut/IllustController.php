@@ -318,6 +318,8 @@ class IllustController extends Controller
             ->orderBy('illust_files.id', 'desc')
             ->where('cart_of_illustrations.user_id', Auth::user()['id'])
             ->get();
+
+        return $cartProducts;
     }
     /**
      * Store a newly created resource in storage.
@@ -423,7 +425,6 @@ class IllustController extends Controller
             $this->buy_illust_model->storeIllustBuy($illust_buy_info);
             $this->cart_illust_model->dropCart($num);
         }
-
         return redirect()->back()->with('message', '구매 성공');
     }
 

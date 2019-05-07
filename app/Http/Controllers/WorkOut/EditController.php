@@ -13,6 +13,7 @@ use App\Models\Template;
 use App\Models\Memo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 
 
@@ -292,8 +293,9 @@ class EditController extends Controller
 
         $content_of_works = ContentOfWork::select('*')->where('num', $num)->first();
 
+
+        // return $content_of_works['content'];
         // return $content_lists;
-        // return $content_of_works;
         return view('editor/tool/editor')
             ->with('content_of_works', $content_of_works)
             ->with('content_lists', $content_lists)
@@ -315,6 +317,13 @@ class EditController extends Controller
 
         $content_of_works = ContentOfWork::where('num', $request->num)->first();
         // return $request->editor_content;
+        while(1){
+            if(str::contains($editor_content,'resize">')){
+                $editor_content = str::replaceFirst('resize">','resize" > </img>',$editor_content);
+            }else{
+                break;
+            }
+        }
         $content_of_works->content = $editor_content;
         $content_of_works->save();
 

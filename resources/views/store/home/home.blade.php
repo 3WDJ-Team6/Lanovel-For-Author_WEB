@@ -12,8 +12,8 @@
 @section('content')
 
 <body>
-    @if(Session::has('message'))
-    <div class="alert alert-info">{{ Session::get('message') }}</div>
+    @if(Session::has('success'))
+    <div class="alert alert-info">{{ Session::get('success') }}</div>
     @endif
 
 <<<<<<< HEAD
@@ -102,6 +102,7 @@
 =======
 >>>>>>> b17c5a58a753c749f1b3861c03da3d59d4f8e673
     <!-- 새작품 -->
+
     <section class="welcome_area bg-img background-overlay" style="height:500px; margin-top:70px; background-image:url('image/store/girl.jpg');">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
@@ -140,8 +141,7 @@
                             <!-- Product Image -->
                             <div class="product-img" style="width: 250px; height: 150px; overflow: hidden;">
                                 <a href="{{url('/view')}}/{{$row['num']}}">
-                                    <img src="{{$row->url_of_illustration}}" alt=""
-                                        onerror="this.src='{{asset('image/no_image.png')}}'">
+                                    <img src="{{$row->url_of_illustration}}" alt="" onerror="this.src='{{asset('image/no_image.png')}}'">
 
                                     <!-- Hover Thumb -->
                                     <img class="hover-img" src="{{$row->url_of_illustration}}" alt="">

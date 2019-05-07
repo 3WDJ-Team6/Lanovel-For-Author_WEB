@@ -66,15 +66,15 @@
                                     class="fa fa-user"></i>
                                 메시지</a></li>
                         @else
-                        <li class="nav-item"><a class="nav-link" id="like" href="#like-tabs-above" role="tab"
+                        <li class="nav-item col-4"><a class="nav-link" id="like" href="#like-tabs-above" role="tab"
                                 data-toggle="tab" data-url="/site/fetch-tab?tab=2" aria-controls="profile"><i
                                     class="fa fa-user"></i>
                                 좋아요</a></li>
-                        <li class="nav-item"><a class="nav-link" id="cart" href="#cart-tabs-above" role="tab"
+                        <li class="nav-item col-4"><a class="nav-link" id="cart" href="#cart-tabs-above" role="tab"
                                 data-toggle="tab" data-url="/site/fetch-tab?tab=2" aria-controls="profile"><i
                                     class="fa fa-user"></i>
                                 장바구니</a></li>
-                        <li class="nav-item"><a class="nav-link" id="buy" href="#buy-tabs-above" role="tab"
+                        <li class="nav-item col-4"><a class="nav-link" id="buy" href="#buy-tabs-above" role="tab"
                                 data-toggle="tab" data-url="/site/fetch-tab?tab=2" aria-controls="profile"><i
                                     class="fa fa-user"></i>
                                 구입</a></li>
