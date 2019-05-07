@@ -13,6 +13,7 @@ use App\Models\Template;
 use App\Models\Memo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 
 
@@ -33,10 +34,9 @@ class EditController extends Controller
          */
         // return $this->middleware('auth');
     }
-
     /** 목차 리스트 보기
-     * 필요한 데이터 - 챕터 제목 (or 권수), 회차 제목 (or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
-     */
+    * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
+    */
 
     public function index($num)
     {
@@ -293,8 +293,9 @@ class EditController extends Controller
 
         $content_of_works = ContentOfWork::select('*')->where('num', $num)->first();
 
+
+        // return $content_of_works['content'];
         // return $content_lists;
-        // return $content_of_works;
         return view('editor/tool/editor')
             ->with('content_of_works', $content_of_works)
             ->with('content_lists', $content_lists)
@@ -316,6 +317,13 @@ class EditController extends Controller
 
         $content_of_works = ContentOfWork::where('num', $request->num)->first();
         // return $request->editor_content;
+        while(1){
+            if(str::contains($editor_content,'resize">')){
+                $editor_content = str::replaceFirst('resize">','resize" > </img>',$editor_content);
+            }else{
+                break;
+            }
+        }
         $content_of_works->content = $editor_content;
         $content_of_works->save();
 

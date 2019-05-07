@@ -157,6 +157,7 @@ return [
         /*
          * Package Service Providers...
          */
+        StreamLab/StreamLabProvider/StreamLabServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -234,7 +235,7 @@ return [
 
         #socialite kakaotalk
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'Kakao' => pouu69\KakaoApi\Facade\KakaoFacade::class,   //kakao Facade 등록 
+        'Kakao' => pouu69\KakaoApi\Facade\KakaoFacade::class,   //kakao Facade 등록
     ],
 
 ];

@@ -18,3 +18,6 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 Broadcast::channel('chat', function($user){
     return ['name'=>$user->name];
 });
+Broadcast::channel('invite', function ($user1 ,$user2, $title,$content,$num,$time) {
+    return ['to_id'=>$user1->nickname,'from_id'=>$user2->nickname,'title'=>$title,'content'=>$content,'num'=>$num,'time'=>$time];
+});
