@@ -129,6 +129,7 @@
         {{--<div id="popup_result" class="textarea" contentEditable="true" autocorrect="false" ondrop="drop(event)" ondragover="allowDrop(event)">--}}
         <div id="popup_result" class="textarea" contentEditable="true" autocorrect="false">
             {!! $content_of_works['content'] !!}
+
         </div>
 
         {{-- 리소스 에리어 --}}

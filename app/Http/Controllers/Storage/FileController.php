@@ -78,7 +78,7 @@ class FileController extends Controller
         return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
     }
 
-    public function destroy($image, $folderPath = null, $bookNum = null)
+    public function destroy($image = null, $folderPath = null, $bookNum = null)
     {
         $filePath = $this->checkUserMakePath($folderPath, $bookNum);
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
