@@ -717,7 +717,8 @@ li>button {
     border: 1px solid lightgray;
 }
 
-.resize {
+.resize,
+.resize_mp4 {
     width: 400px;
     height: auto;
     background-size: auto;
@@ -776,7 +777,8 @@ pre {
     cursor: pointer;
 }
 
-.obj_thum {
+.obj_thum,
+.mp4_icon {
     float: left;
     display: inline-block;
     width: 120px;
@@ -787,7 +789,8 @@ pre {
     border: 1.5px solid white;
 }
 
-.obj_thum:hover {
+.obj_thum,
+.mp4_icon:hover {
     width: 130px;
     height: 130px;
 }
@@ -976,6 +979,10 @@ input[type="file"] {
     display: inline-block;
     position: relative;
     float: left;
+}
+
+.mp3_icon {
+    background: url("/image/tool_icon/mp3_icon.png") no-repeat center center;
 }
 
 .custom-menu {
@@ -1191,8 +1198,15 @@ input[type="file"] {
     position: absolute;
     width: 300px;
     height: 335px;
+<<<<<<< HEAD
+    right: 0%;
+    top: 50%;
+    padding: 0px 0px 0px 0px;
+    z-index: 50;
+=======
     right: 3%;
     z-index: 2;
+>>>>>>> b17c5a58a753c749f1b3861c03da3d59d4f8e673
 }
 
 .clearfix a {

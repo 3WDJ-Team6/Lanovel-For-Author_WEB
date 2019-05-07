@@ -13,6 +13,7 @@ use App\Models\Grade;
 use App\Models\CategoryIllustration;
 use App\Models\LikeOfIllustration;
 use App\Models\IllustFile;
+use App\Models\Message;
 use App\Models\BuyerOfIllustration;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -99,12 +100,21 @@ class IllustController extends Controller
             ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
             ->limit(5)
             ->get();
-
-        // $best = IllustrationList::selece(
-        //     'i'
-        // )
-
-        return view('/store/home/home')->with('products', $products);
+            $uid = Auth::user()['id'];
+        if(isset($uid)){
+            $check_message = Message::select(
+                'u1.id as to_id',
+                DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0 and message_title like 'invite%' and to_id = ".Auth::user()['id'].") count")
+            )->leftjoin('users as u1','u1.id','messages.to_id')
+            ->where('message_title','like','invite%')
+            ->where('to_id','=',$uid)
+            ->get();
+            // return $check_message;
+            return view('/store/home/home')->with('products', $products)->with('invite_message',$check_message);
+        }
+        else{
+            return view('/store/home/home')->with('products', $products);
+        }
     }
 
     // 대메뉴 구별 (background | character | object)
@@ -273,6 +283,11 @@ class IllustController extends Controller
             ->where('buyer_of_illustrations.user_id', Auth::user()['id'])
             ->get();
 
+        $myPageInfo = User::with(['illustration_lists', 'illust_files'])
+            ->where('id', Auth::user()->id)->get();
+
+
+        return $myPageInfo;
 
         return view('store.menu.mypage')->with('row', $userInfo)->with('products', $myIllustInfo)->with('likeProducts', $likeInfo)->with('cartInfos', $cartInfo)->with('illust_arrays', $illust_arrays)->with('buyProducts', $buyInfo);
     }

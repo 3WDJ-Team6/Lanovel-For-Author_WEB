@@ -4,6 +4,8 @@
 <script>
     var num_of_work = <?php echo json_encode($content_of_works['num_of_work']); ?>;
 </script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="{{asset('/js/chat.js') }}"></script>
 
 <script src="{{ asset('/js/editor.js') }}" defer></script>
 <link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
@@ -16,6 +18,7 @@
         @endforeach
 
     </div>
+    <div id="ccc"></div>
 
     {{-- 상단 메뉴 --}}
     <div class="nav">
@@ -129,6 +132,7 @@
         {{--<div id="popup_result" class="textarea" contentEditable="true" autocorrect="false" ondrop="drop(event)" ondragover="allowDrop(event)">--}}
         <div id="popup_result" class="textarea" contentEditable="true" autocorrect="false">
             {!! $content_of_works['content'] !!}
+
         </div>
 
         {{-- 리소스 에리어 --}}

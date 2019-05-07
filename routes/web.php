@@ -92,7 +92,7 @@ Route::group(['middleware' => ['auth',]], function () {
 // Route::group(['prefix' => 'admin'], function () { }); prifix는 실제 api 요청하는 url의 앞 부분에 넘어온 문자열/ 로 url을 만듦 이 그룹에선 admin/~~
 Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있는 route들은 해당 미들웨어를 거쳐서 감
     Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
-    Route::resource('/images/{folderPath?}/{bookNum?}', 'Storage\FileController', ['only' => ['store',]]); // 해당 함수만 라우팅
+    Route::resource('/images/{folderPath?}/{bookNum?}/{folderName?}', 'Storage\FileController', ['only' => ['store',]]); // 해당 함수만 라우팅
     Route::delete('/images/{folderPath?}/{bookNum?}', 'Storage\FileController@destroy');
 
     # 일러스토어 일러스트 파일 업로드
@@ -114,7 +114,6 @@ Route::group(['prefix' => 'reader'], function () {
 
 Route::get('/editor/tool/editor/innerchat', 'Chat\ChatController@chat');
 Route::post('/send', 'Chat\ChatController@send');
-
 
 # authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
@@ -159,6 +158,14 @@ Route::get('/myPage', 'WorkOut\IllustController@myPage');
 
 
 Auth::routes(); //로그인에 관한 모든 기능 연결
+
+Route::get('loadSearchModal','InviteUser\InviteUserController@loadSearchModal');
+Route::get('loadUserInfoModal/{UserEmail}','InviteUser\InviteUserController@loadUserInfoModal');
+Route::get('inviteUser/{userid}','InviteUser\InviteUserController@loadInviteUserModal');
+Route::get('sendInviteMessage/{usernickname}','InviteUser\InviteUserController@SendingInviteMessage');
+Route::get('viewMessages','InviteUser\InviteUserController@viewMessages');
+Route::get('viewMessage/{messageNum}','InviteUser\InviteUserController@viewMessage');
+Route::get('acceptInvite/{messageNum}','InviteUser\InviteUserController@acceptInvite');
 
 Route::post('/destroy', 'Auth\LoginController@destroy');
 // Route::post('/logout', 'Auth\LoginController@logout')->name('logout');

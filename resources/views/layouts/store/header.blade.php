@@ -1,4 +1,7 @@
 <header class="header_area">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="{{ asset('js/jquery/jquery.modal.min.1.js') }}" defer></script>
+    <link href="{{ asset('css/jquery.modal.min.1.css') }}" rel="stylesheet">
     <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
         <nav class="classy-navbar" id="essenceNav">
             <a class="nav-brand" href="{{ asset('/store') }}"><img src="{{ asset('image/store/illustore.png') }}" alt="" style="width:200px;" /></a>
@@ -23,6 +26,12 @@
             </div>
         </nav>
         <div class="header-meta d-flex clearfix justify-content-end">
+            <div id="alramimg" style="display:none;">
+                <a href="{{url('viewMessages')}}" rel='modal:open'>
+                    <img src="{{asset('image/store/warning.png')}}" style='width:60; height:60; display:inline-block'>
+                    <span id="messagecount" class="list-group-item-danger" style="top:40px;display:inline-block; position:absolute; z-index:1"></span>
+                </a>
+            </div>
             <div class="search-area">
                 <form action="#" method="post">
                     <input type="search" name="search" id="headerSearch" placeholder="Type for search" />
@@ -159,6 +168,22 @@
                         src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
             </form>
         </div>
+        <script type="text/javascript">
+            var div=document.getElementById("alramimg");
+            div.style.display='inline-block';
+        </script>
+    @isset($invite_message)
+        @foreach ($invite_message as $i => $im)
+            <script type="text/javascript">
+                var text = document.getElementById("messagecount").innerHTML;
+                if(text =='0'){
+                    document.getElementById("messagecount").style.display='none';
+                }
+                document.getElementById("messagecount").innerHTML='<?php echo $im['count']?>';
+            </script>
+        @endforeach
+    @endif
+    </header>
 
         @else
         <div class="user-login-info">

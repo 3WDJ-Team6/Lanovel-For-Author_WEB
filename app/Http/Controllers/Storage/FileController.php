@@ -80,6 +80,7 @@ class FileController extends Controller
     }
 
     public function destroy($image, $folderPath = null, $bookNum = null, $folderName = null)
+
     {
         $image = "이미지명";
         $folderPath = "private";
