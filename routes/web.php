@@ -94,8 +94,7 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
     Route::resource('/images/{folderPath?}/{bookNum?}', 'Storage\FileController', ['only' => ['store',]]); // 해당 함수만 라우팅
     Route::delete('/images/{folderPath?}/{bookNum?}', 'Storage\FileController@destroy');
-    # 파일 구매시 다운로드  # Make Epub File
-    Route::get('downLoadBook/{folderPath?}/{bookNum?}', 'Storage\FileController@makeEpub');
+
     # 일러스토어 일러스트 파일 업로드
     Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
     Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');
@@ -105,10 +104,12 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
 
 Route::group(['prefix' => 'reader'], function () {
     # 뷰어에 책 URL 전달 -> reader
-    Route::get('/readBook/{folderPath?}/{bookNum?}/{bookTitle?}/{action?}', 'Mobile\BookController@show');
+    Route::get('/readBook/{folderPath?}/{bookNum?}/{bookTitle?}/{action?}/{userId?}', 'Mobile\BookController@show');
     # 도서 정보 전달 -> APP
     Route::get('/worklists', 'Mobile\WorkListController@index');
     Route::get('/works/{workNum}/{chapterNum}/{userId}', 'Mobile\WorkListController@show');
+    # 파일 구매시 다운로드  # Make Epub File
+    Route::get('/downLoadBook/{folderPath?}/{bookNum?}', 'Storage\FileController@makeEpub');
 });
 
 Route::get('/editor/tool/editor/innerchat', 'Chat\ChatController@chat');
