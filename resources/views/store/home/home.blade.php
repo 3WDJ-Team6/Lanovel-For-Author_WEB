@@ -15,8 +15,6 @@
     @if(Session::has('success'))
     <div class="alert alert-info">{{ Session::get('success') }}</div>
     @endif
-
-<<<<<<< HEAD
     <!-- ##### Right Side Cart Area ##### -->
     <div class="cart-bg-overlay"></div>
 
@@ -98,9 +96,6 @@
         </div>
     </div>
     <!-- ##### Right Side Cart End ##### -->
-
-=======
->>>>>>> b17c5a58a753c749f1b3861c03da3d59d4f8e673
     <!-- 새작품 -->
 
     <section class="welcome_area bg-img background-overlay"
