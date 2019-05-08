@@ -22,15 +22,19 @@
             <!-- 왼쪽 -->
             <div class="form-group"
                 style="margin:40px; margin-top:50px; display:inline-block; width:550px; position:relative;">
+
                 <!-- 메인사진 -->
-                <img src="{{$product->url_of_illustration}}" style="width: 550px; height: 350px; position: absolute; "
-                    onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
-                <img src="{{asset('image/store/illustore2.png')}}"
-                    style="position: relative; margin-left:90px; margin-top:130px;">
+                <div class="main-form" style="width: 550px; height: 350px; ">
+                    <img src="{{$product->url_of_illustration}}"
+                        style="width: 550px; height: 350px; position: absolute; display:inline-block; object-fit:cover;" onclick="openModal();currentSlide(1)"
+                        class="hover-shadow cursor">
+                    <img src="{{asset('image/store/illustore2.png')}}"
+                        style="position: relative; margin-left:90px; margin-top:130px;">
+                </div>
                 <!-- 서브사진 -->
                 <div class="form-group">
 
-                    <div class="form-group" style="width:570px; height:90px; margin-top:190px; margin-left:-10px;">
+                    <div class="form-group" style="width:570px; height:90px; margin-top:30px; margin-left:-10px;">
                         @foreach($posts as $post)
                         <img src="{{$post->url_of_illustration}}" class="hover-shadow cursor"
                             onclick="openModal();currentSlide(1)"
@@ -78,8 +82,9 @@
                     </div>
                     <div class="form-group" style=" text-align:right; height:50px;">
                         <div class="" name="" style="width:400px; height:45px; margin:15px; display:inline-block;">
-                            <button type="button" class="btn btn-light btn-like" style="margin:10px; display:inline-block;"><img
-                                    src="{{asset('image/store/like.png')}}" style="width:30px; height:30px;"></button>
+                            <button type="button" class="btn btn-light btn-like"
+                                style="margin:10px; display:inline-block;"><img src="{{asset('image/store/like.png')}}"
+                                    style="width:30px; height:30px;"></button>
                             <button type="button" class="btn btn-light" style="margin:10px;display:inline-block;"><img
                                     src="{{asset('image/store/share.png')}}" style="width:30px; height:30px;"></button>
                         </div>
@@ -147,7 +152,9 @@
                                                     <ul class="media-list">
                                                         <li class="media media-replied">
                                                             <a class="pull-left" href="#">
-                                                                <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/jackiesaik/128.jpg" alt="profile">
+                                                                <img class="media-object img-circle"
+                                                                    src="https://s3.amazonaws.com/uifaces/faces/twitter/jackiesaik/128.jpg"
+                                                                    alt="profile">
                                                             </a>
                                                         </li>
                                                     </ul>
@@ -184,17 +191,20 @@
                                         </ul>
                                     </div>
                                     <div class="tab-pane" id="add-comment">
-                                        <form action="#" method="post" class="form-horizontal" id="commentForm" role="form">
+                                        <form action="#" method="post" class="form-horizontal" id="commentForm"
+                                            role="form">
                                             <div class="form-group">
                                                 <label for="email" class="col-sm-2 control-label">Comment</label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control" name="addComment" id="addComment" rows="5"></textarea>
+                                                    <textarea class="form-control" name="addComment" id="addComment"
+                                                        rows="5"></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
                                                     <button class="btn btn-success btn-circle text-uppercase"
-                                                        type="submit" id="submitComment"><span class="glyphicon glyphicon-send"></span> 등록</button>
+                                                        type="submit" id="submitComment"><span
+                                                            class="glyphicon glyphicon-send"></span> 등록</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -208,7 +218,8 @@
                             <div class="page-header">
                                 <h3 class="reviews">Leave your comment</h3>
                                 <div class="logout">
-                                    <button class="btn btn-default btn-circle text-uppercase" type="button" onclick="$('#login').hide(); $('#logout').show()">
+                                    <button class="btn btn-default btn-circle text-uppercase" type="button"
+                                        onclick="$('#login').hide(); $('#logout').show()">
                                         <span class="glyphicon glyphicon-off"></span> Login
                                     </button>
                                 </div>
@@ -227,7 +238,9 @@
                                         <ul class="media-list">
                                             <li class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg" alt="profile">
+                                                    <img class="media-object img-circle"
+                                                        src="https://s3.amazonaws.com/uifaces/faces/twitter/dancounsell/128.jpg"
+                                                        alt="profile">
                                                 </a>
                                                 <div class="media-body">
                                                     <div class="well well-lg">
@@ -247,7 +260,9 @@
 
                                             <li class="media">
                                                 <a class="pull-left" href="#">
-                                                    <img class="media-object img-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/lady_katherine/128.jpg" alt="profile">
+                                                    <img class="media-object img-circle"
+                                                        src="https://s3.amazonaws.com/uifaces/faces/twitter/lady_katherine/128.jpg"
+                                                        alt="profile">
                                                 </a>
                                                 <div class="media-body">
                                                     <div class="well well-lg">
@@ -270,19 +285,18 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
+            <!-- 모달창 -->
             <div id="myModal" class="modal" style="">
                 <span class="close cursor" onclick="closeModal()">&times;</span>
-                <div class="modal-content col-12" style="">
-                    <div id="row">
+                <div class="modal-content" style="width:1400px; height:500px;">
+                    <div id="row" style="">
                         <!-- 상세보기 일러스트 -->
                         @foreach ($posts as $post)
-                        <div class="mySlides">
-                            <div class="numbertext" style="color:black;">/{{$product->count}}</div>
-                            <img src="{{$post->url_of_illustration}}" style="width:800px; height:500px; align-items: center;
-                                display: flex; justify-content: center;">
+                        <div class="mySlides " style="width:800px; height:500px; align-items: center;">
+                            <!-- <div class="numbertext" style="color:black;">/{{$product->count}}</div> -->
+                            <img src="{{$post->url_of_illustration}}" style=" width:800px; height:450px; display: inline-block; ">
                         </div>
                         @endforeach
 
@@ -294,11 +308,11 @@
                         </div>
 
                         <!-- 그 외 일러스트 -->
-                        <div class="form-group" style="">
+                        <div class="bottom-form" style="">
                             @foreach($posts as $post)
-                            <div class="column" style="display:inline-block;">
+                            <div class="column" style="display:inline-block; width:300px; height:200px;">
                                 <img class="demo cursor" src="{{$post->url_of_illustration}}"
-                                    style="width:100%; display:inline-block;" onclick="currentSlide(1)"
+                                    style="width:300px; height:200px; display:inline-block;" onclick="currentSlide(1)"
                                     alt="Nature and sunrise">
                             </div>
                             @endforeach
