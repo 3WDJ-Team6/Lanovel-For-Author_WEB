@@ -33,18 +33,19 @@ class FileController extends Controller
     public function index()
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
-        $files = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images'));    # 파일 주소를 가르킴
+        $files = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'purchase');    # 파일 주소를 가르킴
 
         // return response()->json($files, 200, [], JSON_PRETTY_PRINT); //값이 확인
         $images = [];
         foreach ($files as $file) {
             $images[] = [
-                'name' => str_replace($role . '/' . Auth::user()['email'] . '/' . config('filesystems.disks.s3.images') . '/', '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'name' => Storage::disk('s3')->getMetadata($file)['basename'], # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
                 'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
-                'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
+                'path' => Storage::disk('s3')->getMetadata($file)['path'], #$file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
                 'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소  Carbon settimezone 설정가능
                 'updated_at' => str_replace('000000', '', Carbon::createFromTimestamp(Storage::disk('s3')->lastModified($file))),  # 마지막에 파일이 업데이트 되었을 때 타임 스탬프값(unix값) 시간 포맷 https://stackoverflow.com/questions/10040291/converting-a-unix-timestamp-to-formatted-date-string
                 'type' => Storage::disk('s3')->getMimeType($file),
+                // 'metadata' => Storage::disk('s3')->getMetadata($file)
             ];
         }
         // 'metadata' => Storage::disk('s3')->getMetadata($file) / 모든 메타데이터 가져옴
@@ -61,8 +62,6 @@ class FileController extends Controller
     #유효성 검사가 실패(FilePost를 통과하지 못)하면 responese가 생성되어 이전 위치로 되돌려 보냄.
     public function store(Request $request, $folderPath = null, $bookNum = null, $folderName = null)                        #0 파일 저장하는 컨트롤러 asset store & editor 사용
     {
-        // $folderPath = 'private';
-        // $folderName = "video";
         $filePath = $this->checkUserMakePath($folderPath, $bookNum, $folderName);
         $this->hasFile($request, $filePath);                         #1~3 FileTrait에서 처리해줌
         $file = $request->file('image') ? $request->file('image') : $request->file('file'); #4 Request로 부터 불러온 정보를 변수에 저장
@@ -79,24 +78,17 @@ class FileController extends Controller
 
     }
 
-    public function destroy($image, $folderPath = null, $bookNum = null, $folderName = null)
-
+    public function destroy($image, $folderPath = null, $folderName = null, $bookNum = null)
     {
-        $image = "이미지명";
-        $folderPath = "private";
-        $folderName = "sound";
         $filePath = $this->checkUserMakePath($folderPath, $bookNum, $folderName);
-        return $filePath . $image;
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
-
-        // return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }
-
 
     public function downLoadEpub(Request $request, $bookTitle = null, $authorPath = null)
     {
-        $bookTitle = '냥멍이';
-        $authorPath = 'Author@test';
+        // 책으로 발행했을 때도 epub으로 만들어서 작가에게 줘야함 publishcontroller에 추가할 코드(아래)
+        $bookTitle == '냥멍이' ? '냥멍이' : $bookTitle;
+        $authorPath == 'Author@test' ? 'Author@test' : $authorPath;
         /*
         issue : 마운트 시킨 s3폴더 내에 depth가 깊어서 -j 명령어로 뒷 폴더를 잘라야 하고 -r 명령어로 모든 파일 및 폴더를 압축 해야하는데,
                 명령어는 두개를 사용할 수 없음.

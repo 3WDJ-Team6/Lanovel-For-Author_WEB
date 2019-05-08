@@ -42,8 +42,8 @@ class PublicationController extends Controller
         $coverName = str_replace(config('filesystems.disks.s3.url') . 'Author' . DIRECTORY_SEPARATOR . Auth::user()['email'] .
             DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR . $work_title . DIRECTORY_SEPARATOR .
             'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR, '', $book_cover);
-// return $book_cover;
-// return $coverName;
+        // return $book_cover;
+        // return $coverName;
         // $book_cover = Work::select(                                                      // 커버 이미지 위치.
         //     'works.bookcover_of_work'
         // )->where('works.num','=',$num_of_work)->pluck('bookcover_of_work');
@@ -68,29 +68,29 @@ class PublicationController extends Controller
             'content_of_works.subsubtitle',
             'content_of_works.content',
             'content_of_works.created_at'
-        )->where('content_of_works.num_of_chapter','=',$num_of_chapter)->get();
-$text='';
-$imglist=[];
-$test;
-$count = 0;
-            foreach($chapter_list as $i => $clist){
-                $text = $clist['content'];
-                while(1){
-                    if(str::contains($text,'lanovebucket/Author/Author@test/images/')){
-                        $text = str::after($text,'lanovebucket/Author/Author@test/images/');
-                        $test = str::before($text,'" ');
-                        $imglist = Arr::add($imglist,'name'.$count,$test);
-                    }else{
-                        break;
-                    }
-                // echo $imglist["name".$count]."<br>";
-                $count+=1;
+        )->where('content_of_works.num_of_chapter', '=', $num_of_chapter)->get();
+        $text = '';
+        $imglist = [];
+        $test;
+        $count = 0;
+        foreach ($chapter_list as $i => $clist) {
+            $text = $clist['content'];
+            while (1) {
+                if (str::contains($text, 'lanovebucket/Author/Author@test/images/')) {
+                    $text = str::after($text, 'lanovebucket/Author/Author@test/images/');
+                    $test = str::before($text, '" ');
+                    $imglist = Arr::add($imglist, 'name' . $count, $test);
+                } else {
+                    break;
                 }
+                // echo $imglist["name".$count]."<br>";
+                $count += 1;
             }
+        }
 
 
-            // return $imglist["name1"];
-            // return $imglist;
+        // return $imglist["name1"];
+        // return $imglist;
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS') || !Storage::disk('s3')->exists($filePath . 'META-INF')) {
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'text', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'images', 0777, true);
@@ -140,15 +140,15 @@ $count = 0;
                 <item id="cover-image" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/png"/>
                 <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
                 ';
-                foreach ($imglist as $i => $il) {
+        foreach ($imglist as $i => $il) {
 
-                    $opf = $opf . '<item id="images-' . $i . '" href="https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/Author@test/images/' . $il. '" media-type="application/xhtml+xml"/>
+            $opf = $opf . '<item id="images-' . $i . '" href="https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/Author@test/images/' . $il . '" media-type="application/xhtml+xml"/>
                                 ';
-                }
-                foreach ($chapter_list as $i => $clist) {
-                    $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
+        }
+        foreach ($chapter_list as $i => $clist) {
+            $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
                                 ';
-                }
+        }
 
         $opf = $opf . '</manifest>
             <spine page-progression-direction="ltr">
@@ -265,7 +265,7 @@ $count = 0;
                 box-shadow : 10px 10px 10px;
             }
             ";
-            // 표지 이미지 css 입히기.!
+        // 표지 이미지 css 입히기.!
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);   // css전체
 
         $jsNmae = 'viewer';
