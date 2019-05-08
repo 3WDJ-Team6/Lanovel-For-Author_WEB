@@ -46,10 +46,9 @@ class BookController extends Controller
     }
 
     # 구매 또는 대여 -> 책 OPF주소 전달 -> READ
-    public function show(Request $request, $bookNum = null, $bookTitle = null, $action = null, $userId = null)
+    public function show(Request $request, $bookNum = null, $bookTitle = null, $action = null)
     {
-
-        $userId == 'Reader@test' ? $userId = 'Reader@test' : $userId = Auth::user()['id'];
+        $userId = Auth::user()['id'] ? $userId =  Auth::user()['id'] : 22;  //유저번호 접속자 or Reader
         $folderPath = 'WorkSpace';
         // bookNum == booktitle의 num 일치 해야함
         $rentOrBuy = Rental::select(
@@ -76,7 +75,7 @@ class BookController extends Controller
 
         // return $rentOrBuy[0]['isRental']; # 렌탈 기간이 지났거나 구입되지 않은 책이면.
 
-        if (count($rentOrBuy) < 1 || !dd($rentOrBuy[0]['isRental'] == 0)) { # 구매나 대여 이력이 없거나 있어도 렌탈기간이 지났다면
+        if (count($rentOrBuy) < 1 || $rentOrBuy[0]['isRental'] == 0) { # 구매나 대여 이력이 없거나 있어도 렌탈기간이 지났다면
             if ($action) {
                 switch ($action) {
                     case 'buy':
@@ -89,17 +88,20 @@ class BookController extends Controller
                         // $point--;
                         break;
                     case 'lend':
-                        $rentOrBuy = [0];
-                        if (!$rentOrBuy[0]['isRental'] == 0) {   # 대여기간이 지난게 아니고 그저 구매이력이 없으면
-                            $rentals = Rental::firstOrCreate([
-                                'file_path' => $opfPath,                        # 구입 Or 렌탈 주소
-                                'num_of_work' => $bookNum,                      # 책 번호
-                                'user_id' => $userId,                # 독자 아이디 번호
-                                'due_of_rental' => Carbon::now()->addDays(3),   # 만료 기간
-                            ]);
-                        } else { # 구매이력이 있으나 렌탈기간이 지났다면 +3일 시켜줌
-                            $retals = Rental::where('num_of_work', $bookNum)
-                                ->update(['due_of_rental' => Carbon::now()->addDays(3)]);
+
+                        try { # 구매이력이 있으나 렌탈기간이 지났다면 +3일 시켜줌
+                            if ($rentOrBuy[0]['isRental'] == 0) {
+                                $retals = Rental::where('num_of_work', $bookNum)
+                                    ->update(['due_of_rental' => Carbon::now()->addDays(3)]);
+                            }
+                        } catch (\Exception $e) { # 대여기간이 지난게 아니고 그저 구매이력이 없으면 Catch문 실행
+                            if (count($rentOrBuy) < 2)
+                                $rentals = Rental::firstOrCreate([
+                                    'file_path' => $opfPath,                        # 구입 Or 렌탈 주소
+                                    'num_of_work' => $bookNum,                      # 책 번호
+                                    'user_id' => $userId,                           # 독자 아이디 번호
+                                    'due_of_rental' => Carbon::now()->addDays(3),   # 만료 기간
+                                ]);
                         }
                         // $point--;
                         break;
@@ -111,13 +113,13 @@ class BookController extends Controller
                         break;
                 }
                 # 책의 OPF파일 주소 리턴
-                return $opfPath;
+                return response()->json($opfPath, 200);
             } else {    # 액션이 없으면? -> 대여하거나, 구입하지 않고 다른 행위를 한다는 뜻(읽기 등)
-                return 'plz send action url';
+                return 'please send action Buy Or Lend';
             }
         } else {
             # 구매 이력이 있고 대여기간이 남아있으면
-            return $opfPath;
+            return response()->json($opfPath, 200);
         }
     }
 
