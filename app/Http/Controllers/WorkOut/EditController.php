@@ -41,6 +41,11 @@ class EditController extends Controller
     public function index($num)
     {
 
+        $nowChapter = ChapterOfWork::select(
+            'chapter_of_works.*'
+        )->where('chapter_of_works.num', '=', $num)
+            ->first();
+
         $chapter_of_works = ChapterOfWork::select(
             'chapter_of_works.num',
             'chapter_of_works.subtitle',
@@ -54,7 +59,7 @@ class EditController extends Controller
             ->get();
 
         return view('editor.main.list')
-            ->with('chapter_of_works', $chapter_of_works)->with('num', $num);
+            ->with('chapter_of_works', $chapter_of_works)->with('num', $num)->with('nowChapter', $nowChapter);
     }
 
     // public function store_memo(Request $request, $num)

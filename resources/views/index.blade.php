@@ -26,10 +26,29 @@
         <div>
             {{Auth::user()['nickname']}}
         </div>
-        {{-- 정렬 필터링  --}}
+        {{-- 정렬 필터링  --}}  
         <input type="hidden" name="_token" value="{{ Session::token() }}">
 
+        <script>
+            $.ajax({
+                type: 'POST',
+                url: '/',
+                data: {
+                    status_of_work: $('input:checkbox:checked').val()
+                },
+
+                success: function (data) {
+                    alert(data);
+                }
+            });
+
+        </script>
+
+
+
         <!-- Material inline 1 -->
+
+
         <form method="POST" id="filter">
             {{ csrf_field() }}
             <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;">
@@ -145,7 +164,12 @@
         </div>
     </div>
 
+    <script>
+
+    </script>
+
 </body>
+
 
 @endsection
 
