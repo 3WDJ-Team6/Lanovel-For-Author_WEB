@@ -49,23 +49,21 @@ class IndexController extends Controller
      */
     public function index(request $request)
     {
-
         $status = $request->input('status_of_work');
-
-
+      
         $posts = Work::select(
-            // 작품번호
             'works.*',
             'work_lists.user_id'
         )->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
+
             ->join('users', 'users.id', '=', 'work_lists.user_id')
             // ->where('works.status_of_work', '=', $status)
             // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
             ->whereIn('works.num', function ($query) {
-                $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']); // 최신순 정렬
-            })->orderBy('works.created_at', 'desc')
+                $query->select('work_lists.num_of_work')->where('work_lists.user_id','=', Auth::user()['id']);
+            })->orderBy('works.created_at', 'desc') // 최신순 정렬
             ->get();
-
+            // return $posts;
         $user_lists = WorkList::select(
             'works.num',
             'work_lists.user_id',
@@ -190,6 +188,7 @@ class IndexController extends Controller
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
+            echo "<script>alert('asd');</script>";
             $this->work_model->storeWork($work_info);
 
             $recentWork = Work::select('num')->orderBy('created_at', 'DESC')->first();

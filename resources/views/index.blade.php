@@ -20,8 +20,8 @@
         <div>
             <a href="{{url('assets/upload')}}">asset upload</a>
         </div>
-        @else 비 로그인 상태 @endif @if(Session::has('message'))
-        <div class="alert alert-info">{{ Session::get('message') }}</div>
+        @else 비 로그인 상태 @endif @if(Session::has('success'))
+        <div class="alert alert-info">{{ Session::get('success') }}</div>
         @endif
         <div>
             {{Auth::user()['nickname']}}
@@ -51,23 +51,16 @@
 
         <form method="POST" id="filter">
             {{ csrf_field() }}
-            <div class="form-check form-check-inline"
-                style="width:100%; align-items: center; display: flex; justify-content: center;">
-        <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;" name="type_of_work[]"
-            value="3">
-        <label class="form-check-label" for="materialInline1">회차</label>
-        <input type="checkbox" class="form-check-input mychoice" id="materialInline2" style="margin:20px;"
-            name="type_of_work[]" value="2">
-        <label class="form-check-label" for="materialInline2">단행본</label>
-        <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;" name="type_of_work[]"
-            value="1">
-        <label class="form-check-label" for="materialInline5">단편</label>
-
-                <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;"
-                    name="status_of_work[]" value="1">
+            <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;">
+                <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;" name="type_of_work[]" value="3">
+                <label class="form-check-label" for="materialInline1">회차</label>
+                <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;" name="type_of_work[]" value="2">
+                <label class="form-check-label" for="materialInline2">단행본</label>
+                <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;" name="type_of_work[]" value="1">
+                <label class="form-check-label" for="materialInline5">단편</label>
+                <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;" name="status_of_work[]" value="1">
                 <label class="form-check-label" for="materialInline3">연재중</label>
-                <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;"
-                    name="status_of_work[]" value="2">
+                <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;" name="status_of_work[]" value="2">
                 <label class="form-check-label" for="materialInline4">완결작</label>
             </div>
         </form>
@@ -78,8 +71,7 @@
                 <div class="post-preview">
                     <a href="{{url('/createBook')}}">
                         <h3 class="post-title" style="margin-top:30px; margin-bottom:30px;">
-                            <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;"
-                                class="img-thumbnail">
+                            <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
                             작품추가
                         </h3>
                 </div>
@@ -91,8 +83,7 @@
                 <div class="post-preview">
                     <a href="{{url('editor/main/chapter')}}/{{$post['num']}}">
 
-                        <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px;"
-                            class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
+                        <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
 
                         <div class="post-title" style="margin-top:30px; margin-bottom:30px; display:inline-flex;">
                             {{ $post->work_title }}

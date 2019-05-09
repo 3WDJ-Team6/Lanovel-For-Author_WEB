@@ -13,6 +13,7 @@ use App\Models\Grade;
 use App\Models\CategoryIllustration;
 use App\Models\LikeOfIllustration;
 use App\Models\IllustFile;
+use App\Models\Message;
 use App\Models\BuyerOfIllustration;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -99,12 +100,21 @@ class IllustController extends Controller
             ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
             ->limit(5)
             ->get();
-
-        // $best = IllustrationList::selece(
-        //     'i'
-        // )
-
-        return view('/store/home/home')->with('products', $products);
+            $uid = Auth::user()['id'];
+        if(isset($uid)){
+            $check_message = Message::select(
+                'u1.id as to_id',
+                DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0 and message_title like 'invite%' and to_id = ".Auth::user()['id'].") count")
+            )->leftjoin('users as u1','u1.id','messages.to_id')
+            ->where('message_title','like','invite%')
+            ->where('to_id','=',$uid)
+            ->get();
+            // return $check_message;
+            return view('/store/home/home')->with('products', $products)->with('invite_message',$check_message);
+        }
+        else{
+            return view('/store/home/home')->with('products', $products);
+        }
     }
 
     // 대메뉴 구별 (background | character | object)
@@ -123,7 +133,7 @@ class IllustController extends Controller
 
         /**
          * 썸네일 만드는 법
-         * 
+         *
          * IllustFile 에서 num_of_illust 의 값이 같은 것 끼리 묶은 뒤 id의 desc -> first()
          */
         $thumbnail = IllustFile::select(
@@ -273,6 +283,11 @@ class IllustController extends Controller
             ->where('buyer_of_illustrations.user_id', Auth::user()['id'])
             ->get();
 
+        $myPageInfo = User::with(['illustration_lists', 'illust_files'])
+            ->where('id', Auth::user()->id)->get();
+
+
+        return $myPageInfo;
 
         return view('store.menu.mypage')->with('row', $userInfo)->with('products', $myIllustInfo)->with('likeProducts', $likeInfo)->with('cartInfos', $cartInfo)->with('illust_arrays', $illust_arrays)->with('buyProducts', $buyInfo);
     }
@@ -303,6 +318,8 @@ class IllustController extends Controller
             ->orderBy('illust_files.id', 'desc')
             ->where('cart_of_illustrations.user_id', Auth::user()['id'])
             ->get();
+
+        return $cartProducts;
     }
     /**
      * Store a newly created resource in storage.
@@ -368,7 +385,8 @@ class IllustController extends Controller
             'created_at' => Carbon::now()
         ]);
 
-        $this->buy_illust_model->storeIllustBuy($illust_buy_info);
+        // return $illust_buy_info;
+        $this->buy_illust_model->storeIllustBuy($illust_buy_info, $num, Auth::user()['id']);
 
         $illust_info = BuyerOfIllustration::select(
             'users.point',
@@ -380,8 +398,13 @@ class IllustController extends Controller
             ->where('buyer_of_illustrations.num_of_illustration', '=', $num)
             ->get();
 
-        // return response()->json($illust_info, 200, [], JSON_PRETTY_PRINT);
+        $userPath = $this->checkUserMakePath('buy');
 
+        foreach ($illust_info as $i => $urls) {
+            // return response()->json($urls->savename_of_illustration, 200, [], JSON_PRETTY_PRINT);
+            Storage::disk('s3')->copy($urls->folderPath . $urls->savename_of_illustration, $userPath . $urls->savename_of_illustration);
+        }
+        return response()->json($illust_info, 200, [], JSON_PRETTY_PRINT);
         return redirect()->back()->with('message', '구매 성공')->with('illust_info', $illust_info);
     }
 
@@ -402,7 +425,6 @@ class IllustController extends Controller
             $this->buy_illust_model->storeIllustBuy($illust_buy_info);
             $this->cart_illust_model->dropCart($num);
         }
-
         return redirect()->back()->with('message', '구매 성공');
     }
 

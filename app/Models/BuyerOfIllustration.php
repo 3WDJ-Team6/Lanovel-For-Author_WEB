@@ -11,9 +11,11 @@ class BuyerOfIllustration extends Model
 {
     protected $table = "buyer_of_illustrations";
 
-    public function storeIllustBuy(array $illust_buy_info)
+    public function storeIllustBuy(array $illust_buy_info, $num, $id)
     {
-        BuyerOfIllustration::insert($illust_buy_info);
+        if (count(BuyerOfIllustration::select('num_of_illustration')->where('user_id', $id)->where('num_of_illustration', (int)$num)->get()) === 0) {
+            return BuyerOfIllustration::insert($illust_buy_info);
+        }
     }
 
     public function getRecentBuy($num)

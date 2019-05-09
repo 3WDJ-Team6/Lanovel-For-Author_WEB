@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth',]], function () {
 # 수익 그래프
 Route::group(['middleware' => ['auth',]], function () {
     Route::get('/graph', 'WorkOut\GraphController@index');   // 작가 그래프 페이지
-    Route::get('/illustGraph', 'WorkOut\GraphController@illustIndex');    // 일러스트레이터 그래프 페이지 
+    Route::get('/illustGraph', 'WorkOut\GraphController@illustIndex');    // 일러스트레이터 그래프 페이지
 });
 
 # 일러스토어
@@ -92,39 +92,83 @@ Route::group(['middleware' => ['auth',]], function () {
 // Route::group(['prefix' => 'admin'], function () { }); prifix는 실제 api 요청하는 url의 앞 부분에 넘어온 문자열/ 로 url을 만듦 이 그룹에선 admin/~~
 Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있는 route들은 해당 미들웨어를 거쳐서 감
     Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
-    Route::resource('/images/{folderPath?}/{bookNum?}', 'Storage\FileController', ['only' => ['store',]]); // 해당 함수만 라우팅함
-    Route::delete('/images/{folderPath?}/{bookNum?}', 'Storage\FileController@destroy');
-    Route::get('/readBook/{folderPath?}/{bookNum?}', 'Storage\FileController@readBook')->name('readBook');
+    Route::resource('/images/{folderPath?}/{bookNum?}/{folderName?}', 'Storage\FileController', ['only' => ['store',]]); // 해당 함수만 라우팅
+    Route::delete('/images/{folderPath?}/{bookNum?}/{folderName?}', 'Storage\FileController@destroy');
+
     # 일러스토어 일러스트 파일 업로드
     Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
     Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');
     # s3 directory dynamic listing
-    Route::get('/getDir/{bookNum}/{dir?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
+    Route::get('/getDir/{bookNum}/{dir?}/{forderName?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
-# Mobile work info
-Route::get('/worklists', 'Mobile\WorkListController@index');
-Route::get('/works/{workNum}/{chapterNum}/{userId}', 'Mobile\WorkListController@show');
+Route::group(['prefix' => 'reader'], function () {
+    # 뷰어에 책 URL 전달 -> reader
+    Route::get('/readBook/{bookNum?}/{bookTitle?}/{action?}', 'Mobile\BookController@show');
+    # 도서 정보 전달 -> APP
+    Route::get('/worklists', 'Mobile\WorkListController@index');
+    Route::get('/works/{workNum}/{chapterNum}/{userId}', 'Mobile\WorkListController@show');
+    # 파일 구매시 다운로드  # Make Epub File
+    Route::get('/downLoadBook/{folderPath?}/{bookNum?}', 'Storage\FileController@makeEpub');
+});
 
-// Route::get('editor/tool/innerchat', 'Chat\ChatController@chat');
-// Route::get('editor/innerchat', 'Chat|ChatController@chat');
-// Route::get('innerchat', 'Chat\Controller@chat');
-// Route::get('editor/tool/editor/innerchat', 'Chat\ChatController@chat');
-// Route::get('chat', 'Chat\ChatController@chat');
-// Route::post('send', 'Chat\ChatController@send');
+Route::get('/editor/tool/editor/innerchat', 'Chat\ChatController@chat');
+Route::post('/send', 'Chat\ChatController@send');
 
 # authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
-Auth::routes(); //로그인에 관한 모든 기능 연결
 
-# kakao login
+// 에디터 진입
+Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
+
+//메모
+Route::post('/store_memo/{num_of_content}/{num}', 'WorkOut\EditController@store_memo');
+
 Route::group(['middleware' => ['guest']], function () { # guest만 사용가능한 Route
     Route::get('/loginForKakao', 'Auth\KakaoLoginController@index');
     Route::get('/auth/loginForKakao', 'Auth\KakaoLoginController@redirectToProvider');
     Route::get('/auth/kakaologincallback', 'Auth\KakaoLoginController@handleProviderCallback');
 });
 
+// 일러스트 등록 페이지
+Route::get('/illustCreate', 'WorkOut\IllustController@create');
+
+// 일러스트 등록
+Route::post('/illustStore', 'WorkOut\IllustController@store');
+
+// 일러스토어 대메뉴 페이지
+Route::get('/menu/{category}', 'WorkOut\IllustController@menuIndex');
+
+// 일러스토어 상세메뉴 페이지
+Route::get('/menu/{category}/{moreCategory}', 'WorkOut\IllustController@detailMenuIndex');
+
+Route::post('store/find/search', function () {
+    return view('store.find.search');
+});
+
+// 일러스토어 장바구니 추가
+Route::get('/addCart/{num}', 'WorkOut\IllustController@addCart');
+
+// 장바구니
+Route::get('/cartIndex', 'WorkOut\IllustController@cartIndex');
+
+Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
+
+Route::get('/myPage', 'WorkOut\IllustController@myPage');
+
+
+Auth::routes(); //로그인에 관한 모든 기능 연결
+
+Route::get('loadSearchModal', 'InviteUser\InviteUserController@loadSearchModal');
+Route::get('loadUserInfoModal/{UserEmail}', 'InviteUser\InviteUserController@loadUserInfoModal');
+Route::get('inviteUser/{userid}', 'InviteUser\InviteUserController@loadInviteUserModal');
+Route::get('sendInviteMessage/{usernickname}', 'InviteUser\InviteUserController@SendingInviteMessage');
+Route::get('viewMessages', 'InviteUser\InviteUserController@viewMessages');
+Route::get('viewMessage/{messageNum}', 'InviteUser\InviteUserController@viewMessage');
+Route::get('acceptInvite/{messageNum}', 'InviteUser\InviteUserController@acceptInvite');
 
 Route::post('/destroy', 'Auth\LoginController@destroy');
+// Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
 
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
