@@ -1191,15 +1191,8 @@ input[type="file"] {
     position: absolute;
     width: 300px;
     height: 335px;
-<<<<<<< HEAD
-    right: 0%;
-    top: 50%;
-    padding: 0px 0px 0px 0px;
-    z-index: 50;
-=======
     right: 3%;
     z-index: 2;
->>>>>>> b17c5a58a753c749f1b3861c03da3d59d4f8e673
 }
 
 .clearfix a {
@@ -1211,3 +1204,30 @@ input[type="file"] {
 }
 
 /* //content */
+.list-group {
+    overflow-y: scroll;
+    height: 200px;
+}
+
+mark {
+    background-color: #45b4e61a;
+}
+
+li[class*="you"] {
+    width: 90%;
+    float: right;
+}
+
+#time {
+    font-size: 9px;
+    color: black;
+}
+
+#chatContent {
+    width: 90%;
+    float: left;
+}
+
+#usernickname {
+    left: 0px;
+}
