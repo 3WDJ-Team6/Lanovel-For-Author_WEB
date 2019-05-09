@@ -377,7 +377,7 @@ class IllustController extends Controller
         )->join('illust_files', 'illust_files.num_of_illust', 'buyer_of_illustrations.num_of_illustration')
             ->join('users', 'users.id', 'buyer_of_illustrations.user_id')
             ->where('buyer_of_illustrations.user_id', '=', Auth::user()['id'])
-            ->where('buyer_of_illustrations.num_of_illustrations', '=', $num)
+            ->where('buyer_of_illustrations.num_of_illustration', '=', $num)
             ->get();
 
         // return response()->json($illust_info, 200, [], JSON_PRETTY_PRINT);

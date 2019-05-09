@@ -28,11 +28,18 @@
     <div class="row">
 
 
+
         <div class="col-lg-8 col-md-10 mx-auto" style="margin-top:50px; margin-bottom:50px;" id="content_list_box">
+            <div id="work_title_box" style="margin-bottom:50px;">
+                <h4 style="margin-bottom:20px;"><a href="{{url('editor/main/chapter')}}/{{$nowChapter['num_of_work']}}"
+                        style="text-decoration:none;">{{$nowChapter->subtitle}}</a>
+                </h4>
+
+            </div>
             <!-- {{-- 새 회차 추가  --}} -->
             <div class="post-preview">
                 <h3 class="post-subtitle">
-                    <a href="javascript:popup({{$num}})" target="_blan">목차 추가</a>
+                    <a href="javascript:popup({{$num}})" target="_blank" style="text-decoration:none;">목차 추가</a>
                 </h3>
             </div>
             <hr>
