@@ -28,7 +28,7 @@
                 @csrf
                 <ul>
                     <li class="nav-btn"><span id="chatting">채팅</span></li>
-                    <li class="nav-btn"><a id="inv_btn" href="http://localhost/loadSearchModal" rel="modal:open" style="color:black;">초대</a></li>
+                    <li class="nav-btn"><a id="inv_btn" href="http://localhost/loadSearchModal" rel="modal1:open" style="color:black;">초대</a></li>
                     <li class="nav-btn">멤버리스트</li>
                     <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
                     <li class="nav-btn"><button type="submit" id='sub'>저장</button></li>
@@ -45,7 +45,6 @@
     <p id="result"></p>
 </div>
 {{-- 초대 --}}
-<div id="inv_btn" class="modal1"></div>
 <div class="content">
 
     {{-- 툴버튼들 생성칸--}}
