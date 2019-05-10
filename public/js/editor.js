@@ -333,8 +333,10 @@ let audioPlay_num = null;
 
 function audioPlay(e) {
     audioPlay_num = e.target.nextElementSibling.id;
-    // console.log(audioPlay_num);
+    console.log(audioPlay_num);
     var audio = document.getElementById(audioPlay_num);
+    console.log(audio);
+
     if (isPlaying) {
         audio.pause();
         isPlaying = false;
@@ -490,12 +492,12 @@ function getFolders() {
                         );
                     }
                 } else {
-                    for (var i = 0; i < data.length - 2; i++) {
+                    for (var i = 0; i < data.length; i++) {
                         folder_name = data[i];
                         console.log("folder_name1 : " + folder_name);
                         folder_name = folder_name.split("/");
                         console.log("folder_name2 : " + folder_name);
-                        folder_name = folder_name[data.length - 1];
+                        folder_name = folder_name[data.length - 2];
                         console.log("folder_name3 : " + folder_name);
                         switch (folder_name) {
                             case "audio":
@@ -510,13 +512,19 @@ function getFolders() {
                                     "이미지"
                                 );
                                 break;
+                            case "video":
+                                folder_name_kinds = folder_name.replace(
+                                    "video",
+                                    "동영상"
+                                );
+                                break;
                             default:
                                 console.log(folder_name);
                                 break;
                         }
-                        if ((folder_name == "css") || (folder_name == "fonts")) {
+                        if ((folder_name == "css") || (folder_name == "fonts") || (folder_name == "js") || (folder_name == "text")) {
 
-                        } else if ((folder_name == "audio") || (folder_name == "images")) {
+                        } else {
                             $("#resource-feild").append(
                                 "<span id='obj_" +
                                 i +
@@ -558,6 +566,9 @@ $(document).on("click", ".obj_kinds", function () {
         } else if (this.id == "obj_3") {
             folder_kinds = "images";
             folder_name_kinds = "이미지";
+        } else if (this.id == "obj_6") {
+            folder_kinds = "video";
+            folder_name_kinds = "동영상";
         }
     }
     console.log(folder);
@@ -1256,7 +1267,7 @@ $(document).ready(function () {
                 .css({
                     width: tool_imgId_width,
                     height: tool_imgId_height,
-                    "background-size": "auto"
+                    // "background-size": "auto"
                 });
         }
     });
@@ -1272,7 +1283,21 @@ $(document).ready(function () {
         audio_src = $(this).attr("src");
         if ($("#" + tool_imgId).attr("onclick")) {
             $("#" + tool_imgId).removeAttr("onclick");
-            $("#audio" + audio_num).remove();
+            $(".speaker").remove();
+        } else if ($("#" + tool_imgId).hasClass("css_eft")) {
+            $("#" + tool_imgId).attr("onclick", "audioPlay(event)");
+            $("#" + tool_imgId).after(
+                "<audio id='audio" +
+                audio_num +
+                "' src='" +
+                audio_src +
+                "'></audio>"
+            );
+            $("#" + tool_imgId).next().next().after(
+                "<span class='speaker'>" +
+                "<img src='/image/tool_icon/speaker_icon.png' style='width:24px;height:24px;' />" +
+                "</span>"
+            );
         } else {
             $("#" + tool_imgId).attr("onclick", "audioPlay(event)");
             $("#" + tool_imgId).after(
@@ -1282,20 +1307,13 @@ $(document).ready(function () {
                 audio_src +
                 "'></audio>"
             );
+            $("#" + tool_imgId).next().after(
+                "<span class='speaker'>" +
+                "<img src='/image/tool_icon/speaker_icon.png' style='width:24px;height:24px;' />" +
+                "</span>"
+            );
         }
     });
-
-    // var isPlaying = false;
-    // $(document).on("click", "#" + audio_val, function() {
-    //     var audio = document.getElementById("audio" + audio_num);
-    //     if (isPlaying) {
-    //         audio.pause();
-    //         isPlaying = false;
-    //     } else {
-    //         audio.play();
-    //         isPlaying = true;
-    //     }
-    // });
     //소리 추가
 
     //템플릿//

@@ -15,19 +15,19 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     {{--  <a class="nav-link" id ="inv_btn" href="#invite" rel="modal:open" style="color:#45b4e6">INVITE USER</a>  --}}
-                    <a class="nav-link" id ="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal:open" style="color:#45b4e6">SEARCH USER</a>
+                    {{-- <a class="nav-link" id ="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:#45b4e6">SEARCH USER</a> --}}
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url('/graph')}}" style="color:#45b4e6">Revenue graph</a>
+                    <button class="nav-link" href="{{url('/graph')}}" style="color:#45b4e6;border:0;background:transparent;">Revenue graph</button>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="color:#45b4e6">Chatting</a>
+                    <button class="nav-link" href="#" style="color:#45b4e6;border:0;background:transparent;">Chatting</button>
                 </li>
                 @if(Auth::check()) {{-- 로그인 되어 있을 때 --}}
                 <form method="post" action="{{route('logout')}}" id='logout_btn'>
                     @csrf
                     <li class="nav-item">
-                        <button type="submit" class="nav-link" style="color:#45b4e6">Logout</button>
+                        <button type="submit" class="nav-link" style="color:#45b4e6;border:0;background:transparent;">Logout</button>
                     </li>
                 </form>
                 @else
