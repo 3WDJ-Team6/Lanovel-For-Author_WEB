@@ -161,9 +161,12 @@ class IndexController extends Controller
         $bookCoverUrl = config('filesystems.disks.s3.url') . $filePath;
 
         if ($request->hasFile('image')) {                                       #1 image 파일이 있으면
-            if (!Storage::disk('s3')->exists($filePath) && !Storage::disk('s3')->exists($publicFolder)) {  #2 폴더가 있으면 ture 없으면 fasle, 없으면 하위 디렉토리까지 싹 만들어줌
+            if (!Storage::disk('s3')->exists($filePath) && !Storage::disk('s3')->exists($publicFolder) && !Storage::disk('s3')->exists('purchase')) {  #2 폴더가 있으면 ture 없으면 fasle, 없으면 하위 디렉토리까지 싹 만들어줌
                 Storage::disk('s3')->makeDirectory($filePath, 0777, true);                                             #3 폴더가 없으면 해당 경로에 폴더를 만들어 줌 $filePath에 / 기준으로 폴더가 생성됨
                 Storage::disk('s3')->makeDirectory($publicFolder, 0777, true);
+                Storage::disk('s3')->makeDirectory('purchase', 0777, true);
+                Storage::disk('s3')->makeDirectory('sound', 0777, true);
+
                 // Storage::disk('s3')->makeDirectory($role . '/' . Auth::user()['email'] . $this::AUTHOR['workspace'] . $bookName, 0777, true);
             }
             $file = $request->file('image');                                    #4 Request로 부터 불러온 정보를 변수에 저장
@@ -175,8 +178,8 @@ class IndexController extends Controller
             ]);
 
             // 작품 저장
-            $buyprice = str::replaceFirst(',','',$request->get('buy_price'));
-            $renprice = str::replaceFirst(',','',$request->get('rental_price'));
+            $buyprice = str::replaceFirst(',', '', $request->get('buy_price'));
+            $renprice = str::replaceFirst(',', '', $request->get('rental_price'));
 
             $work_info = array([
                 // 제목
@@ -242,7 +245,7 @@ class IndexController extends Controller
             // return $period_info;
 
             $strExplode = explode(' ', $request->get('tag'));
-            $strReplace = str_replace("#", "", $strExplode);
+            $strReplace = str_replace("#", '', $strExplode);
 
             // 태그 저장
             foreach ($strReplace as $value) {
@@ -252,7 +255,7 @@ class IndexController extends Controller
                 ]);
                 $this->category_model->storeTag($work_tag_info);
             }
-            return back()->withSuccess('승공');
+            return redirect('/')->with('success', $request->get('work_title') . '의 작품이 등록되었습니다.');
         } else {
             echo "<script> alert('파일이 존재하지 않습니다.') <script/>";
             return redirect('addBook');

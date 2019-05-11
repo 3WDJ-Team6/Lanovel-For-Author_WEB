@@ -41,13 +41,13 @@ class PublicationController extends Controller
         $coverName = str_replace(config('filesystems.disks.s3.url') . 'Author' . DIRECTORY_SEPARATOR . Auth::user()['email'] .
             DIRECTORY_SEPARATOR . 'WorkSpace' . DIRECTORY_SEPARATOR . $work_title . DIRECTORY_SEPARATOR .
             'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR, '', $book_cover);
-            while(1){
-                if(str::contains($book_cover,'\\')){
-                    $book_cover = str::replaceFirst('\\','/',$book_cover);
-                }else{
-                    break;
-                }
+        while (1) {
+            if (str::contains($book_cover, '\\')) {
+                $book_cover = str::replaceFirst('\\', '/', $book_cover);
+            } else {
+                break;
             }
+        }
 
         // $book_cover = Work::select(         // 커버 이미지 위치.
         //     'works.bookcover_of_work'
@@ -68,10 +68,10 @@ class PublicationController extends Controller
         $work_list = json_encode($user, JSON_UNESCAPED_UNICODE);
         $work_list = str::after($work_list, '["');
         $work_list = str::before($work_list, '"]');
-        while(1){
-            if(str::contains($work_list,'","')){
-                $work_list = str::replaceFirst('","'," ",$work_list);
-            }else{
+        while (1) {
+            if (str::contains($work_list, '","')) {
+                $work_list = str::replaceFirst('","', " ", $work_list);
+            } else {
                 break;
             }
         }
@@ -82,14 +82,14 @@ class PublicationController extends Controller
             'content_of_works.subsubtitle',
             'content_of_works.content',
             'content_of_works.created_at'
-        )->where('content_of_works.num_of_chapter','=',$num_of_chapter)->get();
+        )->where('content_of_works.num_of_chapter', '=', $num_of_chapter)->get();
         $text;
-        $onlyimglist=[];
-        $imglist2=[];
-        $onlysoundlist=[];
-        $soundlist2=[];
-        $onlyvideolist=[];
-        $videolist2=[];
+        $onlyimglist = [];
+        $imglist2 = [];
+        $onlysoundlist = [];
+        $soundlist2 = [];
+        $onlyvideolist = [];
+        $videolist2 = [];
         $test;
         $count = 0;
         $text2;
@@ -97,42 +97,42 @@ class PublicationController extends Controller
         $text3;
         $test3;
 
-        foreach($chapter_list as $i => $clist){
+        foreach ($chapter_list as $i => $clist) {
             $text = $clist['content'];
             $text2 = $clist['content'];
             $text3 = $clist['content'];
-            while(1){
-                if(str::contains($text,"/sound/")){
-                    $text = str::after($text,"/sound/");
-                    $test = str::before($text,'">');
-                    $onlysoundlist = Arr::add($onlysoundlist,'names'.$count,$test);
+            while (1) {
+                if (str::contains($text, "/sound/")) {
+                    $text = str::after($text, "/sound/");
+                    $test = str::before($text, '">');
+                    $onlysoundlist = Arr::add($onlysoundlist, 'names' . $count, $test);
                 }
-                if(str::contains($text2,"/video/")){
-                    $text2 = str::after($text2,"/video/");
-                    $test2 = str::before($text2,'" ');
-                    $onlyvideolist = Arr::add($onlyvideolist,'namev'.$count,$test2);
+                if (str::contains($text2, "/video/")) {
+                    $text2 = str::after($text2, "/video/");
+                    $test2 = str::before($text2, '" ');
+                    $onlyvideolist = Arr::add($onlyvideolist, 'namev' . $count, $test2);
                 }
-                if(str::contains($text3,"/images/")){
-                    $text3 = str::after($text3,"/images/");
-                    $test3 = str::before($text3,'" ');
-                    $onlyimglist = Arr::add($onlyimglist,'namei'.$count,$test3);
-                }else{
+                if (str::contains($text3, "/images/")) {
+                    $text3 = str::after($text3, "/images/");
+                    $test3 = str::before($text3, '" ');
+                    $onlyimglist = Arr::add($onlyimglist, 'namei' . $count, $test3);
+                } else {
                     break;
                 }
-            $count+=1;
+                $count += 1;
             }
         }
         $count = 0;
-        foreach($onlyimglist as $i => $il2){
-            $text3 = str::start($il2,"Author/".Auth::user()['email']."/images/");
+        foreach ($onlyimglist as $i => $il2) {
+            $text3 = str::start($il2, "Author/" . Auth::user()['email'] . "/images/");
             $imglist2[$i] = $text3;
         }
-        foreach($onlysoundlist as $i => $sl2){
-            $text = str::start($sl2,"Author/".Auth::user()['email']."/sound/");
+        foreach ($onlysoundlist as $i => $sl2) {
+            $text = str::start($sl2, "Author/" . Auth::user()['email'] . "/sound/");
             $soundlist2[$i] = $text;
         }
-        foreach($onlyvideolist as $i => $vl2){
-            $text2 = str::start($vl2,"Author/".Auth::user()['email']."/video/");
+        foreach ($onlyvideolist as $i => $vl2) {
+            $text2 = str::start($vl2, "Author/" . Auth::user()['email'] . "/video/");
             $videolist2[$i] = $text2;
         }
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS') || !Storage::disk('s3')->exists($filePath . 'META-INF')) {
@@ -145,34 +145,34 @@ class PublicationController extends Controller
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'video', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'META-INF', 0777, true);
         }
-        foreach($imglist2 as $i => $imglist){
-            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i])){
-                Storage::disk('s3')->copy($imglist,$filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i]);
+        foreach ($imglist2 as $i => $imglist) {
+            if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i])) {
+                Storage::disk('s3')->copy($imglist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i]);
             }
         }
-        foreach($soundlist2 as $i => $soundlist){
+        foreach ($soundlist2 as $i => $soundlist) {
             // return $soundlist;
-            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $onlysoundlist[$i])){
-                Storage::disk('s3')->copy($soundlist,$filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $onlysoundlist[$i]);
+            if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $onlysoundlist[$i])) {
+                Storage::disk('s3')->copy($soundlist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $onlysoundlist[$i]);
             }
         }
-        foreach($videolist2 as $i => $videolist){
-            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $onlyvideolist[$i])){
-                Storage::disk('s3')->copy($videolist,$filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $onlyvideolist[$i]);
+        foreach ($videolist2 as $i => $videolist) {
+            if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $onlyvideolist[$i])) {
+                Storage::disk('s3')->copy($videolist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $onlyvideolist[$i]);
             }
         }
 
         Storage::disk('s3')->put($filePath . "mimetype", "application/epub+zip");
         $container = "<?xml version='1.0'?>\n
-    <container version='1.0'. xmlns='urn:oasis:names:tc:opendocument:xmlns:container'>\n
+    <container version='1.0' xmlns='urn:oasis:names:tc:opendocument:xmlns:container'>\n
         <rootfiles>\n
             <rootfile full-path='OEBPS/" . $work_title . ".opf' media-type='application/oebps-package+xml'/>\n
         </rootfiles>\n
     </container>\n";
         Storage::disk('s3')->put($filePath . '/META-INF/container.xml', $container); // container 파일
-        $covertype = str::after($coverName,'.');
-        if($covertype=='jpg'){
-            $covertype='jpeg';
+        $covertype = str::after($coverName, '.');
+        if ($covertype == 'jpg') {
+            $covertype = 'jpeg';
         }
 
         $isodate = date('Y-m-d\TH:i:s\Z');
@@ -180,48 +180,48 @@ class PublicationController extends Controller
             '<?xml version="1.0" encoding="UTF-8"?>
         <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="rendition: http://www.idpf.org/vocab/rendition/#" unique-identifier="bookID">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
- <dc:title id="title">' . $work_title . '</dc:title>
- <dc:identifier id="bookID">' . strtolower($work_title) . '</dc:identifier>
- <dc:date>' . $isodate . '</dc:date>
- <dc:creator id="__dccreator1">' . $work_list . '</dc:creator>
- <dc:contributor id="contrib1">' . 'Illustrator' . '</dc:contributor>
- <dc:language>JP</dc:language>
- <meta refines="#__dccreator1" property="role" scheme="marc:relators" id="role">aut</meta>
- <dc:publisher>영진출판사</dc:publisher>
- <meta property="dcterms:modified">' . $isodate . '</meta>
- <meta property="rendition:layout">pre-paginated</meta>
-	            <meta property="rendition:orientation">landscape</meta>
-	            <meta property="rendition:spread">auto</meta>
+                <dc:title id="title">' . $work_title . '</dc:title>
+                <dc:identifier id="bookID">' . strtolower($work_title) . '</dc:identifier>
+                <dc:date>' . $isodate . '</dc:date>
+                <dc:creator id="__dccreator1">' . $work_list . '</dc:creator>
+                <dc:contributor id="contrib1">' . 'Illustrator' . '</dc:contributor>
+                <dc:language>JP</dc:language>
+                <meta refines="#__dccreator1" property="role" scheme="marc:relators" id="role">aut</meta>
+                <dc:publisher>영진출판사</dc:publisher>
+                <meta property="dcterms:modified">' . $isodate . '</meta>
+                <meta property="rendition:layout">pre-paginated</meta>
+                <meta property="rendition:orientation">landscape</meta>
+                <meta property="rendition:spread">auto</meta>
             </metadata>
 
             <manifest>
- <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml"/>
- <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml"/>
- <item id="coverimage" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/'.$covertype.'"/>
- <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
- ';
- foreach ($onlyimglist as $i => $il) {
-     if(!str::contains($opf,$il)){
-        $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il. '" media-type="application/xhtml+xml"/>
+                <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml"/>
+                <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml"/>
+                <item id="coverimage" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/' . $covertype . '"/>
+                <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
+                ';
+        foreach ($onlyimglist as $i => $il) {
+            if (!str::contains($opf, $il)) {
+                $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il . '" media-type="application/xhtml+xml"/>
         ';
-     }
- }
- foreach ($onlysoundlist as $i => $il) {
-    if(!str::contains($opf,$il)){
-     $opf = $opf . '<item id="sound-' . $i . '" href="sound/' . $il. '" media-type="application/xhtml+xml"/>
+            }
+        }
+        foreach ($onlysoundlist as $i => $il) {
+            if (!str::contains($opf, $il)) {
+                $opf = $opf . '<item id="sound-' . $i . '" href="sound/' . $il . '" media-type="application/xhtml+xml"/>
   ';
-    }
- }
- foreach ($onlyvideolist as $i => $il) {
-    if(!str::contains($opf,$il)){
-     $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il. '" media-type="application/xhtml+xml"/>
+            }
+        }
+        foreach ($onlyvideolist as $i => $il) {
+            if (!str::contains($opf, $il)) {
+                $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il . '" media-type="application/xhtml+xml"/>
   ';
-    }
- }
- foreach ($chapter_list as $i => $clist) {
-     $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
+            }
+        }
+        foreach ($chapter_list as $i => $clist) {
+            $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
   ';
- }
+        }
 
         $opf = $opf . '</manifest>
             <spine page-progression-direction="ltr">
@@ -272,15 +272,15 @@ class PublicationController extends Controller
             <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                 <head>
                     <meta http-equiv='default-style' content='text/html; charset=utf-8'/>
-                    <title>".$work_title."</title>
+                    <title>" . $work_title . "</title>
                     <meta name='viewport' content='width=1366, height=768'/>
                     <link rel='stylesheet' type='text/css' href='css/stylesheet.css' />
                 </head>
                 <body style='margin:0.00em;'>
                     <section id='sectionId' class='cover cover-rw Cover-rw' epub:type='cover'>
                         <div id='coverimgdiv'>
-                            <span id='worktitlespan'>".$work_title."</span>
-                            <span id='worklistspan'>".$work_list."</span>
+                            <span id='worktitlespan'>" . $work_title . "</span>
+                            <span id='worklistspan'>" . $work_list . "</span>
                         </div>
                     </section>
                 </body>
@@ -293,20 +293,20 @@ class PublicationController extends Controller
         foreach ($chapter_list as $i => $clist) {
             // return 123;
             $text = $clist['content'];
-            while(1){
-                if(str::contains($text,'/sound/')){
+            while (1) {
+                if (str::contains($text, '/sound/')) {
                     // return $text;
-                    $text = str::replaceFirst('/sound/','/audio/',$text);
+                    $text = str::replaceFirst('/sound/', '/audio/', $text);
                 }
-                if(str::contains($text,'https://s3.ap-northeast-2.amazonaws.com/')){
+                if (str::contains($text, 'https://s3.ap-northeast-2.amazonaws.com/')) {
                     // return $text;
-                    $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/'.Auth::user()['email'].'/','../',$text);
-                }else{
-                    $clist['content']=$text;
+                    $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/' . Auth::user()['email'] . '/', '../', $text);
+                } else {
+                    $clist['content'] = $text;
                     // return $clist['content'];
                     break;
                 }
-                $count+=1;
+                $count += 1;
             }
             $contents =
                 "<?xml version='1.0' encoding='UTF-8'?>
@@ -333,26 +333,26 @@ class PublicationController extends Controller
             Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'text' . DIRECTORY_SEPARATOR . 'main' . $i . '.xhtml', $contents);
         }        // 각 목차 내용
 
-$filePaths = $filePath;
-        while(1){
-            if(str::contains($filePaths,"\\")){
-                $filePaths = str::replaceFirst("\\","/",$filePaths);
-            }else{
+        $filePaths = $filePath;
+        while (1) {
+            if (str::contains($filePaths, "\\")) {
+                $filePaths = str::replaceFirst("\\", "/", $filePaths);
+            } else {
                 break;
             }
         }
         $giffiles = Storage::disk('s3')->allfiles('resource' . DIRECTORY_SEPARATOR . 'gifimages');
-        foreach($giffiles as $i => $giffile){
-            $giffilet = str::after($giffile,'/');
-            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $giffilet)){
-                Storage::disk('s3')->copy($giffile,$filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $giffilet);
+        foreach ($giffiles as $i => $giffile) {
+            $giffilet = str::after($giffile, '/');
+            if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $giffilet)) {
+                Storage::disk('s3')->copy($giffile, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $giffilet);
             }
         }
         // custom css
         $cssNmae = 'stylesheet';
         $cssFile =
             "
-            #sectionId{text-align:center; margin-top:5%; } #coverimgdiv{ background: url('".$book_cover."') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 525px; height: 740px; text-align:left;            }            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }            #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
+            #sectionId{text-align:center; margin-top:5%; } #coverimgdiv{ background: url('" . $book_cover . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 525px; height: 740px; text-align:left;            }            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }            #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
             .resize,
             .resize_mp4 {
                 width: 400px;
