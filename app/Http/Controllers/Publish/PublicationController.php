@@ -76,7 +76,9 @@ class PublicationController extends Controller
             }
         }
 
-        $chapter_list = ContentOfWork::select(   // 각 목차 이름 내용 생성시간.
+        $authorFolder = WorkList::select('users.email')->join('users', 'users.id', '=', 'work_lists.user_id')->where('num_of_work', $num_of_work)->orderBy('work_lists.created_at')->limit(1)->get()[0]->email;
+
+        $chapter_list = ContentOfWork::select(                                                // 각 목차 이름 내용 생성시간.
             'content_of_works.subsubtitle',
             'content_of_works.content',
             'content_of_works.created_at'
@@ -468,6 +470,37 @@ $filePaths = $filePath;
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'stylesheet.css', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css');
         } // 직접 제작한 js와 css는 resource폴더에 보관하고 있다가 발행시 넣어줌.
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // 책으로 발행했을 때도 epub으로 만들어서 작가에게 줘야함 publishcontroller에 추가할 코드(아래)
+
+
+        $work_title == '냥멍이' ? $work_title = '냥멍이' : $work_title = $work_title;
+        $authorFolder == 'Author@test' ? $authorFolder = 'Author@test' : $authorFolder = $authorFolder;
+
+        shell_exec('mkdir /mnt/epubz');
+        //shell_exec('cd /mnt/mountpoint/Author/Author@test/WorkSpace'); // shell_exec('zip /mnt/epubz/folder.zip -r 폴더구조테스트/*'); // 해당 폴더 압축 ->shell로 대체
+        shell_exec('zipdir ' . $authorFolder . ' ' . $work_title); // zip 유저명 폴더명 $1 $2 shell폴더안에 있는 zipdir.sh (shell프로그램)
+        # zip 으로 만드는건 끝
+
+        $filepath = '/mnt/epubz/' . $work_title . '.zip';
+        $filesize = filesize($filepath);
+        $path_parts = pathinfo($filepath);
+        $filename = $path_parts['basename'];
+        $extension = $path_parts['extension'];
+
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Content-Type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=" . $work_title . '.zip');
+        header("Content-Transfer-Encoding: binary");
+        header("Content-Length: $filesize");
+
+        ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
+        flush();                # 시스템 출력 버퍼를 비움
+        readfile($filepath);    # file을 출력하는 php 함수
+
         return back()->withSuccess($work_title . '의 ' . $chapter_title . ' 이(가) 정상적으로 발행 되었습니다.');
         /*
  위의 생성된 파일들을 바탕으로 epub 파일 생성됨.(

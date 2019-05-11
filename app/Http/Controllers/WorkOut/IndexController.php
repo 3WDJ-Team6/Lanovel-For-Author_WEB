@@ -48,8 +48,16 @@ class IndexController extends Controller
      */
     public function index(request $request)
     {
+        // $periods = PeriodOfWork::select(
+        //     'period_of_works.*'
+        // )->join('work_lists', 'work_lists.num_of_work', '=', 'period_of_works.num_of_work')
+        //     ->whereIn('period_of_works.num_of_work', function ($query) {
+        //         $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']);
+        //     })->get();
+        // return Auth::user()['id'];
+
         $status = $request->input('status_of_work');
-      
+
         $posts = Work::select(
             'works.*',
             'work_lists.user_id'
@@ -59,10 +67,10 @@ class IndexController extends Controller
             // ->where('works.status_of_work', '=', $status)
             // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
             ->whereIn('works.num', function ($query) {
-                $query->select('work_lists.num_of_work')->where('work_lists.user_id','=', Auth::user()['id']);
+                $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']);
             })->orderBy('works.created_at', 'desc') // 최신순 정렬
             ->get();
-            // return $posts;
+        // return $posts;
         $user_lists = WorkList::select(
             'works.num',
             'work_lists.user_id',
@@ -135,17 +143,21 @@ class IndexController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(request $request)    //SetBookCover
+    public function store(Request $request)    //SetBookCover
+
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
-
         $bookName = $request->work_title;
 
-        # 역할/유저id/WorkSpace/책이름/OEBPS/images/ - 에디터 사용 사진 들어갈 경로
-        $s3Path = config('filesystems.disks.s3.workspace') . DIRECTORY_SEPARATOR . $bookName . $this::S3['opsImage'];
+        // return Work::select('work_title')->whereIn(function ($query) {
+        //     $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']);
+        // })->first();
 
-        $publicFolder = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images');  # 역할/유저id/image
-        $filePath = $role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . $s3Path;
+        # 역할/유저id/WorkSpace/책이름/OEBPS/images/ - 에디터 사용 사진 들어갈 경로
+        $s3Path = config('filesystems.disks.s3.workspace') . '/' . $bookName . $this::S3['opsImage'];
+
+        $publicFolder = $role . '/' . Auth::user()['email'] . '/' . config('filesystems.disks.s3.images');  # 역할/유저id/image
+        $filePath = $role . '/' . Auth::user()['email'] . '/' . $s3Path;
         $bookCoverUrl = config('filesystems.disks.s3.url') . $filePath;
 
         if ($request->hasFile('image')) {                                       #1 image 파일이 있으면
@@ -186,8 +198,8 @@ class IndexController extends Controller
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
-            $this->work_model->storeWork($work_info);
 
+            $this->work_model->storeWork($work_info);
             $recentWork = Work::select('num')->orderBy('created_at', 'DESC')->first();
 
             // 현재 로그인 한 사용자를 작품 리스트에 추가
@@ -198,10 +210,8 @@ class IndexController extends Controller
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
+
             $this->work_list_model->storeWorklist($work_list_info);
-
-
-
             $type_of_periods = $request->radio_C;
             $periods = $request->input('cycle_of_work');
 
@@ -231,7 +241,6 @@ class IndexController extends Controller
             }
             // return $period_info;
 
-
             $strExplode = explode(' ', $request->get('tag'));
             $strReplace = str_replace("#", "", $strExplode);
 
@@ -243,7 +252,7 @@ class IndexController extends Controller
                 ]);
                 $this->category_model->storeTag($work_tag_info);
             }
-            return redirect('/')->with('message', "success");
+            return back()->withSuccess('승공');
         } else {
             echo "<script> alert('파일이 존재하지 않습니다.') <script/>";
             return redirect('addBook');

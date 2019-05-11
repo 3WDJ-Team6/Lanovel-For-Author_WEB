@@ -68,7 +68,7 @@ class LoginController extends Controller
                     return response()->json(Auth::user(), 200);
                     break;
                 case 2:
-                    return redirect('/')->with('success', '로그인 되었습니다');
+                    return redirect('/')->with('success', Auth::user()['nickname'] . '님로그인 되었습니다. 현재 릴리즈 된 작품은 총 3건 입니다.');
                     break;
                 case 3:
                     return redirect('/store')->with('success', '로그인 되었습니다');
