@@ -42,4 +42,5 @@
     </main>
 </body>
 @yield('footer')
+
 </html>

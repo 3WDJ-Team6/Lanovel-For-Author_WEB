@@ -28,15 +28,11 @@
                     status_of_work: $('input:checkbox:checked').val()
                 },
 
-                success: function (data) {
+                success: function(data) {
                     alert(data);
                 }
             });
-
         </script>
-
-
-
         <!-- Material inline 1 -->
 
 
@@ -133,8 +129,8 @@
                         {{ $user->nickname }}
                         @endif
                         @endforeach<br>
-                        구매 : ¥ {{ $post->buy_price }}<br>
-                        대여 : {{ $post->rental_price }}
+                        구매 : {{ $post->buy_price }}원<br>
+                        대여 : {{ $post->rental_price }}원
                         @if($post->rental_price == null)
                         없음
                         @endif
@@ -142,6 +138,7 @@
                         최근 수정 시간 : @foreach ($modify_time as $time)
                         @if($post->num == $time->num_of_work)
                         {{ $time->updated_at->diffForHumans() }}
+                        @else
                         @endif
                         @endforeach<br>
                     </p>
