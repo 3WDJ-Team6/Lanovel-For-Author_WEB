@@ -12,11 +12,10 @@ use App\Models\WorkList;
 use App\Models\CategoryWork;
 use App\Models\ContentOfWork;
 use Auth;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
-// use App\Models\ContentOfWork;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilePost;
@@ -136,15 +135,11 @@ class IndexController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(FilePost $request)    //SetBookCover
+    public function store(request $request)    //SetBookCover
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
 
         $bookName = $request->work_title;
-
-        // return Work::select('work_title')->whereIn(function ($query) {
-        //     $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']);
-        // })->first();
 
         # 역할/유저id/WorkSpace/책이름/OEBPS/images/ - 에디터 사용 사진 들어갈 경로
         $s3Path = config('filesystems.disks.s3.workspace') . DIRECTORY_SEPARATOR . $bookName . $this::S3['opsImage'];
@@ -168,14 +163,17 @@ class IndexController extends Controller
             ]);
 
             // 작품 저장
+            $buyprice = str::replaceFirst(',','',$request->get('buy_price'));
+            $renprice = str::replaceFirst(',','',$request->get('rental_price'));
+
             $work_info = array([
                 // 제목
                 'work_title' => $request->get('work_title'),
                 // 연재종류
                 'type_of_work' => $request->get('radio_T'),
                 // 대여 및 구매 가격
-                'rental_price' => $request->get('rental_price'),
-                'buy_price' => $request->get('buy_price'),
+                'rental_price' => $renprice,
+                'buy_price' => $buyprice,
                 // 조회수 (default = 0)
                 'hits_of_work' => 0,
                 // 작품 소개
@@ -188,7 +186,6 @@ class IndexController extends Controller
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
-            echo "<script>alert('asd');</script>";
             $this->work_model->storeWork($work_info);
 
             $recentWork = Work::select('num')->orderBy('created_at', 'DESC')->first();

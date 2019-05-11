@@ -26,7 +26,7 @@ class FilePost extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|file|max:16384',
+            // 'file' => 'required|file|max:16384',
             'image' => 'required|image|max:16384',      # image파일만 + 16MB까지
             # 필요한 모든 의존성의 타입힌트 지정
         ];
