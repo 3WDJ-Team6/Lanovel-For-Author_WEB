@@ -67,6 +67,10 @@ li>button {
     overflow-y: scroll;
 }
 
+.modal {
+    width: 54%;
+}
+
 /* 세로가 최소 700px일때 */
 @media screen and (min-height: 700px) {
     header {
@@ -142,8 +146,8 @@ li>button {
     }
 
     #ccc {
-        top: 42%;
-        left: 83.5%;
+        top: 36.5%;
+        left: 83%;
     }
 
     #preview {
@@ -152,14 +156,14 @@ li>button {
     }
 
     .modal {
-        width: 25%;
+        width: 27%;
     }
 }
 
 /* 끝 세로가 최소 700px일때 */
 
 /* 세로가 최소 700px 가로가 최소 700px 최대 899px일때 */
-@media screen and (min-height: 700px) and (min-width:700px) and (max-width:899px) {
+@media screen and (min-height: 700px) and (min-width: 700px) and (max-width: 899px) {
     header {
         height: 7%;
     }
@@ -234,8 +238,8 @@ li>button {
     }
 
     #ccc {
-        top: 41.5%;
-        left: 67%;
+        top: 35.5%;
+        left: 65.8%;
     }
 
     #preview {
@@ -244,15 +248,14 @@ li>button {
     }
 
     .modal {
-        width: 50%;
+        width: 54%;
     }
 }
 
 /* 끝 세로가 최소 700px 가로가 최소 700px 최대 899px일때 */
 
 /* 세로가 최소 900px일때 */
-@media screen and (min-height:900px) {
-
+@media screen and (min-height: 900px) {
     header {
         height: 5%;
     }
@@ -326,8 +329,8 @@ li>button {
     }
 
     #ccc {
-        top: 42%;
-        left: 83.5%;
+        top: 49%;
+        left: 86.5%;
     }
 
     #preview {
@@ -336,14 +339,14 @@ li>button {
     }
 
     .modal {
-        width: 25%;
+        width: 27%;
     }
 }
 
 /* 끝 세로가 최소 900px일때 */
 
 /* 가로가 최소700px 최대958px이고 세로가 최소 900px일때 */
-@media screen and (min-height:700px) and (min-width:900px) and (max-width:1200px) {
+@media screen and (min-height: 700px) and (min-width: 900px) and (max-width: 1200px) {
     header {
         height: 5%;
     }
@@ -418,8 +421,8 @@ li>button {
     }
 
     #ccc {
-        top: 42%;
-        left: 83.5%;
+        top: 49.5%;
+        left: 73%;
     }
 
     #preview {
@@ -428,7 +431,7 @@ li>button {
     }
 
     .modal {
-        width: 50%;
+        width: 54%;
     }
 }
 
@@ -481,8 +484,8 @@ li>button {
 
 #popbutton {
     display: none;
-    Z-INDEX: 1;
-    POSITION: absolute;
+    z-index: 1;
+    position: absolute;
     background: #2d5866;
     top: 0px;
     left: 0px;
@@ -644,7 +647,6 @@ li>button {
 
 .ep-list:hover {
     background-color: #45b3e671;
-
 }
 
 .ep-li:hover {
@@ -658,13 +660,11 @@ li>button {
     height: 15%;
     margin-left: 8px;
     /* position: absolute; */
-
 }
 
 .ep-btns .ep-btn {
     margin-top: 10px;
     margin-bottom: 10px;
-
 }
 
 .ep-btns .ep-btn:hover {
@@ -717,7 +717,8 @@ li>button {
     border: 1px solid lightgray;
 }
 
-.resize {
+.resize,
+.resize_mp4 {
     width: 400px;
     height: auto;
     background-size: auto;
@@ -730,7 +731,6 @@ li>button {
     margin-top: 3px;
     margin-bottom: 0px;
     font-size: 2.35em;
-
 }
 
 .resource-area {
@@ -776,18 +776,20 @@ pre {
     cursor: pointer;
 }
 
-.obj_thum {
+.obj_thum,
+.mp4_icon {
     float: left;
     display: inline-block;
     width: 120px;
     height: 120px;
     margin-left: 7px;
     object-fit: fill;
-    border-radius: .25em;
+    border-radius: 0.25em;
     border: 1.5px solid white;
 }
 
-.obj_thum:hover {
+.obj_thum,
+.mp4_icon:hover {
     width: 130px;
     height: 130px;
 }
@@ -818,7 +820,6 @@ span.obj_name {
 
 ::-webkit-scrollbar {
     display: none;
-
 }
 
 a:hover {
@@ -845,7 +846,7 @@ a:hover {
 }
 
 .balloon:before {
-    content: '';
+    content: "";
     position: absolute;
     border-top: 10px solid rgb(255, 255, 93);
     border-right: 3px solid transparent;
@@ -860,8 +861,8 @@ a:hover {
 
 .memoPopup {
     display: none;
-    Z-INDEX: 1;
-    POSITION: absolute;
+    z-index: 1;
+    position: absolute;
     top: 0px;
     left: 0px;
     text-decoration: none;
@@ -872,12 +873,12 @@ a:hover {
     width: 10em;
     padding: 1em;
     -moz-box-shadow: 5px 5px 7px rgba(33, 33, 33, 1);
-    -webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
-    box-shadow: 5px 5px 7px rgba(33, 33, 33, .7);
-    -moz-transition: -moz-transform .15s linear;
-    -o-transition: -o-transform .15s linear;
-    -webkit-transition: -webkit-transform .15s linear;
-    transition: .15s linear;
+    -webkit-box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+    box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+    -moz-transition: -moz-transform 0.15s linear;
+    -o-transition: -o-transform 0.15s linear;
+    -webkit-transition: -webkit-transform 0.15s linear;
+    transition: 0.15s linear;
     overflow-y: scroll;
     /* -webkit-transform: rotate(-6deg);
     -o-transform: rotate(-6deg);
@@ -909,7 +910,7 @@ textarea {
 }
 
 .memoSaveSpan::after {
-    content: '\2713';
+    content: "\2713";
     color: red;
     padding: 0 6px 0 0;
     /* z-index: 10; */
@@ -935,7 +936,7 @@ input[readonly] {
     cursor: pointer;
     border: 1px solid #ebebeb;
     border-bottom-color: #e2e2e2;
-    border-radius: .25em;
+    border-radius: 0.25em;
     top: 50px;
 }
 
@@ -963,7 +964,6 @@ input[type="file"] {
     height: 120px;
     margin-left: 13px;
     object-fit: fill;
-
 }
 
 .upload_loading {
@@ -976,6 +976,10 @@ input[type="file"] {
     display: inline-block;
     position: relative;
     float: left;
+}
+
+.mp3_icon {
+    background: url("/image/tool_icon/mp3_icon.png") no-repeat center center;
 }
 
 .custom-menu {
@@ -1025,7 +1029,7 @@ input[type="file"] {
 
 .nav_left>.ep>.ep-list>h4>a:after {
     background: #ffffff;
-    content: '';
+    content: "";
     display: block;
     height: 2px;
     -moz-transition: width 0.3s;
@@ -1191,8 +1195,7 @@ input[type="file"] {
     position: absolute;
     width: 300px;
     height: 335px;
-    right: 3%;
-    z-index: 2;
+    z-index: 1;
 }
 
 .clearfix a {
@@ -1201,6 +1204,34 @@ input[type="file"] {
 
 .mx-auto {
     text-align: center;
+}
+
+.list-group {
+    overflow-y: scroll;
+    height: 200px;
+}
+
+mark {
+    background-color: #45b4e61a;
+}
+
+li[class*="you"] {
+    width: 90%;
+    float: right;
+}
+
+#time {
+    font-size: 9px;
+    color: black;
+}
+
+#chatContent {
+    width: 90%;
+    float: left;
+}
+
+#usernickname {
+    left: 0px;
 }
 
 /* //content */

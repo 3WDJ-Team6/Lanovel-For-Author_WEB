@@ -425,7 +425,7 @@ $filePaths = $filePath;
                 font-size: 1em;
             }
             ";
-            // 표지 이미지 css 입히기.!
+        // 표지 이미지 css 입히기.!
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);   // css전체
 
         $jsNmae = 'viewer';

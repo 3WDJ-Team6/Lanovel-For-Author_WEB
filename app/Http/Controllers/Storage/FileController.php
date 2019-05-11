@@ -33,18 +33,19 @@ class FileController extends Controller
     public function index()
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
-        $files = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . config('filesystems.disks.s3.images'));    # 파일 주소를 가르킴
+        $files = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'purchase');    # 파일 주소를 가르킴
 
         // return response()->json($files, 200, [], JSON_PRETTY_PRINT); //값이 확인
         $images = [];
         foreach ($files as $file) {
             $images[] = [
-                'name' => str_replace($role . '/' . Auth::user()['email'] . '/' . config('filesystems.disks.s3.images') . '/', '', $file), # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
+                'name' => Storage::disk('s3')->getMetadata($file)['basename'], # issue : 삭제 안되던 것 name att 추가한 뒤로 정상 작동 $file에서 경로명 다 ''로 지우고 파일명만 등록
                 'size' => file_size(Storage::disk('s3')->size($file)),                          # file 하나하나 접근해서 size를 가져옴
-                'path' => $file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
+                'path' => Storage::disk('s3')->getMetadata($file)['path'], #$file,                                                                # $file 문자열에서 images/를 ''로 치환함 어디서 쓸 수 있을까?
                 'src' => config('filesystems.disks.s3.url') . $file,                            # img src에서 접근할 수 있는 파일 주소  Carbon settimezone 설정가능
                 'updated_at' => str_replace('000000', '', Carbon::createFromTimestamp(Storage::disk('s3')->lastModified($file))),  # 마지막에 파일이 업데이트 되었을 때 타임 스탬프값(unix값) 시간 포맷 https://stackoverflow.com/questions/10040291/converting-a-unix-timestamp-to-formatted-date-string
                 'type' => Storage::disk('s3')->getMimeType($file),
+                // 'metadata' => Storage::disk('s3')->getMetadata($file)
             ];
         }
         // 'metadata' => Storage::disk('s3')->getMetadata($file) / 모든 메타데이터 가져옴
@@ -61,8 +62,6 @@ class FileController extends Controller
     #유효성 검사가 실패(FilePost를 통과하지 못)하면 responese가 생성되어 이전 위치로 되돌려 보냄.
     public function store(Request $request, $folderPath = null, $bookNum = null, $folderName = null)                        #0 파일 저장하는 컨트롤러 asset store & editor 사용
     {
-        // $folderPath = 'private';
-        // $folderName = "video";
         $filePath = $this->checkUserMakePath($folderPath, $bookNum, $folderName);
         $this->hasFile($request, $filePath);                         #1~3 FileTrait에서 처리해줌
         $file = $request->file('image') ? $request->file('image') : $request->file('file'); #4 Request로 부터 불러온 정보를 변수에 저장
@@ -76,16 +75,73 @@ class FileController extends Controller
             // 'Expires' => now()->addMinute(5),                        #7 expire 현재시간 + 5분 적용 외않되
         ]);
         return back()->withSuccess('Image uploaded successfully');   #8 성공했을 시 이전 화면으로 복귀 (이후 ajax처리 해야할 부분)
+
     }
 
-    public function destroy($image, $folderPath = null, $bookNum = null)
+    public function destroy($image, $folderPath = null, $folderName = null, $bookNum = null)
     {
-        $filePath = $this->checkUserMakePath($folderPath, $bookNum);
+        $filePath = $this->checkUserMakePath($folderPath, $bookNum, $folderName);
         Storage::disk('s3')->delete($filePath . $image);    //$image = 삭제하려는 이미지명
-        // return back()->withSuccess('성공적으로 삭제 되었습니다.');
     }
 
+    public function downLoadEpub(Request $request, $bookTitle = null, $authorPath = null)
+    {
+        // 책으로 발행했을 때도 epub으로 만들어서 작가에게 줘야함 publishcontroller에 추가할 코드(아래)
+        $bookTitle == '냥멍이' ? '냥멍이' : $bookTitle;
+        $authorPath == 'Author@test' ? 'Author@test' : $authorPath;
+        /*
+        issue : 마운트 시킨 s3폴더 내에 depth가 깊어서 -j 명령어로 뒷 폴더를 잘라야 하고 -r 명령어로 모든 파일 및 폴더를 압축 해야하는데,
+                명령어는 두개를 사용할 수 없음.
+        resolve : bin(전역)에 shell script(zipdir)를 만들고, 해당 스크립트에 변수를 넘기고, 실행시켜서 폴더로 접근한 뒤 압축함.
+        */
+        shell_exec('mkdir /mnt/epubz');
+        //shell_exec('cd /mnt/mountpoint/Author/Author@test/WorkSpace'); // shell_exec('zip /mnt/epubz/folder.zip -r 폴더구조테스트/*'); // 해당 폴더 압축 ->shell로 대체
+        shell_exec('zipdir ' . $authorPath . ' ' . $bookTitle); // zip 유저명 폴더명 $1 $2 shell폴더안에 있는 zipdir.sh (shell프로그램)
+        # zip 으로 만드는건 끝
 
+        $filepath = '/mnt/epubz/' . $bookTitle . '.zip';
+        $filesize = filesize($filepath);
+        $path_parts = pathinfo($filepath);
+        $filename = $path_parts['basename'];
+        $extension = $path_parts['extension'];
+
+
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Content-Type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=" . $bookTitle . '.zip');
+        header("Content-Transfer-Encoding: binary");
+        header("Content-Length: $filesize");
+
+        ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
+        flush();                # 시스템 출력 버퍼를 비움
+        readfile($filepath);    # file을 출력하는 php 함수
+    }
+
+    public function makeEpub($bookNum = null, $folderPath = null, $bookTitle = null)
+    {
+        $bookTitle = "냥멍이";
+        $folderPath = "WorkSpace";
+        $filePath = $this->checkUserMakePath($folderPath, $bookNum);
+        return $filePath;
+
+        $heart = Work::select()->get();
+        # 테이블에 값이 있으면 실행.
+        if ($heart->exists()) {
+            // $heart->update(['dl_check' => true]);
+            shell_exec('mkdir /mnt/zip-point/' . $filePath);
+            shell_exec('chmod 777 /mnt/zip-point/' . $filePath);
+        }
+
+        //$fileNames = File::where('user_id', \Auth::user()->id)
+        //             ->where('dl_check', 0)
+        //             ->pluck('name');
+
+        foreach ($fileNames as $name) { //올린 파일을 구매하려는 사용자의 폴더로 옮김 (결제시 옮겨진 폴더를 압축시킴.)
+            shell_exec('cp /mnt/mountpoint/files/bbb@naver.com/' . $name . ' /mnt/zip-point/aaa@naver.com/' . $name);
+            //      shell_exec('cp /mnt/zip-point/bbb@naver.com/1.txt /mnt/zip-point/aaa@naver.com/1.txt');
+        }
+    }
 
     public function fromS3toZip(Request $request, $folderPath = 'WorkSpace', $bookNum = 28, $bookTitle = 'BOOKNAME')
     {

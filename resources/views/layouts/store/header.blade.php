@@ -42,7 +42,7 @@
             </div>
 
             <form action="{{ url('store/find/search') }}" method="post">
-                <button type="submit" style="margin:30px;">
+                <button type="button submit" class="btn btn-light" style="margin:25px; width:110px;">
                     <i class="fa fa-search">세부검색</i>
                 </button>
             </form>
@@ -50,7 +50,10 @@
             @if(Auth::check())
             @if(Auth::user()['roles']==2)
             <div class="favourite-area">
-                <a href="#"><img src="{{ asset('image/store/heart.svg') }}" alt="" /></a>
+                <a href="{{ url('/') }}"><img src="{{ asset('image/store/edit.png') }}" style="width:100px;"alt="" /></a>
+                </div>
+            <div class="favourite-area">
+                <a href="#"><img src="{{ asset('image/store/heart.svg') }}" style="width:60px; height:60px;" alt="" /></a>
             </div>
             <div class="cart-area">
                 <a href="#" id="essenceCartBtn">
@@ -68,7 +71,7 @@
                         {{-- <span>{{$cartNum->incart}}</span> --}}
                     </a>
                 </div>
-                <!-- 장바구니 슬라이드 ##### -->
+                <!-- 장바구니 슬라이드-->
                 <div class="cart-bg-overlay"></div>
 
                 <div class="right-side-cart-area">
@@ -134,6 +137,7 @@
                     <a href="{{ url('/myPage') }}"><img src="{{ asset('image/store/user.svg') }}" alt="" />
                     </a>
                 </div>
+            
                 <div class="user-login-info">
                     <form method="post" action="{{ route('logout') }}" id="frm">
                         @csrf
