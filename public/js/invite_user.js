@@ -4,15 +4,15 @@
 
 $(document).on("keyup", "input[type='text']", function () {
     var k = $(this).val();
-    $("#userlists > a").hide();
+    $("#userlists > .userlist").hide();
     // $(".userlist_li:contains('" + k + "')").hide();
     console.log(k.length);
     console.log(k);
     // var temp = $(".userlist_li:contains('" + k + "')");
     // $("#userlist").show();
-    $("#userlists > a > div:contains('" + k + "')").parent().show();
+    $("#userlists > div > a > #info > div:contains('" + k + "')").parent().parent().parent().show();
     if (k.length == 0) {
-        $("#userlists > a").hide();
+        $("#userlists > .userlist").hide();
     }
 })
 $(document).on(function () {

@@ -1,8 +1,10 @@
 @extends('layouts.app')
+
+
 @section('header')
 
 <script>
-    var num_of_work = <?php echo json_encode($content_of_works['num_of_work']); ?>;
+    var num_of_work = <?php echo json_encode($content_of_works['num_of_work']); ?> ;
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="{{asset('/js/chat.js') }}"></script>
@@ -13,9 +15,12 @@
     {{-- 타이틀과 목차 --}}
     <div class="title-bar">
         @foreach ($titles as $title)
-        <a href="{{url('/')}}" id="title"><span id="work">{{$title['work_title']}}</span></a>
-        <a href="{{url('editor/main/chapter')}}/{{$title['num']}}"><span id="chapter"> {{$title['subtitle']}}</span></a>
-        @endforeach
+        <a href="{{url('/')}}" id="title"><span id="work">
+                <h3>{{$title['work_title']}}</h3>
+            </span></a>
+        <a href="{{url('editor/main/chapter')}}/{{$title['num']}}"> <span id="chapter">
+                <h5>{{$title['subtitle']}}</h5>
+            </span></a> @endforeach
 
     </div>
     <div id="ccc"></div>
@@ -28,7 +33,7 @@
                 @csrf
                 <ul>
                     <li class="nav-btn"><span id="chatting">채팅</span></li>
-                    <li class="nav-btn"><a href="#invite" rel="modal:open" style="color:black;">초대</a></li>
+                    <li class="nav-btn"><a id="inv_btn" href="http://localhost/loadSearchModal" rel="modal1:open" style="color:black;">초대</a></li>
                     <li class="nav-btn">멤버리스트</li>
                     <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
                     <li class="nav-btn"><button type="submit" id='sub'>저장</button></li>
@@ -39,13 +44,15 @@
 </header>
 @endsection
 
-@section('content')
-{{-- 미리보기 --}}
+
+
+
+
+@section('content') {{-- 미리보기 --}}
 <div id="preview" class="modal">
     <p id="result"></p>
 </div>
 {{-- 초대 --}}
-<div id="invite" class="modal"></div>
 <div class="content">
 
     {{-- 툴버튼들 생성칸--}}
@@ -82,13 +89,10 @@
                         </script>
                     </div>
                     <div class="ep-list">
-                        {{-- 회차 리스트 띄워주기 --}}
-                        @foreach($content_lists as $row)
-
-
-                            <a href="{{url('/editor/tool/editor')}}/{{$row['num']}}">- {{$row['subsubtitle']}}<br></a>
-
-
+                        {{-- 회차 리스트 띄워주기 --}} @foreach($content_lists as $row)
+                        <h4>
+                            <a href="{{url('/editor')}}/{{$row['num']}}"> {{$row['subsubtitle']}}<br></a>
+                        </h4>
                         @endforeach
                     </div>
                     <div class="ep-btns">
@@ -101,7 +105,8 @@
                 {{-- 템플릿 에리어 --}}
                 <div class="tem">
                     <div class="tem-list">
-                        {{--<div class="tem-li" id="shadow">그림자</div>
+                        {{--
+                        <div class="tem-li" id="shadow">그림자</div>
                         <div class="tem-li" id="inshadow">내부그림자</div>
                         <div class="tem-li" id="spin">회전</div>
                         <div class="tem-li" id="radius">둥근모서리</div>
@@ -129,7 +134,8 @@
         </div>
 
         {{-- 글쓰는에리어 --}}
-        {{--<div id="popup_result" class="textarea" contentEditable="true" autocorrect="false" ondrop="drop(event)" ondragover="allowDrop(event)">--}}
+        {{--
+        <div id="popup_result" class="textarea" contentEditable="true" autocorrect="false" ondrop="drop(event)" ondragover="allowDrop(event)">--}}
         <div id="popup_result" class="textarea" contentEditable="true" autocorrect="false">
             {!! $content_of_works['content'] !!}
 

@@ -41,7 +41,7 @@
             var t = this;
             this.block(), this.anchor.blur(), this.options.doFade ? setTimeout(function () {
                 t.show()
-            }, this.options.fadeDuration * this.options.fadeDelay) : this.show(), o(i).off("keydown.modal").on("keydown.modal", function (o) {
+            }, this.options.fadeDuration * this.options.fadeDelay) : this.show(), o(i).off("keydown.modal1").on("keydown.modal1", function (o) {
                 var t = l();
                 27 === o.which && t.options.escapeClose && t.close()
             }), this.options.clickClose && this.$blocker.click(function (t) {
@@ -49,10 +49,10 @@
             })
         },
         close: function () {
-            s.pop(), this.unblock(), this.hide(), o.modal.isActive() || o(i).off("keydown.modal")
+            s.pop(), this.unblock(), this.hide(), o.modal.isActive() || o(i).off("keydown.modal1")
         },
         block: function () {
-            this.$elm.trigger(o.modal.BEFORE_BLOCK, [this._ctx()]), this.$body.css("overflow", "hidden"), this.$blocker = o('<div class="' + this.options.blockerClass + ' blocker current"></div>').appendTo(this.$body), n(), this.options.doFade && this.$blocker.css("opacity", 0).animate({
+            this.$elm.trigger(o.modal.BEFORE_BLOCK, [this._ctx()]), this.$body.css("overflow", "hidden"), this.$blocker = o('<div class="' + this.options.blockerClass + ' blocker1 current"></div>').appendTo(this.$body), n(), this.options.doFade && this.$blocker.css("opacity", 0).animate({
                 opacity: 1
             }, this.options.fadeDuration), this.$elm.trigger(o.modal.BLOCK, [this._ctx()])
         },
@@ -60,7 +60,7 @@
             !t && this.options.doFade ? this.$blocker.fadeOut(this.options.fadeDuration, this.unblock.bind(this, !0)) : (this.$blocker.children().appendTo(this.$body), this.$blocker.remove(), this.$blocker = null, n(), o.modal.isActive() || this.$body.css("overflow", ""))
         },
         show: function () {
-            this.$elm.trigger(o.modal.BEFORE_OPEN, [this._ctx()]), this.options.showClose && (this.closeButton = o('<a href="#close-modal" rel="modal:close" class="close-modal ' + this.options.closeClass + '">' + this.options.closeText + "</a>"), this.$elm.append(this.closeButton)), this.$elm.addClass(this.options.modalClass).appendTo(this.$blocker), this.options.doFade ? this.$elm.css({
+            this.$elm.trigger(o.modal.BEFORE_OPEN, [this._ctx()]), this.options.showClose && (this.closeButton = o('<a href="#close-modal1" rel="modal1:close" class="close-modal1 ' + this.options.closeClass + '">' + this.options.closeText + "</a>"), this.$elm.append(this.closeButton)), this.$elm.addClass(this.options.modalClass).appendTo(this.$blocker), this.options.doFade ? this.$elm.css({
                 opacity: 0,
                 display: "inline-block"
             }).animate({
@@ -105,16 +105,16 @@
         clickClose: !0,
         closeText: "Close",
         closeClass: "",
-        modalClass: "modal",
-        blockerClass: "jquery-modal",
+        modalClass: "modal1",
+        blockerClass: "jquery-modal1",
         spinnerHtml: '<div class="rect1"></div><div class="rect2"></div><div class="rect3"></div><div class="rect4"></div>',
         showSpinner: !0,
         showClose: !0,
         fadeDuration: null,
         fadeDelay: 1
-    }, o.modal.BEFORE_BLOCK = "modal:before-block", o.modal.BLOCK = "modal:block", o.modal.BEFORE_OPEN = "modal:before-open", o.modal.OPEN = "modal:open", o.modal.BEFORE_CLOSE = "modal:before-close", o.modal.CLOSE = "modal:close", o.modal.AFTER_CLOSE = "modal:after-close", o.modal.AJAX_SEND = "modal:ajax:send", o.modal.AJAX_SUCCESS = "modal:ajax:success", o.modal.AJAX_FAIL = "modal:ajax:fail", o.modal.AJAX_COMPLETE = "modal:ajax:complete", o.fn.modal = function (t) {
+    }, o.modal.BEFORE_BLOCK = "modal1:before-block", o.modal.BLOCK = "modal1:block", o.modal.BEFORE_OPEN = "modal1:before-open", o.modal.OPEN = "modal1:open", o.modal.BEFORE_CLOSE = "modal1:before-close", o.modal.CLOSE = "modal1:close", o.modal.AFTER_CLOSE = "modal1:after-close", o.modal.AJAX_SEND = "modal1:ajax:send", o.modal.AJAX_SUCCESS = "modal1:ajax:success", o.modal.AJAX_FAIL = "modal1:ajax:fail", o.modal.AJAX_COMPLETE = "modal1:ajax:complete", o.fn.modal = function (t) {
         return 1 === this.length && new o.modal(this, t), this
-    }, o(i).on("click.modal", 'a[rel~="modal:close"]', o.modal.close), o(i).on("click.modal", 'a[rel~="modal:open"]', function (t) {
+    }, o(i).on("click.modal1", 'a[rel~="modal1:close"]', o.modal.close), o(i).on("click.modal1", 'a[rel~="modal1:open"]', function (t) {
         t.preventDefault(), o(this).modal()
     })
 });

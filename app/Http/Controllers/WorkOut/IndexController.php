@@ -12,11 +12,10 @@ use App\Models\WorkList;
 use App\Models\CategoryWork;
 use App\Models\ContentOfWork;
 use Auth;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
-// use App\Models\ContentOfWork;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FilePost;
@@ -47,7 +46,7 @@ class IndexController extends Controller
      * 작업방에서 보여져아 할 데이터 값
      * 작품번호, 북커버, 제목, 태그, 연재종류, 연재상태, 연재주기, 협업 멤버, 가격(대여,구매), 최근 수정시간
      */
-    public function index()
+    public function index(request $request)
     {
         // $periods = PeriodOfWork::select(
         //     'period_of_works.*'
@@ -56,11 +55,17 @@ class IndexController extends Controller
         //         $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']);
         //     })->get();
         // return Auth::user()['id'];
+
+        $status = $request->input('status_of_work');
+
         $posts = Work::select(
             'works.*',
             'work_lists.user_id'
         )->join('work_lists', 'work_lists.num_of_work', '=', 'works.num')
-            // ->join('users', 'users.id', '=', 'work_lists.user_id')
+
+            ->join('users', 'users.id', '=', 'work_lists.user_id')
+            // ->where('works.status_of_work', '=', $status)
+            // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
             ->whereIn('works.num', function ($query) {
                 $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']);
             })->orderBy('works.created_at', 'desc') // 최신순 정렬
@@ -72,11 +77,6 @@ class IndexController extends Controller
             'users.nickname'
         )->join('works', 'works.num', '=', 'work_lists.num_of_work')
             ->join('users', 'users.id', '=', 'work_lists.user_id')
-            // 현재 로그인 한 사용자가 참여하고 있는 작품만 보여지게
-            // ->where('works.num', 30)
-            // ->whereIn('works.num', function ($query) {
-            //     $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']); // 최신순 정렬
-            // })
             ->get();
 
         $modify_time = ContentOfWork::select(
@@ -85,12 +85,6 @@ class IndexController extends Controller
         )
             ->groupBy('content_of_works.num_of_work')
             ->get();
-        // ->orderBy('content_of_works.updated_at', 'asc')->get();
-
-        // return $modify_time;
-
-        // return response()->json($modify_time, 200, [], JSON_PRETTY_PRINT);
-
 
         $tagCount = Work::select(
             'works.num',
@@ -120,14 +114,14 @@ class IndexController extends Controller
     }
 
     /* 필터링 검색 */
-    // public function filterBook(){
-    //     if(!$typeOfBook = Input::get('typeOfBook')){
-    //         $works = Work::all();
-    //     }else{
-    //         $works = Work::whereIn('typeOfBook',$typeOfBook)->get();
-    //     }
-    //     return
-    // }
+    public function filterBook(request $request)
+    {
+        $types = $request->input('type_of_work');
+        $status = $request->input('status_of_work');
+
+
+        return $types;
+    }
 
     /**
      * 작품 추가
@@ -150,6 +144,7 @@ class IndexController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)    //SetBookCover
+
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
         $bookName = $request->work_title;
@@ -157,6 +152,7 @@ class IndexController extends Controller
         // return Work::select('work_title')->whereIn(function ($query) {
         //     $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']);
         // })->first();
+
         # 역할/유저id/WorkSpace/책이름/OEBPS/images/ - 에디터 사용 사진 들어갈 경로
         $s3Path = config('filesystems.disks.s3.workspace') . '/' . $bookName . $this::S3['opsImage'];
 
@@ -179,14 +175,17 @@ class IndexController extends Controller
             ]);
 
             // 작품 저장
+            $buyprice = str::replaceFirst(',','',$request->get('buy_price'));
+            $renprice = str::replaceFirst(',','',$request->get('rental_price'));
+
             $work_info = array([
                 // 제목
                 'work_title' => $request->get('work_title'),
                 // 연재종류
                 'type_of_work' => $request->get('radio_T'),
                 // 대여 및 구매 가격
-                'rental_price' => $request->get('rental_price'),
-                'buy_price' => $request->get('buy_price'),
+                'rental_price' => $renprice,
+                'buy_price' => $buyprice,
                 // 조회수 (default = 0)
                 'hits_of_work' => 0,
                 // 작품 소개
@@ -266,21 +265,26 @@ class IndexController extends Controller
      */
     public function chapter_index($num)
     {
-        // 챕터 num 값 받아옴!!!!
+
+        $nowWork = Work::select(
+            'works.*'
+        )->where('works.num', '=', $num)->first();
+
         $works = Work::select(
-            'works.num',
             'works.work_title',
             'works.introduction_of_work',
             'works.status_of_work',
             'chapter_of_works.subtitle',
             'chapter_of_works.num_of_work',
-            'chapter_of_works.num'
+            'chapter_of_works.num',
+            'content_of_works.subsubtitle'
         )
             ->join('chapter_of_works', 'chapter_of_works.num_of_work', '=', 'works.num')
+            ->leftJoin('content_of_works', 'content_of_works.num_of_chapter', 'chapter_of_works.num')
             ->where('works.num', '=', $num)->get();
 
         return view('editor.main.chapter')
-            ->with('works', $works)->with('num', $num);
+            ->with('works', $works)->with('num', $num)->with('nowWork', $nowWork);
     }
 
     public function chapter_create($num)

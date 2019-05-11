@@ -24,28 +24,48 @@ class InviteUserController extends Controller{
 
         $text ="
         <script src='".asset('/js/invite_user.js')."'></script>
+        <style>
+            .userlist{
+                display:none;
+            }
+            .userImage{
+                width:100%;
+                text-align:center;
+            }
+            .userthumb {
+                width:200px;
+                height:200px;
+                margin-top:5px;
+                position:relative;
+            }
+            .userinfo {
+                width:100%;
+            }
+        </style>
         <div class='modal-content'>
             <div class='modal-header'>
-                <h4 class='modal-title'>search user</h4>
+                <h4 class='modal-title'>협업자 초대</h4>
             </div>
             <div class='modal-body'>
                 <form>
-                    <label>user E-mail</label>
-                    <input type='text' placeholder ='상대방의 E-mail로 초대' name='userid' id='userid' class='form-control'/>
-                    <div style='width:100%; height:200px; overflow:auto'>
+                    <input type='text' placeholder ='ID 또는 E-mail로 찾기' name='userid' id='userid' class='form-control'/>
+                    <div style='width:100%; height:400px; overflow:auto'>
                     <ul id='userlists'>
                     ";
                     foreach($userlist as $i => $user){
                         $text = $text."
-                        <a href='".url("loadUserInfoModal/".$user['email'])."' style='display:block; display:none' rel='modal:open' title='".$user['email']."'>
-                            <div style='display:inline-block'>
-                            <img src='".$user['profile_photo']."' style='width:80px;height:50%;float:left;margin-top:5px;' onError=javascript:this.src='".asset('image/no_image.png')."'>
-                            </div>
-                            <div id='info' class='".$user['email']."'style='display:inline-block; width:500px;float:right;left:-60px;position:relative;'>"
-                            .$user['nickname']."<br>".$user['introduction_message']."<br>
-                            ".$user['email']."
-                            </div>
-                        </a>
+                        <div class='userlist'>
+                            <a href='".url("loadUserInfoModal/".$user['email'])."' rel='modal:open' title='".$user['email']."'>
+                                <div class='userImage'>
+                                    <img src='".$user['profile_photo']."' class='userthumb' onError=javascript:this.src='".asset('image/no_image.png')."'>
+                                </div>
+                                <span id='info' class='".$user['email']."'style='width:600px;position:relative;'>
+                                    <div class='userinfo'>ID : ".$user['nickname']."</div>
+                                    <div class='userinfo'>".$user['introduction_message']."</div>
+                                    <div class='userinfo'>E-MAIL : ".$user['email']."</div>
+                                </span>
+                            </a>
+                        </div>
                         ";
                     }
                 $text = $text."

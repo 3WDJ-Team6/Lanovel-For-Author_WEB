@@ -5,30 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <style>
-        .list-group{
-            overflow-y:scroll;
-            height:200px;
-        }
-        mark{
-            background-color:#45b4e61a;
-        }
-        li[class*="you"] {
-          width: 90%;
-          float: right;
-        }
-        #time{
-            font-size:9px;
-            color:black;
-        }
-        #chatContent{
-            width:90%;
-            float:left;
-        }
-        #usernickname{
-            left:0px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">

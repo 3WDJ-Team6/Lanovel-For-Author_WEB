@@ -1,7 +1,7 @@
 <div class="modal-content">
-    <div class="modal-header">
+    {{-- <div class="modal-header">
         <h4 class="modal-title">invite user</h4>
-    </div>
+    </div> --}}
     <div class="modal-body">
         <form action="{{url(test)}}">
             <label>user id</label>
