@@ -4,7 +4,7 @@
 @section('header')
 
 <script>
-    var num_of_work = <?php echo json_encode($content_of_works['num_of_work']); ?> ;
+    var num_of_work = <?php echo json_encode($content_of_works['num_of_work']); ?>;
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="{{asset('/js/chat.js') }}"></script>
@@ -15,11 +15,15 @@
     {{-- 타이틀과 목차 --}}
     <div class="title-bar">
         @foreach ($titles as $title)
+        @if(Auth::user()['roles'] == 2)
         <a href="{{url('/')}}" id="title"><span id="work">
                 <h3>{{$title['work_title']}}</h3>
             </span></a>
+        @else
+        <h3>{{$title['work_title']}}</h3>
+        @endif
         <a href="{{url('editor/main/chapter')}}/{{$title['num']}}"> <span id="chapter">
-                <h5>{{$title['subtitle']}}</h5>
+                &nbsp;&nbsp;&nbsp;<h5>{{$title['subtitle']}}</h5>
             </span></a> @endforeach
 
     </div>
@@ -85,17 +89,15 @@
                             else {
                                 document.write(subsubtitle);
                             }
-
                         </script>
                     </div>
                     <div class="ep-list">
                         {{-- 회차 리스트 띄워주기 --}} @foreach($content_lists as $row)
-                            <a href="{{url('/editor')}}/{{$row['num']}}">- {{$row['subsubtitle']}}<br></a>
+                        <a href="{{url('/editor')}}/{{$row['num']}}">- {{$row['subsubtitle']}}<br></a>
                         @endforeach
                     </div>
                     <div class="ep-btns">
-                        <div class="btn ep-btn"
-                            onclick="javascript:popupInEditor({{$content_of_works['num_of_chapter']}})">추가</div>
+                        <div class="btn ep-btn" onclick="javascript:popupInEditor({{$content_of_works['num_of_chapter']}})">추가</div>
                         <div class="btn ep-btn" onclick="javascript:popupEdit({{$content_of_works['num']}})">수정</div>
                         <div class="btn ep-btn" id="ep-del">삭제</div>
                     </div>
@@ -117,13 +119,27 @@
                         <div class="btn tem-li size_control" id="small">작게</div>
                         <div class="btn tem-li size_control" id="origin">원래사이즈</div>
                         {{-- <div class="btn tem-li" id="play_add1">소리1</div>--}}
-                        <div class="btn tem-li css_eft_control" id="css_eft_cB1"><div class="css_eft_name">벚꽃</div></div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_cB2"><div class="css_eft_name">벚꽃</div></div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_rain"><div class="css_eft_name">비</div></div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_snow"><div class="css_eft_name">눈</div></div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_starlight"><div class="css_eft_name">반짝임</div></div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_yellowstar"><div class="css_eft_name">노란별</div></div>
-                        <div class="btn tem-li css_eft_control" id="css_eft_lightning"><div class="css_eft_name">번개</div></div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_cB1">
+                            <div class="css_eft_name">벚꽃</div>
+                        </div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_cB2">
+                            <div class="css_eft_name">벚꽃</div>
+                        </div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_rain">
+                            <div class="css_eft_name">비</div>
+                        </div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_snow">
+                            <div class="css_eft_name">눈</div>
+                        </div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_starlight">
+                            <div class="css_eft_name">반짝임</div>
+                        </div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_yellowstar">
+                            <div class="css_eft_name">노란별</div>
+                        </div>
+                        <div class="btn tem-li css_eft_control" id="css_eft_lightning">
+                            <div class="css_eft_name">번개</div>
+                        </div>
                         {{-- <div class="btn tem-li css_eft_control" id="css_eft_fire1">불1</div>
                         <div class="btn tem-li css_eft_control" id="css_eft_fire2">불2</div> --}}
                     </div>
@@ -163,7 +179,7 @@
         </div>--}}
     </div>
     <script>
-        jQuery(document).ready(function () {
+        jQuery(document).ready(function() {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -179,22 +195,20 @@
                         content: $('.textarea').html(),
                     },
                     dataType: "JSON",
-                    error: function (e) {
+                    error: function(e) {
                         throw new Error("실.패");
                     },
-                    success: function (data) {
+                    success: function(data) {
                         console.log(data);
                     }
                 });
             }
         });
-
     </script>
     <script type="text/javascript">
-        $(window).on("load", function () {
+        $(window).on("load", function() {
             new popTool("popup_result", "popbutton");
         });
-
     </script>
 </div>
 @include('layouts/footer')
