@@ -4,10 +4,10 @@ body {
     /* position: absolute; */
     height: 100%;
     width: 100%;
-  }
+}
 
-.overlay{
-    background-color: rgba( 255, 255, 255, 0.3 );
+.overlay {
+    background-color: rgba(255, 255, 255, 0.3);
     position: absolute;
     top: 0;
     left: 0;
@@ -19,7 +19,7 @@ body {
     float: right;
     height: 100%;
     width: 50%;
-    background-color: rgba( 255, 255, 255, 0.5 );
+    background-color: rgba(255, 255, 255, 0.5);
     padding-top: 10%;
     padding-left: 10%;
     padding-right: 10%;
@@ -35,13 +35,14 @@ body {
 }
 
 .login-btn {
+    float: left;
     font-size: 20px;
     font-weight: 800;
-    width: 160px;
-    padding: 15px 25px;
-    color: white;
+    width: 222px;
+    height: 49px;
+    color: beige;
     background-color: rgba(74, 134, 232);
-    border-radius: 20px;
+    border-radius: 5px;
     border: 0;
     float: right;
     margin-left: 100%;
@@ -54,6 +55,7 @@ body {
     background: none;
     font-weight: 200;
 }
-a:hover{
+
+a:hover {
     text-decoration: none;
 }

@@ -1562,13 +1562,13 @@
         this.$stage.empty(), this._items = [], b && (b = b instanceof jQuery ? b : a(b)), this.settings.nestedItemSelector && (b = b.find("." + this.settings.nestedItemSelector)), b.filter(function () {
             return 1 === this.nodeType
         }).each(a.proxy(function (a, b) {
-            b = this.prepare(b), this.$stage.append(b), this._items.push(b), this._mergers.push(1 * b.find("[data-merge]").andSelf("[data-merge]").attr("data-merge") || 1)
+            b = this.prepare(b), this.$stage.append(b), this._items.push(b), this._mergers.push(1 * b.find("[data-merge]").addBack("[data-merge]").attr("data-merge") || 1)
         }, this)), this.reset(a.isNumeric(this.settings.startPosition) ? this.settings.startPosition : 0), this.invalidate("items")
     }, e.prototype.add = function (a, b) {
         b = b === d ? this._items.length : this.normalize(b, !0), this.trigger("add", {
             content: a,
             position: b
-        }), 0 === this._items.length || b === this._items.length ? (this.$stage.append(a), this._items.push(a), this._mergers.push(1 * a.find("[data-merge]").andSelf("[data-merge]").attr("data-merge") || 1)) : (this._items[b].before(a), this._items.splice(b, 0, a), this._mergers.splice(b, 0, 1 * a.find("[data-merge]").andSelf("[data-merge]").attr("data-merge") || 1)), this.invalidate("items"), this.trigger("added", {
+        }), 0 === this._items.length || b === this._items.length ? (this.$stage.append(a), this._items.push(a), this._mergers.push(1 * a.find("[data-merge]").addBack("[data-merge]").attr("data-merge") || 1)) : (this._items[b].before(a), this._items.splice(b, 0, a), this._mergers.splice(b, 0, 1 * a.find("[data-merge]").addBack("[data-merge]").attr("data-merge") || 1)), this.invalidate("items"), this.trigger("added", {
             content: a,
             position: b
         })
@@ -1908,10 +1908,10 @@ function (a) {
             to: this._core.to
         }, this._handlers = {
             "prepared.owl.carousel": a.proxy(function (b) {
-                this._core.settings.dotsData && this._templates.push(a(b.content).find("[data-dot]").andSelf("[data-dot]").attr("data-dot"))
+                this._core.settings.dotsData && this._templates.push(a(b.content).find("[data-dot]").addBack("[data-dot]").attr("data-dot"))
             }, this),
             "add.owl.carousel": a.proxy(function (b) {
-                this._core.settings.dotsData && this._templates.splice(b.position, 0, a(b.content).find("[data-dot]").andSelf("[data-dot]").attr("data-dot"))
+                this._core.settings.dotsData && this._templates.splice(b.position, 0, a(b.content).find("[data-dot]").addBack("[data-dot]").attr("data-dot"))
             }, this),
             "remove.owl.carousel prepared.owl.carousel": a.proxy(function (a) {
                 this._core.settings.dotsData && this._templates.splice(a.position, 1)
@@ -2021,7 +2021,7 @@ function (a, b) {
                 "URLHash" == this._core.settings.startPosition && a(b).trigger("hashchange.owl.navigation")
             }, this),
             "prepared.owl.carousel": a.proxy(function (b) {
-                var c = a(b.content).find("[data-hash]").andSelf("[data-hash]").attr("data-hash");
+                var c = a(b.content).find("[data-hash]").addBack("[data-hash]").attr("data-hash");
                 this._hashes[c] = b.content
             }, this)
         }, this._core.options = a.extend({}, c.Defaults, this._core.options), this.$element.on(this._handlers), a(b).on("hashchange.owl.navigation", a.proxy(function () {

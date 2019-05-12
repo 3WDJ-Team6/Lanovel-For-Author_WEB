@@ -16,6 +16,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="{{ asset('bower_components/jquery-ui/jquery-ui.min.js') }}" defer></script>
     <script src="{{ asset('js/jquery/jquery.modal.min.js') }}" defer></script>
+    <script src="{{ asset('js/jquery/jquery.modal.min.1.js') }}" defer></script>
     <script src="{{ asset('js/jquery/jquery.form.js') }}" defer></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" defer></script>
 
@@ -28,6 +29,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/res.css') }}" rel="stylesheet">
     <link href="{{ asset('css/jquery.modal.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/jquery.modal.min.1.css') }}" rel="stylesheet">
     <link href="{{ asset('css/template.css') }}" rel="stylesheet">
     <link href="{{ asset('bower_components\jquery-ui\themes\base\jquery-ui.css') }}" rel="stylesheet">
 </head>
@@ -40,4 +42,5 @@
     </main>
 </body>
 @yield('footer')
+
 </html>

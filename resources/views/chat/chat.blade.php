@@ -5,34 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-
-    <style>
-        .list-group{
-            overflow-y:scroll;
-            height:200px;
-        }
-        mark{
-            background-color:#45b4e61a;
-        }
-        #time{
-            font-size:9px;
-            color:black;
-        }
-        #chatContent{
-            width:90%;
-            float:right;
-        }
-        #usernickname{
-            left:0px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="row" id="app">
-            <div class=" offset-4 col-4 offset-sm-1 col-sm-10">
+            <div class=" offset-4 col-4 offset-sm-1 col-sm-10" style='margin:0;padding:0;'>
                     <li class="list-group-item active">Chat Room<div class="badge badge-pill badge-warning">@{{numberOfUser}}</div>
                     </li>
                     <ul class="list-group" v-chat-scroll style="background-color: white;">

@@ -15227,7 +15227,6 @@ window.Vue = __webpack_require__(13);
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll___default.a);
 
-// Vue.component('message', require('./components/Vuemessage.vue').default);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('message', __WEBPACK_IMPORTED_MODULE_2__components_Vuemessage_vue___default.a);
 
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
@@ -15283,7 +15282,7 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             _this2.chat.user.push(e.user);
             _this2.chat.color.push('warning');
             _this2.chat.time.push(_this2.getTime());
-            // console.log(e);
+            console.log(e);
         }).listenForWhisper('typing', function (e) {
             if (e.name != '') {
                 _this2.typing = 'typing...';
@@ -59087,7 +59086,7 @@ exports = module.exports = __webpack_require__(46)(false);
 
 
 // module
-exports.push([module.i, "\nmark{\n    background-color:#45b4e61a;\n}\n#time{\n    font-size:9px;\n    color:black;\n}\n", ""]);
+exports.push([module.i, "\nmark {\n  background-color: #45b4e61a;\n}\n.list-group-item-success:not(.you) {\n  width: 90%;\n  float: left;\n}\n.you {\n  width: 90%;\n  float: right;\n}\n#time {\n  font-size: 9px;\n  color: black;\n}\n#chatcontent2 {\n  width: 90%;\n  float: left;\n}\n#usernickname {\n  left: 0px;\n}\n", ""]);
 
 // exports
 
@@ -59558,21 +59557,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'message',
-    props: ['color', 'user', 'time'],
-    computed: {
-        className: function className() {
-            return 'list-group-item-' + this.color;
-        },
-        badgeClass: function badgeClass() {
-            return 'badge-' + this.color;
-        }
+  name: "message",
+  props: ["color", "user", "time"],
+  computed: {
+    usernn: function usernn() {
+      return this.user;
     },
-    mounted: function mounted() {
-        // console.log('Component mounted.');
+    badgeClass: function badgeClass() {
+      return "badge-" + this.color;
     }
+  },
+  mounted: function mounted() {
+    // console.log('Component mounted.');
+  }
 });
 
 /***/ }),
@@ -59584,13 +59585,19 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("small", { staticClass: "badge float-left", class: _vm.badgeClass }, [
-      _vm._v(_vm._s(_vm.user))
-    ]),
+    _c(
+      "small",
+      { staticClass: "badge float-left", attrs: { id: "usernickname" } },
+      [_vm._v(_vm._s(_vm.user))]
+    ),
     _vm._v(" "),
     _c(
       "li",
-      { staticClass: "list-group-item", class: _vm.className },
+      {
+        staticClass: "list-group-item list-group-item-success",
+        class: _vm.usernn,
+        attrs: { id: "chatContent2" }
+      },
       [_vm._t("default")],
       2
     ),
@@ -59614,7 +59621,7 @@ if (false) {
 /* 52 */
 /***/ (function(module, exports) {
 
-throw new Error("Module build failed: ModuleBuildError: Module build failed: Error: Missing binding C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\node-sass\\vendor\\win32-x64-57\\binding.node\nNode Sass could not find a binding for your current environment: Windows 64-bit with Node.js 8.x\n\nFound bindings for the following environments:\n  - Windows 64-bit with Node.js 10.x\n\nThis usually happens because your environment has changed since running `npm install`.\nRun `npm rebuild node-sass` to download the binding for your current environment.\n    at module.exports (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\node-sass\\lib\\binding.js:15:13)\n    at Object.<anonymous> (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\node-sass\\lib\\index.js:14:35)\n    at Module._compile (module.js:652:30)\n    at Object.Module._extensions..js (module.js:663:10)\n    at Module.load (module.js:565:32)\n    at tryModuleLoad (module.js:505:12)\n    at Function.Module._load (module.js:497:3)\n    at Module.require (module.js:596:17)\n    at require (internal/module.js:11:18)\n    at Object.<anonymous> (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\sass-loader\\lib\\loader.js:3:14)\n    at Module._compile (module.js:652:30)\n    at Object.Module._extensions..js (module.js:663:10)\n    at Module.load (module.js:565:32)\n    at tryModuleLoad (module.js:505:12)\n    at Function.Module._load (module.js:497:3)\n    at Module.require (module.js:596:17)\n    at require (internal/module.js:11:18)\n    at loadLoader (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\loadLoader.js:18:17)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:176:18\n    at loadLoader (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\loadLoader.js:47:3)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:176:18\n    at loadLoader (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\loadLoader.js:47:3)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:176:18\n    at loadLoader (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\loadLoader.js:47:3)\n    at runLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\webpack\\lib\\NormalModule.js:195:19)\n    at C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:367:11\n    at C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:172:11\n    at loadLoader (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\loadLoader.js:32:11)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:176:18\n    at loadLoader (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\loadLoader.js:47:3)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:176:18\n    at loadLoader (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\loadLoader.js:47:3)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:165:10)\n    at C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:176:18\n    at loadLoader (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\loadLoader.js:47:3)\n    at iteratePitchingLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:169:2)\n    at runLoaders (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\loader-runner\\lib\\LoaderRunner.js:365:2)\n    at NormalModule.doBuild (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\webpack\\lib\\NormalModule.js:182:3)\n    at NormalModule.build (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\webpack\\lib\\NormalModule.js:275:15)\n    at Compilation.buildModule (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\webpack\\lib\\Compilation.js:157:10)\n    at moduleFactory.create (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\webpack\\lib\\Compilation.js:460:10)\n    at factory (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\webpack\\lib\\NormalModuleFactory.js:243:5)\n    at applyPluginsAsyncWaterfall (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\webpack\\lib\\NormalModuleFactory.js:94:13)\n    at C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\tapable\\lib\\Tapable.js:268:11\n    at NormalModuleFactory.params.normalModuleFactory.plugin (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\webpack\\lib\\CompatibilityPlugin.js:52:5)\n    at NormalModuleFactory.applyPluginsAsyncWaterfall (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\tapable\\lib\\Tapable.js:272:13)\n    at resolver (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\webpack\\lib\\NormalModuleFactory.js:69:10)\n    at process.nextTick (C:\\Users\\ehc\\Documents\\vscode\\Lanovel-For-Author_WEB\\node_modules\\webpack\\lib\\NormalModuleFactory.js:196:7)\n    at _combinedTickCallback (internal/process/next_tick.js:131:7)");
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
