@@ -129,7 +129,7 @@ class EditController extends Controller
         // 회차 제목 추가
         $content_of_works->subsubtitle = $request->subsubtitle;
         // 회차 내용 디폴트값 넣어주기
-        $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
+        $content_of_works->content = "<p>物語《ものがたり》を書《か》きましょう</p>";
         $content_of_works->save();
 
         echo "<script>opener.parent.location.reload();window.close()</script>";
