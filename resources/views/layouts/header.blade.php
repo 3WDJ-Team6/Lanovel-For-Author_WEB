@@ -24,10 +24,10 @@
                     <a class="nav-link" href="#" style="color:#45b4e6">Chatting</a>
                 </li>
                 @if(Auth::check()) {{-- 로그인 되어 있을 때 --}}
-                <form method="post" action="{{route('logout')}}" id='logout_btn'>
+                <form method="post" action="{{route('logout')}}" id='logout_btn' name="logout">
                     @csrf
                     <li class="nav-item">
-                        <button type="submit" class="nav-link" style="color:#45b4e6">Logout</button>
+                        <a class="nav-link" href="javascript:logout.submit();" style="color:#45b4e6">Logout</a></button>
                     </li>
                 </form>
                 @else

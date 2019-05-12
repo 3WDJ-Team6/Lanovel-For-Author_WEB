@@ -7,10 +7,11 @@ function hideExclude(excludeId) {
     $("#" + excludeId).show();
 }
 
-
-
 $(document).ready(function () {
 
+
+    $('#find_price').hide();
+    $('#find_detail').hide();
 
     $("#tag").click(function () {
         hideExclude("find_tag");

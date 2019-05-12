@@ -158,7 +158,7 @@
                                     <!-- Hover Content -->
                                     <div class="hover-content">
                                         <!-- Add to Cart -->
-                                        <div class="add-to-cart-btn" style="display:block;">
+                                        <div class="add-to-cart-btn" style="display:block; width:190px;">
                                             <a href="{{url('/addCart')}}/{{$row->num}}" class="btn essence-btn">Add to
                                                 Cart</a>
                                         </div>
