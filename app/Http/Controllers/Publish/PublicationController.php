@@ -333,8 +333,8 @@ class PublicationController extends Controller
                 <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                     <head>
                     <meta http-equiv='default-style' content='text/html; charset=utf-8' />
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
                     <title>" . $clist['subsubtitle'] . "</title>
-                    <meta name='viewport' content='width=1366, height=768' />
                     <link rel='stylesheet' href='../css/stylesheet.css' type='text/css' />
                     <script src='../js/jquery.js'></script>
                     <script src='../js/viewer.js'></script>
@@ -375,10 +375,10 @@ class PublicationController extends Controller
         $cssNmae = 'stylesheet';
         $cssFile =
             "
-            #sectionId{text-align:center; margin-top:5%; } #coverimgdiv{ background: url('" . $book_cover . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 525px; height: 740px; text-align:left;            }            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }            #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
+            #sectionId{text-align:center; margin-top:5%; } #coverimgdiv{ background: url('" . $book_cover . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 788px; height: 1110px; text-align:left;            }            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }            #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
             .resize,
             .resize_mp4 {
-                width: 400px;
+                width: 800px;
                 height: auto;
                 background-size: auto;
                 background-repeat: no-repeat;
@@ -456,10 +456,7 @@ class PublicationController extends Controller
                 font-size: 1.5em;
             }
             ";
-        // 표지 이미지 css 입히기.!
-            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css')){
-                Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
-            } // css전체
+            Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
 
         $jsNmae = 'viewer';
         $jsFile =

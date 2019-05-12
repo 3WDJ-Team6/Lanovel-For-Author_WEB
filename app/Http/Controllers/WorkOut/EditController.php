@@ -338,10 +338,11 @@ class EditController extends Controller
                 $editor_content = str::replaceFirst('<br>','<br />',$editor_content);
             }elseif(str::contains($editor_content,'</video>')){
                 $editor_content = str::replaceFirst('</video>','',$editor_content);
+            }elseif(str::contains($editor_content,'src="/images/tool_icon/speaker_icon.png" alt="alt"')){
+                $editor_content = str::replaceFirst('src="/images/tool_icon/speaker_icon.png" alt="alt"','src="../images/tool_icon/speaker_icon.png" alt="alt"',$editor_content);
             }elseif(str::contains($editor_content,'onclick="audioPlay(event)">')){
                 $editor_content = str::replaceFirst('onclick="audioPlay(event)">','onclick="audioPlay(event)" />',$editor_content);
             }else{
-                // return $editor_content;
                 break;
             }
         }
