@@ -84,6 +84,7 @@
                         <!-- 장바구니 리스트 -->
                         <div class="cart-list">
                             @foreach($cartProducts as $product)
+
                             <!-- Single Cart Item -->
                             <div class="single-cart-item">
                                 <a href="{{ url('/view') }}/{{$product->num}}" class="product-image">
@@ -220,6 +221,7 @@
                             src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
                 </form>
             </div>
+
             <script type="text/javascript">
                 var div = document.getElementById("alramimg");
                 div.style.display = 'inline-block';
@@ -227,6 +229,7 @@
             </script>
             @isset($invite_message)
             @foreach ($invite_message as $i => $im)
+
             <script type="text/javascript">
                 var text = document.getElementById("messagecount").innerHTML;
                 if (text == '0') {
