@@ -42,7 +42,9 @@ class WorkListController extends Controller
             'works.bookcover_of_work',
             DB::raw('(select count(num_of_work) FROM recommend_of_works where recommend_of_works.num_of_work = works.num) recommends'),
             DB::raw('IFNULL((select(round(avg(grades.grade),1)) from grades where grades.num_of_work = works.num AND grades.role_of_work = 1),0) grades'),
-            DB::raw("(select group_concat(case when users.roles = 1 then 'Reader' when users.roles = 2 then 'Author' when users.roles = 3 then 'Illustrator' end, ' : ' , nickname ) from users where users.id in (select work_lists.user_id FROM work_lists WHERE work_lists.num_of_work = works.num)) participant"),
+            // DB::raw("(select group_concat(case when users.roles = 1 then 'Reader' when users.roles = 2 then 'Author' when users.roles = 3 then 'Illustrator' end, ' : ' , nickname ) from users where users.id in (select work_lists.user_id FROM work_lists WHERE work_lists.num_of_work = works.num)) participant"),
+            DB::raw("(select group_concat(nickname) from users where users.id in (SELECT user_id FROM work_lists WHERE work_lists.num_of_work = works.num AND users.roles=2)) author"),
+            DB::raw("(select group_concat(nickname) from users where users.id in (SELECT user_id FROM work_lists WHERE work_lists.num_of_work = works.num AND users.roles=3)) illustrator"),
             DB::raw('(select group_concat(category_works.tag) from category_works where category_works.num_of_work = works.num) tag')
         )->leftjoin('work_lists', 'works.num', '=', 'work_lists.num_of_work')
             ->leftjoin('users', 'work_lists.user_id', '=', 'users.id')
@@ -67,7 +69,6 @@ class WorkListController extends Controller
         // 4) 작품 페이지 (연재작)
         // 회차 리스트 (1화, 2화, 3화 혹은 회차명),
         // 회차 업데이트 날짜
-
         return response()->json($worklist, 200, [], JSON_PRETTY_PRINT);
     }
 
@@ -103,7 +104,7 @@ class WorkListController extends Controller
         // 받아와야할 변수 작품번호(지금 18들어가있는곳), 챕터번호(23번), 현재 로그인중인 사용자(9번), type_of_work = 2 (단행본일 때)
         // 2) 작품 페이지 (단행본) + 3번 목차
         // 책 이미지, 책 제목, 작가명, 일러스트레이터명, 평점, 단행본|연재작 여부, 가격, 대여기간, 카테고리(해시태그), 줄거리, 업데이트 날짜
-
+        $authorId = '';
         $works = Work::select(
             'works.num',
             'works.work_title',
@@ -113,7 +114,9 @@ class WorkListController extends Controller
             'works.rental_price',
             'works.buy_price',
             DB::raw('IFNULL((select(round(avg(grades.grade),1)) from grades where grades.num_of_work = works.num AND grades.role_of_work = 1),0) grades'),
-            DB::raw("(select group_concat(case when users.roles = 1 then 'Reader' when users.roles = 2 then 'Author' when users.roles = 3 then 'Illustrator' end, ' : ' , nickname ) from users where users.id in (select work_lists.user_id FROM work_lists WHERE work_lists.num_of_work = works.num)) participant"),
+            // DB::raw("(select group_concat(case when users.roles = 1 then 'Reader' when users.roles = 2 then 'Author' when users.roles = 3 then 'Illustrator' end, ' : ' , nickname ) from users where users.id in (select work_lists.user_id FROM work_lists WHERE work_lists.num_of_work = works.num)) participant"),
+            DB::raw("(select group_concat(nickname) from users where users.id in (SELECT user_id FROM work_lists WHERE work_lists.num_of_work = works.num AND users.roles=2)) author"),
+            DB::raw("(select group_concat(nickname) from users where users.id in (SELECT user_id FROM work_lists WHERE work_lists.num_of_work = works.num AND users.roles=3)) illustrator"),
             DB::raw('(select group_concat(category_works.tag) from category_works where category_works.num_of_work = works.num) tag'),
             DB::raw('(select count(num_of_work) FROM recommend_of_works where recommend_of_works.num_of_work = works.num) recommends'),
             DB::raw("if((select count(recommend_of_works.num_of_work) FROM recommend_of_works WHERE recommend_of_works.num_of_work = works.num AND recommend_of_works.user_id = $userId),'t','f') recommends_or_not"),

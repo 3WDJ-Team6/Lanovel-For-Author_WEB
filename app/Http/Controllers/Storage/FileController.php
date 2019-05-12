@@ -33,7 +33,7 @@ class FileController extends Controller
     public function index()
     {
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
-        $files = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'purchase');    # 파일 주소를 가르킴
+        $files = Storage::disk('s3')->files($role . DIRECTORY_SEPARATOR . Auth::user()['email'] . DIRECTORY_SEPARATOR . 'images');    # 파일 주소를 가르킴
 
         // return response()->json($files, 200, [], JSON_PRETTY_PRINT); //값이 확인
         $images = [];
@@ -87,8 +87,8 @@ class FileController extends Controller
     public function downLoadEpub(Request $request, $bookTitle = null, $authorPath = null)
     {
         // 책으로 발행했을 때도 epub으로 만들어서 작가에게 줘야함 publishcontroller에 추가할 코드(아래)
-        $bookTitle == '냥멍이' ? '냥멍이' : $bookTitle;
-        $authorPath == 'Author@test' ? 'Author@test' : $authorPath;
+        $bookTitle == '냥멍이' ? $bookTitle = '냥멍이' : $bookTitle = $bookTitle;
+        $authorPath == 'Author@test' ? $authorPath = 'Author@test' : $authorPath = $authorPath;
         /*
         issue : 마운트 시킨 s3폴더 내에 depth가 깊어서 -j 명령어로 뒷 폴더를 잘라야 하고 -r 명령어로 모든 파일 및 폴더를 압축 해야하는데,
                 명령어는 두개를 사용할 수 없음.

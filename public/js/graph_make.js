@@ -3,7 +3,7 @@ function hideExclude(excludeId) {
 
         $(this).hide();
     });
-    //넘겨 받은 id 요소는 show+
+    //넘겨 받은 id 요소는 show
     $("#" + excludeId).show();
 }
 

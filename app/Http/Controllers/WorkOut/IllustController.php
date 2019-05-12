@@ -100,19 +100,18 @@ class IllustController extends Controller
             ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
             ->limit(5)
             ->get();
-            $uid = Auth::user()['id'];
-        if(isset($uid)){
+        $uid = Auth::user()['id'];
+        if (isset($uid)) {
             $check_message = Message::select(
                 'u1.id as to_id',
-                DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0 and message_title like 'invite%' and to_id = ".Auth::user()['id'].") count")
-            )->leftjoin('users as u1','u1.id','messages.to_id')
-            ->where('message_title','like','invite%')
-            ->where('to_id','=',$uid)
-            ->get();
+                DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0 and message_title like 'invite%' and to_id = " . Auth::user()['id'] . ") count")
+            )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
+                ->where('message_title', 'like', 'invite%')
+                ->where('to_id', '=', $uid)
+                ->get();
             // return $check_message;
-            return view('/store/home/home')->with('products', $products)->with('invite_message',$check_message);
-        }
-        else{
+            return view('/store/home/home')->with('products', $products)->with('invite_message', $check_message);
+        } else {
             return view('/store/home/home')->with('products', $products);
         }
     }
@@ -404,7 +403,7 @@ class IllustController extends Controller
             // return response()->json($urls->savename_of_illustration, 200, [], JSON_PRETTY_PRINT);
             Storage::disk('s3')->copy($urls->folderPath . $urls->savename_of_illustration, $userPath . $urls->savename_of_illustration);
         }
-        return response()->json($illust_info, 200, [], JSON_PRETTY_PRINT);
+        // return response()->json($illust_info, 200, [], JSON_PRETTY_PRINT);
         return redirect()->back()->with('message', '구매 성공')->with('illust_info', $illust_info);
     }
 
