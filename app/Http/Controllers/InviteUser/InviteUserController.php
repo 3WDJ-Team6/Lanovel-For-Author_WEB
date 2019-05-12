@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\InviteUser;
 
 use Auth;
+use Carbon\Carbon;
 use App\Events\InviteEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
@@ -10,6 +11,7 @@ use App\Models\User;
 use App\Models\Work;
 use App\Models\WorkList;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -149,19 +151,22 @@ class InviteUserController extends Controller
         // $userid = $request->get('userid');
         $work_num = $request->get('title');
         $invite_message = $request->get('message');
+
         $user_id = User::select(
             'users.id'
         )->where('users.nickname', $nickname)
             ->first()->id;
+
         $work_title = Work::select(
             'works.work_title'
         )->where('works.num', $work_num)
             ->first()->work_title;
+
         $list = new WorkList();
         $list->num_of_work = $work_num;
         $list->user_id = $user_id;
         $list->accept_request = 1;
-        $list->last_time_of_working = "test";
+        $list->last_time_of_working = Carbon::now();
         $list->save();
 
         $message = new Message();
@@ -169,16 +174,15 @@ class InviteUserController extends Controller
         $message->to_id = $user_id;
         $message->message_title = 'invite message';
         $message->message_content = $invite_message;
+        $message->num_of_work = $work_num;
         $message->save();
 
         // event(new InviteEvent(Auth::user()['nickname'], $nickname, 'invite message', $nickname . "님이 " . $work_title . '작품에 초대하셧습니다.'));
 
-        // return 1;
         return redirect()->back()->withInput();
     }
     public function viewMessages()
     {
-
         $invite_messages = Message::select(
             'messages.num',
             'messages.message_title',
@@ -229,8 +233,10 @@ class InviteUserController extends Controller
         return $text;
     }
 
-    public function viewMessage($messagenum)
+    public function viewMessage($messageNum)
     {
+        $inviteRoomNum = Message::select('num_of_work')->where('num', $messageNum)->get()[0]->num_of_work;
+
         $invite_message = Message::select(
             'messages.message_title',
             'messages.message_content',
@@ -239,34 +245,32 @@ class InviteUserController extends Controller
             'messages.created_at'
         )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
             ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
-            ->where('messages.num', $messagenum)
+            ->where('messages.num', $messageNum)
             ->get();
 
         DB::update('UPDATE messages
         SET condition_message = 1
-        WHERE messages.num =' . $messagenum);
+        WHERE messages.num =' . $messageNum);
 
         // return $invite_message;
         foreach ($invite_message as $i => $im) {
-
             $text = "
             <div>보낸 사람 " . $im['from_id'] . "</div>
             <div>받은 시간 " . $im['created_at'] . "</div>
             <div>message title " . $im['message_title'] . "</div>
             <div>" . $im['message_content'] . "</div>
-            <div> <a href='acceptInvite/" . $messagenum . "'>accept invite</a></div>
+            <div> <a href='/acceptInvite/" . $messageNum . '/' . $inviteRoomNum . "'>accept invite</a></div>
             ";
         }
         return $text;
     }
-    public function acceptInvite($messagenum)
+    public function acceptInvite($messageNum, $inviteRoomNum)
     {
-
         DB::update('UPDATE work_lists INNER JOIN messages
-        ON messages.num = ' . $messagenum . '
+        ON messages.num = ' . $messageNum . '
         SET accept_request = 0
         WHERE work_lists.user_id = messages.to_id
         AND work_lists.created_at = messages.created_at');
-        return redirect()->back()->withInput();
+        return redirect('editor/main/chapter/' . $inviteRoomNum);
     }
 }
