@@ -90,9 +90,7 @@
                     </div>
                     <div class="ep-list">
                         {{-- 회차 리스트 띄워주기 --}} @foreach($content_lists as $row)
-                        <h4>
-                            <a href="{{url('/editor')}}/{{$row['num']}}"> {{$row['subsubtitle']}}<br></a>
-                        </h4>
+                            <a href="{{url('/editor')}}/{{$row['num']}}">- {{$row['subsubtitle']}}<br></a>
                         @endforeach
                     </div>
                     <div class="ep-btns">

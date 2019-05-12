@@ -13,6 +13,7 @@
 <body>
 
     <!-- Main Content -->
+
     <div class="container">
         <div class="form-group" style="margin-top:6%;">
             @if(Auth::check())
