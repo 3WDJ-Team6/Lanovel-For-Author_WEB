@@ -11,45 +11,27 @@
 @section('content')
 
 <body>
+
     <!-- Main Content -->
-    <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
-        @if(Session::has('success'))
-        <div class="alert alert-info">{{ Session::get('success') }}</div>
-        @endif
-        {{-- 정렬 필터링  --}}
-        <input type="hidden" name="_token" value="{{ Session::token() }}">
-        <script>
-            $.ajax({
-                type: 'POST',
-                url: '/',
-                data: {
-                    status_of_work: $('input:checkbox:checked').val()
-                },
-
-                success: function(data) {
-                    alert(data);
-                }
-            });
-        </script>
-        <!-- Material inline 1 -->
-
-
-        <form method="POST" id="filter">
-            {{ csrf_field() }}
-            <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;">
-                <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;" name="type_of_work[]" value="3">
-                <label class="form-check-label" for="materialInline1">회차</label>
-                <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;" name="type_of_work[]" value="2">
-                <label class="form-check-label" for="materialInline2">단행본</label>
-                <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;" name="type_of_work[]" value="1">
-                <label class="form-check-label" for="materialInline5">단편</label>
-                <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;" name="status_of_work[]" value="1">
-                <label class="form-check-label" for="materialInline3">연재중</label>
-                <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;" name="status_of_work[]" value="2">
-                <label class="form-check-label" for="materialInline4">완결작</label>
-            </div>
+    <div class="container">
+        <div class="form-group" style="margin-top:6%;">
+            @if(Session::has('success'))
+            <div class="alert alert-info">{{ Session::get('success') }}</div>
+            @endif
             {{-- 정렬 필터링  --}}
             <input type="hidden" name="_token" value="{{ Session::token() }}">
+            <script>
+                $.ajax({
+                    type: 'POST',
+                    url: '/',
+                    data: {
+                        status_of_work: $('input:checkbox:checked').val()
+                    },
+                    success: function(data) {
+                        alert(data);
+                    }
+                });
+            </script>
 
             <!-- Material inline 1 -->
             <form method="POST" id="filter">
@@ -93,7 +75,7 @@
 
                 @foreach ($posts as $post)
                 <div class="form-group" style="background-color:#45b4e61a; border-radius: 15px;">
-                    <div class="post-preview" style="width:100%; height:210px; ">
+                    <div class="post-preview" style="width:100%; height:230px; ">
                         <div class="form-group" style="display:inline-block; margin:2%;">
                             <a href="{{url('editor/main/chapter')}}/{{$post['num']}}" style=" text-decoration:none; margin:0px;">
                                 <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px;"
@@ -105,7 +87,7 @@
                             </a>
                         </div>
                         <div class="side-group" style="display:inline-block; margin:2%; margin-right:3%; float:right; align-items:right; text-align:right;">
-                        <p class="post-meta" style="font-style: italic; color: #868e96;">
+                        <p class="post-meta" style="font-size:18px; font-style: italic; color: #868e96;">
                             카테고리 : @foreach ($tagCount as $ta)
                             @if($post->num == $ta->num)
                             {{ $ta->tag }}
@@ -180,7 +162,14 @@
 
         </div>
     </div>
+
+    <script>
+
+    </script>
+
 </body>
+
+
 @endsection
 
 @section('footer')

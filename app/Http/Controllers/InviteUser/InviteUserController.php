@@ -11,7 +11,7 @@ use App\Models\Work;
 use App\Models\WorkList;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Http\Request;
 
 class InviteUserController extends Controller
 {
