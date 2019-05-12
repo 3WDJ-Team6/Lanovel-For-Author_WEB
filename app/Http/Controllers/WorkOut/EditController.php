@@ -129,7 +129,7 @@ class EditController extends Controller
         // 회차 제목 추가
         $content_of_works->subsubtitle = $request->subsubtitle;
         // 회차 내용 디폴트값 넣어주기
-        $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
+        $content_of_works->content = "<p>物語《ものがたり》を書《か》きましょう</p>";
         $content_of_works->save();
 
         echo "<script>opener.parent.location.reload();window.close()</script>";
@@ -323,12 +323,31 @@ class EditController extends Controller
         $content_of_works = ContentOfWork::where('num', $request->num)->first();
         // return $request->editor_content;
         while(1){
-            if(str::contains($editor_content,'resize">')){
-                $editor_content = str::replaceFirst('resize">','resize" > </img>',$editor_content);
+            if(str::contains($editor_content,'<img ')){
+                $test = str::after($editor_content,'<img ');
+                $test = str::before($test,'>');
+                if(str::contains($editor_content,$test)){
+                    $editor_content = str::replaceFirst('','',$test);
+                }
+                // $editor_content = str::replaceFirst('resize">','resize" />',$editor_content);
             }else{
                 break;
             }
         }
+        while(1){
+            if(str::contains($editor_content,'height: auto;">')){
+                $editor_content = str::replaceFirst('height: auto;">','height: auto;" />',$editor_content);
+            }else{
+                break;
+            }
+        }
+        // while(1){
+        //     if(str::contains($editor_content,'onclick="audioPlay(event)">')){
+        //         $editor_content = str::replaceFirst('onclick="audioPlay(event)">','onclick="audioPlay(event)" />',$editor_content);
+        //     }else{
+        //         break;
+        //     }
+        // }
         $content_of_works->content = $editor_content;
         $content_of_works->save();
 

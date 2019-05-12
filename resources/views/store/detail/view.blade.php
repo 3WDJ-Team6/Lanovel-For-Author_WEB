@@ -2,10 +2,18 @@
 
 @section('head')
 @include('layouts.store.head')
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="{{asset('js/store/detail_view_image.js')}}"></script>
-<link rel="stylesheet" href="{{asset('css/store/view_image.css')}}">
+<!-- <link rel="stylesheet" href="{{asset('css/store/view_image.css')}}"> -->
 <link rel="stylesheet" href="{{asset('css/store/view_comment.css')}}">
+<style>
+    .mySlides {
+        display: none
+    }
+
+</style>
 @endsection
 
 @section('header')
@@ -26,18 +34,19 @@
                 <!-- 메인사진 -->
                 <div class="main-form" style="width: 550px; height: 350px; ">
                     <img src="{{$product->url_of_illustration}}"
-                        style="width: 550px; height: 350px; position: absolute; display:inline-block; object-fit:cover;" onclick="openModal();currentSlide(1)"
-                        class="hover-shadow cursor">
+                        style="width: 550px; height: 350px; cursor:pointer; position: absolute; display:inline-block; object-fit:cover;"
+                        onclick="openModal();currentDiv(1)" class="w3-hover-shadow">
                     <img src="{{asset('image/store/illustore2.png')}}"
                         style="position: relative; margin-left:90px; margin-top:130px;">
                 </div>
                 <!-- 서브사진 -->
                 <div class="form-group">
 
-                    <div class="form-group" style="width:570px; height:90px; margin-top:30px; margin-left:-10px;">
+                    <div class="form-group"
+                        style="width:570px; height:90px; cursor:pointer; margin-top:30px; margin-left:-10px;">
                         @foreach($posts as $post)
-                        <img src="{{$post->url_of_illustration}}" class="hover-shadow cursor"
-                            onclick="openModal();currentSlide(1)"
+                        <img src="{{$post->url_of_illustration}}" class="w3-hover-shadow"
+                            onclick="openModal();currentDiv(1)"
                             style="width:70px; height:70px; margin:10px; display:inline-block;">
                         @endforeach
                     </div>
@@ -55,8 +64,9 @@
                         </div>
                         <div class="price" name="price_of_illustration"
                             style="width:260px; margin:20px; text-align:right; display:inline-block;">
-                            <h5>Price : {{$product->price_of_illustration}} <button type="button" class="btn btn-light"
-                                    style="width:80px;">구매</h5>
+                            <h5>Price : {{$product->price_of_illustration}} <button type="button"
+                                    onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'"
+                                    class="btn btn-light" style="width:80px;">구매</h5>
                         </div>
                     </div>
                     <div class="nickname" name="nickname"
@@ -100,10 +110,12 @@
                             </div>
                             <div class="comment-tabs" style="width:700px;">
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class="active"><a href="#comments-logout" role="tab" data-toggle="tab">
+                                    <li class="active"><a href="#comments-logout" role="tab" data-toggle="tab"
+                                            style="text-decoration:none;">
                                             <h4 class="reviews text-capitalize">Comments</h4>
                                         </a></li>
-                                    <li><a href="#add-comment" role="tab" data-toggle="tab">
+                                    <li><a href="#add-comment" role="tab" data-toggle="tab"
+                                            style="text-decoration:none;">
                                             <h4 class="reviews text-capitalize" style="margin-left:20px;">Add comment
                                             </h4>
                                         </a></li>
@@ -287,39 +299,51 @@
                 </div>
             </div>
 
-            <!-- 모달창 -->
-            <div id="myModal" class="modal" style="">
-                <span class="close cursor" onclick="closeModal()">&times;</span>
-                <div class="modal-content" style="width:1400px; height:500px;">
-                    <div id="row" style="">
-                        <!-- 상세보기 일러스트 -->
-                        @foreach ($posts as $post)
-                        <div class="mySlides " style="width:800px; height:500px; align-items: center;">
-                            <!-- <div class="numbertext" style="color:black;">/{{$product->count}}</div> -->
-                            <img src="{{$post->url_of_illustration}}" style=" width:800px; height:450px; display: inline-block; ">
-                        </div>
-                        @endforeach
+            <div class="w3-container">
 
-                        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                        <a class="next" onclick="plusSlides(1)" style="margin-left:200px;">&#10095;</a>
+                <div id="myModal" class="w3-modal w3-black">
+                    <span class="w3-text-white w3-xxlarge w3-hover-text-grey w3-container w3-display-topright"
+                        onclick="closeModal()" style="cursor:pointer; margin-top:10%;">×</span>
+                    <div class="w3-modal-content">
 
-                        <div class="caption-container">
-                            <p id="caption"></p>
-                        </div>
-
-                        <!-- 그 외 일러스트 -->
-                        <div class="bottom-form" style="">
-                            @foreach($posts as $post)
-                            <div class="column" style="display:inline-block; width:300px; height:200px;">
-                                <img class="demo cursor" src="{{$post->url_of_illustration}}"
-                                    style="width:300px; height:200px; display:inline-block;" onclick="currentSlide(1)"
-                                    alt="Nature and sunrise">
-                            </div>
+                        <div class="w3-content" style="max-width:1200px; margin-top:10%; ">
+                            @foreach ($posts as $post)
+                            <img class="mySlides" src="{{$post->url_of_illustration}}"
+                                style="width:1000px; height:400px;">
                             @endforeach
-                        </div>
-                    </div>
-                </div>
+                            <div class="w3-row w3-black w3-center">
+                                <div class="w3-display-container">
+                                    <p id="caption"></p>
+                                    <span class="w3-display-left w3-btn" onclick="plusDivs(-1)">❮</span>
+                                    <span class="w3-display-right w3-btn" onclick="plusDivs(1)">❯</span>
+                                </div>
+                                @foreach($posts as $post)
+                                <div class="w3-col s4" style="width:225px; height:150px;">
+                                    <img class="demo w3-opacity w3-hover-opacity-off"
+                                        src="{{$post->url_of_illustration}}" onclick="currentDiv(1)"
+                                        alt="Nature and sunrise" style="width:225px; height:150px;">
+                                </div>
+                                <!-- <div class="w3-col s4"> 
+                                    <img class="demo w3-opacity w3-hover-opacity-off"
+                                        src="{{asset('image/store/img_snow_wide.jpg')}}" style="width:100%"
+                                        onclick="currentDiv(2)" alt="French Alps">
+                                </div>
+                                <div class="w3-col s4">
+                                    <img class="demo w3-opacity w3-hover-opacity-off"
+                                        src="{{asset('image/store/img_mountains_wide.jpg')}}" style="width:100%"
+                                        onclick="currentDiv(3)" alt="Mountains and fjords">
+                                </div> -->
+                                @endforeach
+
+                            </div> <!-- End row -->
+                        </div> <!-- End w3-content -->
+
+                    </div> <!-- End modal content -->
+                </div> <!-- End modal -->
+
             </div>
+
+
 
 
             <!-- </div> -->

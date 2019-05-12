@@ -82,12 +82,12 @@ li>button {
     }
 
     .ep-title {
-        font-size: 1.6rem;
+        font-size: 1.35rem;
         height: 10%;
     }
 
     .ep-list {
-        font-size: 1.5em;
+        font-size: 1.1em;
         height: 70%;
     }
 
@@ -267,12 +267,12 @@ li>button {
     }
 
     .ep-title {
-        font-size: 1.6rem;
+        font-size: 1.35rem;
         height: 6%;
     }
 
     .ep-list {
-        font-size: 1.5em;
+        font-size: 1.1em;
         height: 74%;
     }
 
@@ -360,7 +360,7 @@ li>button {
     }
 
     .ep-title {
-        font-size: 1.2em;
+        font-size: 1.1em;
         height: 4%;
     }
 
@@ -723,7 +723,7 @@ li>button {
 
 .resize,
 .resize_mp4 {
-    width: 400px;
+    width: 800px;
     height: auto;
     background-size: auto;
     background-repeat: no-repeat;
@@ -900,7 +900,6 @@ textarea {
 
 .textarea p {
     margin-bottom: 0;
-    font-size: 1em;
 }
 
 .underline {

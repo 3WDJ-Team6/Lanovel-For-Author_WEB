@@ -33,7 +33,7 @@
                 @csrf
                 <ul>
                     <li class="nav-btn"><span id="chatting">채팅</span></li>
-                    <li class="nav-btn"><a id="inv_btn" href="http://localhost/loadSearchModal" rel="modal1:open" style="color:black;">초대</a></li>
+                    <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></li>
                     <li class="nav-btn">멤버리스트</li>
                     <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
                     <li class="nav-btn"><button type="submit" id='sub'>저장</button></li>
@@ -90,9 +90,7 @@
                     </div>
                     <div class="ep-list">
                         {{-- 회차 리스트 띄워주기 --}} @foreach($content_lists as $row)
-                        <h4>
-                            <a href="{{url('/editor')}}/{{$row['num']}}"> {{$row['subsubtitle']}}<br></a>
-                        </h4>
+                            <a href="{{url('/editor')}}/{{$row['num']}}">- {{$row['subsubtitle']}}<br></a>
                         @endforeach
                     </div>
                     <div class="ep-btns">

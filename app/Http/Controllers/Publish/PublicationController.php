@@ -195,31 +195,31 @@ class PublicationController extends Controller
             </metadata>
 
             <manifest>
-                <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml"/>
-                <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml"/>
-                <item id="coverimage" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/' . $covertype . '"/>
-                <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
-                ';
-        foreach ($onlyimglist as $i => $il) {
-            if (!str::contains($opf, $il)) {
-                $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il . '" media-type="application/xhtml+xml"/>
+ <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml"/>
+ <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml"/>
+ <item id="coverimage" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/'.$covertype.'"/>
+ <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
+ ';
+ foreach ($onlyimglist as $i => $il) {
+     if(!str::contains($opf,$il)){
+        $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il. '" media-type="application/xhtml+xml" />
         ';
-            }
-        }
-        foreach ($onlysoundlist as $i => $il) {
-            if (!str::contains($opf, $il)) {
-                $opf = $opf . '<item id="sound-' . $i . '" href="sound/' . $il . '" media-type="application/xhtml+xml"/>
+     }
+ }
+ foreach ($onlysoundlist as $i => $il) {
+    if(!str::contains($opf,$il)){
+     $opf = $opf . '<item id="sound-' . $i . '" href="sound/' . $il. '" media-type="application/xhtml+xml" />
   ';
-            }
-        }
-        foreach ($onlyvideolist as $i => $il) {
-            if (!str::contains($opf, $il)) {
-                $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il . '" media-type="application/xhtml+xml"/>
+    }
+ }
+ foreach ($onlyvideolist as $i => $il) {
+    if(!str::contains($opf,$il)){
+     $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il. '" media-type="application/xhtml+xml" />
   ';
-            }
-        }
-        foreach ($chapter_list as $i => $clist) {
-            $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
+    }
+ }
+ foreach ($chapter_list as $i => $clist) {
+     $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml" />
   ';
         }
 
@@ -422,9 +422,9 @@ class PublicationController extends Controller
             #css_eft_lightning {
                 background: url('../images/gifimages/lightning.gif');
             }
-            .textarea p {
+            body {
                 margin-bottom: 0;
-                font-size: 1em;
+                font-size: 1.5em;
             }
             ";
         // 표지 이미지 css 입히기.!

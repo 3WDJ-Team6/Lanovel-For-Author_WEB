@@ -14,7 +14,6 @@
 <div class="container register-form">
 
     <div class="form-content">
-        에디터 안에서 목차 추가하는거임
         <form action="{{url('addContentInEditor')}}/{{$num}}" method="post" id="addContentForm" name="popupForm">
             <div class="col-md-6">
                 <div class="form-group">
