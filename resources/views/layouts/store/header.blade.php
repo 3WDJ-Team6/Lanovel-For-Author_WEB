@@ -159,8 +159,8 @@
         <div class="user-login-info" id="alramimg" style="display:none;">
             <a href="{{url('viewMessages')}}" rel='modal:open'>
                 <img src="{{asset('image/store/message.png')}}" style=" display:inline-block">
-                <span id="messagecount" class="list-group-item-danger" style="top:40px;display:inline-block; position:absolute; z-index:1"></span>
-            </a>
+                <span id="messagecount" class="list-group-item-danger" style="display:inline-block; position:absolute; z-index:1; background-color:white;"></span>
+            </a>;
         </div>
         @endif
         
