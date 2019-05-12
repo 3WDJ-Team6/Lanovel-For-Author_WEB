@@ -11,43 +11,41 @@
 @section('content')
 
 <body>
-
+    @if(Auth::user()['roles'] == 2)
     <!-- Main Content -->
     <div class="container">
         <div class="form-group" style="margin-top:6%;">
-            @if(Auth::check())
-            {{-- <p>{{ Auth::user() }}</p> --}}
-            <div>
-                <a href="{{url('assets/upload')}}">asset upload</a>
-            </div>
-            @else 비 로그인 상태 @endif @if(Session::has('success'))
+            @if(Session::has('success'))
             <div class="alert alert-info">{{ Session::get('success') }}</div>
             @endif
-            <div>
-                {{Auth::user()['nickname']}}
-            </div>
             {{-- 정렬 필터링  --}}
             <input type="hidden" name="_token" value="{{ Session::token() }}">
+            <script>
+                $.ajax({
+                    type: 'POST',
+                    url: '/',
+                    data: {
+                        status_of_work: $('input:checkbox:checked').val()
+                    },
+                    success: function(data) {
+                        alert(data);
+                    }
+                });
+            </script>
 
             <!-- Material inline 1 -->
             <form method="POST" id="filter">
                 {{ csrf_field() }}
-                <div class="form-check form-check-inline"
-                    style="width:100%; align-items: center; display: flex; justify-content: center;">
-                    <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;"
-                        name="type_of_work[]" value="3">
+                <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;">
+                    <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;" name="type_of_work[]" value="3">
                     <label class="form-check-label" for="materialInline1">회차</label>
-                    <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;"
-                        name="type_of_work[]" value="2">
+                    <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;" name="type_of_work[]" value="2">
                     <label class="form-check-label" for="materialInline2">단행본</label>
-                    <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;"
-                        name="type_of_work[]" value="1">
+                    <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;" name="type_of_work[]" value="1">
                     <label class="form-check-label" for="materialInline5">단편</label>
-                    <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;"
-                        name="status_of_work[]" value="1">
+                    <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;" name="status_of_work[]" value="1">
                     <label class="form-check-label" for="materialInline3">연재중</label>
-                    <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;"
-                        name="status_of_work[]" value="2">
+                    <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;" name="status_of_work[]" value="2">
                     <label class="form-check-label" for="materialInline4">완결작</label>
                 </div>
             </form>
@@ -64,21 +62,21 @@
                             작품추가
                         </h3>
                 </div>
-
                 <hr>
-
                 {{-- 작품 출력 부분  --}}
 
                 @foreach ($posts as $post)
                 <div class="form-group" style="background-color:#45b4e61a; border-radius: 15px;">
                     <div class="post-preview" style="width:100%; height:210px; ">
                         <div class="form-group" style="display:inline-block; margin:2.5%; ">
+
                             <a href="{{url('editor/main/chapter')}}/{{$post['num']}}"
                                 style=" text-decoration:none; margin:0px;">
                                 <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px; box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 1)"
                                     class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
                                 <div class="post-title h2"
                                     style=" margin-top:30px; margin-bottom:30px; display:inline-flex; color:black;">
+
                                     {{ $post->work_title }}
                                 </div>
                             </a>
@@ -160,11 +158,13 @@
 
         </div>
     </div>
-
-    <script>
-
+    @else
+    <script type="text/javascript">
+        alert('52 그 앞은 작.가.영.역.이.다');
+        // window.history.back();
+        window.location = "{{ url('/store') }}";
     </script>
-
+    @endif
 </body>
 
 
