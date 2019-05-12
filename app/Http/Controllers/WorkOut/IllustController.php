@@ -320,6 +320,24 @@ class IllustController extends Controller
 
         return $cartProducts;
     }
+
+    public function MessageIndex()
+    {
+        $invite_messages = Message::select(
+            'messages.num',
+            'messages.message_title',
+            'messages.message_content',
+            'u2.nickname as from_id',
+            'messages.created_at',
+            DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0) count")
+        )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
+            ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
+            ->where('message_title', 'like', 'invite%')
+            ->where('to_id', '=', Auth::user()['id'])
+            ->get();
+
+        return $invite_messages;
+    } 
     /**
      * Store a newly created resource in storage.
      *
