@@ -284,9 +284,16 @@ class IndexController extends Controller
             ->join('chapter_of_works', 'chapter_of_works.num_of_work', '=', 'works.num')
             ->where('works.num', '=', $num)->get();
 
-            // return $works;
+        $checkNum = ChapterOfWork::select(
+            'chapter_of_works.num',
+            'content_of_works.num_of_chapter',
+            'content_of_works.subsubtitle'
+        )->leftjoin('content_of_works', 'content_of_works.num_of_chapter', '=', 'chapter_of_works.num')
+            ->get();
+
+
         return view('editor.main.chapter')
-            ->with('works', $works)->with('num', $num)->with('nowWork', $nowWork);
+            ->with('works', $works)->with('num', $num)->with('nowWork', $nowWork)->with('checkNum', $checkNum);
     }
 
     public function chapter_create($num)
