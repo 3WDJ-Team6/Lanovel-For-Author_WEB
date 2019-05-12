@@ -11,7 +11,7 @@
 @section('content')
 
 <body>
-
+    @if(Auth::user()['roles'] == 2)
     <!-- Main Content -->
     <div class="container">
         <div class="form-group" style="margin-top:6%;">
@@ -156,11 +156,13 @@
 
         </div>
     </div>
-
-    <script>
-
+    @else
+    <script type="text/javascript">
+        alert('52 그 앞은 작.가.영.역.이.다');
+        // window.history.back();
+        window.location = "{{ url('/store') }}";
     </script>
-
+    @endif
 </body>
 
 
