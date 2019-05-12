@@ -63,11 +63,8 @@
                     <h3 class="post-subtitle" style="display:inline-block">
                         {{$row->subtitle}}
                     </h3>
-                    @if($row->subsubtitle)
                     <a href="{{url('publication')}}/{{$row['num_of_work']}}/{{$row['num']}}"
                         style="text-decoration:none; float:right; margin-top: 60px;"> 발행</a>
-                    @endif
-
                 </a>
                 <p class="post-meta">Posted by sunsilver on May 5th</p>
             </div>

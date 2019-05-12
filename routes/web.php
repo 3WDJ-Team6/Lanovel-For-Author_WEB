@@ -23,9 +23,9 @@ use App\Models\Work;
 
 
 // 에디터에서 저장 후 회차 리스트 화면으로 back
-Route::get('/redirectList/{num}', function () {
-    return redirect('editor/main/list/{num}');
-});
+// Route::get('/redirectList/{num}', function () {
+//     return redirect('editor/main/list/{num}');
+// });
 
 Route::post('/tr', 'WorkOut\EditController@store');
 
@@ -159,13 +159,13 @@ Route::get('/myPage', 'WorkOut\IllustController@myPage');
 
 Auth::routes(); //로그인에 관한 모든 기능 연결
 
-Route::get('loadSearchModal', 'InviteUser\InviteUserController@loadSearchModal');
-Route::get('loadUserInfoModal/{UserEmail}', 'InviteUser\InviteUserController@loadUserInfoModal');
-Route::get('inviteUser/{userid}', 'InviteUser\InviteUserController@loadInviteUserModal');
-Route::get('sendInviteMessage/{usernickname}', 'InviteUser\InviteUserController@SendingInviteMessage');
-Route::get('viewMessages', 'InviteUser\InviteUserController@viewMessages');
-Route::get('viewMessage/{messageNum}', 'InviteUser\InviteUserController@viewMessage');
-Route::get('acceptInvite/{messageNum}', 'InviteUser\InviteUserController@acceptInvite');
+Route::get('/loadSearchModal', 'InviteUser\InviteUserController@loadSearchModal');
+Route::get('/loadUserInfoModal/{UserEmail}', 'InviteUser\InviteUserController@loadUserInfoModal');
+Route::get('/inviteUser/{userid}', 'InviteUser\InviteUserController@loadInviteUserModal');
+Route::get('/sendInviteMessage/{usernickname}', 'InviteUser\InviteUserController@SendingInviteMessage');
+Route::get('/viewMessages', 'InviteUser\InviteUserController@viewMessages');
+Route::get('/viewMessage/{messageNum}', 'InviteUser\InviteUserController@viewMessage');
+Route::get('/acceptInvite/{messageNum}', 'InviteUser\InviteUserController@acceptInvite');
 
 Route::post('/destroy', 'Auth\LoginController@destroy');
 // Route::post('/logout', 'Auth\LoginController@logout')->name('logout');

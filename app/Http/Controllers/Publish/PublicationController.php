@@ -200,24 +200,24 @@ class PublicationController extends Controller
  ';
  foreach ($onlyimglist as $i => $il) {
      if(!str::contains($opf,$il)){
-        $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il. '" media-type="application/xhtml+xml"/>
+        $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il. '" media-type="application/xhtml+xml" />
         ';
      }
  }
  foreach ($onlysoundlist as $i => $il) {
     if(!str::contains($opf,$il)){
-     $opf = $opf . '<item id="sound-' . $i . '" href="sound/' . $il. '" media-type="application/xhtml+xml"/>
+     $opf = $opf . '<item id="sound-' . $i . '" href="sound/' . $il. '" media-type="application/xhtml+xml" />
   ';
     }
  }
  foreach ($onlyvideolist as $i => $il) {
     if(!str::contains($opf,$il)){
-     $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il. '" media-type="application/xhtml+xml"/>
+     $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il. '" media-type="application/xhtml+xml" />
   ';
     }
  }
  foreach ($chapter_list as $i => $clist) {
-     $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml"/>
+     $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml" />
   ';
  }
 
@@ -420,9 +420,9 @@ $filePaths = $filePath;
             #css_eft_lightning {
                 background: url('../images/gifimages/lightning.gif');
             }
-            .textarea p {
+            body {
                 margin-bottom: 0;
-                font-size: 1em;
+                font-size: 1.5em;
             }
             ";
         // 표지 이미지 css 입히기.!

@@ -49,7 +49,7 @@ class IndexController extends Controller
     public function index(request $request)
     {
         $status = $request->input('status_of_work');
-      
+
         $posts = Work::select(
             'works.*',
             'work_lists.user_id'
@@ -267,13 +267,12 @@ class IndexController extends Controller
             'works.status_of_work',
             'chapter_of_works.subtitle',
             'chapter_of_works.num_of_work',
-            'chapter_of_works.num',
-            'content_of_works.subsubtitle'
+            'chapter_of_works.num'
         )
             ->join('chapter_of_works', 'chapter_of_works.num_of_work', '=', 'works.num')
-            ->leftJoin('content_of_works', 'content_of_works.num_of_chapter', 'chapter_of_works.num')
             ->where('works.num', '=', $num)->get();
 
+            // return $works;
         return view('editor.main.chapter')
             ->with('works', $works)->with('num', $num)->with('nowWork', $nowWork);
     }
