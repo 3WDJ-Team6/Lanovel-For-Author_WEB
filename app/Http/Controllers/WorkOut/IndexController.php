@@ -166,6 +166,7 @@ class IndexController extends Controller
                 Storage::disk('s3')->makeDirectory($publicFolder, 0777, true);
                 Storage::disk('s3')->makeDirectory('purchase', 0777, true);
                 Storage::disk('s3')->makeDirectory('sound', 0777, true);
+                Storage::disk('s3')->makeDirectory('audio', 0777, true);
 
                 // Storage::disk('s3')->makeDirectory($role . '/' . Auth::user()['email'] . $this::AUTHOR['workspace'] . $bookName, 0777, true);
             }
