@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\User;
 use App\Models\Work;
-use App\models\WorkList;
+use App\Models\WorkList; //models
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
@@ -163,9 +163,9 @@ class InviteUserController extends Controller{
         $message->from_id = Auth::user()['id'];
         $message->to_id = $user_id;
         $message->message_title = 'invite message';
-        $message->message_content = $nickname."님이 ".$work_title.'작품에 초대하셧습니다.';
+        $message->message_content = $invite_message;
         $message->save();
-        event(new InviteEvent(Auth::user()['nickname'] ,$nickname,'invite message',$nickname."님이 ".$work_title.'작품에 초대하셧습니다.'));
+        // event(new InviteEvent(Auth::user()['nickname'] ,$nickname,'invite message',$nickname."님이 ".$work_title.'작품에 초대하셧습니다.'));
 
         // return 1;
         return redirect()->back()->withInput();

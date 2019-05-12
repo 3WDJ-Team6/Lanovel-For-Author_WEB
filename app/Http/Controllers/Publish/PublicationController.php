@@ -277,34 +277,30 @@ class PublicationController extends Controller
                 <body style='margin:0.00em;'>
                     <section id='sectionId' class='cover cover-rw Cover-rw' epub:type='cover'>
                         <div id='coverimgdiv'>
-                            <span id='worktitlespan'>".$work_title."</span>
-                            <span id='worklistspan'>".$work_list."</span>
                         </div>
                     </section>
                 </body>
             </html>
         ";
 
+        // <span id='worktitlespan'>".$work_title."</span>
+        // <span id='worklistspan'>".$work_list."</span>
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'cover.xhtml', $cover);
 
         $multimedialist = [];
         foreach ($chapter_list as $i => $clist) {
-            // return 123;
             $text = $clist['content'];
             while(1){
                 if(str::contains($text,'/sound/')){
-                    // return $text;
                     $text = str::replaceFirst('/sound/','/audio/',$text);
-                }
-                if(str::contains($text,'https://s3.ap-northeast-2.amazonaws.com/')){
-                    // return $text;
+                }elseif(str::contains($text,'https://s3.ap-northeast-2.amazonaws.com/')){
                     $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/'.Auth::user()['email'].'/','../',$text);
+                    // return $text;
                 }else{
                     $clist['content']=$text;
-                    // return $clist['content'];
+                    // return 3;
                     break;
                 }
-                $count+=1;
             }
             $contents =
                 "<?xml version='1.0' encoding='UTF-8'?>
@@ -346,6 +342,9 @@ $filePaths = $filePath;
                 Storage::disk('s3')->copy($giffile,$filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $giffilet);
             }
         }
+        if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'speaker_icon.png')){
+            Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'speaker_icon.png', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'speaker_icon.png');
+        } // js
         // custom css
         $cssNmae = 'stylesheet';
         $cssFile =
@@ -375,6 +374,12 @@ $filePaths = $filePath;
                 display: inline-block;
                 position: absolute;
             }
+            .calibre7 {
+                display: block;
+                font-size: 0.77419em;
+                text-indent: 20pt;
+                margin: 0
+                }
 
             #css_eft_cB1,
             #css_eft_cB2,
@@ -426,7 +431,9 @@ $filePaths = $filePath;
             }
             ";
         // 표지 이미지 css 입히기.!
-        Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);   // css전체
+            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css')){
+                Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
+            } // css전체
 
         $jsNmae = 'viewer';
         $jsFile =
@@ -463,7 +470,11 @@ $filePaths = $filePath;
                 }
 }
             ";
-        Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsFile);   // css전체
+
+            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js')){
+                Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsNmae);
+            } // js
+
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'stylesheet.css', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css');
