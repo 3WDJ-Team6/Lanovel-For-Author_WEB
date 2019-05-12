@@ -13,7 +13,6 @@ use App\Models\WorkList;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
 
 class InviteUserController extends Controller
 {
@@ -31,6 +30,7 @@ class InviteUserController extends Controller
         <style>
             .userlist{
                 display:none;
+                color:#646464;
             }
             .userImage{
                 width:100%;
@@ -58,19 +58,19 @@ class InviteUserController extends Controller
                     ";
         foreach ($userlist as $i => $user) {
             $text = $text . "
-                        <div class='userlist'>
-                            <a href='" . url("loadUserInfoModal/" . $user['email']) . "' rel='modal:open' title='" . $user['email'] . "'>
-                                <div class='userImage'>
-                                    <img src='" . $user['profile_photo'] . "' class='userthumb' onError=javascript:this.src='" . asset('image/no_image.png') . "'>
-                                </div>
-                                <span id='info' class='" . $user['email'] . "'style='width:600px;position:relative;'>
-                                    <div class='userinfo'>ID : " . $user['nickname'] . "</div>
-                                    <div class='userinfo'>" . $user['introduction_message'] . "</div>
-                                    <div class='userinfo'>E-MAIL : " . $user['email'] . "</div>
-                                </span>
-                            </a>
+                <div class='userlist'>
+                    <a href='" . url("loadUserInfoModal/" . $user['email']) . "' rel='modal:open' title='" . $user['email'] . "'>
+                        <div class='userImage'>
+                            <img src='" . $user['profile_photo'] . "' class='userthumb' onError=javascript:this.src='" . asset('image/no_image.png') . "'>
                         </div>
-                        ";
+                        <span id='info' class='" . $user['email'] . "'style='width:600px;position:relative;'>
+                            <div class='userinfo'>이름 : " . $user['nickname'] . "</div>
+                            <div class='userinfo'>소개 : " . $user['introduction_message'] . "</div>
+                            <div class='userinfo'>메일 : " . $user['email'] . "</div>
+                    </span>
+                    </a>
+                </div>
+        ";
         }
         $text = $text . "
                 </ul>

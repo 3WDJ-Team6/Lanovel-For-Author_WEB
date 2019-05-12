@@ -32,10 +32,12 @@ mark {
 .list-group-item-success:not(.you) {
   width: 90%;
   float: left;
+  font-size:16px;
 }
 .you {
   width: 90%;
   float: right;
+  font-size:16px;
 }
 #time {
   font-size: 9px;
