@@ -348,7 +348,6 @@ class EditController extends Controller
             }
 
         }
-        }
         $content_of_works->content = $editor_content;
         $content_of_works->save();
     }
