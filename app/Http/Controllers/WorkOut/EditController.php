@@ -41,6 +41,11 @@ class EditController extends Controller
     public function index($num)
     {
 
+        $nowChapter = ChapterOfWork::select(
+            'chapter_of_works.*'
+        )->where('chapter_of_works.num', '=', $num)
+            ->first();
+
         $chapter_of_works = ChapterOfWork::select(
             'chapter_of_works.num',
             'chapter_of_works.subtitle',
@@ -54,7 +59,7 @@ class EditController extends Controller
             ->get();
 
         return view('editor.main.list')
-            ->with('chapter_of_works', $chapter_of_works)->with('num', $num);
+            ->with('chapter_of_works', $chapter_of_works)->with('num', $num)->with('nowChapter', $nowChapter);
     }
 
     // public function store_memo(Request $request, $num)
@@ -318,12 +323,31 @@ class EditController extends Controller
         $content_of_works = ContentOfWork::where('num', $request->num)->first();
         // return $request->editor_content;
         while(1){
-            if(str::contains($editor_content,'resize">')){
-                $editor_content = str::replaceFirst('resize">','resize" > </img>',$editor_content);
+            if(str::contains($editor_content,'<img ')){
+                $test = str::after($editor_content,'<img ');
+                $test = str::before($test,'>');
+                if(str::contains($editor_content,$test)){
+                    $editor_content = str::replaceFirst('','',$test);
+                }
+                // $editor_content = str::replaceFirst('resize">','resize" />',$editor_content);
             }else{
                 break;
             }
         }
+        while(1){
+            if(str::contains($editor_content,'height: auto;">')){
+                $editor_content = str::replaceFirst('height: auto;">','height: auto;" />',$editor_content);
+            }else{
+                break;
+            }
+        }
+        // while(1){
+        //     if(str::contains($editor_content,'onclick="audioPlay(event)">')){
+        //         $editor_content = str::replaceFirst('onclick="audioPlay(event)">','onclick="audioPlay(event)" />',$editor_content);
+        //     }else{
+        //         break;
+        //     }
+        // }
         $content_of_works->content = $editor_content;
         $content_of_works->save();
 

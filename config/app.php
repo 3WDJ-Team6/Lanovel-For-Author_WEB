@@ -157,7 +157,7 @@ return [
         /*
          * Package Service Providers...
          */
-        StreamLab/StreamLabProvider/StreamLabServiceProvider::class,
+        // StreamLab/StreamLabProvider/StreamLabServiceProvider::class,
 
         /*
          * Application Service Providers...

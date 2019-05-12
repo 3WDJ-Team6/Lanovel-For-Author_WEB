@@ -1,11 +1,11 @@
-.blocker {
+.blocker1 {
     position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
-    left: 0;
+    left: 0%;
     width: 100%;
-    height: 100%;
+    height: auto;
     overflow: auto;
     z-index: 1;
     padding: 20px;
@@ -15,7 +15,7 @@
     text-align: center
 }
 
-.blocker:before {
+.blocker1:before {
     content: "";
     display: inline-block;
     height: 100%;
@@ -23,7 +23,7 @@
     margin-right: -0.05em
 }
 
-.blocker.behind {
+.blocker1.behind1 {
     background-color: transparent
 }
 
@@ -49,7 +49,7 @@
     text-align: left
 }
 
-.modal1 a.close-modal {
+.modal1 a.close-modal1 {
     position: absolute;
     top: 1px;
     right: 1px;
@@ -101,7 +101,7 @@
     animation-delay: -0.9s
 }
 
-/* @-webkit-keyframes sk-stretchdelay {
+@-webkit-keyframes sk-stretchdelay {
 
     0%,
     40%,
@@ -127,4 +127,4 @@
         transform: scaleY(1.0);
         -webkit-transform: scaleY(1.0)
     }
-} */
+}

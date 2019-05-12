@@ -100,6 +100,7 @@ li>button {
 
     .tem-list {
         height: 96%;
+        padding: 8px;
     }
 
     .area {
@@ -192,6 +193,7 @@ li>button {
 
     .tem-list {
         height: 98%;
+        padding-left: 6px;
     }
 
     .area {
@@ -283,6 +285,7 @@ li>button {
 
     .tem-list {
         height: 96%;
+        padding-left: 8px;
     }
 
     .area {
@@ -374,7 +377,8 @@ li>button {
     }
 
     .tem-list {
-        height: 98%;
+        height: 99.5%;
+        padding-left: 30px;
     }
 
     .area {
@@ -606,6 +610,7 @@ li>button {
     width: auto;
     height: 100%;
     max-height: fit-content;
+
     /* position: relative; */
     /* -webkit-animation: showSlowlyElement 600ms;
     animation: showSlowlyElement 600ms; */
@@ -639,7 +644,6 @@ li>button {
 .tem-list {
     background-color: #45b3e63e;
     border-radius: 0.25em;
-    padding: 8px;
     overflow-y: scroll;
     margin-top: -43px;
     margin-bottom: 10px;
@@ -656,7 +660,7 @@ li>button {
 }
 
 .ep-btns {
-    width: 100%;
+    width: 101%;
     height: 15%;
     margin-left: 8px;
     /* position: absolute; */
@@ -770,8 +774,8 @@ pre {
     float: left;
 } */
 
-.obj,
-.obj_kinds,
+.obj:hover,
+.obj_kinds:hover,
 .obj_file:hover {
     cursor: pointer;
 }
@@ -788,7 +792,7 @@ pre {
     border: 1.5px solid white;
 }
 
-.obj_thum,
+.obj_thum:hover,
 .mp4_icon:hover {
     width: 130px;
     height: 130px;
@@ -896,6 +900,7 @@ textarea {
 
 .textarea p {
     margin-bottom: 0;
+    font-size: 1em;
 }
 
 .underline {
@@ -990,6 +995,11 @@ input[type="file"] {
     background-color: white;
     border: 1px solid black;
     padding: 2px;
+}
+
+.speaker {
+    width: 100px;
+    height: 200px;
 }
 
 .nav_left {
@@ -1235,3 +1245,30 @@ li[class*="you"] {
 }
 
 /* //content */
+.list-group {
+    overflow-y: scroll;
+    height: 200px;
+}
+
+mark {
+    background-color: #45b4e61a;
+}
+
+li[class*="you"] {
+    width: 90%;
+    float: right;
+}
+
+#time {
+    font-size: 9px;
+    color: black;
+}
+
+#chatContent {
+    width: 90%;
+    float: left;
+}
+
+#usernickname {
+    left: 0px;
+}

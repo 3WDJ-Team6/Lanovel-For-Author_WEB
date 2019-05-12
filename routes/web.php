@@ -26,12 +26,7 @@ use App\Models\Work;
 Route::get('/redirectList/{num}', function () {
     return redirect('editor/main/list/{num}');
 });
-
-Route::post('/tr', 'WorkOut\EditController@store');
-
-
-
-
+// Route::post('/tr', 'WorkOut\EditController@store');
 // 로그인
 Route::get('/login/editor', function () {
     return view('auth.login_editor');
@@ -102,15 +97,7 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/getDir/{bookNum}/{dir?}/{forderName?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
-Route::group(['prefix' => 'reader'], function () {
-    # 뷰어에 책 URL 전달 -> reader
-    Route::get('/readBook/{bookNum?}/{bookTitle?}/{action?}', 'Mobile\BookController@show');
-    # 도서 정보 전달 -> APP
-    Route::get('/worklists', 'Mobile\WorkListController@index');
-    Route::get('/works/{workNum}/{chapterNum}/{userId}', 'Mobile\WorkListController@show');
-    # 파일 구매시 다운로드  # Make Epub File
-    Route::get('/downLoadBook/{folderPath?}/{bookNum?}', 'Storage\FileController@makeEpub');
-});
+
 
 Route::get('/editor/tool/editor/innerchat', 'Chat\ChatController@chat');
 Route::post('/send', 'Chat\ChatController@send');
@@ -151,24 +138,21 @@ Route::get('/addCart/{num}', 'WorkOut\IllustController@addCart');
 
 // 장바구니
 Route::get('/cartIndex', 'WorkOut\IllustController@cartIndex');
-
 Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
-
 Route::get('/myPage', 'WorkOut\IllustController@myPage');
 
 
 Auth::routes(); //로그인에 관한 모든 기능 연결
 
-Route::get('loadSearchModal', 'InviteUser\InviteUserController@loadSearchModal');
-Route::get('loadUserInfoModal/{UserEmail}', 'InviteUser\InviteUserController@loadUserInfoModal');
-Route::get('inviteUser/{userid}', 'InviteUser\InviteUserController@loadInviteUserModal');
-Route::get('sendInviteMessage/{usernickname}', 'InviteUser\InviteUserController@SendingInviteMessage');
-Route::get('viewMessages', 'InviteUser\InviteUserController@viewMessages');
-Route::get('viewMessage/{messageNum}', 'InviteUser\InviteUserController@viewMessage');
-Route::get('acceptInvite/{messageNum}', 'InviteUser\InviteUserController@acceptInvite');
+Route::get('/loadSearchModal', 'InviteUser\InviteUserController@loadSearchModal');
+Route::get('/loadUserInfoModal/{UserEmail}', 'InviteUser\InviteUserController@loadUserInfoModal');
+Route::get('/inviteUser/{userid}', 'InviteUser\InviteUserController@loadInviteUserModal');
+Route::get('/sendInviteMessage/{usernickname}', 'InviteUser\InviteUserController@SendingInviteMessage');
+Route::get('/viewMessages', 'InviteUser\InviteUserController@viewMessages');
+Route::get('/viewMessage/{messageNum}', 'InviteUser\InviteUserController@viewMessage');
+Route::get('/acceptInvite/{messageNum}', 'InviteUser\InviteUserController@acceptInvite');
 
 Route::post('/destroy', 'Auth\LoginController@destroy');
 // Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
-
 
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
