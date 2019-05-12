@@ -23,15 +23,10 @@ use App\Models\Work;
 
 
 // 에디터에서 저장 후 회차 리스트 화면으로 back
-// Route::get('/redirectList/{num}', function () {
-//     return redirect('editor/main/list/{num}');
-// });
-
-Route::post('/tr', 'WorkOut\EditController@store');
-
-
-
-
+Route::get('/redirectList/{num}', function () {
+    return redirect('editor/main/list/{num}');
+});
+// Route::post('/tr', 'WorkOut\EditController@store');
 // 로그인
 Route::get('/login/editor', function () {
     return view('auth.login_editor');
@@ -102,15 +97,7 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/getDir/{bookNum}/{dir?}/{forderName?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
-Route::group(['prefix' => 'reader'], function () {
-    # 뷰어에 책 URL 전달 -> reader
-    Route::get('/readBook/{bookNum?}/{bookTitle?}/{action?}', 'Mobile\BookController@show');
-    # 도서 정보 전달 -> APP
-    Route::get('/worklists', 'Mobile\WorkListController@index');
-    Route::get('/works/{workNum}/{chapterNum}/{userId}', 'Mobile\WorkListController@show');
-    # 파일 구매시 다운로드  # Make Epub File
-    Route::get('/downLoadBook/{folderPath?}/{bookNum?}', 'Storage\FileController@makeEpub');
-});
+
 
 Route::get('/editor/tool/editor/innerchat', 'Chat\ChatController@chat');
 Route::post('/send', 'Chat\ChatController@send');
@@ -151,9 +138,7 @@ Route::get('/addCart/{num}', 'WorkOut\IllustController@addCart');
 
 // 장바구니
 Route::get('/cartIndex', 'WorkOut\IllustController@cartIndex');
-
 Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
-
 Route::get('/myPage', 'WorkOut\IllustController@myPage');
 
 
@@ -169,6 +154,5 @@ Route::get('/acceptInvite/{messageNum}', 'InviteUser\InviteUserController@accept
 
 Route::post('/destroy', 'Auth\LoginController@destroy');
 // Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
-
 
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');

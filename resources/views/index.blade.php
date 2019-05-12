@@ -14,19 +14,10 @@
 
     <!-- Main Content -->
     <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
-
-        @if(Auth::check())
-        {{-- <p>{{ Auth::user() }}</p> --}}
-        <div>
-            <a href="{{url('assets/upload')}}">asset upload</a>
-        </div>
-        @else 비 로그인 상태 @endif @if(Session::has('success'))
+        @if(Session::has('success'))
         <div class="alert alert-info">{{ Session::get('success') }}</div>
         @endif
-        <div>
-            {{Auth::user()['nickname']}}
-        </div>
-        {{-- 정렬 필터링  --}}  
+        {{-- 정렬 필터링  --}}
         <input type="hidden" name="_token" value="{{ Session::token() }}">
 
         <script>
@@ -37,15 +28,11 @@
                     status_of_work: $('input:checkbox:checked').val()
                 },
 
-                success: function (data) {
+                success: function(data) {
                     alert(data);
                 }
             });
-
         </script>
-
-
-
         <!-- Material inline 1 -->
 
 
@@ -142,8 +129,8 @@
                         {{ $user->nickname }}
                         @endif
                         @endforeach<br>
-                        구매 : ¥ {{ $post->buy_price }}<br>
-                        대여 : {{ $post->rental_price }}
+                        구매 : {{ $post->buy_price }}원<br>
+                        대여 : {{ $post->rental_price }}원
                         @if($post->rental_price == null)
                         없음
                         @endif
@@ -151,6 +138,7 @@
                         최근 수정 시간 : @foreach ($modify_time as $time)
                         @if($post->num == $time->num_of_work)
                         {{ $time->updated_at->diffForHumans() }}
+                        @else
                         @endif
                         @endforeach<br>
                     </p>
