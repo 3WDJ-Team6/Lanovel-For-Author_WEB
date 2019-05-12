@@ -335,7 +335,6 @@ class IllustController extends Controller
             ->where('message_title', 'like', 'invite%')
             ->where('to_id', '=', Auth::user()['id'])
             ->get();
-
         return $invite_messages;
     }
     /**

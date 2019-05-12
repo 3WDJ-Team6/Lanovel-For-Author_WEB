@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\InviteUser;
 
 use Auth;
-// use App\Events\InviteEvent;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\User;
@@ -11,8 +11,8 @@ use App\Models\Work;
 use App\Models\WorkList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 
 class InviteUserController extends Controller
 {
@@ -30,6 +30,7 @@ class InviteUserController extends Controller
         <style>
             .userlist{
                 display:none;
+                color:#646464;
             }
             .userImage{
                 width:100%;
@@ -57,19 +58,19 @@ class InviteUserController extends Controller
                     ";
         foreach ($userlist as $i => $user) {
             $text = $text . "
-                        <div class='userlist'>
-                            <a href='" . url("loadUserInfoModal/" . $user['email']) . "' rel='modal:open' title='" . $user['email'] . "'>
-                                <div class='userImage'>
-                                    <img src='" . $user['profile_photo'] . "' class='userthumb' onError=javascript:this.src='" . asset('image/no_image.png') . "'>
-                                </div>
-                                <span id='info' class='" . $user['email'] . "'style='width:600px;position:relative;'>
-                                    <div class='userinfo'>ID : " . $user['nickname'] . "</div>
-                                    <div class='userinfo'>" . $user['introduction_message'] . "</div>
-                                    <div class='userinfo'>E-MAIL : " . $user['email'] . "</div>
-                                </span>
-                            </a>
+                <div class='userlist'>
+                    <a href='" . url("loadUserInfoModal/" . $user['email']) . "' rel='modal:open' title='" . $user['email'] . "'>
+                        <div class='userImage'>
+                            <img src='" . $user['profile_photo'] . "' class='userthumb' onError=javascript:this.src='" . asset('image/no_image.png') . "'>
                         </div>
-                        ";
+                        <span id='info' class='" . $user['email'] . "'style='width:600px;position:relative;'>
+                            <div class='userinfo'>이름 : " . $user['nickname'] . "</div>
+                            <div class='userinfo'>소개 : " . $user['introduction_message'] . "</div>
+                            <div class='userinfo'>메일 : " . $user['email'] . "</div>
+                    </span>
+                    </a>
+                </div>
+        ";
         }
         $text = $text . "
                 </ul>
@@ -150,19 +151,22 @@ class InviteUserController extends Controller
         // $userid = $request->get('userid');
         $work_num = $request->get('title');
         $invite_message = $request->get('message');
+
         $user_id = User::select(
             'users.id'
         )->where('users.nickname', $nickname)
             ->first()->id;
+
         $work_title = Work::select(
             'works.work_title'
         )->where('works.num', $work_num)
             ->first()->work_title;
+
         $list = new WorkList();
         $list->num_of_work = $work_num;
         $list->user_id = $user_id;
         $list->accept_request = 1;
-        $list->last_time_of_working = "test";
+        $list->last_time_of_working = Carbon::now();
         $list->save();
 
         $message = new Message();
@@ -170,6 +174,7 @@ class InviteUserController extends Controller
         $message->to_id = $user_id;
         $message->message_title = 'invite message';
         $message->message_content = $invite_message;
+        $message->num_of_work = $work_num;
         $message->save();
 
         // event(new InviteEvent(Auth::user()['nickname'], $nickname, 'invite message', $nickname . "님이 " . $work_title . '작품에 초대하셧습니다.'));
@@ -178,7 +183,6 @@ class InviteUserController extends Controller
     }
     public function viewMessages()
     {
-
         $invite_messages = Message::select(
             'messages.num',
             'messages.message_title',
@@ -228,8 +232,10 @@ class InviteUserController extends Controller
         return $text;
     }
 
-    public function viewMessage($messagenum)
+    public function viewMessage($messageNum)
     {
+        $inviteRoomNum = Message::select('num_of_work')->where('num', $messageNum)->get()[0]->num_of_work;
+
         $invite_message = Message::select(
             'messages.message_title',
             'messages.message_content',
@@ -238,12 +244,12 @@ class InviteUserController extends Controller
             'messages.created_at'
         )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
             ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
-            ->where('messages.num', $messagenum)
+            ->where('messages.num', $messageNum)
             ->get();
 
         DB::update('UPDATE messages
         SET condition_message = 1
-        WHERE messages.num =' . $messagenum);
+        WHERE messages.num =' . $messageNum);
 
         // return $invite_message;
         foreach ($invite_message as $i => $im) {
@@ -252,19 +258,18 @@ class InviteUserController extends Controller
             <div>받은 시간 " . $im['created_at'] . "</div>
             <div>message title " . $im['message_title'] . "</div>
             <div>" . $im['message_content'] . "</div>
-            <div> <a href='acceptInvite/" . $messagenum . "'>accept invite</a></div>
+            <div> <a href='/acceptInvite/" . $messageNum . '/' . $inviteRoomNum . "'>accept invite</a></div>
             ";
         }
         return $text;
     }
-    public function acceptInvite($messageNum)
+    public function acceptInvite($messageNum, $inviteRoomNum)
     {
-        // return $messageNum;
-        DB::update('UPDATE work_lists
+        DB::update('UPDATE work_lists INNER JOIN messages
+        ON messages.num = ' . $messageNum . '
         SET accept_request = 0
-        WHERE work_lists.created_at =
-        (SELECT created_at FROM messages WHERE num = 26)
-        AND accept_request = 1');
-        return redirect()->back()->withInput();
+        WHERE work_lists.user_id = messages.to_id
+        AND work_lists.created_at = messages.created_at');
+        return redirect('editor/main/chapter/' . $inviteRoomNum);
     }
 }

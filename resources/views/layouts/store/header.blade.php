@@ -1,4 +1,24 @@
 <header class="header_area">
+
+<script type="text/javascript">
+                var div = document.getElementById("alramimg");
+                div.style.display = 'inline-block';
+
+            </script>
+            @isset($invite_message)
+            @foreach ($invite_message as $i => $im)
+
+            <script type="text/javascript">
+                document.getElementById("messagecount").innerHTML = '<?php echo $im->count; ?>';
+                var text = document.getElementById("messagecount").innerHTML;
+                if (text == '0') {
+                    document.getElementById("messagecount").style.display = 'none';
+                }
+
+            </script>
+            @endforeach
+            @endif
+            
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="{{ asset('js/jquery/jquery.modal.min.1.js') }}" defer></script>
@@ -18,7 +38,7 @@
                     </div>
                 </div>
                 <div class="classynav">
-                    <ul>
+                    <ul style="margin-top:6%;">
                         <li><a href="{{ url('menu/1') }}">배경</a></li>
                         <li><a href="{{ url('menu/2') }}">캐릭터</a></li>
                         <li><a href="{{ url('menu/3') }}">소품</a></li>
@@ -39,8 +59,8 @@
             </div>
 
             <form action="{{ url('store/find/search') }}" method="post">
-                <button type="button submit" class="btn btn-light" style="margin:25px; width:100px; height:40px;">
-                    <img src="{{asset('image/store/check-box.png')}}" style="width:20px;"> 필터링</i>
+                <button type="button submit" class="btn btn-light" style="margin:25px; width:100px; height:40px; font-size:15px;">
+                    <img src="{{asset('image/store/check-box.png')}}" style="width:18px;"> 필터링</i>
                 </button>
             </form>
 
@@ -164,14 +184,13 @@
 
             @elseif(Auth::user()['roles']==3)
 
-            <div class="user-login-info" id="alramimg" style="display:none;">
-                <a href="#" style="text-decoration: none;">
+            <div class="user-login-info" id="alramimg" style="">
+                <a href="#" style="">
                     <button onclick="document.getElementById('id01').style.display='block'" class="w3-button" style="background-color: transparent !important;
-                    background-image: none !important; border: none; outline: none;">
-                        <img src="{{asset('image/store/message.png')}}" style=" display:inline-block">
-                        <span id="messagecount" class="list-group-item-danger"
-                            style="display:inline-block; position:absolute; z-index:1; background-color:white;"></span></button>
-
+                     outline: none;">
+                        <img src="{{asset('image/store/message.png')}}" style="display:inline-block">
+                        <span id="messagecount" class="list-group-item-danger" style="margin-top:1%; position:absolute; display:inline-block; z-index:100; background-color:white;"></span>
+                    </button>
                 </a>
             </div>
             <!-- 메시지 모달창 -->
@@ -179,14 +198,13 @@
                 <div class="w3-modal-content w3-card-4">
                     <header class="w3-container" style="background-color:#FAEBFF;">
                         <span onclick="document.getElementById('id01').style.display='none'"
-                            class="s w3-display-topright">&times;</span>
+                            class="s w3-display-topright" style="cursor:pointer">&times;</span>
                         <h2>New message</h2>
                     </header>
                     <div class="w3-container">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
                                     <th scope="col">ID</th>
                                     <th scope="col">TITLE</th>
                                     <th scope="col">DATE</th>
@@ -195,7 +213,6 @@
                             <tbody>
                                 @foreach($invite_messages as $invite)
                                 <tr>
-                                    <th scope="row">1</th>
                                     <td>{{$invite->from_id}}</td>
                                     <td><a href="{{url(/viewMessage/{$invite->message_num})}}">{{$invite->message_title}}</a></td>
                                     <td>{{$invite->created_at}}</td>
@@ -204,8 +221,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <footer class="w3-container" style="background-color:#FAEBFF;">
-                        <p>아무 의미없는 Footer</p>
+                    <footer class="w3-container" style="background-color:#FAEBFF; height:40px;">
+                        
                     </footer>
                 </div>
             </div>
@@ -222,25 +239,7 @@
                 </form>
             </div>
 
-            <script type="text/javascript">
-                var div = document.getElementById("alramimg");
-                div.style.display = 'inline-block';
 
-            </script>
-            @isset($invite_message)
-            @foreach ($invite_message as $i => $im)
-
-            <script type="text/javascript">
-                var text = document.getElementById("messagecount").innerHTML;
-                if (text == '0') {
-                    document.getElementById("messagecount").style.display = 'none';
-                }
-                document.getElementById("messagecount").innerHTML = '<?php echo $im['
-                count ']?>';
-
-            </script>
-            @endforeach
-            @endif
 </header>
 
 @else

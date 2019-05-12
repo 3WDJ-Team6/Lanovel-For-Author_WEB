@@ -11,7 +11,7 @@
 @section('content')
 
 <body>
-
+    @if(Auth::user()['roles'] == 2)
     <!-- Main Content -->
     <div class="container">
         <div class="form-group" style="margin-top:6%;">
@@ -20,6 +20,18 @@
             @endif
             {{-- 정렬 필터링  --}}
             <input type="hidden" name="_token" value="{{ Session::token() }}">
+            <script>
+                $.ajax({
+                    type: 'POST',
+                    url: '/',
+                    data: {
+                        status_of_work: $('input:checkbox:checked').val()
+                    },
+                    success: function(data) {
+                        alert(data);
+                    }
+                });
+            </script>
 
             <!-- Material inline 1 -->
             <form method="POST" id="filter">
@@ -42,10 +54,11 @@
         {{-- 새 작품 추가  --}}
         <div class="row">
             <div class="col-lg-12 col-md-10 mx-auto">
-                <div class="post-preview" style="">
+                <div class="post-preview" style="border:2px solid #9DCFFF; border-radius: 15px; height:200px;">
                     <a href="{{url('/createBook')}}">
-                        <h3 class="post-title" style="margin-top:30px; margin-bottom:30px;">
-                            <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
+                        <h3 class="post-title" style="margin:2%; display:inline-block;">
+                            <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;"
+                                class="img-thumbnail">
                             작품추가
                         </h3>
                 </div>
@@ -55,10 +68,11 @@
                 @foreach ($posts as $post)
                 <div class="form-group" style="background-color:#45b4e61a; border-radius: 15px;">
                     <div class="post-preview" style="width:100%; height:210px; ">
-                        <div class="form-group" style="display:inline-block; margin:2%;">
+                        <div class="form-group" style="display:inline-block; margin:2.5%; ">
+
                             <a href="{{url('editor/main/chapter')}}/{{$post['num']}}"
                                 style=" text-decoration:none; margin:0px;">
-                                <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px;"
+                                <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px; box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 1)"
                                     class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
                                 <div class="post-title h2"
                                     style=" margin-top:30px; margin-bottom:30px; display:inline-flex; color:black;">
@@ -67,10 +81,9 @@
                                 </div>
                             </a>
                         </div>
-
                         <div class="side-group"
                             style="display:inline-block; margin:2%; margin-right:3%; float:right; align-items:right; text-align:right;">
-                            <p class="post-meta" style="font-style: italic; color: #868e96;">
+                            <p class="post-meta" style="font-style:italic;color:#868e96;font-size:18px;">
                                 카테고리 : @foreach ($tagCount as $ta)
                                 @if($post->num == $ta->num)
                                 {{ $ta->tag }}
@@ -145,11 +158,13 @@
 
         </div>
     </div>
-
-    <script>
-
+    @else
+    <script type="text/javascript">
+        alert('52 그 앞은 작.가.영.역.이.다');
+        // window.history.back();
+        window.location = "{{ url('/store') }}";
     </script>
-
+    @endif
 </body>
 
 

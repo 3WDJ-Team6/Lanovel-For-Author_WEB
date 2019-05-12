@@ -325,6 +325,7 @@ class EditController extends Controller
         $count = 0;
         $imglist = [];
         $ttext = $editor_content;
+
         while(1){
             if(str::contains($editor_content,'height: auto;">')){
                 $editor_content = str::replaceFirst('height: auto;">','height: auto;" />',$editor_content);
@@ -345,8 +346,9 @@ class EditController extends Controller
             }else{
                 break;
             }
+
         }
-        // return $editor_content;
+        }
         $content_of_works->content = $editor_content;
         $content_of_works->save();
     }

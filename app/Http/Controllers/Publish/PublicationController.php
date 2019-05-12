@@ -157,6 +157,7 @@ class PublicationController extends Controller
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'js', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'fonts', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'audio', 0777, true);
+            Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'sound', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'video', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'META-INF', 0777, true);
         }
@@ -215,24 +216,24 @@ class PublicationController extends Controller
             <manifest>
  <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml"/>
  <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml"/>
- <item id="coverimage" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/'.$covertype.'"/>
+ <item id="coverimage" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/' . $covertype . '"/>
  <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
  ';
- foreach ($onlyimglist as $i => $il) {
-     if(!str::contains($opf,$il)){
-        $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il. '" media-type="application/xhtml+xml" />
+        foreach ($onlyimglist as $i => $il) {
+            if (!str::contains($opf, $il)) {
+                $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il . '" media-type="application/xhtml+xml" />
         ';
-     }
- }
- foreach ($onlysoundlist as $i => $il) {
-    if(!str::contains($opf,$il)){
-     $opf = $opf . '<item id="sound-' . $i . '" href="sound/' . $il. '" media-type="application/xhtml+xml" />
+            }
+        }
+        foreach ($onlysoundlist as $i => $il) {
+            if (!str::contains($opf, $il)) {
+                $opf = $opf . '<item id="sound-' . $i . '" href="sound/' . $il . '" media-type="application/xhtml+xml" />
   ';
-    }
- }
- foreach ($onlyvideolist as $i => $il) {
-    if(!str::contains($opf,$il)){
-     $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il. '" media-type="application/xhtml+xml" />
+            }
+        }
+        foreach ($onlyvideolist as $i => $il) {
+            if (!str::contains($opf, $il)) {
+                $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il . '" media-type="application/xhtml+xml" />
   ';
     }
  }
