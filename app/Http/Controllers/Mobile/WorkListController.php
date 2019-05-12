@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\WorkList;
 use App\Models\Work;
+use App\Models\Rental;
 use Illuminate\Support\Facades\DB;
+use App\Models\RecommendOfWork;
+use App\Models\SubscribeOrInterest;
 
 class WorkListController extends Controller
 {
@@ -120,7 +123,7 @@ class WorkListController extends Controller
             DB::raw('(select group_concat(category_works.tag) from category_works where category_works.num_of_work = works.num) tag'),
             DB::raw('(select count(num_of_work) FROM recommend_of_works where recommend_of_works.num_of_work = works.num) recommends'),
             DB::raw("if((select count(recommend_of_works.num_of_work) FROM recommend_of_works WHERE recommend_of_works.num_of_work = works.num AND recommend_of_works.user_id = $userId),'t','f') recommends_or_not"),
-            DB::raw("IFNULL((select if(ISNULL(due_of_rental),'buy','rental') FROM rentals WHERE rentals.user_id = $userId AND rentals.chapter_of_work = $chapterNum),'0') check_buy_or_ren"),
+            DB::raw("IFNULL((select if(ISNULL(due_of_rental),'buy','rental') FROM rentals WHERE rentals.user_id = $userId AND rentals.chapter_of_work = $chapterNum),'0') check_buy_or_ren"), #?
             DB::raw('(select count(*) from subscribe_or_interests WHERE subscribe_or_interests.role_of_work = 1) subscribe_count'),
             DB::raw("if((select count(*) from subscribe_or_interests WHERE subscribe_or_interests.role_of_work = 1 AND subscribe_or_interests.user_id = $userId),'t','f') sub_or_not"),
             DB::raw("if((select count(*) from subscribe_or_interests WHERE subscribe_or_interests.role_of_work = 2 AND subscribe_or_interests.user_id = $userId),'t','f' ) ins_or_not"),
@@ -158,9 +161,53 @@ class WorkListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+
+    public function update(Request $request, $point)
     {
-        //
+        // Reantal::selete('due_of_lental')->where('','')->get();
+        return '보낸 리퀘스트 :' . $request . ':' . $point;
+    }
+    public function selection(Request $request)
+    {
+        $selection = '';
+        switch ($request) {
+            case 'interested_selected':
+                // SubscribeOrInterest::update();
+                break;
+            case 'interested_unselected':
+                // SubscribeOrInterest::update();
+                break;
+
+            case 'sub_selected':
+                // SubscribeOrInterest::update();
+                break;
+
+            case 'sub_unselected':
+                // SubscribeOrInterest::update();
+                break;
+
+                //추천
+            case 'like_selected':
+                // RecommendOfWork::update();
+                break;
+            case 'like_unselected':
+                // RecommendOfWork::update();
+                break;
+        }
+
+        // http://13.209.153.194/selectionRequest?key=value
+        // 아래는 key = value  ↔ selection = value
+        // 패러미터 value 값을 아래와 같이 보내면, 해당 value 값에 따라, db상의 값을 update 한다.
+
+        // 관심작품여부 O : selection="interested_selected"
+        // 관심작품여부 X : selection="interested_unselected"
+
+        // 좋아요 여부 O : selection = "like_selected"
+        // 좋아요 여부 X : selection = "like_unselected"
+
+        // 구독 여부 O : selection = "sub_selected"
+        // 구독 여부 X : selection = "sub_unselected"
+        return $request . ':' . $id;
     }
 
     /**
