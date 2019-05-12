@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Hash;
 use App\Models\Work;
+
+use App\Models\IllustFile;
 use App\Models\Viewer;
 use App\Models\Message;
 use App\Models\Following;
