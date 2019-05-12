@@ -282,11 +282,11 @@ class IllustController extends Controller
             ->where('buyer_of_illustrations.user_id', Auth::user()['id'])
             ->get();
 
-        $myPageInfo = User::with(['illustration_lists', 'illust_files'])
-            ->where('id', Auth::user()->id)->get();
+        // $myPageInfo = User::with(['illustration_lists', 'illust_files'])
+        //     ->where('id', Auth::user()->id)->get();
 
 
-        return $myPageInfo;
+        // // return $myPageInfo;
 
         return view('store.menu.mypage')->with('row', $userInfo)->with('products', $myIllustInfo)->with('likeProducts', $likeInfo)->with('cartInfos', $cartInfo)->with('illust_arrays', $illust_arrays)->with('buyProducts', $buyInfo);
     }
