@@ -64,9 +64,8 @@
                         </div>
                         <div class="price" name="price_of_illustration"
                             style="width:260px; margin:20px; text-align:right; display:inline-block;">
-                            <h5>Price : {{$product->price_of_illustration}} <button type="button"
-                                    onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'"
-                                    class="btn btn-light" style="width:80px;">구매</h5>
+                            <h5>Price : {{$product->price_of_illustration}} <button type="button" onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'" class="btn btn-light"
+                                    style="width:80px;">구매</h5>
                         </div>
                     </div>
                     <div class="nickname" name="nickname"
