@@ -13,7 +13,6 @@
 <div class="container register-form">
 
     <div class="form-content">
-        에디터 안에서 목차 수정하는거임
         <form action="{{url('editContentInEditor')}}/{{$content_data['num']}}" method="post">
             <div class="col-md-6">
                 <div class="form-group">
