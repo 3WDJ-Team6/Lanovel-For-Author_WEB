@@ -20,6 +20,18 @@
             @endif
             {{-- 정렬 필터링  --}}
             <input type="hidden" name="_token" value="{{ Session::token() }}">
+            <script>
+                $.ajax({
+                    type: 'POST',
+                    url: '/',
+                    data: {
+                        status_of_work: $('input:checkbox:checked').val()
+                    },
+                    success: function(data) {
+                        alert(data);
+                    }
+                });
+            </script>
 
             <!-- Material inline 1 -->
             <form method="POST" id="filter">
@@ -54,7 +66,7 @@
 
                 @foreach ($posts as $post)
                 <div class="form-group" style="background-color:#45b4e61a; border-radius: 15px;">
-                    <div class="post-preview" style="width:100%; height:210px; ">
+                    <div class="post-preview" style="width:100%; height:230px; ">
                         <div class="form-group" style="display:inline-block; margin:2%;">
                             <a href="{{url('editor/main/chapter')}}/{{$post['num']}}"
                                 style=" text-decoration:none; margin:0px;">
@@ -67,7 +79,6 @@
                                 </div>
                             </a>
                         </div>
-
                         <div class="side-group"
                             style="display:inline-block; margin:2%; margin-right:3%; float:right; align-items:right; text-align:right;">
                             <p class="post-meta" style="font-style: italic; color: #868e96;">
