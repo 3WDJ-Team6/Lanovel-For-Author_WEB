@@ -86,6 +86,8 @@ class PublicationController extends Controller
         $text;
         $onlyimglist = [];
         $imglist2 = [];
+        $onlypurlist = [];
+        $purlist2 = [];
         $onlysoundlist = [];
         $soundlist2 = [];
         $onlyvideolist = [];
@@ -96,27 +98,35 @@ class PublicationController extends Controller
         $test2;
         $text3;
         $test3;
+        $text4;
+        $test4;
 
         foreach ($chapter_list as $i => $clist) {
             $text = $clist['content'];
             $text2 = $clist['content'];
             $text3 = $clist['content'];
+            $text4 = $clist['content'];
             while (1) {
                 if (str::contains($text, "/sound/")) {
                     $text = str::after($text, "/sound/");
                     $test = str::before($text, '">');
                     $onlysoundlist = Arr::add($onlysoundlist, 'names' . $count, $test);
                 }
-                if (str::contains($text2, "/video/")) {
+                elseif (str::contains($text2, "/video/")) {
                     $text2 = str::after($text2, "/video/");
                     $test2 = str::before($text2, '" ');
                     $onlyvideolist = Arr::add($onlyvideolist, 'namev' . $count, $test2);
                 }
-                if (str::contains($text3, "/images/")) {
+                elseif (str::contains($text3, "/images/")) {
                     $text3 = str::after($text3, "/images/");
                     $test3 = str::before($text3, '" ');
                     $onlyimglist = Arr::add($onlyimglist, 'namei' . $count, $test3);
-                } else {
+                }elseif (str::contains($text4, "/purchase/")) {
+                    $text4 = str::after($text4, "/purchase/");
+                    $test4 = str::before($text4, '" ');
+                    $onlypurlist = Arr::add($onlypurlist, 'namep' . $count, $test4);
+                    // return $onlypurlist;
+                }else {
                     break;
                 }
                 $count += 1;
@@ -135,9 +145,14 @@ class PublicationController extends Controller
             $text2 = str::start($vl2, "Author/" . Auth::user()['email'] . "/video/");
             $videolist2[$i] = $text2;
         }
+        foreach ($onlypurlist as $i => $vl2) {
+            $text2 = str::start($vl2, "Author/" . Auth::user()['email'] . "/purchase/");
+            $purlist2[$i] = $text2;
+        }
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS') || !Storage::disk('s3')->exists($filePath . 'META-INF')) {
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'text', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'images', 0777, true);
+            Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'purchase', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'css', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'js', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'fonts', 0777, true);
@@ -150,8 +165,12 @@ class PublicationController extends Controller
                 Storage::disk('s3')->copy($imglist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i]);
             }
         }
+        foreach ($purlist2 as $i => $purlist) {
+            if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'purchase' . DIRECTORY_SEPARATOR . $onlypurlist[$i])) {
+                Storage::disk('s3')->copy($purlist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'purchase' . DIRECTORY_SEPARATOR . $onlypurlist[$i]);
+            }
+        }
         foreach ($soundlist2 as $i => $soundlist) {
-            // return $soundlist;
             if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $onlysoundlist[$i])) {
                 Storage::disk('s3')->copy($soundlist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $onlysoundlist[$i]);
             }
@@ -161,7 +180,6 @@ class PublicationController extends Controller
                 Storage::disk('s3')->copy($videolist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $onlyvideolist[$i]);
             }
         }
-
         Storage::disk('s3')->put($filePath . "mimetype", "application/epub+zip");
         $container = "<?xml version='1.0'?>\n
     <container version='1.0' xmlns='urn:oasis:names:tc:opendocument:xmlns:container'>\n
@@ -215,6 +233,12 @@ class PublicationController extends Controller
  foreach ($onlyvideolist as $i => $il) {
     if(!str::contains($opf,$il)){
      $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il. '" media-type="application/xhtml+xml" />
+  ';
+    }
+ }
+ foreach ($onlypurlist as $i => $il) {
+    if(!str::contains($opf,$il)){
+     $opf = $opf . '<item id="video-' . $i . '" href="purchase/' . $il. '" media-type="application/xhtml+xml" />
   ';
     }
  }

@@ -341,9 +341,11 @@ class EditController extends Controller
             }elseif(str::contains($editor_content,'onclick="audioPlay(event)">')){
                 $editor_content = str::replaceFirst('onclick="audioPlay(event)">','onclick="audioPlay(event)" />',$editor_content);
             }else{
+                // return $editor_content;
                 break;
             }
         }
+        // return $editor_content;
         $content_of_works->content = $editor_content;
         $content_of_works->save();
     }

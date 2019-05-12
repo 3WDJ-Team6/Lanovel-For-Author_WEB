@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\InviteUser;
 
 use Auth;
-use App\Events\InviteEvent;
+// use App\Events\InviteEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\User;
 use App\Models\Work;
 use App\Models\WorkList;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
@@ -173,7 +174,6 @@ class InviteUserController extends Controller
 
         // event(new InviteEvent(Auth::user()['nickname'], $nickname, 'invite message', $nickname . "님이 " . $work_title . '작품에 초대하셧습니다.'));
 
-        // return 1;
         return redirect()->back()->withInput();
     }
     public function viewMessages()
@@ -191,7 +191,6 @@ class InviteUserController extends Controller
             ->where('message_title', 'like', 'invite%')
             ->where('to_id', '=', Auth::user()['id'])
             ->get();
-        // return $invite_messages;
 
         $text = "
         <style>
@@ -248,7 +247,6 @@ class InviteUserController extends Controller
 
         // return $invite_message;
         foreach ($invite_message as $i => $im) {
-
             $text = "
             <div>보낸 사람 " . $im['from_id'] . "</div>
             <div>받은 시간 " . $im['created_at'] . "</div>
@@ -262,11 +260,11 @@ class InviteUserController extends Controller
     public function acceptInvite($messageNum)
     {
         // return $messageNum;
-        DB::update('UPDATE work_lists INNER JOIN messages
-        ON messages.num = ' . $messageNum . '
+        DB::update('UPDATE work_lists
         SET accept_request = 0
-        WHERE work_lists.user_id = messages.to_id
-        AND work_lists.created_at = messages.created_at');
+        WHERE work_lists.created_at =
+        (SELECT created_at FROM messages WHERE num = 26)
+        AND accept_request = 1');
         return redirect()->back()->withInput();
     }
 }

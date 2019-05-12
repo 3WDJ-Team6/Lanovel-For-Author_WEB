@@ -197,7 +197,7 @@
                                 <tr>
                                     <th scope="row">1</th>
                                     <td>{{$invite->from_id}}</td>
-                                    <td>{{$invite->message_title}}</td>
+                                    <td><a href="{{url(/viewMessage/{$invite->message_num})}}">{{$invite->message_title}}</a></td>
                                     <td>{{$invite->created_at}}</td>
                                 </tr>
                                 @endforeach
