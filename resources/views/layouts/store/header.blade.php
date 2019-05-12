@@ -1,4 +1,5 @@
 <header class="header_area">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="{{ asset('js/jquery/jquery.modal.min.1.js') }}" defer></script>
     <link href="{{ asset('css/jquery.modal.min.1.css') }}" rel="stylesheet">
@@ -79,7 +80,7 @@
                     <div class="cart-content d-flex">
                         <!-- 장바구니 리스트 -->
                         <div class="cart-list">
-                            {{-- @foreach($cartProducts as $product)
+                             @foreach($cartProducts as $product)
                             <!-- Single Cart Item -->
                             <div class="single-cart-item">
                                 <a href="{{ url('/view') }}/{{$product->num}}" class="product-image">
@@ -99,7 +100,7 @@
                             </div>
                             </a>
                         </div>
-                        @endforeach --}}
+                        @endforeach 
                     </div>
 
                     <!-- Cart Summary -->
@@ -157,11 +158,48 @@
         @elseif(Auth::user()['roles']==3)
     
         <div class="user-login-info" id="alramimg" style="display:none;">
-            <a href="{{url('viewMessages')}}" rel='modal:open'>
-                <img src="{{asset('image/store/message.png')}}" style=" display:inline-block">
-                <span id="messagecount" class="list-group-item-danger" style="display:inline-block; position:absolute; z-index:1; background-color:white;"></span>
-            </a>;
+            <a href="#" style="text-decoration: none;">
+            <button onclick="document.getElementById('id01').style.display='block'" class="w3-button" style="background-color: transparent !important;
+                background-image: none !important; border: none; outline: none;">
+            <img src="{{asset('image/store/message.png')}}" style=" display:inline-block">
+                <span id="messagecount" class="list-group-item-danger" style="display:inline-block; position:absolute; z-index:1; background-color:white;"></span></button>
+                
+            </a>
         </div>
+<!-- 메시지 모달창 -->
+        <div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-card-4">
+      <header class="w3-container" style="background-color:#FAEBFF;"> 
+        <span onclick="document.getElementById('id01').style.display='none'" class="s w3-display-topright">&times;</span>
+        <h2>New message</h2>
+      </header>
+      <div class="w3-container">
+      <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">ID</th>
+      <th scope="col">TITLE</th>
+      <th scope="col">DATE</th>
+    </tr>
+  </thead>
+  <tbody>
+      @foreach($invite_messages as $invite)
+    <tr>
+      <th scope="row">1</th>
+      <td>{{$invite->from_id}}</td>
+      <td>{{$invite->message_title}}</td>
+      <td>{{$invite->created_at}}</td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
+      </div>
+      <footer class="w3-container" style="background-color:#FAEBFF;">
+        <p>아무 의미없는 Footer</p>
+      </footer>
+    </div>
+  </div>
         @endif
         
         <div class="user-login-info">
