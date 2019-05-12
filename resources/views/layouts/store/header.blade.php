@@ -214,7 +214,7 @@
                                 @foreach($invite_messages as $invite)
                                 <tr>
                                     <td>{{$invite->from_id}}</td>
-                                    <td>{{$invite->message_title}}</td>
+                                    <td><a href="{{url(/viewMessage/{$invite->message_num})}}">{{$invite->message_title}}</a></td>
                                     <td>{{$invite->created_at}}</td>
                                 </tr>
                                 @endforeach

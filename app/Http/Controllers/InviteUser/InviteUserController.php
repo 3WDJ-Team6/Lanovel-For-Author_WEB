@@ -4,12 +4,12 @@ namespace App\Http\Controllers\InviteUser;
 
 use Auth;
 use Carbon\Carbon;
-use App\Events\InviteEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\User;
 use App\Models\Work;
 use App\Models\WorkList;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -195,7 +195,6 @@ class InviteUserController extends Controller
             ->where('message_title', 'like', 'invite%')
             ->where('to_id', '=', Auth::user()['id'])
             ->get();
-        // return $invite_messages;
 
         $text = "
         <style>

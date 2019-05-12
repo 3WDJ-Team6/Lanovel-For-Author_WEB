@@ -336,7 +336,7 @@ class IllustController extends Controller
             ->where('to_id', '=', Auth::user()['id'])
             ->get();
         return $invite_messages;
-    }  
+    }
     /**
      * Store a newly created resource in storage.
      *
