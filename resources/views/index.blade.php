@@ -11,20 +11,42 @@
 @section('content')
 
 <body>
-
     <!-- Main Content -->
-    <div class="container">
-        <div class="form-group" style="margin-top:6%;">
-            @if(Auth::check())
-            {{-- <p>{{ Auth::user() }}</p> --}}
-            <div>
-                <a href="{{url('assets/upload')}}">asset upload</a>
-            </div>
-            @else 비 로그인 상태 @endif @if(Session::has('success'))
-            <div class="alert alert-info">{{ Session::get('success') }}</div>
-            @endif
-            <div>
-                {{Auth::user()['nickname']}}
+    <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
+        @if(Session::has('success'))
+        <div class="alert alert-info">{{ Session::get('success') }}</div>
+        @endif
+        {{-- 정렬 필터링  --}}
+        <input type="hidden" name="_token" value="{{ Session::token() }}">
+        <script>
+            $.ajax({
+                type: 'POST',
+                url: '/',
+                data: {
+                    status_of_work: $('input:checkbox:checked').val()
+                },
+
+                success: function(data) {
+                    alert(data);
+                }
+            });
+        </script>
+        <!-- Material inline 1 -->
+
+
+        <form method="POST" id="filter">
+            {{ csrf_field() }}
+            <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;">
+                <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;" name="type_of_work[]" value="3">
+                <label class="form-check-label" for="materialInline1">회차</label>
+                <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;" name="type_of_work[]" value="2">
+                <label class="form-check-label" for="materialInline2">단행본</label>
+                <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;" name="type_of_work[]" value="1">
+                <label class="form-check-label" for="materialInline5">단편</label>
+                <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;" name="status_of_work[]" value="1">
+                <label class="form-check-label" for="materialInline3">연재중</label>
+                <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;" name="status_of_work[]" value="2">
+                <label class="form-check-label" for="materialInline4">완결작</label>
             </div>
             {{-- 정렬 필터링  --}}
             <input type="hidden" name="_token" value="{{ Session::token() }}">
@@ -158,14 +180,7 @@
 
         </div>
     </div>
-
-    <script>
-
-    </script>
-
 </body>
-
-
 @endsection
 
 @section('footer')

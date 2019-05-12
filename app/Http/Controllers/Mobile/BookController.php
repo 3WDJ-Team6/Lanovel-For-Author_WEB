@@ -88,7 +88,6 @@ class BookController extends Controller
                         // $point--;
                         break;
                     case 'lend':
-
                         try { # 구매이력이 있으나 렌탈기간이 지났다면 +3일 시켜줌
                             if ($rentOrBuy[0]['isRental'] == 0) {
                                 $retals = Rental::where('num_of_work', $bookNum)

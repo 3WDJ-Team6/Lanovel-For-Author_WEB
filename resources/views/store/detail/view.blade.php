@@ -42,7 +42,8 @@
                 <!-- 서브사진 -->
                 <div class="form-group">
 
-                    <div class="form-group" style="width:570px; height:90px; cursor:pointer; margin-top:30px; margin-left:-10px;">
+                    <div class="form-group"
+                        style="width:570px; height:90px; cursor:pointer; margin-top:30px; margin-left:-10px;">
                         @foreach($posts as $post)
                         <img src="{{$post->url_of_illustration}}" class="w3-hover-shadow"
                             onclick="openModal();currentDiv(1)"
@@ -108,10 +109,12 @@
                             </div>
                             <div class="comment-tabs" style="width:700px;">
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class="active"><a href="#comments-logout" role="tab" data-toggle="tab" style="text-decoration:none;">
-                                            <h4 class="reviews text-capitalize" >Comments</h4>
+                                    <li class="active"><a href="#comments-logout" role="tab" data-toggle="tab"
+                                            style="text-decoration:none;">
+                                            <h4 class="reviews text-capitalize">Comments</h4>
                                         </a></li>
-                                    <li><a href="#add-comment" role="tab" data-toggle="tab" style="text-decoration:none;">
+                                    <li><a href="#add-comment" role="tab" data-toggle="tab"
+                                            style="text-decoration:none;">
                                             <h4 class="reviews text-capitalize" style="margin-left:20px;">Add comment
                                             </h4>
                                         </a></li>
@@ -303,9 +306,10 @@
                     <div class="w3-modal-content">
 
                         <div class="w3-content" style="max-width:1200px; margin-top:10%; ">
-                        @foreach ($posts as $post)
-                            <img class="mySlides" src="{{$post->url_of_illustration}}" style="width:1000px; height:400px;">
-                        @endforeach
+                            @foreach ($posts as $post)
+                            <img class="mySlides" src="{{$post->url_of_illustration}}"
+                                style="width:1000px; height:400px;">
+                            @endforeach
                             <div class="w3-row w3-black w3-center">
                                 <div class="w3-display-container">
                                     <p id="caption"></p>
@@ -315,7 +319,8 @@
                                 @foreach($posts as $post)
                                 <div class="w3-col s4" style="width:225px; height:150px;">
                                     <img class="demo w3-opacity w3-hover-opacity-off"
-                                        src="{{$post->url_of_illustration}}" onclick="currentDiv(1)" alt="Nature and sunrise" style="width:225px; height:150px;">
+                                        src="{{$post->url_of_illustration}}" onclick="currentDiv(1)"
+                                        alt="Nature and sunrise" style="width:225px; height:150px;">
                                 </div>
                                 <!-- <div class="w3-col s4"> 
                                     <img class="demo w3-opacity w3-hover-opacity-off"
