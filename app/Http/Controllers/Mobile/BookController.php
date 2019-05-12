@@ -112,13 +112,13 @@ class BookController extends Controller
                         break;
                 }
                 # 책의 OPF파일 주소 리턴
-                return response()->json($opfPath, 200);
+                return response()->json(['opfPath' => $opfPath], 200);
             } else {    # 액션이 없으면? -> 대여하거나, 구입하지 않고 다른 행위를 한다는 뜻(읽기 등)
                 return 'please send action Buy Or Lend';
             }
         } else {
             # 구매 이력이 있고 대여기간이 남아있으면
-            return response()->json($opfPath, 200);
+            return response()->json(['opfPath' => $opfPath], 200);
         }
     }
 
