@@ -26,12 +26,7 @@
             </div>
         </nav>
         <div class="header-meta d-flex clearfix justify-content-end">
-            <div id="alramimg" style="display:none;">
-                <a href="{{url('viewMessages')}}" rel='modal:open'>
-                    <img src="{{asset('image/store/warning.png')}}" style='width:60; height:60; display:inline-block'>
-                    <span id="messagecount" class="list-group-item-danger" style="top:40px;display:inline-block; position:absolute; z-index:1"></span>
-                </a>
-            </div>
+            
             <div class="search-area">
                 <form action="#" method="post">
                     <input type="search" name="search" id="headerSearch" placeholder="Type for search" />
@@ -42,8 +37,8 @@
             </div>
 
             <form action="{{ url('store/find/search') }}" method="post">
-                <button type="button submit" class="btn btn-light" style="margin:25px; width:110px;">
-                    <i class="fa fa-search">세부검색</i>
+                <button type="button submit" class="btn btn-light" style="margin:25px; width:100px; height:40px;">
+                    <img src="{{asset('image/store/check-box.png')}}" style="width:20px;"> 필터링</i>
                 </button>
             </form>
 
@@ -149,7 +144,7 @@
 
             <div class="user-login-info">
                 <a href="{{ url('/myPage') }}"><img src="{{ asset('image/store/user.svg') }}" alt="" />
-                </a>
+                </a>    
             </div>
             <div class="user-login-info">
                 <form method="post" action="{{ route('logout') }}" id="frm">
@@ -157,11 +152,18 @@
                     <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
                 </form>
             </div>
+        </div>
 
-
+        @elseif(Auth::user()['roles']==3)
+    
+        <div class="user-login-info" id="alramimg" style="display:none;">
+            <a href="{{url('viewMessages')}}" rel='modal:open'>
+                <img src="{{asset('image/store/message.png')}}" style=" display:inline-block">
+                <span id="messagecount" class="list-group-item-danger" style="display:inline-block; position:absolute; z-index:1; background-color:white;"></span>
+            </a>;
         </div>
         @endif
-
+        
         <div class="user-login-info">
             <a href="{{ url('/myPage') }}"><img src="{{ asset('image/store/user.svg') }}" alt="" /></a>
         </div>

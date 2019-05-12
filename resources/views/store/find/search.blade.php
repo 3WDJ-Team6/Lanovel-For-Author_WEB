@@ -3,6 +3,7 @@
 @section('head')
 @include('layouts.store.head')
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{{asset('css/store/find_search.css')}}">
 <script src="{{asset('js/store/search_make.js')}}"></script>
 <script src="{{asset('js/store/search_price.js')}}"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -25,7 +26,6 @@
 @section('content')
 
 <body>
-
 
     <section class="new_arrivals_area section-padding-80 clearfix">
         <div class="container">
@@ -52,32 +52,32 @@
                     <!-- tag -->
                     <div class="col-md-3">
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">이세계
+                            <input type="checkbox" value="">이세계
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">학원물
+                            <input type="checkbox" value="">학원물
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">몬스터
+                            <input type="checkbox" value="" >몬스터
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">판타지
+                            <input type="checkbox" value="" >판타지
                         </label><br>
                     </div>
 
                     <div class="col-md-3">
 
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">공포
+                            <input type="checkbox" value="">공포
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">SF
+                            <input type="checkbox" value="">SF
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">북유럽 신화
+                            <input type="checkbox" value="">북유럽 신화
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">메카닉
+                            <input type="checkbox" value="" >메카닉
                         </label><br>
 
                     </div>
@@ -85,16 +85,16 @@
                     <div class="col-md-3">
 
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">양손검
+                            <input type="checkbox" value="">양손검
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">바다
+                            <input type="checkbox" value="">바다
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">그리스 신화
+                            <input type="checkbox" value="">그리스 신화
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">크툴루 신화
+                            <input type="checkbox" value="">크툴루 신화
                         </label><br>
                     </div>
 
@@ -102,16 +102,16 @@
                     <div class="col-md-3">
 
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">마왕
+                            <input type="checkbox" value="">마왕
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">금발
+                            <input type="checkbox" value="">금발
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">도시
+                            <input type="checkbox" value="">도시
                         </label><br>
                         <label class="checkbox-inline">
-                            <input type="checkbox" value="" style="margin:30px;">트윈테일
+                            <input type="checkbox" value="">트윈테일
                         </label><br>
 
                     </div>
@@ -150,8 +150,9 @@
 
                 <!-- find -->
             </div>
-            <button>검색</button>
-
+            <div id="row" class="search">
+            <button type="button submit" class="btn btn-outline-dark">검색</button>
+            </div>
         </div>
     </section>
 

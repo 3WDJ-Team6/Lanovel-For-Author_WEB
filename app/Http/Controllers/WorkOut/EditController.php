@@ -330,18 +330,19 @@ class EditController extends Controller
                 $editor_content = str::replaceFirst('height: auto;">','height: auto;" />',$editor_content);
             }elseif(str::contains($editor_content,'height:auto;">')){
                 $editor_content = str::replaceFirst('height:auto;">','height: auto;" />',$editor_content);
+            }elseif(str::contains($editor_content,'&nbsp;')){
+                $editor_content = str::replaceFirst('&nbsp;','',$editor_content);
             }elseif(str::contains($editor_content,'resize">')){
                 $editor_content = str::replaceFirst('resize">','resize" />',$editor_content);
-            }elseif(str::contains($editor_content,'&nbsp;')){
-                $editor_content = str::replaceFirst('&nbsp;',' ',$editor_content);
             }elseif(str::contains($editor_content,'<br>')){
                 $editor_content = str::replaceFirst('<br>','<br />',$editor_content);
+            }elseif(str::contains($editor_content,'</video>')){
+                $editor_content = str::replaceFirst('</video>','',$editor_content);
             }elseif(str::contains($editor_content,'onclick="audioPlay(event)">')){
                 $editor_content = str::replaceFirst('onclick="audioPlay(event)">','onclick="audioPlay(event)" />',$editor_content);
             }else{
                 break;
             }
-
         }
         $content_of_works->content = $editor_content;
         $content_of_works->save();

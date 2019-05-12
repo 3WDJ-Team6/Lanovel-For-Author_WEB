@@ -8,13 +8,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\User;
 use App\Models\Work;
-use App\Models\WorkList; //models
+use App\Models\WorkList;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 
-class InviteUserController extends Controller{
-    public function loadSearchModal(){
+class InviteUserController extends Controller
+{
+    public function loadSearchModal()
+    {
         $userlist = User::select(
             'users.email',
             'users.nickname',
@@ -22,8 +24,8 @@ class InviteUserController extends Controller{
             'users.profile_photo'
         )->get();
 
-        $text ="
-        <script src='".asset('/js/invite_user.js')."'></script>
+        $text = "
+        <script src='" . asset('/js/invite_user.js') . "'></script>
         <style>
             .userlist{
                 display:none;
@@ -52,23 +54,23 @@ class InviteUserController extends Controller{
                     <div style='width:100%; height:400px; overflow:auto'>
                     <ul id='userlists'>
                     ";
-                    foreach($userlist as $i => $user){
-                        $text = $text."
+        foreach ($userlist as $i => $user) {
+            $text = $text . "
                         <div class='userlist'>
-                            <a href='".url("loadUserInfoModal/".$user['email'])."' rel='modal:open' title='".$user['email']."'>
+                            <a href='" . url("loadUserInfoModal/" . $user['email']) . "' rel='modal:open' title='" . $user['email'] . "'>
                                 <div class='userImage'>
-                                    <img src='".$user['profile_photo']."' class='userthumb' onError=javascript:this.src='".asset('image/no_image.png')."'>
+                                    <img src='" . $user['profile_photo'] . "' class='userthumb' onError=javascript:this.src='" . asset('image/no_image.png') . "'>
                                 </div>
-                                <span id='info' class='".$user['email']."'style='width:600px;position:relative;'>
-                                    <div class='userinfo'>ID : ".$user['nickname']."</div>
-                                    <div class='userinfo'>".$user['introduction_message']."</div>
-                                    <div class='userinfo'>E-MAIL : ".$user['email']."</div>
+                                <span id='info' class='" . $user['email'] . "'style='width:600px;position:relative;'>
+                                    <div class='userinfo'>ID : " . $user['nickname'] . "</div>
+                                    <div class='userinfo'>" . $user['introduction_message'] . "</div>
+                                    <div class='userinfo'>E-MAIL : " . $user['email'] . "</div>
                                 </span>
                             </a>
                         </div>
                         ";
-                    }
-                $text = $text."
+        }
+        $text = $text . "
                 </ul>
                 </div>
                 </form>
@@ -78,60 +80,62 @@ class InviteUserController extends Controller{
 
         return $text;
     }
-    public function loadUserInfoModal($UserEmail){
+    public function loadUserInfoModal($UserEmail)
+    {
         $nickname = User::select(
             'users.nickname'
-        )->where('users.email','=',$UserEmail)
-        ->first()->nickname;
+        )->where('users.email', '=', $UserEmail)
+            ->first()->nickname;
         $introduction_message = User::select(
             'users.introduction_message'
-        )->where('users.email','=',$UserEmail)
-        ->first()->introduction_message;
+        )->where('users.email', '=', $UserEmail)
+            ->first()->introduction_message;
         $profile_photo = User::select(
             'users.profile_photo'
-        )->where('users.email','=',$UserEmail)
-        ->first()->profile_photo;
+        )->where('users.email', '=', $UserEmail)
+            ->first()->profile_photo;
         $text = "
         <div>
             <div>
-                <img src='".$profile_photo."' onError=javascript:this.src='".asset('image/no_image.png')."' style='width:80px;height:50%;float:center;'>
+                <img src='" . $profile_photo . "' onError=javascript:this.src='" . asset('image/no_image.png') . "' style='width:80px;height:50%;float:center;'>
             </div>
             <div>
-                ".$nickname."<br>".$introduction_message."
+                " . $nickname . "<br>" . $introduction_message . "
             </div>
-            ".$UserEmail."
+            " . $UserEmail . "
             <ul class='navbar-nav ml-auto' style='display:block'>
             <li class='nav-item' style='display:inline-block; float:left'>
                 <a class='nav-link' style='color:#45b4e6'>View profile</a>
             </li>
             <li class='nav-item' style='display:inline-block; float:right;'>
-                <a href='".url('/inviteUser/'.$nickname)."' class='nav-link' style='color:#45b4e6;' rel='modal:open'>Send invite Message</a>
+                <a href='" . url('/inviteUser/' . $nickname) . "' class='nav-link' style='color:#45b4e6;' rel='modal:open'>Send invite Message</a>
             </li>
         </ul>
         </div>
         ";
         return $text;
     }
-    public function loadInviteUserModal($nickname){
+    public function loadInviteUserModal($nickname)
+    {
         $work_titles = Work::select(
             'works.work_title',
             'works.num'
-        )->join('work_lists','works.num','=','work_lists.num_of_work')
-        ->whereIn('works.num', function ($query) {
-            $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']); // 최신순 정렬
-        })->orderBy('works.created_at', 'desc')
-        ->get();
-        $text="
-        <form action=".url('sendInviteMessage/'.$nickname).">
+        )->join('work_lists', 'works.num', '=', 'work_lists.num_of_work')
+            ->whereIn('works.num', function ($query) {
+                $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']); // 최신순 정렬
+            })->orderBy('works.created_at', 'desc')
+            ->get();
+        $text = "
+        <form action=" . url('sendInviteMessage/' . $nickname) . ">
             <label>user E-mail</label>
-            <input type='text' name='userid' id='userid' class='form-control' value = ".$nickname." readonly>
+            <input type='text' name='userid' id='userid' class='form-control' value = " . $nickname . " readonly>
             <div style='width:100%; overflow:auto'>
             <label>Work Title : </label>
             <select name = 'title'>";
-            foreach($work_titles as $i => $row){
-                $text = $text."<option value=".$row["num"].">".$row["work_title"]."</option>";
-            }
-            $text=$text."</select>
+        foreach ($work_titles as $i => $row) {
+            $text = $text . "<option value=" . $row["num"] . ">" . $row["work_title"] . "</option>";
+        }
+        $text = $text . "</select>
             <br>
                 <label>message for invite</label><br>
                 <textarea name='message' style='resize:none' cols ='85' rows='5'></textarea>
@@ -140,23 +144,24 @@ class InviteUserController extends Controller{
         </form>";
         return $text;
     }
-    public function SendingInviteMessage($nickname){
-        $userid = $_REQUEST['userid'];
-        $work_num = $_REQUEST['title'];
-        $invite_message = $_REQUEST['message'];
+    public function SendingInviteMessage(Request $request, $nickname)
+    {
+        // $userid = $request->get('userid');
+        $work_num = $request->get('title');
+        $invite_message = $request->get('message');
         $user_id = User::select(
             'users.id'
-        )->where('users.nickname',$nickname)
-        ->first()->id;
+        )->where('users.nickname', $nickname)
+            ->first()->id;
         $work_title = Work::select(
             'works.work_title'
-        )->where('works.num',$work_num)
-        ->first()->work_title;
+        )->where('works.num', $work_num)
+            ->first()->work_title;
         $list = new WorkList();
-        $list->num_of_work =$work_num;
+        $list->num_of_work = $work_num;
         $list->user_id = $user_id;
         $list->accept_request = 1;
-        $list->last_time_of_working="test";
+        $list->last_time_of_working = "test";
         $list->save();
 
         $message = new Message();
@@ -165,13 +170,14 @@ class InviteUserController extends Controller{
         $message->message_title = 'invite message';
         $message->message_content = $invite_message;
         $message->save();
-        // event(new InviteEvent(Auth::user()['nickname'] ,$nickname,'invite message',$nickname."님이 ".$work_title.'작품에 초대하셧습니다.'));
+
+        // event(new InviteEvent(Auth::user()['nickname'], $nickname, 'invite message', $nickname . "님이 " . $work_title . '작품에 초대하셧습니다.'));
 
         // return 1;
         return redirect()->back()->withInput();
-
     }
-    public function viewMessages(){
+    public function viewMessages()
+    {
 
         $invite_messages = Message::select(
             'messages.num',
@@ -180,11 +186,11 @@ class InviteUserController extends Controller{
             'u2.nickname as from_id',
             'messages.created_at',
             DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0) count")
-        )->leftjoin('users as u1','u1.id','messages.to_id')
-        ->leftjoin('users as u2','u2.id','messages.from_id')
-        ->where('message_title','like','invite%')
-        ->where('to_id','=',Auth::user()['id'])
-        ->get();
+        )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
+            ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
+            ->where('message_title', 'like', 'invite%')
+            ->where('to_id', '=', Auth::user()['id'])
+            ->get();
         // return $invite_messages;
 
         $text = "
@@ -208,59 +214,59 @@ class InviteUserController extends Controller{
                     </tr>
                 </thead>
                 <tbody>";
-                foreach ($invite_messages as $i => $im) {
-                    $text=$text."
+        foreach ($invite_messages as $i => $im) {
+            $text = $text . "
                     <tr>
-                            <td>".$im['from_id']."</td>
-                            <td><a href='viewMessage/".$im['num']."' rel='modal:open'>".$im['message_title']."</a></td>
-                            <td>".$im['message_content']."</td>
-                            <td>".$im['created_at']."</td>
+                            <td>" . $im['from_id'] . "</td>
+                            <td><a href='viewMessage/" . $im['num'] . "' rel='modal:open'>" . $im['message_title'] . "</a></td>
+                            <td>" . $im['message_content'] . "</td>
+                            <td>" . $im['created_at'] . "</td>
                     </tr>";
-                }
-                $text = $text."</tbody>
+        }
+        $text = $text . "</tbody>
             </table>
         </div>";
         return $text;
     }
 
-    public function viewMessage($messagenum){
+    public function viewMessage($messagenum)
+    {
         $invite_message = Message::select(
             'messages.message_title',
             'messages.message_content',
             'u1.nickname as to_id',
             'u2.nickname as from_id',
             'messages.created_at'
-        )->leftjoin('users as u1','u1.id','messages.to_id')
-        ->leftjoin('users as u2','u2.id','messages.from_id')
-        ->where('messages.num',$messagenum)
-        ->get();
+        )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
+            ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
+            ->where('messages.num', $messagenum)
+            ->get();
 
         DB::update('UPDATE messages
         SET condition_message = 1
-        WHERE messages.num ='.$messagenum);
+        WHERE messages.num =' . $messagenum);
 
         // return $invite_message;
         foreach ($invite_message as $i => $im) {
 
             $text = "
-            <div>보낸 사람 ".$im['from_id']."</div>
-            <div>받은 시간 ".$im['created_at']."</div>
-            <div>message title ".$im['message_title']."</div>
-            <div>".$im['message_content']."</div>
-            <div> <a href='acceptInvite/".$messagenum."'>accept invite</a></div>
+            <div>보낸 사람 " . $im['from_id'] . "</div>
+            <div>받은 시간 " . $im['created_at'] . "</div>
+            <div>message title " . $im['message_title'] . "</div>
+            <div>" . $im['message_content'] . "</div>
+            <div> <a href='acceptInvite/" . $messagenum . "'>accept invite</a></div>
             ";
-
         }
         return $text;
     }
-    public function acceptInvite($messagenum){
-
+    public function acceptInvite($messageNum)
+    {
+        // return $messageNum;
         DB::update('UPDATE work_lists INNER JOIN messages
-        ON messages.num = '.$messagenum.'
+        ON messages.num = ' . $messageNum . '
         SET accept_request = 0
         WHERE work_lists.user_id = messages.to_id
         AND work_lists.created_at = messages.created_at');
         return redirect()->back()->withInput();
-
     }
 }

@@ -310,7 +310,7 @@ function memoBalloon(e) {
 function addEpisode(sub, num) {
     console.log("실행됬냐" + sub);
     $(".ep-list").append(
-        "<a href=/editor/tool/editor/" + num + ">- " + sub + "</a>"
+        "<a href=/editor/tool/editor/" + num + ">- " + sub + "</a><br>"
     );
 }
 //에피소드 추가//
@@ -657,6 +657,7 @@ $(document).on("click", ".obj_kinds", function () {
                         item.src +
                         "' servername='" +
                         item.fileName +
+                        "' alt='alt" +
                         "' class='obj_thum' /><span class='obj_name' title='" +
                         item.name +
                         "'>" +
@@ -978,7 +979,7 @@ $(document).ready(function () {
             $(".textarea .mp4_icon").attr("id", "" + mp4Id + "");
             $(".textarea .mp4_icon").attr("class", "resize_mp4");
             $(".resize_mp4").replaceWith(
-                "<video id='obj_12' controls src='https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/Author@test/video/1557107556리코쨩빔.mp4' servername='1557107556리코쨩빔.mp4' class='resize' type='video/webm'></video>"
+                "<video id='obj_12' controls src='https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/Author@test/video/1557107556리코쨩빔.mp4' servername='1557107556리코쨩빔.mp4' class='resize' type='video/webm'/>"
             );
         });
     //리소스 파일을 textarea에 넣으면 class를 resize로 변경//
@@ -1243,15 +1244,15 @@ $(document).ready(function () {
         console.log(size_val);
         switch (size_val) {
             case "large":
-                $("#" + tool_imgId).width($("#" + tool_imgId).width() + 25);
+                $("#" + tool_imgId).width($("#" + tool_imgId).width() + 50);
                 $("#" + tool_imgId).height($("#" + tool_imgId).height("auto"));
                 break;
             case "small":
-                $("#" + tool_imgId).width($("#" + tool_imgId).width() - 25);
+                $("#" + tool_imgId).width($("#" + tool_imgId).width() - 50);
                 $("#" + tool_imgId).height($("#" + tool_imgId).height("auto"));
                 break;
             default:
-                $("#" + tool_imgId).width($("#" + tool_imgId).width("400px"));
+                $("#" + tool_imgId).width($("#" + tool_imgId).width("800px"));
                 $("#" + tool_imgId).height($("#" + tool_imgId).height("auto"));
                 break;
         }
@@ -1295,7 +1296,7 @@ $(document).ready(function () {
             );
             $("#" + tool_imgId).next().next().after(
                 "<span class='speaker'>" +
-                "<img src='/image/tool_icon/speaker_icon.png' style='width:24px;height:24px;' />" +
+                "<img src='../images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
                 "</span>"
             );
         } else {
@@ -1309,7 +1310,7 @@ $(document).ready(function () {
             );
             $("#" + tool_imgId).next().after(
                 "<span class='speaker'>" +
-                "<img src='/image/tool_icon/speaker_icon.png' style='width:24px;height:24px;' />" +
+                "<img src='../images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
                 "</span>"
             );
         }
