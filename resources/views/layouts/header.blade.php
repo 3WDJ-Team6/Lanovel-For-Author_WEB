@@ -1,5 +1,6 @@
 <!-- Navigation -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
+<script src="{{asset('bower_components/jquery/dist/jquery.js')}}"></script>
 {{-- 모달창  --}}
 <script src="{{ asset('js/jquery/jquery.modal.min.1.js') }}" defer></script>
 {{-- 모달창 css  --}}
