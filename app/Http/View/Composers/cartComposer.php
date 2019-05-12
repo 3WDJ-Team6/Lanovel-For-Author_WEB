@@ -47,7 +47,6 @@ class cartComposer
                 ->where('message_title', 'like', 'invite%')
                 ->where('to_id', '=', Auth::user()['id'])
                 ->get();
-
         $view->with('cartProducts', $cartProducts)->with('cartNum', $cartNum)->with('invite_messages',$invite_messages);
     }
 }
