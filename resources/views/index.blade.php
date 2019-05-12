@@ -81,7 +81,7 @@
                         </div>
                         <div class="side-group"
                             style="display:inline-block; margin:2%; margin-right:3%; float:right; align-items:right; text-align:right;">
-                            <p class="post-meta" style="font-style: italic; color: #868e96;">
+                            <p class="post-meta" style="font-style:italic;color:#868e96;font-size:18px;">
                                 카테고리 : @foreach ($tagCount as $ta)
                                 @if($post->num == $ta->num)
                                 {{ $ta->tag }}

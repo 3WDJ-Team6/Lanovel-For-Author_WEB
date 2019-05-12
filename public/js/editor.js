@@ -497,7 +497,7 @@ function getFolders() {
                         console.log("folder_name1 : " + folder_name);
                         folder_name = folder_name.split("/");
                         console.log("folder_name2 : " + folder_name);
-                        folder_name = folder_name[data.length - 3];
+                        folder_name = folder_name[data.length - 4];
                         console.log("folder_name3 : " + folder_name);
                         switch (folder_name) {
                             case "audio":
@@ -888,10 +888,17 @@ $(document).ready(function () {
     //툴 팝업 링크해제 뒤로 한칸내리는역할//
 
     //글쓰는 곳에서 엔터키누르면 앞에 태그에따라 자동생성되던 태그를 p태그로 변경
-    $(".textarea").keyup = e => {
-        e = e || window.event;
-        if (e.keyCode === 13) document.execCommand("formatBlock", false, "p");
-    };
+    // $(".textarea").keyup = e => {
+    //     e = e || window.event;
+    //     if (e.keyCode === 13) {
+    //         document.execCommand("formatBlock", false, "p");
+    //     }
+    // };
+    $(document).on("keyup", ".textarea", function (e) {
+        if (e.keyCode === 13) {
+            document.execCommand("formatBlock", false, "p");
+        }
+    });
     //글쓰는 곳에서 엔터키누르면 앞에 태그에따라 자동생성되던 태그를 p태그로 변경//
 
     //포커스 미완
@@ -1061,6 +1068,8 @@ $(document).ready(function () {
                 .replace(/[\|｜]《(.+?)》/g, "《$1》")
                 .replace(/[\|｜]（(.+?)）/g, "（$1）")
                 .replace(/[\|｜]\((.+?)\)/g, "($1)")
+                .replace(/class="resize"/g, "style='width:100%;height:auto'")
+                // .replace(/style=(\"|\')?([^\"\']+)(\"|\')?/g, "style='width:100%;height:auto'")
             );
         });
     });
