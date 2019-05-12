@@ -26,4 +26,9 @@ Route::group(['prefix' => 'reader'], function () {
     Route::get('/works/{workNum}/{chapterNum}/{userId}', 'Mobile\WorkListController@show');
     # 파일 구매시 다운로드  # Make Epub File
     Route::get('/downLoadBook/{folderPath?}/{bookNum?}', 'Storage\FileController@downLoadEpub');
+
+    # 독자의 구매 대여 정보 저장
+    Route::get('/purchaseInfo/{check_buy_or_ren?}/{userPoint}', 'Mobile\WorkListController@update');
+    # 좋아요, 구독, 관심 작품
+    Route::get('/selectionRequest{selection?}', 'Mobile\WorkListController@selection');
 });

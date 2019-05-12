@@ -83,13 +83,11 @@ Route::group(['middleware' => ['auth',]], function () {
     Route::get('/buyIllustInCart', 'WorkOut\IllustController@buyIllustInCart');   // 일러스토어 장바구니 내역 구매
 });
 
-# aws s3 asset upload 기능
-// Route::group(['prefix' => 'admin'], function () { }); prifix는 실제 api 요청하는 url의 앞 부분에 넘어온 문자열/ 로 url을 만듦 이 그룹에선 admin/~~
+# aws s3 기능
 Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있는 route들은 해당 미들웨어를 거쳐서 감
     Route::get('/assets/upload', 'Storage\FileController@index'); //view와 같이 폴더로 관리 make:controller folder/TestController 형식으로 만들어야함. 첫글자 다음문자 대문자.
     Route::resource('/images/{folderPath?}/{bookNum?}/{folderName?}', 'Storage\FileController', ['only' => ['store',]]); // 해당 함수만 라우팅
     Route::delete('/images/{folderPath?}/{bookNum?}/{folderName?}', 'Storage\FileController@destroy');
-
     # 일러스토어 일러스트 파일 업로드
     Route::post('/illustUpload', 'WorkOut\IllustController@illustUpload');
     Route::delete('/fileDelete/{id}', 'WorkOut\IllustController@fileDelete');

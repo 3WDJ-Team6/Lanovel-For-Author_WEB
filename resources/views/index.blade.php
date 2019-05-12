@@ -11,7 +11,6 @@
 @section('content')
 
 <body>
-
     <!-- Main Content -->
     <div class="container" style="background-color:#45b4e61a; margin-top:70px;">
         @if(Session::has('success'))
@@ -19,7 +18,6 @@
         @endif
         {{-- 정렬 필터링  --}}
         <input type="hidden" name="_token" value="{{ Session::token() }}">
-
         <script>
             $.ajax({
                 type: 'POST',
@@ -151,14 +149,7 @@
 
         </div>
     </div>
-
-    <script>
-
-    </script>
-
 </body>
-
-
 @endsection
 
 @section('footer')
