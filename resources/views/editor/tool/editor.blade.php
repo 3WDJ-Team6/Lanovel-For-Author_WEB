@@ -208,9 +208,23 @@
                     }
                 });
             }
-        });
+            $('#invite').on("click", invite);
 
+            function invite(e) {
+                $.ajax({
+                    type: "POST",
+                    url: "/invite/{!! json_encode(Auth::user()['nickname']) !!}",
+                    
+                    error: function (e) {
+                        throw new Error("실.패");
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
     </script>
+
     <script type="text/javascript">
         $(window).on("load", function () {
             new popTool("popup_result", "popbutton");

@@ -420,7 +420,7 @@ class IllustController extends Controller
             // return response()->json($urls->savename_of_illustration, 200, [], JSON_PRETTY_PRINT);
             Storage::disk('s3')->copy($urls->folderPath . $urls->savename_of_illustration, $userPath . $urls->savename_of_illustration);
         }
-        return redirect()->back()->with('message', '구매 성공')->with('illust_info', $illust_info);
+        return redirect()->back()->with('success', '일러스트를 구매했습니다.')->with('illust_info', $illust_info);
     }
 
     public function buyIllustInCart()

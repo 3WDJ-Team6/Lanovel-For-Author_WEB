@@ -10,7 +10,7 @@
         padding-left: 35px;
         margin-top: 10px;
         margin-bottom: 10px;
-        margin:14px;
+        margin: 14px;
         cursor: pointer;
         font-size: 16px;
         -webkit-user-select: none;
@@ -102,10 +102,11 @@
             </script>
 
             <!-- Material inline 1 -->
-            <form method="POST" id="filter" style="display:block; align-items: center; display: flex; justify-content: center;">
+            <form method="POST" id="filter"
+                style="display:block; align-items: center; display: flex; justify-content: center;">
                 {{ csrf_field() }}
                 <label class="container-checkbox">회차
-                    <input type="checkbox"name="type_of_work[]" value="3">
+                    <input type="checkbox" name="type_of_work[]" value="3">
                     <span class="checkmark"></span>
                 </label>
                 <label class="container-checkbox">단행본
@@ -159,7 +160,8 @@
                             </a>
                         </div>
 
-                        <div class="side-group" style="display:inline-block; margin:2%; margin-right:3%; float:right; align-items:right; text-align:right;">
+                        <div class="side-group"
+                            style="display:inline-block; margin:2%; margin-right:3%; float:right; align-items:right; text-align:right;">
                             <p class="post-meta" style="font-style:italic;color:#868e96;font-size:17px;">
 
                                 카테고리 : @foreach ($tagCount as $ta)
