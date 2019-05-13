@@ -135,7 +135,7 @@
 
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-10 col-sm-offset-1" id="logout">
+                        <div class="col-sm-10 col-sm-offset-1" id="logout" style="margin:0;">
                             <div class="page-header">
                             </div>
                             <div class="comment-tabs" style="width:700px;">
