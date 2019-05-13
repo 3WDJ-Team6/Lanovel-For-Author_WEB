@@ -167,9 +167,11 @@
                         </div>
 
                         <div class="side-group"
+
                             style="margin:2%; display:inline-block; float:right; align-items:right; text-align:right;">
                             <p class="post-meta"
                                 style="display:inline-block; margin-bottom:0;width:350px; font-style:italic; color:#868e96; font-size:19px;">
+
 
                                 카테고리 : @foreach ($tagCount as $ta)
                                 @if($post->num == $ta->num)

@@ -141,8 +141,13 @@ class InviteUserController extends Controller
                 <label>message for invite</label><br>
                 <textarea name='message' style='resize:none' cols ='85' rows='5'></textarea>
                 <br>
-            <input type='submit' value='초대'>
-        </form>";
+                <input type='submit' id='invite' value='초대'>
+
+        </form>
+        
+        
+  ";
+
         return $text;
     }
     public function SendingInviteMessage(Request $request, $nickname)
@@ -177,8 +182,6 @@ class InviteUserController extends Controller
         $message->save();
 
         // event(new InviteEvent(Auth::user()['nickname'], $nickname, 'invite message', $nickname . "님이 " . $work_title . '작품에 초대하셧습니다.'));
-
-        return redirect()->back()->withInput();
     }
     public function viewMessages()
     {
