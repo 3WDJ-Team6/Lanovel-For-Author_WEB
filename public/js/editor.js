@@ -497,7 +497,7 @@ function getFolders() {
                         console.log("folder_name1 : " + folder_name);
                         folder_name = folder_name.split("/");
                         console.log("folder_name2 : " + folder_name);
-                        folder_name = folder_name[data.length - 2];
+                        folder_name = folder_name[data.length - 4];
                         console.log("folder_name3 : " + folder_name);
                         switch (folder_name) {
                             case "audio":
@@ -522,9 +522,7 @@ function getFolders() {
                                 console.log(folder_name);
                                 break;
                         }
-                        if ((folder_name == "css") || (folder_name == "fonts") || (folder_name == "js") || (folder_name == "text")) {
-
-                        } else {
+                        if (folder_name == "images") {
                             $("#resource-feild").append(
                                 "<span id='obj_" +
                                 i +
@@ -533,6 +531,8 @@ function getFolders() {
                                 "</span>" +
                                 "</span>"
                             );
+                        } else {
+
                         }
                     }
                 }
@@ -643,9 +643,9 @@ $(document).on("click", ".obj_kinds", function () {
 
             if (folder_kinds == "images" || folder_kinds == "purchase") {
                 $.each(data, function (index, item) {
-                    // console.log("item.name : " + item.name);
-                    // console.log("item.src : " + item.src);
-                    // console.log("index : " + index);
+                    console.log("item.name : " + item.name);
+                    console.log("item.src : " + item.src);
+                    console.log("index : " + index);
                     chng_text = item.name.substr(0, 9) + "...";
                     $("#obj_feild").append(
                         "<span id='objLi_" +
@@ -888,10 +888,17 @@ $(document).ready(function () {
     //툴 팝업 링크해제 뒤로 한칸내리는역할//
 
     //글쓰는 곳에서 엔터키누르면 앞에 태그에따라 자동생성되던 태그를 p태그로 변경
-    $(".textarea").keyup = e => {
-        e = e || window.event;
-        if (e.keyCode === 13) document.execCommand("formatBlock", false, "p");
-    };
+    // $(".textarea").keyup = e => {
+    //     e = e || window.event;
+    //     if (e.keyCode === 13) {
+    //         document.execCommand("formatBlock", false, "p");
+    //     }
+    // };
+    $(document).on("keyup", ".textarea", function (e) {
+        if (e.keyCode === 13) {
+            document.execCommand("formatBlock", false, "p");
+        }
+    });
     //글쓰는 곳에서 엔터키누르면 앞에 태그에따라 자동생성되던 태그를 p태그로 변경//
 
     //포커스 미완
@@ -979,7 +986,7 @@ $(document).ready(function () {
             $(".textarea .mp4_icon").attr("id", "" + mp4Id + "");
             $(".textarea .mp4_icon").attr("class", "resize_mp4");
             $(".resize_mp4").replaceWith(
-                "<video id='obj_12' controls src='https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/Author@test/video/1557107556리코쨩빔.mp4' servername='1557107556리코쨩빔.mp4' class='resize' type='video/webm'/>"
+                "<video id='obj_12' controls src='https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/video/1557648920Sakurasou_ED.mp4' servername='1557648920Sakurasou_ED.mp4' class='resize' type='video/webm'/>"
             );
         });
     //리소스 파일을 textarea에 넣으면 class를 resize로 변경//
@@ -1061,6 +1068,8 @@ $(document).ready(function () {
                 .replace(/[\|｜]《(.+?)》/g, "《$1》")
                 .replace(/[\|｜]（(.+?)）/g, "（$1）")
                 .replace(/[\|｜]\((.+?)\)/g, "($1)")
+                .replace(/class="resize"/g, "style='width:100%;height:auto'")
+                // .replace(/style=(\"|\')?([^\"\']+)(\"|\')?/g, "style='width:100%;height:auto'")
             );
         });
     });
@@ -1296,7 +1305,7 @@ $(document).ready(function () {
             );
             $("#" + tool_imgId).next().next().after(
                 "<span class='speaker'>" +
-                "<img src='/image/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
+                "<img src='/images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
                 "</span>"
             );
         } else {
@@ -1310,7 +1319,7 @@ $(document).ready(function () {
             );
             $("#" + tool_imgId).next().after(
                 "<span class='speaker'>" +
-                "<img src='/image/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
+                "<img src='/images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
                 "</span>"
             );
         }

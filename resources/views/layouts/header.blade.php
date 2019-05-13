@@ -1,5 +1,6 @@
 <!-- Navigation -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->
+<script src="{{asset('bower_components/jquery/dist/jquery.js')}}"></script>
 {{-- 모달창  --}}
 <script src="{{ asset('js/jquery/jquery.modal.min.1.js') }}" defer></script>
 {{-- 모달창 css  --}}
@@ -14,8 +15,8 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    {{-- <a class="nav-link" id ="inv_btn" href="#invite" rel="modal:open" style="color:#45b4e6">INVITE USER</a>  --}}
-                    {{-- <a class="nav-link" id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:#45b4e6;border:0;background:transparent;">SEARCH USER</a>--}}
+                    <a class="nav-link" id ="inv_btn" href="#invite" rel="modal:open" style="color:#45b4e6">INVITE USER</a>
+                    <a class="nav-link" id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:#45b4e6;border:0;background:transparent;">SEARCH USER</a>
                 </li>
                 <li class="nav-item">
                     <button class="nav-link" onclick="location.href='{{url('/graph')}}'" style="color:#45b4e6;border:0;background:transparent;">Revenue graph</button>

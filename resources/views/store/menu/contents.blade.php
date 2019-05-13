@@ -49,8 +49,8 @@
             <a href="{{url('/view')}}/{{$row['num']}}">
                 <div class="single-product-wrapper" style="display:inline-block; margin:3%;">
                     <!-- 작품이미지 -->
-                    <div class="product-img" style="width: 200px; height: 150px; overflow: hidden;">
-                        <img src="{{$row['url_of_illustration']}}" alt="작품1" style="max-width: 300px; height: auto;">
+                    <div class="product-img" style="width: 200px; height: 150px;">
+                        <img src="{{$row['url_of_illustration']}}" alt="작품1" style="width: 200px; height: 150px; position: absolute; display:inline-block; object-fit:cover;">
                         <div class="product-favourite">
                             <a href="{{url('/addLike')}}/{{$row->num}}" class="favme fa fa-heart"></a>
                         </div>

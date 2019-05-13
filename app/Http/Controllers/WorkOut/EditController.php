@@ -129,7 +129,7 @@ class EditController extends Controller
         // 회차 제목 추가
         $content_of_works->subsubtitle = $request->subsubtitle;
         // 회차 내용 디폴트값 넣어주기
-        $content_of_works->content = "<p>物語《ものがたり》を書《か》きましょう</p>";
+        $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
         $content_of_works->save();
 
         echo "<script>opener.parent.location.reload();window.close()</script>";
@@ -322,45 +322,35 @@ class EditController extends Controller
 
         $content_of_works = ContentOfWork::where('num', $request->num)->first();
         // return $request->editor_content;
-        while(1){
-            if(str::contains($editor_content,'<img ')){
-                $test = str::after($editor_content,'<img ');
-                $test = str::before($test,'>');
-                if(str::contains($editor_content,$test)){
-                    $editor_content = str::replaceFirst('','',$test);
-                }
-                // $editor_content = str::replaceFirst('resize">','resize" />',$editor_content);
-            }else{
-                break;
-            }
-        }
+        $count = 0;
+        $imglist = [];
+        $ttext = $editor_content;
+
         while(1){
             if(str::contains($editor_content,'height: auto;">')){
                 $editor_content = str::replaceFirst('height: auto;">','height: auto;" />',$editor_content);
+            }elseif(str::contains($editor_content,'height:auto;">')){
+                $editor_content = str::replaceFirst('height:auto;">','height: auto;" />',$editor_content);
+            }elseif(str::contains($editor_content,'&nbsp;')){
+                $editor_content = str::replaceFirst('&nbsp;','',$editor_content);
+            }elseif(str::contains($editor_content,'resize">')){
+                $editor_content = str::replaceFirst('resize">','resize" />',$editor_content);
+            }elseif(str::contains($editor_content,'<br>')){
+                $editor_content = str::replaceFirst('<br>','<br />',$editor_content);
+            }elseif(str::contains($editor_content,'</video>')){
+                $editor_content = str::replaceFirst('</video>','',$editor_content);
+            }elseif(str::contains($editor_content,'src="/images/tool_icon/speaker_icon.png" alt="alt"')){
+                $editor_content = str::replaceFirst('src="/images/tool_icon/speaker_icon.png" alt="alt"','src="../images/tool_icon/speaker_icon.png" alt="alt"',$editor_content);
+            }elseif(str::contains($editor_content,'onclick="audioPlay(event)">')){
+                $editor_content = str::replaceFirst('onclick="audioPlay(event)">','onclick="audioPlay(event)" />',$editor_content);
             }else{
                 break;
             }
+
         }
-        // while(1){
-        //     if(str::contains($editor_content,'onclick="audioPlay(event)">')){
-        //         $editor_content = str::replaceFirst('onclick="audioPlay(event)">','onclick="audioPlay(event)" />',$editor_content);
-        //     }else{
-        //         break;
-        //     }
-        // }
+        }
         $content_of_works->content = $editor_content;
         $content_of_works->save();
-
-        // if($request->ajax()) {
-        //     return response()->json([
-        //         'view'=>view('editor.main.list'.$request->num)->render(),
-        //     ]);
-        // }
-
-        // return redirect('editor.main.list'.$request->num);
-
-        // return $editor_content;
-        // return view('editor/main/list/'.$content_of_works->num_of_chapter)->render();
     }
 
     /**
