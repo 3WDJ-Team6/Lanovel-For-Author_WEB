@@ -86,6 +86,8 @@ class PublicationController extends Controller
         $text;
         $onlyimglist = [];
         $imglist2 = [];
+        $onlypurlist = [];
+        $purlist2 = [];
         $onlysoundlist = [];
         $soundlist2 = [];
         $onlyvideolist = [];
@@ -96,27 +98,35 @@ class PublicationController extends Controller
         $test2;
         $text3;
         $test3;
+        $text4;
+        $test4;
 
         foreach ($chapter_list as $i => $clist) {
             $text = $clist['content'];
             $text2 = $clist['content'];
             $text3 = $clist['content'];
+            $text4 = $clist['content'];
             while (1) {
                 if (str::contains($text, "/sound/")) {
                     $text = str::after($text, "/sound/");
                     $test = str::before($text, '">');
                     $onlysoundlist = Arr::add($onlysoundlist, 'names' . $count, $test);
                 }
-                if (str::contains($text2, "/video/")) {
+                elseif (str::contains($text2, "/video/")) {
                     $text2 = str::after($text2, "/video/");
                     $test2 = str::before($text2, '" ');
                     $onlyvideolist = Arr::add($onlyvideolist, 'namev' . $count, $test2);
                 }
-                if (str::contains($text3, "/images/")) {
+                elseif (str::contains($text3, "/images/")) {
                     $text3 = str::after($text3, "/images/");
                     $test3 = str::before($text3, '" ');
                     $onlyimglist = Arr::add($onlyimglist, 'namei' . $count, $test3);
-                } else {
+                }elseif (str::contains($text4, "/purchase/")) {
+                    $text4 = str::after($text4, "/purchase/");
+                    $test4 = str::before($text4, '" ');
+                    $onlypurlist = Arr::add($onlypurlist, 'namep' . $count, $test4);
+                    // return $onlypurlist;
+                }else {
                     break;
                 }
                 $count += 1;
@@ -135,13 +145,19 @@ class PublicationController extends Controller
             $text2 = str::start($vl2, "Author/" . Auth::user()['email'] . "/video/");
             $videolist2[$i] = $text2;
         }
+        foreach ($onlypurlist as $i => $vl2) {
+            $text2 = str::start($vl2, "Author/" . Auth::user()['email'] . "/purchase/");
+            $purlist2[$i] = $text2;
+        }
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS') || !Storage::disk('s3')->exists($filePath . 'META-INF')) {
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'text', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'images', 0777, true);
+            Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'purchase', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'css', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'js', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'fonts', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'audio', 0777, true);
+            Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'sound', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'video', 0777, true);
             Storage::disk('s3')->makeDirectory($filePath . 'META-INF', 0777, true);
         }
@@ -150,8 +166,12 @@ class PublicationController extends Controller
                 Storage::disk('s3')->copy($imglist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i]);
             }
         }
+        foreach ($purlist2 as $i => $purlist) {
+            if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'purchase' . DIRECTORY_SEPARATOR . $onlypurlist[$i])) {
+                Storage::disk('s3')->copy($purlist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'purchase' . DIRECTORY_SEPARATOR . $onlypurlist[$i]);
+            }
+        }
         foreach ($soundlist2 as $i => $soundlist) {
-            // return $soundlist;
             if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $onlysoundlist[$i])) {
                 Storage::disk('s3')->copy($soundlist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'audio' . DIRECTORY_SEPARATOR . $onlysoundlist[$i]);
             }
@@ -161,7 +181,6 @@ class PublicationController extends Controller
                 Storage::disk('s3')->copy($videolist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'video' . DIRECTORY_SEPARATOR . $onlyvideolist[$i]);
             }
         }
-
         Storage::disk('s3')->put($filePath . "mimetype", "application/epub+zip");
         $container = "<?xml version='1.0'?>\n
     <container version='1.0' xmlns='urn:oasis:names:tc:opendocument:xmlns:container'>\n
@@ -197,24 +216,30 @@ class PublicationController extends Controller
             <manifest>
  <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml"/>
  <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml"/>
- <item id="coverimage" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/'.$covertype.'"/>
+ <item id="coverimage" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/' . $covertype . '"/>
  <item id="stylesheet" href="css/stylesheet.css" media-type="text/css"/>
  ';
- foreach ($onlyimglist as $i => $il) {
-     if(!str::contains($opf,$il)){
-        $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il. '" media-type="application/xhtml+xml" />
+        foreach ($onlyimglist as $i => $il) {
+            if (!str::contains($opf, $il)) {
+                $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il . '" media-type="application/xhtml+xml" />
         ';
-     }
- }
- foreach ($onlysoundlist as $i => $il) {
-    if(!str::contains($opf,$il)){
-     $opf = $opf . '<item id="sound-' . $i . '" href="sound/' . $il. '" media-type="application/xhtml+xml" />
+            }
+        }
+        foreach ($onlysoundlist as $i => $il) {
+            if (!str::contains($opf, $il)) {
+                $opf = $opf . '<item id="sound-' . $i . '" href="sound/' . $il . '" media-type="application/xhtml+xml" />
+  ';
+            }
+        }
+        foreach ($onlyvideolist as $i => $il) {
+            if (!str::contains($opf, $il)) {
+                $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il . '" media-type="application/xhtml+xml" />
   ';
     }
  }
- foreach ($onlyvideolist as $i => $il) {
+ foreach ($onlypurlist as $i => $il) {
     if(!str::contains($opf,$il)){
-     $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il. '" media-type="application/xhtml+xml" />
+     $opf = $opf . '<item id="video-' . $i . '" href="purchase/' . $il. '" media-type="application/xhtml+xml" />
   ';
     }
  }
@@ -253,11 +278,11 @@ class PublicationController extends Controller
                     <nav epub:type="toc" id="toc">
                         <h1>Contents</h1>
                         <ol epub:type="list">
-                <li><a href="cover.xhtml">' . 'cover' . $work_title . '</a></li>
-                <li><a href="nav.xhtml">Contents</a></li>
+                <li><a href="cover.xhtml" class="nav_li">' . 'cover' . $work_title . '</a></li>
+                <li><a href="nav.xhtml" class="nav_li">Contents</a></li>
   ';
         foreach ($chapter_list as $i => $clist) {
-            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml">' . $clist['subsubtitle'] . '</a></li>';
+            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li">' . $clist['subsubtitle'] . '</a></li>';
         }
         $nav = $nav . '
     </ol>
@@ -272,49 +297,46 @@ class PublicationController extends Controller
             <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                 <head>
                     <meta http-equiv='default-style' content='text/html; charset=utf-8'/>
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
                     <title>" . $work_title . "</title>
-                    <meta name='viewport' content='width=1366, height=768'/>
                     <link rel='stylesheet' type='text/css' href='css/stylesheet.css' />
                 </head>
                 <body style='margin:0.00em;'>
                     <section id='sectionId' class='cover cover-rw Cover-rw' epub:type='cover'>
                         <div id='coverimgdiv'>
-                            <span id='worktitlespan'>" . $work_title . "</span>
-                            <span id='worklistspan'>" . $work_list . "</span>
                         </div>
                     </section>
                 </body>
             </html>
         ";
 
+        // <span id='worktitlespan'>".$work_title."</span>
+        // <span id='worklistspan'>".$work_list."</span>
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'cover.xhtml', $cover);
 
         $multimedialist = [];
         foreach ($chapter_list as $i => $clist) {
-            // return 123;
             $text = $clist['content'];
-            while (1) {
-                if (str::contains($text, '/sound/')) {
+            while(1){
+                if(str::contains($text,'/sound/')){
+                    $text = str::replaceFirst('/sound/','/audio/',$text);
+                }elseif(str::contains($text,'https://s3.ap-northeast-2.amazonaws.com/')){
+                    $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/'.Auth::user()['email'].'/','../',$text);
                     // return $text;
-                    $text = str::replaceFirst('/sound/', '/audio/', $text);
-                }
-                if (str::contains($text, 'https://s3.ap-northeast-2.amazonaws.com/')) {
-                    // return $text;
-                    $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/' . Auth::user()['email'] . '/', '../', $text);
-                } else {
-                    $clist['content'] = $text;
-                    // return $clist['content'];
+                }else{
+                    $clist['content']=$text;
+                    // return 3;
                     break;
                 }
-                $count += 1;
             }
             $contents =
                 "<?xml version='1.0' encoding='UTF-8'?>
                 <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                     <head>
-                    <meta http-equiv='default-style' content='text/html; charset=utf-8' />
+                    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
+                    <meta name='Adept.resource' value='urn:uuid:ad98550c-1f39-4200-91cd-f044b376b4f4' />
                     <title>" . $clist['subsubtitle'] . "</title>
-                    <meta name='viewport' content='width=1366, height=768' />
                     <link rel='stylesheet' href='../css/stylesheet.css' type='text/css' />
                     <script src='../js/jquery.js'></script>
                     <script src='../js/viewer.js'></script>
@@ -348,11 +370,15 @@ class PublicationController extends Controller
                 Storage::disk('s3')->copy($giffile, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $giffilet);
             }
         }
+        if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'sound' . DIRECTORY_SEPARATOR . 'tool_icon' . DIRECTORY_SEPARATOR . 'speaker_icon.png')){
+            Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'speaker_icon.png', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'sound' . DIRECTORY_SEPARATOR . 'tool_icon' . DIRECTORY_SEPARATOR . 'speaker_icon.png');
+        } // js
         // custom css
         $cssNmae = 'stylesheet';
         $cssFile =
             "
-            #sectionId{text-align:center; margin-top:5%; } #coverimgdiv{ background: url('" . $book_cover . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 525px; height: 740px; text-align:left;            }            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }            #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
+            #sectionId{text-align:center; margin-top:5%; } #coverimgdiv{ background: url('" . $book_cover . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 400px; height: 700px; text-align:left;            }            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }            #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
+
             .resize,
             .resize_mp4 {
                 width: 400px;
@@ -361,7 +387,12 @@ class PublicationController extends Controller
                 background-repeat: no-repeat;
                 /* position: relative; */
             }
-
+            ol{
+                list-style-type:none;
+            }
+            .nav_li{
+                font-size:1.3em;
+            }
             .tem_effect {
                 display: inline-block;
             }
@@ -377,6 +408,12 @@ class PublicationController extends Controller
                 display: inline-block;
                 position: absolute;
             }
+            .calibre7 {
+                display: block;
+                font-size: 0.77419em;
+                text-indent: 20pt;
+                margin: 0
+                }
 
             #css_eft_cB1,
             #css_eft_cB2,
@@ -422,13 +459,22 @@ class PublicationController extends Controller
             #css_eft_lightning {
                 background: url('../images/gifimages/lightning.gif');
             }
-            body {
-                margin-bottom: 0;
-                font-size: 1.5em;
+            body{
+                display:block;
+                margin-bottom:2em;
+                margin-top:2em;
+                page-break-after:always;
             }
+            p {
+                display:block;
+                margin:0;
+                font-size:1.5em;
+                line-height:1.6em;
+                page-break-after:always;
+            }
+            div, img, video {max-width:100% max-height:100%}
             ";
-        // 표지 이미지 css 입히기.!
-        Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);   // css전체
+            Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
 
         $jsNmae = 'viewer';
         $jsFile =
@@ -465,7 +511,11 @@ class PublicationController extends Controller
                 }
 }
             ";
-        Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsFile);   // css전체
+
+            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js')){
+                Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsNmae);
+            } // js
+
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'stylesheet.css', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css');
@@ -478,28 +528,27 @@ class PublicationController extends Controller
 
         $work_title == '냥멍이' ? $work_title = '냥멍이' : $work_title = $work_title;
         $authorFolder == 'Author@test' ? $authorFolder = 'Author@test' : $authorFolder = $authorFolder;
-
         shell_exec('mkdir /mnt/epubz');
         //shell_exec('cd /mnt/mountpoint/Author/Author@test/WorkSpace'); // shell_exec('zip /mnt/epubz/folder.zip -r 폴더구조테스트/*'); // 해당 폴더 압축 ->shell로 대체
         shell_exec('zipdir ' . $authorFolder . ' ' . $work_title); // zip 유저명 폴더명 $1 $2 shell폴더안에 있는 zipdir.sh (shell프로그램)
         # zip 으로 만드는건 끝
 
-        $filepath = '/mnt/epubz/' . $work_title . '.zip';
-        $filesize = filesize($filepath);
-        $path_parts = pathinfo($filepath);
-        $filename = $path_parts['basename'];
-        $extension = $path_parts['extension'];
+        // $filepath = '/mnt/epubz/' . $work_title . '.zip';
+        // $filesize = filesize($filepath);
+        // $path_parts = pathinfo($filepath);
+        // $filename = $path_parts['basename'];
+        // $extension = $path_parts['extension'];
 
-        header("Pragma: public");
-        header("Expires: 0");
-        header("Content-Type: application/octet-stream");
-        header("Content-Disposition: attachment; filename=" . $work_title . '.zip');
-        header("Content-Transfer-Encoding: binary");
-        header("Content-Length: $filesize");
+        // header("Pragma: public");
+        // header("Expires: 0");
+        // header("Content-Type: application/octet-stream");
+        // header("Content-Disposition: attachment; filename=" . $work_title . '.zip');
+        // header("Content-Transfer-Encoding: binary");
+        // header("Content-Length: $filesize");
 
-        ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
-        flush();                # 시스템 출력 버퍼를 비움
-        readfile($filepath);    # file을 출력하는 php 함수
+        // ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
+        // flush();                # 시스템 출력 버퍼를 비움
+        // readfile($filepath);    # file을 출력하는 php 함수
 
         return back()->withSuccess($work_title . '의 ' . $chapter_title . ' 이(가) 정상적으로 발행 되었습니다.');
         /*

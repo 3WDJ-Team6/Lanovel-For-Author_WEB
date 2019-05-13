@@ -18,15 +18,13 @@
         var option = "width=600, height=300, top=100"
         newWindow = window.open(url, "", option);
     }
-
 </script>
 
 <!-- Main Content -->
 
 <div class="container" style="margin-top:70px;">
     <!-- Material inline 1 -->
-    <div class="form-check form-check-inline"
-        style="width:100%; align-items: center; display: flex; justify-content: center;"></div>
+    <div class="form-check form-check-inline" style="width:100%; align-items: center; display: flex; justify-content: center;"></div>
 
     <div class="row">
 
@@ -36,8 +34,7 @@
                 <div class="content_title">
                     <img src="{{asset('image/templatemo_content_title.png')}}" style=""></div>
                 <div id="work_title_box" style="display:inline-block; margin-left:10%; margin-top:6%; margin-bottom:5%;">
-                    <a href="{{url('editor/main/chapter')}}/{{$nowChapter['num_of_work']}}"
-                            style="font-size:25px; color:black; text-decoration:none;">{{$nowChapter->subtitle}}</a>
+                    <a href="{{url('editor/main/chapter')}}/{{$nowChapter['num_of_work']}}" style="font-size:25px; color:black; text-decoration:none;">{{$nowChapter->subtitle}}</a>
                 </div>
                 <hr>
                 <!-- {{-- 새 회차 추가  --}} -->

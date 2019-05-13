@@ -147,7 +147,6 @@
                     style="margin-bottom:3%; border-radius: 15px; box-shadow: 0px 0px 13px -7px rgba(0, 0, 0, 5);">
                     <div class="post-preview" style="width:100%; height:210px; ">
                         <div class="form-group" style="display:inline-block; margin:2.5%; width:600px; ">
-
                             <a href="{{url('editor/main/chapter')}}/{{$post['num']}}"
                                 style=" text-decoration:none; margin:0px;">
                                 <img src="{{$post['bookcover_of_work']}}" alt="표지1"
@@ -155,14 +154,14 @@
                                     class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
                                 <div class="post-title h2"
                                     style=" margin-top:30px; margin-bottom:30px; display:inline-flex; color:black;">
-
                                     {{ $post->work_title }}
                                 </div>
                             </a>
                         </div>
-                        <div class="side-group"
-                            style="display:inline-block; margin:2%; margin-right:3%; float:right; align-items:right; text-align:right;">
-                            <p class="post-meta" style="font-style: italic; color: #868e96;">
+
+                        <div class="side-group" style="display:inline-block; margin:2%; margin-right:3%; float:right; align-items:right; text-align:right;">
+                            <p class="post-meta" style="font-style:italic;color:#868e96;font-size:17px;">
+
                                 카테고리 : @foreach ($tagCount as $ta)
                                 @if($post->num == $ta->num)
                                 {{ $ta->tag }}
