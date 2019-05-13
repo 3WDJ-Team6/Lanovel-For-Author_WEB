@@ -35,8 +35,8 @@ class EditController extends Controller
         // return $this->middleware('auth');
     }
     /** 목차 리스트 보기
-    * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
-    */
+     * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
+     */
 
     public function index($num)
     {
@@ -325,29 +325,35 @@ class EditController extends Controller
         $count = 0;
         $imglist = [];
         $ttext = $editor_content;
-
-        while(1){
-            if(str::contains($editor_content,'height: auto;">')){
-                $editor_content = str::replaceFirst('height: auto;">','height: auto;" />',$editor_content);
-            }elseif(str::contains($editor_content,'height:auto;">')){
-                $editor_content = str::replaceFirst('height:auto;">','height: auto;" />',$editor_content);
-            }elseif(str::contains($editor_content,'&nbsp;')){
-                $editor_content = str::replaceFirst('&nbsp;','',$editor_content);
-            }elseif(str::contains($editor_content,'resize">')){
-                $editor_content = str::replaceFirst('resize">','resize" />',$editor_content);
-            }elseif(str::contains($editor_content,'<br>')){
-                $editor_content = str::replaceFirst('<br>','<br />',$editor_content);
-            }elseif(str::contains($editor_content,'</video>')){
-                $editor_content = str::replaceFirst('</video>','',$editor_content);
-            }elseif(str::contains($editor_content,'src="/images/tool_icon/speaker_icon.png" alt="alt"')){
-                $editor_content = str::replaceFirst('src="/images/tool_icon/speaker_icon.png" alt="alt"','src="../images/tool_icon/speaker_icon.png" alt="alt"',$editor_content);
-            }elseif(str::contains($editor_content,'onclick="audioPlay(event)">')){
-                $editor_content = str::replaceFirst('onclick="audioPlay(event)">','onclick="audioPlay(event)" />',$editor_content);
-            }else{
+        while (1) {
+            if (str::contains($editor_content, 'resize">')) {
+                $editor_content = str::replaceFirst('resize">', 'resize" />', $editor_content);
+            } else {
                 break;
             }
-
         }
+        while (1) {
+            if (str::contains($editor_content, '<br>')) {
+                $editor_content = str::replaceFirst('<br>', '<br />', $editor_content);
+            } else {
+                break;
+            }
+        }
+        while (1) {
+            if (str::contains($editor_content, 'height: auto;">')) {
+                $editor_content = str::replaceFirst('height: auto;">', 'height: auto;" />', $editor_content);
+            } elseif (str::contains($editor_content, 'height:auto;">')) {
+                $editor_content = str::replaceFirst('height:auto;">', 'height: auto;" />', $editor_content);
+            } else {
+                break;
+            }
+        }
+        while (1) {
+            if (str::contains($editor_content, 'onclick="audioPlay(event)">')) {
+                $editor_content = str::replaceFirst('onclick="audioPlay(event)">', 'onclick="audioPlay(event)" />', $editor_content);
+            } else {
+                break;
+            }
         }
         $content_of_works->content = $editor_content;
         $content_of_works->save();
