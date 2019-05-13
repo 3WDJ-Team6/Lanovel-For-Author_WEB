@@ -61,23 +61,34 @@
 
             @foreach($checkNum as $cn)
             @if($row->num == $cn->num)
-            <div class="post-preview" style="width:230px; height:230px; display:inline-block; margin:0.1%">
+
+            <div class="post-preview" style="width:230px; height:280px; display:inline-block; margin:0.1%">
                 <a href="{{url('editor/main/list')}}/{{$row['num']}}" style="text-decoration:none;">
-                    <img src="{{asset('image/note.png')}}" alt="표지1" style="width:110px; height:150px; display:block; margin-left:25%; margin-top:5%; margin-bottom:10%; box-shadow: 5px 5px 15px -7px rgba(0, 0, 0, 1);" class="img-thumbnail">
+                    <img src="{{asset('image/note.png')}}" alt="표지1"
+                        style="width:110px; height:150px; display:block; margin-left:25%; margin-top:5%; margin-bottom:10%; box-shadow: 5px 5px 15px -7px rgba(0, 0, 0, 1);"
+                        class="img-thumbnail">
                     <!-- <div class="subtitle-form" style="display:inline-block;"> -->
-                    <h6 class="post-subtitle" style="display:flex; margin-left:2%; justify-content: center; align-items; center;">
+                    <h5 class="post-subtitle"
+                        style="display:flex; margin-left:2%; justify-content: center; align-items; center;">
                         {{$row->subtitle}}
-                    </h6>
+                    </h5>
                     <!-- </div> -->
 
                 </a>
 
                 <p class="post-meta" style="font-size:13px; margin-bottom:0; display:flex; justify-content: center; align-items; center;">
                     Posted by {{Auth::user()['nickname']}} on May </p>
-                @if($cn->subsubtitle)
-                <a href="{{url('publication')}}/{{$row['num_of_work']}}/{{$row['num']}}" style="text-decoration:none; font-size:12px; float:right; display:block;"> 발행</a>
-
-                @endif
+                <div class="button" style="display:flex; justify-content: center; align-items; center;">
+                    <button type="button" style="border: none; background-color:white; height:25px;">
+                        <img src="{{asset('image/edit.png')}}" style=" text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
+                        <button type="button" style="border: none; background-color:white; height:25px;">
+                        <img src="{{asset('image/trash.png')}}" style=" text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
+                    @if($cn->subsubtitle)
+                    <button type="button" style="border: none; background-color:white;  height:25px;">
+                        <a href="{{url('publication')}}/{{$row['num_of_work']}}/{{$row['num']}}" >
+                            <img src="{{asset('image/archive.png')}}" style=" text-align:center;width:30px; height:100%; font-size:15px; background-color:white; color:#6c757d;"></a></button>
+                    @endif
+                </div>
             </div>
 
             @break
