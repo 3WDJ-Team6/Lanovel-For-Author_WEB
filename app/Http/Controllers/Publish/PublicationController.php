@@ -278,11 +278,11 @@ class PublicationController extends Controller
                     <nav epub:type="toc" id="toc">
                         <h1>Contents</h1>
                         <ol epub:type="list">
-                <li><a href="cover.xhtml">' . 'cover' . $work_title . '</a></li>
-                <li><a href="nav.xhtml">Contents</a></li>
+                <li><a href="cover.xhtml" class="nav_li">' . 'cover' . $work_title . '</a></li>
+                <li><a href="nav.xhtml" class="nav_li">Contents</a></li>
   ';
         foreach ($chapter_list as $i => $clist) {
-            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml">' . $clist['subsubtitle'] . '</a></li>';
+            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li">' . $clist['subsubtitle'] . '</a></li>';
         }
         $nav = $nav . '
     </ol>
@@ -297,8 +297,8 @@ class PublicationController extends Controller
             <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                 <head>
                     <meta http-equiv='default-style' content='text/html; charset=utf-8'/>
+                    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
                     <title>" . $work_title . "</title>
-                    <meta name='viewport' content='width=1366, height=768'/>
                     <link rel='stylesheet' type='text/css' href='css/stylesheet.css' />
                 </head>
                 <body style='margin:0.00em;'>
@@ -333,8 +333,9 @@ class PublicationController extends Controller
                 "<?xml version='1.0' encoding='UTF-8'?>
                 <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                     <head>
-                    <meta http-equiv='default-style' content='text/html; charset=utf-8' />
+                    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
                     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
+                    <meta name='Adept.resource' value='urn:uuid:ad98550c-1f39-4200-91cd-f044b376b4f4' />
                     <title>" . $clist['subsubtitle'] . "</title>
                     <link rel='stylesheet' href='../css/stylesheet.css' type='text/css' />
                     <script src='../js/jquery.js'></script>
@@ -376,16 +377,22 @@ class PublicationController extends Controller
         $cssNmae = 'stylesheet';
         $cssFile =
             "
-            #sectionId{text-align:center; margin-top:5%; } #coverimgdiv{ background: url('" . $book_cover . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 788px; height: 1110px; text-align:left;            }            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }            #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
+            #sectionId{text-align:center; margin-top:5%; } #coverimgdiv{ background: url('" . $book_cover . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 400px; height: 700px; text-align:left;            }            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }            #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
+
             .resize,
             .resize_mp4 {
-                width: 800px;
+                width: 400px;
                 height: auto;
                 background-size: auto;
                 background-repeat: no-repeat;
                 /* position: relative; */
             }
-
+            ol{
+                list-style-type:none;
+            }
+            .nav_li{
+                font-size:1.3em;
+            }
             .tem_effect {
                 display: inline-block;
             }
@@ -452,10 +459,20 @@ class PublicationController extends Controller
             #css_eft_lightning {
                 background: url('../images/gifimages/lightning.gif');
             }
-            body {
-                margin-bottom: 0;
-                font-size: 1.5em;
+            body{
+                display:block;
+                margin-bottom:2em;
+                margin-top:2em;
+                page-break-after:always;
             }
+            p {
+                display:block;
+                margin:0;
+                font-size:1.5em;
+                line-height:1.6em;
+                page-break-after:always;
+            }
+            div, img, video {max-width:100% max-height:100%}
             ";
             Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
 

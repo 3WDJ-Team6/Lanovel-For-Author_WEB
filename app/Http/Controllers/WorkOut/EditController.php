@@ -325,31 +325,23 @@ class EditController extends Controller
         $count = 0;
         $imglist = [];
         $ttext = $editor_content;
-        while (1) {
-            if (str::contains($editor_content, 'resize">')) {
-                $editor_content = str::replaceFirst('resize">', 'resize" />', $editor_content);
-            } else {
-                break;
-            }
-        }
-        while (1) {
-            if (str::contains($editor_content, '<br>')) {
-                $editor_content = str::replaceFirst('<br>', '<br />', $editor_content);
-            } else {
-                break;
-            }
-        }
+
         while (1) {
             if (str::contains($editor_content, 'height: auto;">')) {
                 $editor_content = str::replaceFirst('height: auto;">', 'height: auto;" />', $editor_content);
             } elseif (str::contains($editor_content, 'height:auto;">')) {
                 $editor_content = str::replaceFirst('height:auto;">', 'height: auto;" />', $editor_content);
-            } else {
-                break;
-            }
-        }
-        while (1) {
-            if (str::contains($editor_content, 'onclick="audioPlay(event)">')) {
+            } elseif (str::contains($editor_content, '&nbsp;')) {
+                $editor_content = str::replaceFirst('&nbsp;', '', $editor_content);
+            } elseif (str::contains($editor_content, 'resize">')) {
+                $editor_content = str::replaceFirst('resize">', 'resize" />', $editor_content);
+            } elseif (str::contains($editor_content, '<br>')) {
+                $editor_content = str::replaceFirst('<br>', '<br />', $editor_content);
+            } elseif (str::contains($editor_content, '</video>')) {
+                $editor_content = str::replaceFirst('</video>', '', $editor_content);
+            } elseif (str::contains($editor_content, 'src="/images/tool_icon/speaker_icon.png" alt="alt"')) {
+                $editor_content = str::replaceFirst('src="/images/tool_icon/speaker_icon.png" alt="alt"', 'src="../images/tool_icon/speaker_icon.png" alt="alt"', $editor_content);
+            } elseif (str::contains($editor_content, 'onclick="audioPlay(event)">')) {
                 $editor_content = str::replaceFirst('onclick="audioPlay(event)">', 'onclick="audioPlay(event)" />', $editor_content);
             } else {
                 break;
