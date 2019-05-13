@@ -111,22 +111,20 @@ class PublicationController extends Controller
                     $text = str::after($text, "/sound/");
                     $test = str::before($text, '">');
                     $onlysoundlist = Arr::add($onlysoundlist, 'names' . $count, $test);
-                }
-                elseif (str::contains($text2, "/video/")) {
+                } elseif (str::contains($text2, "/video/")) {
                     $text2 = str::after($text2, "/video/");
                     $test2 = str::before($text2, '" ');
                     $onlyvideolist = Arr::add($onlyvideolist, 'namev' . $count, $test2);
-                }
-                elseif (str::contains($text3, "/images/")) {
+                } elseif (str::contains($text3, "/images/")) {
                     $text3 = str::after($text3, "/images/");
                     $test3 = str::before($text3, '" ');
                     $onlyimglist = Arr::add($onlyimglist, 'namei' . $count, $test3);
-                }elseif (str::contains($text4, "/purchase/")) {
+                } elseif (str::contains($text4, "/purchase/")) {
                     $text4 = str::after($text4, "/purchase/");
                     $test4 = str::before($text4, '" ');
                     $onlypurlist = Arr::add($onlypurlist, 'namep' . $count, $test4);
                     // return $onlypurlist;
-                }else {
+                } else {
                     break;
                 }
                 $count += 1;
@@ -235,16 +233,16 @@ class PublicationController extends Controller
             if (!str::contains($opf, $il)) {
                 $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il . '" media-type="application/xhtml+xml" />
   ';
-    }
- }
- foreach ($onlypurlist as $i => $il) {
-    if(!str::contains($opf,$il)){
-     $opf = $opf . '<item id="video-' . $i . '" href="purchase/' . $il. '" media-type="application/xhtml+xml" />
+            }
+        }
+        foreach ($onlypurlist as $i => $il) {
+            if (!str::contains($opf, $il)) {
+                $opf = $opf . '<item id="video-' . $i . '" href="purchase/' . $il . '" media-type="application/xhtml+xml" />
   ';
-    }
- }
- foreach ($chapter_list as $i => $clist) {
-     $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml" />
+            }
+        }
+        foreach ($chapter_list as $i => $clist) {
+            $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml" />
   ';
         }
 
@@ -317,14 +315,14 @@ class PublicationController extends Controller
         $multimedialist = [];
         foreach ($chapter_list as $i => $clist) {
             $text = $clist['content'];
-            while(1){
-                if(str::contains($text,'/sound/')){
-                    $text = str::replaceFirst('/sound/','/audio/',$text);
-                }elseif(str::contains($text,'https://s3.ap-northeast-2.amazonaws.com/')){
-                    $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/'.Auth::user()['email'].'/','../',$text);
+            while (1) {
+                if (str::contains($text, '/sound/')) {
+                    $text = str::replaceFirst('/sound/', '/audio/', $text);
+                } elseif (str::contains($text, 'https://s3.ap-northeast-2.amazonaws.com/')) {
+                    $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/' . Auth::user()['email'] . '/', '../', $text);
                     // return $text;
-                }else{
-                    $clist['content']=$text;
+                } else {
+                    $clist['content'] = $text;
                     // return 3;
                     break;
                 }
@@ -370,7 +368,7 @@ class PublicationController extends Controller
                 Storage::disk('s3')->copy($giffile, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $giffilet);
             }
         }
-        if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'sound' . DIRECTORY_SEPARATOR . 'tool_icon' . DIRECTORY_SEPARATOR . 'speaker_icon.png')){
+        if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'sound' . DIRECTORY_SEPARATOR . 'tool_icon' . DIRECTORY_SEPARATOR . 'speaker_icon.png')) {
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'speaker_icon.png', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'sound' . DIRECTORY_SEPARATOR . 'tool_icon' . DIRECTORY_SEPARATOR . 'speaker_icon.png');
         } // js
         // custom css
@@ -474,7 +472,7 @@ class PublicationController extends Controller
             }
             div, img, video {max-width:100% max-height:100%}
             ";
-            Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
+        Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
 
         $jsNmae = 'viewer';
         $jsFile =
@@ -512,9 +510,9 @@ class PublicationController extends Controller
 }
             ";
 
-            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js')){
-                Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsNmae);
-            } // js
+        if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js')) {
+            Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsNmae);
+        } // js
 
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');

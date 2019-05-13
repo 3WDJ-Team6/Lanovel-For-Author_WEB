@@ -10,7 +10,7 @@
         padding-left: 35px;
         margin-top: 10px;
         margin-bottom: 10px;
-        margin:14px;
+        margin: 14px;
         cursor: pointer;
         font-size: 16px;
         -webkit-user-select: none;
@@ -67,7 +67,6 @@
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
     }
-
 </style>
 @endsection
 
@@ -94,18 +93,17 @@
                     data: {
                         status_of_work: $('input:checkbox:checked').val()
                     },
-                    success: function (data) {
+                    success: function(data) {
                         alert(data);
                     }
                 });
-
             </script>
 
             <!-- Material inline 1 -->
             <form method="POST" id="filter" style="display:block; align-items: center; display: flex; justify-content: center;">
                 {{ csrf_field() }}
                 <label class="container-checkbox">회차
-                    <input type="checkbox"name="type_of_work[]" value="3">
+                    <input type="checkbox" name="type_of_work[]" value="3">
                     <span class="checkmark"></span>
                 </label>
                 <label class="container-checkbox">단행본
@@ -132,10 +130,8 @@
             <div class="col-lg-12 col-md-10 mx-auto">
                 <div class="post-preview" style=" margin-bottom:2%;">
                     <a href="{{url('/createBook')}}">
-                        <h3 class="post-title"
-                            style="align-items: center; display: flex; justify-content: center; margin-bottom:5%;">
-                            <img src="{{asset('image/plus.png')}}" alt="표지1"
-                                style="margin-right:2%; width:60px; height:60px;">
+                        <h3 class="post-title" style="align-items: center; display: flex; justify-content: center; margin-bottom:5%;">
+                            <img src="{{asset('image/plus.png')}}" alt="표지1" style="margin-right:2%; width:60px; height:60px;">
                             <div class="add-font" style="font-size:30px; margin-bottom:0.5%;">작품추가</div>
                         </h3>
                 </div>
@@ -143,17 +139,12 @@
                 {{-- 작품 출력 부분  --}}
 
                 @foreach ($posts as $post)
-                <div class="form-group"
-                    style="margin-bottom:3%; border-radius: 15px; box-shadow: 0px 0px 13px -7px rgba(0, 0, 0, 5);">
+                <div class="form-group" style="margin-bottom:3%; border-radius: 15px; box-shadow: 0px 0px 13px -7px rgba(0, 0, 0, 5);">
                     <div class="post-preview" style="width:100%; height:210px; ">
-                        <div class="form-group" style="display:inline-block; margin:2.5%; width:600px; ">
-                            <a href="{{url('editor/main/chapter')}}/{{$post['num']}}"
-                                style=" text-decoration:none; margin:0px;">
-                                <img src="{{$post['bookcover_of_work']}}" alt="표지1"
-                                    style="margin-top:0.3%; margin-left:2%; margin-right:3%; width:130px; height:150px; box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 1)"
-                                    class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
-                                <div class="post-title h2"
-                                    style=" margin-top:30px; margin-bottom:30px; display:inline-flex; color:black;">
+                        <div class="form-group" style="display:inline-block; margin:2.5%; width:650px;">
+                            <a href="{{url('editor/main/chapter')}}/{{$post['num']}}" style=" text-decoration:none; margin:0px;">
+                                <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="margin-top:0.3%; margin-left:2%; margin-right:3%; width:130px; height:150px; box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 1)" class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
+                                <div class="post-title" style="margin-top:30px; margin-bottom:30px; display:inline-flex; color:black; font-size:1.75rem">
                                     {{ $post->work_title }}
                                 </div>
                             </a>
@@ -214,8 +205,8 @@
                                 {{ $user->nickname }}
                                 @endif
                                 @endforeach<br>
-                                구매 : ¥ {{ $post->buy_price }}<br>
-                                대여 : {{ $post->rental_price }}
+                                구매 : {{ $post->buy_price }}원<br>
+                                대여 : {{ $post->rental_price }}원
                                 @if($post->rental_price == null)
                                 없음
                                 @endif
@@ -241,7 +232,6 @@
         alert('52 그 앞은 작.가.영.역.이.다');
         // window.history.back();
         window.location = "{{ url('/store') }}";
-
     </script>
     @endif
 </body>

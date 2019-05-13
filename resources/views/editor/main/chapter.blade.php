@@ -6,7 +6,6 @@
     body {
         font-family: 'M PLUS Rounded 1c';
     }
-
 </style>
 <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
 <link href="{{asset('css/templatemo_style.css')}}" rel="stylesheet">
@@ -16,13 +15,11 @@
         var option = "width=600, height=300, top=100"
         window.open(url, "", option);
     }
-
 </script>
 <script>
     // function receiver() {
     //     document.
     // }
-
 </script>
 @endsection
 
@@ -52,12 +49,10 @@
             <p>{{$nowWork->introduction_of_work}}</p>
         </div>
         <div class="chapter" style="align-items:center; justify-contents:center;">
-            <div class="post-preview" style=" margin-top:0; width:110px; display:inline-block; margin:0.3%">
+            <div class="post-preview" style=" margin-top:0; width:110px; display:inline-block; margin:0.1%">
                 <h5 class="post-subtitle" style="display:inline-block; ">
-                    <a href="javascript:popup({{$num}})" target="_blank"
-                        style="display:block; color:black; text-decoration:none;">
-                        <img src="{{asset('image/plus.png')}}" alt="표지1"
-                            style="width:70px; height:70px; margin-bottom:130%; display:block;">
+                    <a href="javascript:popup({{$num}})" target="_blank" style="display:block; color:black; text-decoration:none;">
+                        <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:70px; height:70px; margin-bottom:130%; display:block;">
                     </a>
                 </h5>
             </div>
@@ -66,27 +61,21 @@
 
             @foreach($checkNum as $cn)
             @if($row->num == $cn->num)
-            <div class="post-preview" style="width:230px; height:230px; display:inline-block; margin:0.3%">
+            <div class="post-preview" style="width:230px; height:230px; display:inline-block; margin:0.1%">
                 <a href="{{url('editor/main/list')}}/{{$row['num']}}" style="text-decoration:none;">
-                        <img src="{{asset('image/note.png')}}" alt="표지1"
-                            style="width:110px; height:150px; display:block; margin-left:25%; margin-top:5%; margin-bottom:10%; box-shadow: 5px 5px 15px -7px rgba(0, 0, 0, 1);"
-                            class="img-thumbnail">
+                    <img src="{{asset('image/note.png')}}" alt="표지1" style="width:110px; height:150px; display:block; margin-left:25%; margin-top:5%; margin-bottom:10%; box-shadow: 5px 5px 15px -7px rgba(0, 0, 0, 1);" class="img-thumbnail">
                     <!-- <div class="subtitle-form" style="display:inline-block;"> -->
-                    <h6 class="post-subtitle"
-                        style="display:flex; margin-left:2%; justify-content: center; align-items; center;">
+                    <h6 class="post-subtitle" style="display:flex; margin-left:2%; justify-content: center; align-items; center;">
                         {{$row->subtitle}}
                     </h6>
                     <!-- </div> -->
 
                 </a>
 
-                <p class="post-meta"
-                    style="font-size:13px; margin-bottom:0; display:flex; justify-content: center; align-items; center;">
-                    Posted by sunsilver on May
-                    5th</p>
+                <p class="post-meta" style="font-size:13px; margin-bottom:0; display:flex; justify-content: center; align-items; center;">
+                    Posted by {{Auth::user()['nickname']}} on May </p>
                 @if($cn->subsubtitle)
-                <a href="{{url('publication')}}/{{$row['num_of_work']}}/{{$row['num']}}"
-                    style="text-decoration:none; font-size:12px; float:right; display:block;"> 발행</a>
+                <a href="{{url('publication')}}/{{$row['num_of_work']}}/{{$row['num']}}" style="text-decoration:none; font-size:12px; float:right; display:block;"> 발행</a>
 
                 @endif
             </div>

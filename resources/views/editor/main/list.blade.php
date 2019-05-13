@@ -41,8 +41,8 @@
                 <div class="post-preview" style="width:100%; height:150px; align-items: center; display: flex; justify-content: center;">
                     <div class="post-subtitle" style="width:100%; margin-left:5%;">
                         <a href="javascript:popup({{$num}})" target="_blank" style="color:black; text-decoration:none;">
-                        <img src="{{asset('image/plus.png')}}" style="width:50px; height:50px; margin-right:3%; display:inline-block;">
-                        목차 추가</a>
+                            <img src="{{asset('image/plus.png')}}" style="width:50px; height:50px; margin-right:3%; display:inline-block;">
+                            목차 추가</a>
                     </div>
                 </div>
                 <hr>
@@ -55,7 +55,7 @@
                             {{ $row->subsubtitle }}
                         </div>
                     </a>
-                    <p class="post-meta" style="font-size:15px; margin-left:5%; margin-bottom:2%; display:block;">Posted by sunsilver on {{ $row->created_at }}</p>
+                    <p class="post-meta" style="font-size:15px; margin-left:5%; margin-bottom:2%; display:block;">Posted by {{Auth::user()['nickname']}} on {{ Carbon::parse($row->created_at)->diffForHumans() }}</p>
                 </div>
                 <hr>
                 @endforeach
