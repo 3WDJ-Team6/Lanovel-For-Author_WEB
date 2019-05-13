@@ -59086,7 +59086,7 @@ exports = module.exports = __webpack_require__(46)(false);
 
 
 // module
-exports.push([module.i, "\nmark {\r\n  background-color: #45b4e61a;\n}\n.list-group-item-success:not(.you) {\r\n  width: 90%;\r\n  float: left;\n}\n.you {\r\n  width: 90%;\r\n  float: right;\n}\n#time {\r\n  font-size: 9px;\r\n  color: black;\n}\n#chatcontent2 {\r\n  width: 90%;\r\n  float: left;\n}\n#usernickname {\r\n  left: 0px;\n}\r\n", ""]);
+exports.push([module.i, "\nmark {\r\n  background-color: #45b4e61a;\n}\n.list-group-item-success:not(.you) {\r\n  width: 90%;\r\n  float: left;\r\n  font-size:16px;\n}\n.you {\r\n  width: 90%;\r\n  float: right;\r\n  font-size:16px;\n}\n#time {\r\n  font-size: 9px;\r\n  color: black;\n}\n#chatcontent2 {\r\n  width: 90%;\r\n  float: left;\n}\n#usernickname {\r\n  left: 0px;\n}\r\n", ""]);
 
 // exports
 
