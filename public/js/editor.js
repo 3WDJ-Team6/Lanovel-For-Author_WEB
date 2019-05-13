@@ -1253,15 +1253,15 @@ $(document).ready(function () {
         console.log(size_val);
         switch (size_val) {
             case "large":
-                $("#" + tool_imgId).width($("#" + tool_imgId).width() + 50);
+                $("#" + tool_imgId).width($("#" + tool_imgId).width() + 25);
                 $("#" + tool_imgId).height($("#" + tool_imgId).height("auto"));
                 break;
             case "small":
-                $("#" + tool_imgId).width($("#" + tool_imgId).width() - 50);
+                $("#" + tool_imgId).width($("#" + tool_imgId).width() - 25);
                 $("#" + tool_imgId).height($("#" + tool_imgId).height("auto"));
                 break;
             default:
-                $("#" + tool_imgId).width($("#" + tool_imgId).width("800px"));
+                $("#" + tool_imgId).width($("#" + tool_imgId).width("400px"));
                 $("#" + tool_imgId).height($("#" + tool_imgId).height("auto"));
                 break;
         }
