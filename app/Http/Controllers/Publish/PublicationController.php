@@ -467,7 +467,7 @@ class PublicationController extends Controller
             p {
                 display:block;
                 margin:0;
-                font-size:1.5em;
+                font-size:1em;
                 line-height:1.6em;
                 page-break-after:always;
             }
