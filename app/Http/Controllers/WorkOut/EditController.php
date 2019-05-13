@@ -337,8 +337,8 @@ class EditController extends Controller
                 $editor_content = str::replaceFirst('resize">', 'resize" />', $editor_content);
             } elseif (str::contains($editor_content, '<br>')) {
                 $editor_content = str::replaceFirst('<br>', '<br />', $editor_content);
-            } elseif (str::contains($editor_content, '</video>')) {
-                $editor_content = str::replaceFirst('</video>', '', $editor_content);
+            } elseif (str::contains($editor_content, '></video>')) {
+                $editor_content = str::replaceFirst('></video>', '/>', $editor_content);
             } elseif (str::contains($editor_content, 'src="/images/tool_icon/speaker_icon.png" alt="alt"')) {
                 $editor_content = str::replaceFirst('src="/images/tool_icon/speaker_icon.png" alt="alt"', 'src="../images/tool_icon/speaker_icon.png" alt="alt"', $editor_content);
             } elseif (str::contains($editor_content, 'onclick="audioPlay(event)">')) {

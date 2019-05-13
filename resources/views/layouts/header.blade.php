@@ -14,6 +14,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
+                <!-- <li class="nav-item">
+                    <a class="nav-link" id ="inv_btn" href="#invite" rel="modal:open" style="color:#45b4e6">INVITE USER</a>
+                    <a class="nav-link" id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:#45b4e6;border:0;background:transparent;">SEARCH USER</a>
+                </li> -->
                 <li class="nav-item">
                     <button class="nav-link" onclick="location.href='{{url('/graph')}}'" style="color:#45b4e6;border:0;background:transparent;">Revenue graph</button>
                 </li>

@@ -236,6 +236,7 @@ return [
         #socialite kakaotalk
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Kakao' => pouu69\KakaoApi\Facade\KakaoFacade::class,   //kakao Facade 등록
+        'Carbon' => 'Carbon\Carbon',    // blade에서 carbon을 사용하기 위해 등록
     ],
 
 ];
