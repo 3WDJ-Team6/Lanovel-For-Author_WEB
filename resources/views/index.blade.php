@@ -2,6 +2,73 @@
 
 @section('head')
 @include('layouts.head')
+<style>
+    /* The container */
+    .container-checkbox {
+        display: inline-block;
+        position: relative;
+        padding-left: 35px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin:14px;
+        cursor: pointer;
+        font-size: 16px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Hide the browser's default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked~.checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked~.checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+</style>
 @endsection
 
 @section('header')
@@ -13,7 +80,7 @@
 <body>
     @if(Auth::user()['roles'] == 2)
     <!-- Main Content -->
-    <div class="container">
+    <div class="container" style="margin-top:5%;">
         <div class="form-group" style="margin-top:6%;">
             @if(Session::has('success'))
             <div class="alert alert-info">{{ Session::get('success') }}</div>
@@ -35,52 +102,58 @@
             </script>
 
             <!-- Material inline 1 -->
-            <form method="POST" id="filter">
+            <form method="POST" id="filter" style="display:block; align-items: center; display: flex; justify-content: center;">
                 {{ csrf_field() }}
-                <div class="form-check form-check-inline"
-                    style="width:100%; align-items: center; display: flex; justify-content: center;">
-                    <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;"
-                        name="type_of_work[]" value="3">
-                    <label class="form-check-label" for="materialInline1">회차</label>
-                    <input type="checkbox" class="form-check-input" id="materialInline2" style="margin:20px;"
-                        name="type_of_work[]" value="2">
-                    <label class="form-check-label" for="materialInline2">단행본</label>
-                    <input type="checkbox" class="form-check-input" id="materialInline5" style="margin:20px;"
-                        name="type_of_work[]" value="1">
-                    <label class="form-check-label" for="materialInline5">단편</label>
-                    <input type="checkbox" class="form-check-input" id="materialInline3" style="margin:20px;"
-                        name="status_of_work[]" value="1">
-                    <label class="form-check-label" for="materialInline3">연재중</label>
-                    <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;"
-                        name="status_of_work[]" value="2">
-                    <label class="form-check-label" for="materialInline4">완결작</label>
-                </div>
+                <label class="container-checkbox">회차
+                    <input type="checkbox"name="type_of_work[]" value="3">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="container-checkbox">단행본
+                    <input type="checkbox" name="type_of_work[]" value="3">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="container-checkbox">단편
+                    <input type="checkbox" name="type_of_work[]" value="3">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="container-checkbox">연재중
+                    <input type="checkbox" name="type_of_work[]" value="3">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="container-checkbox">완결작
+                    <input type="checkbox" name="type_of_work[]" value="3">
+                    <span class="checkmark"></span>
+                </label>
             </form>
         </div>
 
         {{-- 새 작품 추가  --}}
         <div class="row">
             <div class="col-lg-12 col-md-10 mx-auto">
-                <div class="post-preview" style="border:2px solid #9DCFFF; border-radius: 15px; height:200px;">
+                <div class="post-preview" style=" margin-bottom:2%;">
                     <a href="{{url('/createBook')}}">
-                        <h3 class="post-title" style="margin:2%; display:inline-block;">
-                            <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:130px; height:150px;" class="img-thumbnail">
-                            작품추가
+                        <h3 class="post-title"
+                            style="align-items: center; display: flex; justify-content: center; margin-bottom:5%;">
+                            <img src="{{asset('image/plus.png')}}" alt="표지1"
+                                style="margin-right:2%; width:60px; height:60px;">
+                            <div class="add-font" style="font-size:30px; margin-bottom:0.5%;">작품추가</div>
                         </h3>
                 </div>
-                <hr>
+
                 {{-- 작품 출력 부분  --}}
 
                 @foreach ($posts as $post)
-                <div class="form-group" style="background-color:#45b4e61a; border-radius: 15px;">
+                <div class="form-group"
+                    style="margin-bottom:3%; border-radius: 15px; box-shadow: 0px 0px 13px -7px rgba(0, 0, 0, 5);">
                     <div class="post-preview" style="width:100%; height:210px; ">
-                        <div class="form-group" style="display:inline-block; margin:2.5%; ">
-
-                            <a href="{{url('editor/main/chapter')}}/{{$post['num']}}" style=" text-decoration:none; margin:0px;">
-                                <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="width:130px; height:150px; box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 1)" class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
-                                <div class="post-title h2" style=" margin-top:30px; margin-bottom:30px; display:inline-flex; color:black;">
-
-
+                        <div class="form-group" style="display:inline-block; margin:2.5%; width:600px; ">
+                            <a href="{{url('editor/main/chapter')}}/{{$post['num']}}"
+                                style=" text-decoration:none; margin:0px;">
+                                <img src="{{$post['bookcover_of_work']}}" alt="표지1"
+                                    style="margin-top:0.3%; margin-left:2%; margin-right:3%; width:130px; height:150px; box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 1)"
+                                    class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
+                                <div class="post-title h2"
+                                    style=" margin-top:30px; margin-bottom:30px; display:inline-flex; color:black;">
                                     {{ $post->work_title }}
                                 </div>
                             </a>
@@ -156,7 +229,7 @@
                         </div>
                     </div>
                 </div>
-                <hr>
+
                 @endforeach
 
             </div>
