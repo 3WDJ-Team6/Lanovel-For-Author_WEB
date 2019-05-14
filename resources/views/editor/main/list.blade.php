@@ -46,8 +46,10 @@
                     style="width:100%; height:150px; align-items: center; display: flex; justify-content: center;">
                     <div class="post-subtitle" style="width:100%; margin-left:5%;">
                         <a href="javascript:popup({{$num}})" target="_blank" style="color:black; text-decoration:none;">
+
                             <img src="{{asset('image/plus.png')}}"
                                 style="width:50px; height:50px; margin-right:3%; display:inline-block;">
+
                             목차 추가</a>
                     </div>
                 </div>
@@ -69,11 +71,15 @@
                         <img src="{{asset('image/trash.png')}}"
                             style=" text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
                     </button>
+
                     <p class="post-meta" style="font-size:15px; margin-left:5%; margin-bottom:2%; display:block;">Posted
-                        by sunsilver on {{ $row->created_at }}</p>
+                        by {{Auth::user()['nickname']}} on {{Carbon::parse($row->created_at)->diffForHumans()}}</p>
+
+
                     <div class="button" style="width:80px; display:inline-block;">
 
                     </div>
+
                 </div>
                 <hr>
                 @endforeach

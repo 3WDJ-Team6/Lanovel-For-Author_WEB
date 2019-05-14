@@ -18,6 +18,9 @@ use App\Models\Work;
 */
 
 
+// 초대 메시지
+Route::post('/invite/{nickname}', 'InviteUser@InviteUserController@SendingInviteMessage');
+
 
 
 
