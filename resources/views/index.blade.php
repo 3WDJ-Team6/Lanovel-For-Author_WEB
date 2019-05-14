@@ -2,73 +2,7 @@
 
 @section('head')
 @include('layouts.head')
-
-<style>
-    /* The container */
-    .container-checkbox {
-        display: inline-block;
-        position: relative;
-        padding-left: 35px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin: 14px;
-        cursor: pointer;
-        font-size: 16px;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-    /* Hide the browser's default checkbox */
-    .container input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-    }
-
-    /* Create a custom checkbox */
-    .checkmark {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 25px;
-        width: 25px;
-        background-color: #eee;
-    }
-
-    /* When the checkbox is checked, add a blue background */
-    .container input:checked~.checkmark {
-        background-color: #2196F3;
-    }
-
-    /* Create the checkmark/indicator (hidden when not checked) */
-    .checkmark:after {
-        content: "";
-        position: absolute;
-        display: none;
-    }
-
-    /* Show the checkmark when checked */
-    .container input:checked~.checkmark:after {
-        display: block;
-    }
-
-    /* Style the checkmark/indicator */
-    .container .checkmark:after {
-        left: 9px;
-        top: 5px;
-        width: 5px;
-        height: 10px;
-        border: solid white;
-        border-width: 0 3px 3px 0;
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
-</style>
+<link rel="stylesheet" href="{{asset('css/checkbox.css')}}">
 @endsection
 
 @section('header')
@@ -141,9 +75,9 @@
                 {{-- 작품 출력 부분  --}}
 
                 @foreach ($posts as $post)
+                <div class="form-group" style=" border-radius: 15px; box-shadow: 0px 0px 13px -5px rgba(0, 0, 0, 5);">
+                    <div class="post-preview" style="width:100%; height:250px; margin-bottom:4%;">
 
-                <div class="form-group" style=" border-radius: 15px; box-shadow: 0px 0px 13px -7px rgba(0, 0, 0, 5);">
-                    <div class="post-preview" style="width:100%; height:250px; margin-bottom:3%;">
                         <div class="form-group"
                             style="display:inline-block; margin-top:4%; margin-left:3%; width:680px;">
                             <a href="{{url('editor/main/chapter')}}/{{$post['num']}}"
@@ -151,16 +85,13 @@
                                 <img src="{{$post['bookcover_of_work']}}" alt="표지1"
                                     style="margin-top:0.3%; margin-left:2%; margin-right:5%; width:130px; height:150px; box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 1)"
                                     class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
-                                <div class="post-title" style="width:450px; margin-top:30px; margin-bottom:30px; display:inline-flex; color:black; font-size:1.75rem">
-
+                                <div class="post-title" style="width:450px; margin-top:30px; margin-bottom:30px; display:inline-flex; color:black;font-size:1.75rem;">
                                     {{ $post->work_title }}
                                 <button type="button" style="margin-left:1%;display:inline-block; border: none; background-color:white; height:30px;">
                                     <img src="{{asset('image/edit.png')}}" style="cursor:pointer; display:inline-block; height:30px;"></button>
                                 <button type="button" style="display:inline-block; border: none; background-color:white; height:30px;">
                                     <img src="{{asset('image/trash.png')}}" style="cursor:pointer; display:inline-block; height:30px;"></button>
-                                
                                 </div>
-                                
                             </a>
                         </div>
 
@@ -169,7 +100,6 @@
                             style="margin:2%; display:inline-block; float:right; align-items:right; text-align:right;">
                             <p class="post-meta"
                                 style="display:inline-block; margin-bottom:0;width:350px; font-style:italic; color:#868e96; font-size:19px;">
-
 
                                 카테고리 : @foreach ($tagCount as $ta)
                                 @if($post->num == $ta->num)
