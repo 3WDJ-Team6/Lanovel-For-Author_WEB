@@ -68,7 +68,6 @@
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
     }
-
 </style>
 @endsection
 
@@ -95,11 +94,10 @@
                     data: {
                         status_of_work: $('input:checkbox:checked').val()
                     },
-                    success: function (data) {
+                    success: function(data) {
                         alert(data);
                     }
                 });
-
             </script>
 
             <!-- Material inline 1 -->
@@ -134,10 +132,8 @@
             <div class="col-lg-12 col-md-10 mx-auto">
                 <div class="post-preview" style=" margin-bottom:2%;">
                     <a href="{{url('/createBook')}}">
-                        <h3 class="post-title"
-                            style="align-items: center; display: flex; justify-content: center; margin-bottom:5%;">
-                            <img src="{{asset('image/plus.png')}}" alt="표지1"
-                                style="margin-right:2%; width:60px; height:60px;">
+                        <h3 class="post-title" style="align-items: center; display: flex; justify-content: center; margin-bottom:5%;">
+                            <img src="{{asset('image/plus.png')}}" alt="표지1" style="margin-right:2%; width:60px; height:60px;">
                             <div class="add-font" style="font-size:30px; margin-bottom:0.5%;">작품추가</div>
                         </h3>
                 </div>
@@ -145,6 +141,7 @@
                 {{-- 작품 출력 부분  --}}
 
                 @foreach ($posts as $post)
+
                 <div class="form-group" style=" border-radius: 15px; box-shadow: 0px 0px 13px -7px rgba(0, 0, 0, 5);">
                     <div class="post-preview" style="width:100%; height:250px; margin-bottom:3%;">
                         <div class="form-group"
@@ -154,7 +151,8 @@
                                 <img src="{{$post['bookcover_of_work']}}" alt="표지1"
                                     style="margin-top:0.3%; margin-left:2%; margin-right:5%; width:130px; height:150px; box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 1)"
                                     class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
-                                <div class="post-title h2" style="width:450px; margin-top:30px; margin-bottom:30px; display:inline-flex; color:black;">
+                                <div class="post-title" style="width:450px; margin-top:30px; margin-bottom:30px; display:inline-flex; color:black; font-size:1.75rem">
+
                                     {{ $post->work_title }}
                                 <button type="button" style="margin-left:1%;display:inline-block; border: none; background-color:white; height:30px;">
                                     <img src="{{asset('image/edit.png')}}" style="cursor:pointer; display:inline-block; height:30px;"></button>
@@ -225,8 +223,8 @@
                                 {{ $user->nickname }}
                                 @endif
                                 @endforeach<br>
-                                구매 : ¥ {{ $post->buy_price }}<br>
-                                대여 : {{ $post->rental_price }}
+                                구매 : {{ $post->buy_price }}원<br>
+                                대여 : {{ $post->rental_price }}원
                                 @if($post->rental_price == null)
                                 없음
                                 @endif
@@ -255,7 +253,6 @@
         alert('52 그 앞은 작.가.영.역.이.다');
         // window.history.back();
         window.location = "{{ url('/store') }}";
-
     </script>
     @endif
 </body>
