@@ -4,6 +4,7 @@
 @include('layouts.head')
 <script src="{{asset('js/jquery/jquery.min.js')}}"></script>
 <link rel="stylesheet" href="{{asset('css/graph.css')}}">
+<link rel="stylesheet" href="{{asset('css/checkbox.css')}}">
 @endsection
 
 @section('header')
@@ -13,7 +14,7 @@
 @section('content')
 
 <!-- Main Content -->
-<div class="container" style="background-color:#45b4e61a; margin-top:70px; height:700px;">
+<div class="container" style="border-radius: 15px; box-shadow: 0px 0px 13px -3px rgba(0, 0, 0, 5); margin-top:90px; height:700px;">
     <!-- Material inline 1 -->
     <div class="form-check form-check-inline"
         style="width:100%; align-items: center; display: flex; justify-content: center;"></div>
@@ -28,23 +29,28 @@
         </div>
 
         <div class="col-lg-8 col-md-10 mx-auto">
-            <form style="display: flex; justify-content: center;">
-                <label class="checkbox-inline">
-                    <input type="checkbox" value="" style="margin:10px;">완결작
+            <form class="checkbox-form" style="margin-top:2%;display: flex; justify-content: center;">
+            <label class="container-checkbox">완결작
+                    <input type="checkbox" name="type_of_work[]" value="3">
+                    <span class="checkmark"></span>
                 </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" value="" style="margin:10px;">연재중
+                <label class="container-checkbox">연재중
+                    <input type="checkbox" name="type_of_work[]" value="3">
+                    <span class="checkmark"></span>
                 </label>
             </form>
             <form style="display: flex; justify-content: center;">
-                <label class="checkbox-inline">
-                    <input type="checkbox" value="" style="margin:10px;">회차
+            <label class="container-checkbox">회차
+                    <input type="checkbox" name="type_of_work[]" value="3">
+                    <span class="checkmark"></span>
                 </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" value="" style="margin:10px;">단편
+                <label class="container-checkbox">단편
+                    <input type="checkbox" name="type_of_work[]" value="3">
+                    <span class="checkmark"></span>
                 </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" value="" style="margin:10px;">단행본
+                <label class="container-checkbox">단행본
+                    <input type="checkbox" name="type_of_work[]" value="3">
+                    <span class="checkmark"></span>
                 </label>
             </form>
 
