@@ -6,6 +6,7 @@
     body {
         font-family: 'M PLUS Rounded 1c';
     }
+
 </style>
 <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
 <link href="{{asset('css/templatemo_style.css')}}" rel="stylesheet">
@@ -15,11 +16,13 @@
         var option = "width=600, height=300, top=100"
         window.open(url, "", option);
     }
+
 </script>
 <script>
     // function receiver() {
     //     document.
     // }
+
 </script>
 @endsection
 
@@ -51,8 +54,10 @@
         <div class="chapter" style="align-items:center; justify-contents:center;">
             <div class="post-preview" style=" margin-top:0; width:110px; display:inline-block; margin:0.1%">
                 <h5 class="post-subtitle" style="display:inline-block; ">
-                    <a href="javascript:popup({{$num}})" target="_blank" style="display:block; color:black; text-decoration:none;">
-                        <img src="{{asset('image/plus.png')}}" alt="표지1" style="width:70px; height:70px; margin-bottom:130%; display:block;">
+                    <a href="javascript:popup({{$num}})" target="_blank"
+                        style="display:block; color:black; text-decoration:none;">
+                        <img src="{{asset('image/plus.png')}}" alt="표지1"
+                            style="width:70px; height:70px; margin-bottom:130%; display:block;">
                     </a>
                 </h5>
             </div>
@@ -76,17 +81,23 @@
 
                 </a>
 
-                <p class="post-meta" style="font-size:13px; margin-bottom:0; display:flex; justify-content: center; align-items; center;">
+                <p class="post-meta"
+                    style="font-size:13px; margin-bottom:0; display:flex; justify-content: center; align-items; center;">
                     Posted by {{Auth::user()['nickname']}} on May </p>
                 <div class="button" style="display:flex; justify-content: center; align-items; center;">
-                    <button type="button" style="border: none; background-color:white; height:25px;">
-                        <img src="{{asset('image/edit.png')}}" style=" text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
-                        <button type="button" style="border: none; background-color:white; height:25px;">
-                        <img src="{{asset('image/trash.png')}}" style=" text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
+                    <button type="button" style="cursor: pointer;border: none; background-color:white; height:25px;">
+                        <img src="{{asset('image/edit.png')}}" title="수정"
+                            style="text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
+                    <button type="button" style="cursor: pointer;border: none; background-color:white; height:25px;">
+                        <img src="{{asset('image/trash.png')}}" title="삭제"
+                            style="text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
                     @if($cn->subsubtitle)
                     <button type="button" style="border: none; background-color:white;  height:25px;">
-                        <a href="{{url('publication')}}/{{$row['num_of_work']}}/{{$row['num']}}" >
-                            <img src="{{asset('image/archive.png')}}" style=" text-align:center;width:30px; height:100%; font-size:15px; background-color:white; color:#6c757d;"></a></button>
+                        <a href="{{url('publication')}}/{{$row['num_of_work']}}/{{$row['num']}}">
+                            <img src="{{asset('image/archive.png')}}" title="발행"
+                                style="text-align:center;width:30px; height:100%; font-size:15px; background-color:white; color:#6c757d;">
+                        </a>
+                    </button>
                     @endif
                 </div>
             </div>

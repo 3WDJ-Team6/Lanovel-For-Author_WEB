@@ -64,12 +64,10 @@
                             {{ $row->subsubtitle }}
                         </div>
                     </a>
-                    <button type="button" style="border: none; background-color:white; height:30px; margin-left:1%;">
-                        <img src="{{asset('image/edit.png')}}"
-                            style=" text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
-                    <button type="button" style="border: none; background-color:white; height:30px;">
-                        <img src="{{asset('image/trash.png')}}"
-                            style=" text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
+                    <button type="button" style="cursor: pointer;border: none; background-color:white; height:30px; margin-left:1%;">
+                        <img src="{{asset('image/edit.png')}}" title="수정" style="text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
+                    <button type="button" style="cursor: pointer;border: none; background-color:white; height:30px;">
+                        <img src="{{asset('image/trash.png')}}" title="삭제" style="text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
                     </button>
 
                     <p class="post-meta" style="font-size:15px; margin-left:5%; margin-bottom:2%; display:block;">Posted
