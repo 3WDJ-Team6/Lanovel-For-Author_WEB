@@ -334,7 +334,6 @@ class PublicationController extends Controller
                     <head>
                     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
                     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
-                    <meta name='Adept.resource' value='urn:uuid:ad98550c-1f39-4200-91cd-f044b376b4f4' />
                     <title>" . $clist['subsubtitle'] . "</title>
                     <link rel='stylesheet' href='../css/stylesheet.css' type='text/css' />
                     <link rel='stylesheet' href='../css/page_styles.css' type='text/css' />
@@ -489,7 +488,7 @@ class PublicationController extends Controller
 
 
             Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
-      
+
         $jsNmae = 'viewer';
         $jsFile =
             "
