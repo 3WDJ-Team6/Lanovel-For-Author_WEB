@@ -35,8 +35,7 @@
             </script>
 
             <!-- Material inline 1 -->
-            <form method="POST" id="filter"
-                style="display:block; align-items: center; display: flex; justify-content: center;">
+            <form method="POST" id="filter" style="display:block; align-items: center; display: flex; justify-content: center;">
                 {{ csrf_field() }}
                 <label class="container-checkbox">회차
                     <input type="checkbox" name="type_of_work[]" value="3">
@@ -78,6 +77,21 @@
                 <div class="form-group" style=" border-radius: 15px; box-shadow: 0px 0px 13px -5px rgba(0, 0, 0, 5);">
                     <div class="post-preview" style="width:100%; height:250px; margin-bottom:4%;">
 
+                <div class="form-group" style=" border-radius: 15px; box-shadow: 0px 0px 13px -7px rgba(0, 0, 0, 5);">
+                    <div class="post-preview" style="width:100%; height:250px; margin-bottom:3%;">
+                        <div class="form-group" style="display:inline-block; margin-top:4%; margin-left:3%; width:680px;">
+                            <a href="{{url('editor/main/chapter')}}/{{$post['num']}}" style=" text-decoration:none; margin:0px;">
+                                <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="margin-top:0.3%; margin-left:2%; margin-right:5%; width:130px; height:150px; box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 1)" class="img-thumbnail" onerror="this.src='{{asset('image/no_image.png')}}'" />
+                                <div class="post-title" style="width:450px; margin-top:30px; margin-bottom:30px; display:inline-flex; color:black; font-size:1.75rem">
+
+                                    {{ $post->work_title }}
+                                    <button type="button" style="margin-left:1%;display:inline-block; border: none; background-color:white; height:30px;">
+                                        <img src="{{asset('image/edit.png')}}" style="cursor:pointer; display:inline-block; height:30px;"></button>
+                                    <button type="button" style="display:inline-block; border: none; background-color:white; height:30px;">
+                                        <img src="{{asset('image/trash.png')}}" style="cursor:pointer; display:inline-block; height:30px;"></button>
+
+                                </div>
+
                         <div class="form-group"
                             style="display:inline-block; margin-top:4%; margin-left:3%; width:680px;">
                             <a href="{{url('editor/main/chapter')}}/{{$post['num']}}"
@@ -95,11 +109,8 @@
                             </a>
                         </div>
 
-                        <div class="side-group"
-
-                            style="margin:2%; display:inline-block; float:right; align-items:right; text-align:right;">
-                            <p class="post-meta"
-                                style="display:inline-block; margin-bottom:0;width:350px; font-style:italic; color:#868e96; font-size:19px;">
+                        <div class="side-group" style="margin:2%; display:inline-block; float:right; align-items:right; text-align:right;">
+                            <p class="post-meta" style="display:inline-block; margin-bottom:0;width:350px; font-style:italic; color:#868e96; font-size:16px;">
 
                                 카테고리 : @foreach ($tagCount as $ta)
                                 @if($post->num == $ta->num)
