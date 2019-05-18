@@ -41,7 +41,8 @@
         </div>
         <!-- <div class="container"> -->
 
-        <div class="row" style="margin-left:5%; margin-right:5%; align-items: center; display: flex; justify-content: center;">
+        <div class="row"
+            style="margin-left:5%; margin-right:5%; align-items: center; display: flex; justify-content: center;">
             <!-- <div class="col-12" > -->
             @foreach($products as $row)
             <!-- 작품 -->
@@ -50,18 +51,19 @@
                 <div class="single-product-wrapper" style="display:inline-block; margin:3%;">
                     <!-- 작품이미지 -->
                     <div class="product-img" style="width: 200px; height: 150px;">
-                        <img src="{{$row['url_of_illustration']}}" alt="작품1" style="width: 200px; height: 150px; position: absolute; display:inline-block; object-fit:cover;">
+                        <img src="{{$row['url_of_illustration']}}" alt="작품1"
+                            style="width: 200px; height: 150px; position: absolute; display:inline-block; object-fit:cover;">
                         <div class="product-favourite">
                             <a href="{{url('/addLike')}}/{{$row->num}}" class="favme fa fa-heart"></a>
                         </div>
                     </div>
                     <!-- 작품설명 -->
                     <div class="product-description">
-                        {{$row->user_id}}
+                        <p style="font-size:12px;">{{$row->nickname}}</p>
                         <a href="{{url('/view')}}/{{$row->num}}" style="text-decoration:none;">
                             <h6>{{$row->illustration_title}}</h6>
                         </a>
-                        <p class="product-price">{{$row->price_of_illustration}}</p>
+                        <p class="product-price">{{$row->price_of_illustration}} p</p>
 
                         <!-- 마우스 -->
                         <div class="hover-content">
