@@ -169,29 +169,82 @@ class WorkListController extends Controller
     }
     public function selection(Request $request)
     {
+        // 보유 포인트와 작품 구매 가격 비교
+        $buyPoint = User::select(
+            DB::raw("(select(IF(point>works.buy_price, 'true', 'false')) from users JOIN works ON works.num =" . $num . " WHERE users.id=" . Auth::user()['id'] . ") canBuy")
+        )->where('users.id', Auth::user()['id'])
+            ->get();
+
+        // 보유 포인트와 작품 대여 가격 비교
+        $rentalPoint = User::select(
+            DB::raw("(select(IF(point>works.rental_price, 'true', 'false')) from users JOIN works ON works.num =" . $num . " WHERE id=" . Auth::user()['id'] . ") canRental")
+        )->where('users.id', Auth::user()['id'])
+            ->get();
+
+        // 대여 시 포인트 차감
+        $rentalPointM = User::where('id', Auth::user()['id'])
+            ->update(
+                ['point' => DB::raw("point - (select rental_price from works where num =" . $num . ")")]
+            );
+
+        // 구매 시 포인트 차감
+        $buyPointM = User::where('id', Auth::user()['id'])
+            ->update(
+                ['point' => DB::raw("point - (select buy_price from works where num =" . $num . ")")]
+            );
+
+        // 134 = 작품 번호 22 = 유저번호 0,1,2 = 구독,관심,좋아요 구분
+        $result = SubscribeOrInterest::select(
+            DB::raw("IF(role_of_work = 0, 'true', 'false') subOrInterstOrLike")
+        )->where('subscribe_or_interests.user_id', Auth::user()['id'])
+            ->where('subscribe_or_interests.num_of_work', $num)
+            ->groupBy('subscribe_or_interests.user_id')
+            ->groupBy('subscribe_or_interests.num_of_work')->get();
+
         $selection = '';
         switch ($request) {
             case 'interested_selected':
-                // SubscribeOrInterest::update();
+                // 관심작품 여부가 TRUE 일 때 관심작품 취소
+                $deleteInterest = SubscribeOrInterest::where('subscribe_or_interest.user_id', Auth::user()['id'])
+                    ->where('subscribe_or_interest.num_of_work', $num)
+                    ->where('subscribe_or_interest.role_of_work', 1)
+                    ->delete();
                 break;
             case 'interested_unselected':
-                // SubscribeOrInterest::update();
+                // 관심작품 여부가 FALSE 일 때 관심작품 신청
+                $addSub = SubscribeOrInterest::insert(
+                    ['num_of_work' => $num, 'user_id' => Auth::user()['id'], 'role_of_work' => 1]
+                );
                 break;
 
             case 'sub_selected':
-                // SubscribeOrInterest::update();
+                // 구독 여부가 TRUE 일 때 구독 취소
+                $deleteSub = SubscribeOrInterest::where('subscribe_or_interest.user_id', Auth::user()['id'])
+                    ->where('subscribe_or_interest.num_of_work', $num)
+                    ->where('subscribe_or_interest.role_of_work', 0)
+                    ->delete();
                 break;
 
             case 'sub_unselected':
-                // SubscribeOrInterest::update();
+                // 구독 여부가 FALSE 일 때 구독 신청
+                $addSub = SubscribeOrInterest::insert(
+                    ['num_of_work' => $num, 'user_id' => Auth::user()['id'], 'role_of_work' => 0]
+                );
                 break;
 
                 //추천
             case 'like_selected':
-                // RecommendOfWork::update();
+                // 좋아요 여부가 TRUE 일 때 좋아요 취소
+                $deleteLike = SubscribeOrInterest::where('subscribe_or_interest.user_id', Auth::user()['id'])
+                    ->where('subscribe_or_interest.num_of_work', $num)
+                    ->where('subscribe_or_interest.role_of_work', 2)
+                    ->delete();
                 break;
             case 'like_unselected':
-                // RecommendOfWork::update();
+                // 좋아요 여부가 FALSE 일 때 좋아요 신청
+                $addSub = SubscribeOrInterest::insert(
+                    ['num_of_work' => $num, 'user_id' => Auth::user()['id'], 'role_of_work' => 2]
+                );
                 break;
         }
 
