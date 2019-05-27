@@ -140,7 +140,7 @@ class Work extends Model
      */
     public function subscribe_or_interests()
     {
-        return $this->hasMany(SubscribeOrInterest::class);
+        return $this->hasMany(SubscribeOrInterest::class, 'num_of_work');
     }
 
     /**
