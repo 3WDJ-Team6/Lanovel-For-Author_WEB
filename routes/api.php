@@ -28,7 +28,7 @@ Route::group(['prefix' => 'reader'], function () {
     # 독자의 구매 대여 정보 저장
     Route::get('/purchaseInfo/{check_buy_or_ren?}/{userPoint}', 'Mobile\WorkListController@update');
     # 좋아요, 구독, 관심 작품
-    Route::get('/selectionRequest{selection?}', 'Mobile\WorkListController@selection');
+    Route::get('/selectionRequest/{workNum?}/{userId?}/{type?}', 'Mobile\WorkListController@selection');
     # 구독자에게 알림
     Route::get('/sendSMS/{phone_number?}', 'Mobile\SMSController@sendSMS');
 });
