@@ -62,7 +62,7 @@ class EditController extends Controller
             ->with('chapter_of_works', $chapter_of_works)->with('num', $num)->with('nowChapter', $nowChapter);
     }
 
-    // public function store_memo(Request $request, $num)
+    // public function store_memo(Request $request, $num) 
     // {
     //     $memos = new Memo();
 
