@@ -531,9 +531,7 @@ function getFolders() {
                                 "</span>" +
                                 "</span>"
                             );
-                        } else {
-
-                        }
+                        } else {}
                     }
                 }
             }
@@ -848,7 +846,13 @@ $(document).on("contextmenu", ".obj_file", function () {
                 break;
             case "private":
                 // publicUrl = "/images/" + folder + "/" + path + image_name;
-                publicUrl = "/images/" + server_name + "/" + folder + "/" + folder_kinds;
+                publicUrl =
+                    "/images/" +
+                    server_name +
+                    "/" +
+                    folder +
+                    "/" +
+                    folder_kinds;
                 // publicUrl = "/images/" + server_name;
                 break;
             default:
@@ -1068,7 +1072,10 @@ $(document).ready(function () {
                 .replace(/[\|｜]《(.+?)》/g, "《$1》")
                 .replace(/[\|｜]（(.+?)）/g, "（$1）")
                 .replace(/[\|｜]\((.+?)\)/g, "($1)")
-                .replace(/class="resize"/g, "style='width:100%;height:auto'")
+                .replace(
+                    /class="resize"/g,
+                    "style='width:100%;height:auto'"
+                )
                 // .replace(/style=(\"|\')?([^\"\']+)(\"|\')?/g, "style='width:100%;height:auto'")
             );
         });
@@ -1186,51 +1193,51 @@ $(document).ready(function () {
         } else {
             console.log("없어서 효과 입혔어");
 
-            $("#" + tool_imgId).wrap("<div class='tem_effect'></div>");
+            $("#" + tool_imgId).wrap("<span class='tem_effect'></span>");
             switch (css_eft_val) {
                 case "css_eft_cB1": //벚꽃1
                     $("#" + tool_imgId).before(
-                        "<div id='cherryBlossom1' class='css_eft'></div>"
+                        "<span id='cherryBlossom1' class='css_eft'></span>"
                     );
                     break;
                 case "css_eft_cB2": //벚꽃2
                     $("#" + tool_imgId).before(
-                        "<div id='cherryBlossom2' class='css_eft'></div>"
+                        "<span id='cherryBlossom2' class='css_eft'></span>"
                     );
                     break;
                 case "css_eft_rain": //비
                     $("#" + tool_imgId).before(
-                        "<div id='rain' class='css_eft'></div>"
+                        "<span id='rain' class='css_eft'></span>"
                     );
                     break;
                 case "css_eft_snow": //눈
                     $("#" + tool_imgId).before(
-                        "<div id='snow' class='css_eft'></div>"
+                        "<span id='snow' class='css_eft'></span>"
                     );
                     break;
                 case "css_eft_starlight": //반짝임
                     $("#" + tool_imgId).before(
-                        "<div id='starlight' class='css_eft'></div>"
+                        "<span id='starlight' class='css_eft'></span>"
                     );
                     break;
                 case "css_eft_yellowstar": //노란별
                     $("#" + tool_imgId).before(
-                        "<div id='yellowstar' class='css_eft'></div>"
+                        "<span id='yellowstar' class='css_eft'></span>"
                     );
                     break;
                 case "css_eft_lightning": //번개
                     $("#" + tool_imgId).before(
-                        "<div id='lightning' class='css_eft'></div>"
+                        "<span id='lightning' class='css_eft'></span>"
                     );
                     break;
                 case "css_eft_fire1": //불1
                     $("#" + tool_imgId).before(
-                        "<div id='fire1' class='css_eft'></div>"
+                        "<span id='fire1' class='css_eft'></span>"
                     );
                     break;
                 case "css_eft_fire2": //불2
                     $("#" + tool_imgId).before(
-                        "<div id='fire2' class='css_eft'></div>"
+                        "<span id='fire2' class='css_eft'></span>"
                     );
                     break;
                 default:
@@ -1276,7 +1283,7 @@ $(document).ready(function () {
                 .prev()
                 .css({
                     width: tool_imgId_width,
-                    height: tool_imgId_height,
+                    height: tool_imgId_height
                     // "background-size": "auto"
                 });
         }
@@ -1303,11 +1310,14 @@ $(document).ready(function () {
                 audio_src +
                 "'></audio>"
             );
-            $("#" + tool_imgId).next().next().after(
-                "<span class='speaker'>" +
-                "<img src='/images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
-                "</span>"
-            );
+            $("#" + tool_imgId)
+                .next()
+                .next()
+                .after(
+                    "<span class='speaker'>" +
+                    "<img src='/images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
+                    "</span>"
+                );
         } else {
             $("#" + tool_imgId).attr("onclick", "audioPlay(event)");
             $("#" + tool_imgId).after(
@@ -1317,11 +1327,13 @@ $(document).ready(function () {
                 audio_src +
                 "'></audio>"
             );
-            $("#" + tool_imgId).next().after(
-                "<span class='speaker'>" +
-                "<img src='/images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
-                "</span>"
-            );
+            $("#" + tool_imgId)
+                .next()
+                .after(
+                    "<span class='speaker'>" +
+                    "<img src='/images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
+                    "</span>"
+                );
         }
     });
     //소리 추가
