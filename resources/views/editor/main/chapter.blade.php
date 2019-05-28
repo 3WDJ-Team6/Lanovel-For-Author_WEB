@@ -45,6 +45,7 @@
         <div id="work_title_box" style="margin-bottom:50px;">
             <h4 style="margin-bottom:20px;">
                 @if(Auth::user()['roles']==2)<a href="/" style="text-decoration:none;">{{$nowWork->work_title}}</a></h4>
+                <a href="/character_relationships">인물관계도</a>
             @else
             <h4>{{$nowWork->work_title}}</h4>
             @endif

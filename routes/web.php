@@ -46,6 +46,7 @@ Route::group(['middleware' => ['auth',]], function () {
     Route::get('/editor/main/chapter/{num}', 'WorkOut\IndexController@chapter_index');   // 작품 챕터 페이지
     Route::get('/chapter_create/{num}', 'WorkOut\IndexController@chapter_create');   // 작품 챕터 추가 페이지
     Route::post('/addChapter/{num}', 'WorkOut\IndexController@addChapter');   // 작품 챕터 추가
+    Route::view('/character_relationships', '/editor/main/character_rel');
 });
 
 # 에디터
