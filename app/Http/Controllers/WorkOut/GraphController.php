@@ -18,6 +18,7 @@ use Auth;
 use DateTime;
 use DateInterval;
 use DatePeriod;
+use App\Models\SubscribeOrInterest;
 
 class GraphController extends Controller
 {
@@ -28,6 +29,10 @@ class GraphController extends Controller
      */
     public function index()
     {
+
+
+
+
         $work_arrays = DB::table('all_count_view')->select(
             'all_count_view.num',
             'all_count_view.work_title',
@@ -88,6 +93,7 @@ class GraphController extends Controller
 
     public function illustIndex()
     {
+
         $illust_arrays = BuyerOfIllustration::select(
             'illustration_lists.illustration_title',
             DB::raw('(count(buyer_of_illustrations.num_of_illustration) * illustration_lists.price_of_illustration) sumPrice')
