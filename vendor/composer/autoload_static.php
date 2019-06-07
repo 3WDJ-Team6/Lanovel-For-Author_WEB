@@ -568,6 +568,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Events\\ChatEvent' => __DIR__ . '/../..' . '/app/Events/ChatEvent.php',
         'App\\Events\\InviteEvent' => __DIR__ . '/../..' . '/app/Events/InviteEvent.php',
+        'App\\Events\\ShareEvent' => __DIR__ . '/../..' . '/app/Events/ShareEvent.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Expired' => __DIR__ . '/../..' . '/app/Models/Expired.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',

@@ -4,8 +4,8 @@ window.Vue = require('vue');
 import Vue from 'vue';
 import VueChatScroll from 'vue-chat-scroll';
 import chatvue from './components/Vuemessage.vue';
-import Echo from 'laravel-echo';
-import Axios from 'axios';
+// import Echo from 'laravel-echo';
+// import Axios from 'axios';
 Vue.use(VueChatScroll);
 
 Vue.component('message', chatvue);

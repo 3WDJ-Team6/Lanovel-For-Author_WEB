@@ -11,6 +11,7 @@ return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Events\\ChatEvent' => $baseDir . '/app/Events/ChatEvent.php',
     'App\\Events\\InviteEvent' => $baseDir . '/app/Events/InviteEvent.php',
+    'App\\Events\\ShareEvent' => $baseDir . '/app/Events/ShareEvent.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Expired' => $baseDir . '/app/Models/Expired.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',

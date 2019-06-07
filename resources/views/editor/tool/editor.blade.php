@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('header')
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<script src="{{ asset('js/app.js')}}"></script>
 <script>
     var num_of_work = <?php echo json_encode($content_of_works['num_of_work']); ?>;
-
 </script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="{{asset('/js/chat.js') }}"></script>
 <script src="{{ asset('/js/editor.js') }}" defer></script>
 <link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
@@ -35,8 +35,7 @@
                 @csrf
                 <ul>
                     <li class="nav-btn"><span id="chatting">채팅</span></li>
-                    <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open"
-                            style="color:black;">초대</a></li>
+                    <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></li>
                     <li class="nav-btn">멤버리스트</li>
                     <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a>
                     </li>
@@ -88,7 +87,6 @@
                             else {
                                 document.write(subsubtitle);
                             }
-
                         </script>
                     </div>
                     <div class="ep-list">
@@ -97,8 +95,7 @@
                         @endforeach
                     </div>
                     <div class="ep-btns">
-                        <div class="btn ep-btn"
-                            onclick="javascript:popupInEditor({{$content_of_works['num_of_chapter']}})">추가</div>
+                        <div class="btn ep-btn" onclick="javascript:popupInEditor({{$content_of_works['num_of_chapter']}})">추가</div>
                         <div class="btn ep-btn" onclick="javascript:popupEdit({{$content_of_works['num']}})">수정</div>
                         <div class="btn ep-btn" id="ep-del">삭제</div>
                     </div>
@@ -180,7 +177,7 @@
         </div>--}}
     </div>
     <script>
-        jQuery(document).ready(function () {
+        jQuery(document).ready(function() {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -196,10 +193,10 @@
                         content: $('.textarea').html(),
                     },
                     dataType: "JSON",
-                    error: function (e) {
+                    error: function(e) {
                         throw new Error("실.패");
                     },
-                    success: function (data) {
+                    success: function(data) {
                         console.log(data);
                     }
                 });
@@ -209,10 +206,9 @@
     </script>
 
     <script type="text/javascript">
-        $(window).on("load", function () {
+        $(window).on("load", function() {
             new popTool("popup_result", "popbutton");
         });
-
     </script>
 </div>
 @include('layouts/footer')
