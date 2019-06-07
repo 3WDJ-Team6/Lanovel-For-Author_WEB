@@ -158,3 +158,5 @@ Route::post('/destroy', 'Auth\LoginController@destroy');
 // Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
+
+Route::get('/share-evnet/{num}', 'WorkOut\EditController@edit');

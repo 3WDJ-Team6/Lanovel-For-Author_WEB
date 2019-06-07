@@ -1,4 +1,3 @@
-
 window._ = require('lodash');
 
 /**
@@ -44,13 +43,34 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
-import Echo from 'laravel-echo'
+import Echo from "laravel-echo";
+window.io = require('socket.io-client');
+
+window.Echo = new Echo({
+    broadcaster: 'socket.io',
+    // host: 'http://127.0.0.1:6001',
+    host: window.location.hostname + ':6001'
+});
+
+// redis채널설정
+window.Echo.channel('share-event')
+    .listen('ShareEvent', (data) => {
+        console.log(data);
+        window.data = data;
+    });
 
 window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: "ebbebf6fd111ee412754",
-    cluster:"ap3",
+    cluster: "ap3",
     encrypted: true
 });
+
+
+// 접속정보
+// window.Echo = new Echo({
+//     broadcaster: 'socket.io',
+//     host: 'http://localhost:6001',
+// });
