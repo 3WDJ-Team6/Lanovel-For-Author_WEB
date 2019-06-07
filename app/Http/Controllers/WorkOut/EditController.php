@@ -15,7 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
-
+use App\Events\ShareEvent;
+use Illuminate\Support\Facades\Redis;
 
 class EditController extends Controller
 {
@@ -248,8 +249,12 @@ class EditController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
-    { }
+    public function show(Request $request, $id = null, $num = null, $content = null)
+    {
+        # 화면공유 로직
+        broadcast(new \App\Events\ShareEvent($id, $num, $content));
+        return 0;
+    }
 
     /**
      * 에디터 수정
@@ -263,6 +268,13 @@ class EditController extends Controller
      */
     public function edit($num)
     {
+        broadcast(new \App\Events\ShareEvent());
+        // $redis = Redis::connection('share-event');
+        // $redis->publish('share-event', 'temp');
+        // $temp = Redis::get('num' . $num);
+        // Redis::set('name', 'test');
+        // $values = Redis::command('lrange', ['name', 5, 10]);
+
         $chapter_of_num_of_now_content = ContentOfWork::select(
             'content_of_works.num_of_chapter'
         )->where('content_of_works.num', '=', $num)->first();
