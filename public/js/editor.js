@@ -1,4 +1,4 @@
-// 버튼생성
+// 글작업 팝업버튼생성
 var commands = [{
         cmd: "bold"
     },
@@ -14,43 +14,30 @@ var commands = [{
     {
         cmd: "createLink",
         val: "https://youtu.be/BXcUred6iXc?t=14",
-        name: "링크추가",
         desc: "링크를 추가하거나 텍스트를 드래그해서 링크를 달 수 있습니다."
     },
     {
         cmd: "unlink",
-        name: "링크지우기"
     },
     {
         cmd: "fontSize",
         val: "3",
-        name: "글자크기",
         desc: "1(가장 작음)~7(가장 큼) 중 하나를 선택해 크기를 조절할 수 있습니다."
     },
     {
         cmd: "indent",
-        name: "우로밀기"
     },
     {
         cmd: "outdent",
-        name: "좌로밀기"
     },
-    // {
-    //     cmd: "insertHorizontalRule",
-    //     name: "가로줄"
-    // },
-
     {
         cmd: "justifyLeft",
-        name: "좌측정렬"
     },
     {
         cmd: "justifyCenter",
-        name: "중앙정렬"
     },
     {
         cmd: "justifyRight",
-        name: "우측정렬"
     }
 ];
 
@@ -77,29 +64,15 @@ function init() {
         commandRelation[command.cmd] = command;
         var temp = template;
         temp = temp.replace(/%cmd%/gi, command.cmd);
-        // temp = temp.replace(/%nam%/gi, command.name);
         html += temp;
     });
     document.querySelector(".tool_popup_box").innerHTML = html;
 }
 
 init();
+// 글작업 팝업버튼생성//
 
-function popupInEditor(num) {
-    // alert(num);
-    var url = "/content_create_in_editor/" + num;
-    var option = "width=600, height=300, top=100";
-    window.open(url, "", option);
-}
-
-function popupEdit(num) {
-    var url = "/content_edit_in_editor/" + num;
-    var option = "width=600, height=300, top=100";
-    window.open(url, "", option);
-}
-
-//텍스트 셀렉팅 팝업 도구//
-
+//텍스트 셀렉팅 팝업 도구
 function popTool(ResultId, PopbndId) {
     rsbobj = document.getElementById(ResultId); //결과레이어 객체
     popbtnobj = document.getElementById(PopbndId); //버튼레이어 객체
@@ -126,6 +99,8 @@ popTool.prototype = {
         var event = window.event || e;
 
         var kwd = getSelectText();
+        console.log(kwd);
+
         if (kwd.length <= 0) return;
 
         //팝업창 보이기
@@ -136,37 +111,41 @@ popTool.prototype = {
         var mouseY = event.clientY;
         mouseX += getScrollLeft();
         mouseY += getScrollTop();
-        popbtnobj.style.top = mouseY + "px";
+        popbtnobj.style.top = mouseY + -30 + "px";
         popbtnobj.style.left = mouseX + "px";
     }
 };
 //마우스로 긁은 TEXT
 function getSelectText() {
-    var d = "";
+    var gST = "";
     if (window.getSelection) {
-        d = window.getSelection();
+        gST = window.getSelection();
     } else if (document.getSelection) {
-        d = document.getSelection();
+        gST = document.getSelection();
     } else if (document.selection) {
-        d = document.selection.createRange().text;
+        gST = document.selection.createRange().text;
     }
 
-    d = String(d);
-    d.replace(/^\s+|\s+$/g, ""); //trim
+    gST = String(gST);
+    gST.replace(/^\s+|\s+$/g, ""); //trim
 
-    return d;
+    return gST;
 }
 
 //스크롤된 Left 구하기
 function getScrollLeft() {
     var dd = document.documentElement;
+    console.log(dd);
     var bd = document.body;
+    console.log(bd);
+
 
     var dd_top = 0;
     var bd_top = 0;
 
     if (typeof dd == "object") dd_top = dd.scrollLeft;
     if (typeof bd == "object") bd_top = bd.scrollLeft;
+
 
     if (dd_top > bd_top) return dd_top;
     else return bd_top;
@@ -187,131 +166,115 @@ function getScrollTop() {
 }
 //텍스트 셀렉팅 도구//
 
-//리소스 드래그앤드랍
-// function allowDrop(ev) {
-//     ev.preventDefault();
-// }
+//에디터내 목차 추가
+function popupInEditor(num) {
+    var url = "/content_create_in_editor/" + num;
+    var option = "width=600, height=300, top=100";
+    window.open(url, "", option);
+}
+//에디터내 목차 추가//
 
-// function drag(ev) {
-//     var aaa = ev.dataTransfer.setData("text", ev.target.title);
-//     console.log("aaa" + aaa);
-// }
-
-// var drop_id = 0;
-
-// function drop(ev) {
-//     ev.preventDefault();
-//     var data = ev.dataTransfer.getData("text");
-//     var image =
-//         "<span id='drop_id" +
-//         drop_id +
-//         "' class='effect'><img src=" +
-//         "'" +
-//         data +
-//         "'" +
-//         " class='resize'></span><br>";
-//     $(document).ready(function () {
-//         $(ev.target).append(image);
-//         drop_id++;
-//     });
-// }
-//리소스 드래그앤드랍//
+//에디터내 목차 수정
+function popupEdit(num) {
+    var url = "/content_edit_in_editor/" + num;
+    var option = "width=600, height=300, top=100";
+    window.open(url, "", option);
+}
+//에디터내 목차 수정//
 
 //메모팝업
-function memoPopup(e, idNum) {
-    var top = e.clientY + 10;
-    var left = e.clientX + 10;
-    console.log("memoPopup실행되고있나");
-    console.log(idNum);
+// function memoPopup(e, idNum) {
+//     var top = e.clientY + 10;
+//     var left = e.clientX + 10;
+//     console.log("memoPopup실행되고있나");
+//     console.log(idNum);
 
-    $("#memoPopupId" + idNum)
-        .toggle()
-        .css({
-            top: top,
-            left: left
-        });
-}
+//     $("#memoPopupId" + idNum)
+//         .toggle()
+//         .css({
+//             top: top,
+//             left: left
+//         });
+// }
 
-var memoViewId = 1;
-var memoPopupId = 1;
+// var memoViewId = 1;
+// var memoPopupId = 1;
 
-function memoBalloon(e) {
-    var span = document.createElement("span");
-    var top = e.clientY - 53;
-    var back = ["#ffc", "#cfc", "#ccf"];
-    var rand = back[Math.floor(Math.random() * back.length)];
+// function memoBalloon(e) {
+//     var span = document.createElement("span");
+//     var top = e.clientY - 53;
+//     var back = ["#ffc", "#cfc", "#ccf"];
+//     var rand = back[Math.floor(Math.random() * back.length)];
 
-    console.log(rand);
-    if (window.getSelection) {
-        var txt = window.getSelection();
-        if (txt.rangeCount) {
-            var range = txt.getRangeAt(0).cloneRange();
-            range.surroundContents(span);
-            txt.removeAllRanges();
-            txt.addRange(range);
-            if (
-                !$(".textarea span:contains(" + txt + ")").hasClass(
-                    "memoballoon"
-                )
-            ) {
-                $(".textarea span:contains(" + txt + ")").addClass(
-                    "memoballoon"
-                );
-                $(".textarea span:contains(" + txt + ")").prepend(
-                    "<div id=" +
-                    "'memoViewId" +
-                    memoViewId +
-                    "'" +
-                    "class='balloon' style='top:" +
-                    top +
-                    "px;' onclick='memoPopup(event," +
-                    memoViewId +
-                    ");'></div>" +
-                    "<div id=" +
-                    "'memoPopupId" +
-                    memoPopupId +
-                    "'" +
-                    "class='memoPopup' contenteditable='false' style='background-color:" +
-                    rand +
-                    "'>" +
-                    "<form method='POST' action='/store_memo/" +
-                    num_of_work +
-                    "/" +
-                    memoViewId +
-                    "'>" +
-                    "<textarea name='content_of_memo' class='underline' autocorrect='false'>" +
-                    "</textarea>" +
-                    "<span>유저이름</span>" +
-                    "<button type='submit' class='memoSave'>" +
-                    "<span class='memoSaveSpan'><span>" +
-                    "</button>" +
-                    "</form>" +
-                    "</div>"
-                );
-                $(".textarea span:contains(" + txt + ")").css(
-                    "background-color",
-                    "yellow"
-                );
-                memoViewId++;
-                memoPopupId++;
-            } else if (
-                $(".textarea span:contains(" + txt + ")").hasClass(
-                    "memoballoon"
-                )
-            ) {
-                console.log("실행되고잇니hasClass");
-            }
-        }
-    }
-}
+//     console.log(rand);
+//     if (window.getSelection) {
+//         var txt = window.getSelection();
+//         if (txt.rangeCount) {
+//             var range = txt.getRangeAt(0).cloneRange();
+//             range.surroundContents(span);
+//             txt.removeAllRanges();
+//             txt.addRange(range);
+//             if (
+//                 !$(".textarea span:contains(" + txt + ")").hasClass(
+//                     "memoballoon"
+//                 )
+//             ) {
+//                 $(".textarea span:contains(" + txt + ")").addClass(
+//                     "memoballoon"
+//                 );
+//                 $(".textarea span:contains(" + txt + ")").prepend(
+//                     "<div id=" +
+//                         "'memoViewId" +
+//                         memoViewId +
+//                         "'" +
+//                         "class='balloon' style='top:" +
+//                         top +
+//                         "px;' onclick='memoPopup(event," +
+//                         memoViewId +
+//                         ");'></div>" +
+//                         "<div id=" +
+//                         "'memoPopupId" +
+//                         memoPopupId +
+//                         "'" +
+//                         "class='memoPopup' contenteditable='false' style='background-color:" +
+//                         rand +
+//                         "'>" +
+//                         "<form method='POST' action='/store_memo/" +
+//                         num_of_work +
+//                         "/" +
+//                         memoViewId +
+//                         "'>" +
+//                         "<textarea name='content_of_memo' class='underline' autocorrect='false'>" +
+//                         "</textarea>" +
+//                         "<span>유저이름</span>" +
+//                         "<button type='submit' class='memoSave'>" +
+//                         "<span class='memoSaveSpan'><span>" +
+//                         "</button>" +
+//                         "</form>" +
+//                         "</div>"
+//                 );
+//                 $(".textarea span:contains(" + txt + ")").css(
+//                     "background-color",
+//                     "yellow"
+//                 );
+//                 memoViewId++;
+//                 memoPopupId++;
+//             } else if (
+//                 $(".textarea span:contains(" + txt + ")").hasClass(
+//                     "memoballoon"
+//                 )
+//             ) {
+//                 console.log("실행되고잇니hasClass");
+//             }
+//         }
+//     }
+// }
 //메모팝업//
 
 //에피소드 추가
 function addEpisode(sub, num) {
     console.log("실행됬냐" + sub);
-    $(".ep-list").append(
-        "<a href=/editor/tool/editor/" + num + ">- " + sub + "</a><br>"
-    );
+    $(".ep-list").append("<a href=/editor/" + num + ">- " + sub + "</a><br>");
 }
 //에피소드 추가//
 
@@ -319,10 +282,12 @@ function addEpisode(sub, num) {
 function editEpisode(chgsub, orisub) {
     console.log("바뀐제목 : " + chgsub + " 원래제목 : " + orisub);
     $(".ep-title").text(chgsub);
-    $(".ep-list h4 a").each(function () {
+    $(".ep-list a").each(function () {
         var text = $(this).text();
         console.log("text : " + text);
-        $(this).text(text.replace(orisub, chgsub));
+        $(this)
+            .text(text.replace(orisub, chgsub))
+            .append("<br>");
     });
 }
 //에피소드 수정//
@@ -448,11 +413,11 @@ function getFolders() {
                 if (folder == "private") {
                     for (var i = 0; i < data.length - 1; i++) {
                         folder_name = data[i];
-                        // console.log(folder_name);
+                        console.log(folder_name);
                         folder_name = folder_name.split("/");
-                        // console.log(folder_name);
+                        console.log(folder_name);
                         folder_name = folder_name[data.length - 3];
-                        // console.log(folder_name);
+                        console.log(folder_name);
                         switch (folder_name) {
                             case "video":
                                 folder_name_kinds = folder_name.replace(
@@ -712,18 +677,8 @@ $(document).on("click", ".obj_kinds", function () {
     });
 });
 $(document).on("click", ".back.foldername", function () {
-    // $("#resource-feild").html("");
-    // if ($(".back").hasClass("folderkinds")) {
-    //     console.log("folderkinds있음");
-    //     getFolders();
-    // } else {
-    //     console.log("folderkinds없음");
-    //     getResource();
-    // }
     console.log("백눌렀지?");
-
     getResource();
-    // getResource();
 });
 //리소스파일 리스팅//
 
@@ -892,40 +847,44 @@ $(document).ready(function () {
     //툴 팝업 링크해제 뒤로 한칸내리는역할//
 
     //글쓰는 곳에서 엔터키누르면 앞에 태그에따라 자동생성되던 태그를 p태그로 변경
-    // $(".textarea").keyup = e => {
-    //     e = e || window.event;
+    // $(document).on("keyup", ".textarea", function(e) {
     //     if (e.keyCode === 13) {
     //         document.execCommand("formatBlock", false, "p");
     //     }
-    // };
-    $(document).on("keyup", ".textarea", function (e) {
-        if (e.keyCode === 13) {
-            document.execCommand("formatBlock", false, "p");
+    // });
+    //글쓰는 곳에서 엔터키누르면 앞에 태그에따라 자동생성되던 태그를 p태그로 변경//
+    // $(document).on("keyup", ".textarea", function (e) {
+    //     if (e.keyCode === 13) {
+    //         if ($(".textarea > .text_p > br").length) {
+    //             $("br").replaceWith("-");
+    //         }
+    //     }
+    // });
+    //포커스
+    let focus_flag = false;
+    $(document).on("mousedown", ".text_p", function () {
+        if ($(".user_focus").length) {
+            console.log("포커스풀림");
+            $(".user_focus").remove();
+            focus_flag = false;
+        }
+        if (focus_flag === false) {
+            console.log("포커스됨");
+            $(this).append(
+                "<span class='user_focus " +
+                userRoles +
+                " ' contentEditable='false'>" +
+                userNickname +
+                "</span>"
+            );
+            focus_flag = true;
+        } else if (focus_flag === true) {
+            console.log("포커스풀림");
+            $(".user_focus").remove();
+            focus_flag = false;
         }
     });
-    //글쓰는 곳에서 엔터키누르면 앞에 태그에따라 자동생성되던 태그를 p태그로 변경//
-
-    //포커스 미완
-    $(".select").attr("tabindex", -1);
-    $(".area").mousemove(function () {
-        $(".select").focus(function () {
-            $(this)
-                .css("border", "2px solid yellow")
-                .addClass("selected");
-        });
-        $(".select.selected").blur(function () {
-            $(this)
-                .css("border", "0")
-                .removeClass("selected");
-        });
-    });
     //포커스//
-
-    //리소스 출력
-    // $('#justifyRight').after('<span class="btn tool-btn" id="resource">리소스</span>');
-    // $("#justifyRight").after(
-    //     "<span class='btn tool-btn' id='memo'>메모</span>"
-    // );
 
     //에피소드관리
     $("#ep").click(function () {
@@ -958,33 +917,12 @@ $(document).ready(function () {
         .addEventListener("input", function (e) {
             resize_num = $(".resize").length;
             resize_mp4 = $(".resize_mp4").length;
-            console.log(resize_num);
-            console.log(resize_mp4);
-            console.log(e.target.getElementsByClassName("resize_mp4"));
-            // console.log(
-            //     e.target.getElementsByClassName("resize_mp4").getAttribute("id")
-            // );
-            // console.log(
-            //     e.target
-            //         .getElementsByClassName("resize_mp4")
-            //         .getAttribute("source")
-            // );
-            // console.log(
-            //     e.target
-            //         .getElementsByClassName("resize_mp4")
-            //         .getAttribute("servername")
-            // );
-            // console.log(
-            //     e.target
-            //         .getElementsByClassName("resize_mp4")
-            //         .getAttribute("type")
-            // );
-
             imgId = $(".textarea .obj_thum").attr("id");
             imgId = imgId + resize_num;
             $(".textarea .obj_thum").attr("id", "" + imgId + "");
-            $(".textarea .obj_thum").attr("class", "resize");
-
+            $(".textarea .obj_thum")
+                .attr("class", "resize")
+                .draggable();
             mp4Id = $(".textarea .mp4_icon").attr("id");
             mp4Id = mp4Id + resize_mp4;
             $(".textarea .mp4_icon").attr("id", "" + mp4Id + "");
@@ -1046,37 +984,13 @@ $(document).ready(function () {
                 $("#result")
                 .html()
                 .replace(
-                    /[\|｜](.+?)《(.+?)》/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(
-                    /[\|｜](.+?)（(.+?)）/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(
-                    /[\|｜](.+?)\((.+?)\)/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(
-                    /([一-龠]+)《(.+?)》/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(
                     /([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g,
                     "<ruby>$1<rt>$2</rt></ruby>"
                 )
                 .replace(
-                    /([一-龠]+)\(([ぁ-んァ-ヶ]+?)\)/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(/[\|｜]《(.+?)》/g, "《$1》")
-                .replace(/[\|｜]（(.+?)）/g, "（$1）")
-                .replace(/[\|｜]\((.+?)\)/g, "($1)")
-                .replace(
                     /class="resize"/g,
                     "style='width:100%;height:auto'"
                 )
-                // .replace(/style=(\"|\')?([^\"\']+)(\"|\')?/g, "style='width:100%;height:auto'")
             );
         });
     });
@@ -1125,12 +1039,6 @@ $(document).ready(function () {
                 case "css_eft_lightning": //번개
                     $("#" + tool_imgId).attr("id", "lightning");
                     break;
-                case "css_eft_fire1": //불1
-                    $("#" + tool_imgId).attr("id", "fire1");
-                    break;
-                case "css_eft_fire2": //불2
-                    $("#" + tool_imgId).attr("id", "fire2");
-                    break;
                 default:
                     break;
             }
@@ -1177,16 +1085,6 @@ $(document).ready(function () {
                         .prev()
                         .attr("id", "lightning");
                     break;
-                case "css_eft_fire1": //불1
-                    $("#" + tool_imgId)
-                        .prev()
-                        .attr("id", "fire1");
-                    break;
-                case "css_eft_fire2": //불2
-                    $("#" + tool_imgId)
-                        .prev()
-                        .attr("id", "fire2");
-                    break;
                 default:
                     break;
             }
@@ -1228,16 +1126,6 @@ $(document).ready(function () {
                 case "css_eft_lightning": //번개
                     $("#" + tool_imgId).before(
                         "<span id='lightning' class='css_eft'></span>"
-                    );
-                    break;
-                case "css_eft_fire1": //불1
-                    $("#" + tool_imgId).before(
-                        "<span id='fire1' class='css_eft'></span>"
-                    );
-                    break;
-                case "css_eft_fire2": //불2
-                    $("#" + tool_imgId).before(
-                        "<span id='fire2' class='css_eft'></span>"
                     );
                     break;
                 default:
@@ -1341,30 +1229,30 @@ $(document).ready(function () {
     //템플릿//
 
     //메모
-    var memoViewId = 0;
-    $("#memo").click(function () {
-        $(".textarea").prepend(
-            "<div id=" +
-            "'memoViewId" +
-            memoViewId +
-            "'" +
-            " class='balloon' onclick='memoPopup(event);'></div>"
-        );
-        memoViewId++;
-        $(".balloon").draggable();
-        $("#memoPopup").append(
-            '<span><form><input type="text" name="edit" style="width:160px;float:right;"' +
-            'readonly required><input style="float:right;" type="submit" name="memosave" value="save"></form></span>'
-        );
-        $('[name="edit"]').on("click", function () {
-            // var prev = $(this).prev('input'),
-            var ro = $(this).prop("readonly");
-            $(this)
-                .prop("readonly", !ro)
-                .focus();
-            // $(this).val(ro ? 'save' : 'edit');
-        });
-    });
+    // var memoViewId = 0;
+    // $("#memo").click(function () {
+    //     $(".textarea").prepend(
+    //         "<div id=" +
+    //         "'memoViewId" +
+    //         memoViewId +
+    //         "'" +
+    //         " class='balloon' onclick='memoPopup(event);'></div>"
+    //     );
+    //     memoViewId++;
+    //     $(".balloon").draggable();
+    //     $("#memoPopup").append(
+    //         '<span><form><input type="text" name="edit" style="width:160px;float:right;"' +
+    //         'readonly required><input style="float:right;" type="submit" name="memosave" value="save"></form></span>'
+    //     );
+    //     $('[name="edit"]').on("click", function () {
+    //         // var prev = $(this).prev('input'),
+    //         var ro = $(this).prop("readonly");
+    //         $(this)
+    //             .prop("readonly", !ro)
+    //             .focus();
+    //         // $(this).val(ro ? 'save' : 'edit');
+    //     });
+    // });
 
     // $('.balloon').click(function(e){
     //     var top = e.clientY + 10;
@@ -1377,21 +1265,21 @@ $(document).ready(function () {
     // });
     //메모//
 
+    //처음에 윈도우창 사이즈 값 저장
     var window_width = null;
     var window_height = null;
-    //처음에 윈도우창 사이즈 값 저장
     $(window).ready(function () {
         window_width = $(window).width();
         window_height = $(window).height();
     });
     //처음에 윈도우창 사이즈 값 저장//
 
-    //윈도우창크리바뀔때마다 사이즈 값 저장
+    //윈도우창크기 바뀔때마다 사이즈 값 저장
     $(window).on("resize", function () {
         window_width = $(window).width();
         window_height = $(window).height();
     });
-    //윈도우창크리바뀔때마다 사이즈 값 저장//
+    //윈도우창크기 바뀔때마다 사이즈 값 저장//
 
     //오른쪽 사이드바
     $("#menuToggle_right").click(function (e) {
@@ -1424,7 +1312,7 @@ $(document).ready(function () {
                 $(".resource-area").css("width", "0");
             }
             e.preventDefault();
-            //세로가 최소 700px를 넘거나 최소900px를 넘거나
+            //세로가 최소 700px를 넘거나 최소900px를 넘을 때
         } else if (window_height >= 700 || window_height >= 900) {
             if ($(".open_left").length > 0 && $(".open_right").length == 0) {
                 $(".textarea").css("width", "75%");
@@ -1476,7 +1364,7 @@ $(document).ready(function () {
                 $(".ep-tem-area").css("width", "0");
             }
             e.preventDefault();
-            //세로가 최소 700px를 넘거나 최소900px를 넘거나
+            //세로가 최소 700px를 넘거나 최소900px 넘을 때
         } else if (window_height >= 700 || window_height >= 900) {
             if ($(".open_right").length > 0 && $(".open_left").length == 0) {
                 $(".textarea").css("width", "75%");

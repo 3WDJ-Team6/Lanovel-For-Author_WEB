@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var clone = null;
+    var clone_el = null;
 
     $(".sidebar-item").draggable({
         helper: 'clone',
@@ -13,14 +13,15 @@ $(document).ready(function () {
         drop: function (e, ui) {
 
             if ($(ui.draggable)[0].id != "") {
-                clone = ui.helper.clone();
+                clone_el = ui.helper.clone();
                 ui.helper.remove();
-                clone.draggable({
+                clone_el.draggable({
                     helper: 'original',
                     containment: '#drop_canvas',
                     tolerance: 'fit'
                 });
-                clone.appendTo('#drop_canvas');
+
+                clone_el.appendTo('#drop_canvas');
             }
 
         }
