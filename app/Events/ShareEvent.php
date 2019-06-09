@@ -17,7 +17,7 @@ class ShareEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $id;
+    public $nickname;
     public $num;
     public $content;
     /**
@@ -25,9 +25,9 @@ class ShareEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($id = null, $num = null, $content = null)
+    public function __construct($nickname = null, $num = null, $content = null)
     {
-        $this->id = $id;
+        $this->nickname = $nickname;
         $this->num = $num;
         $this->content = $content;
     }
@@ -48,7 +48,7 @@ class ShareEvent implements ShouldBroadcast
     {
         return [
             "status" => "success",
-            "id" => $this->id,
+            "nickname" => $this->nickname,
             "num" => $this->num,
             "content" => $this->content,
             // "content" => DB::table('content_of_works')->where('num', 245)->get(),

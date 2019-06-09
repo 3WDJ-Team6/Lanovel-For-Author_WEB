@@ -57,6 +57,7 @@ window.Echo.channel('share-event')
     .listen('ShareEvent', (data) => {
         console.log(data);
         window.data = data;
+        $(".textarea").html(window.data.content);
     });
 
 window.Pusher = require('pusher-js');

@@ -59,7 +59,7 @@ class IndexController extends Controller
 
         $status = $request->input('status_of_work');
 
-        \Debugbar::info($request);
+        // \Debugbar::info($request);
 
         $posts = Work::select(
             'works.*',
