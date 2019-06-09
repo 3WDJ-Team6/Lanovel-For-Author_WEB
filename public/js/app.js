@@ -20661,7 +20661,8 @@ window.Echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo__["a" /* default */](
 });
 
 // redis채널설정
-window.Echo.channel('share-event').listen('ShareEvent', function (data) {
+window.Echo.channel('share-event') // echo서버 연결
+.listen('ShareEvent', function (data) {
     console.log(data);
     window.data = data;
 });

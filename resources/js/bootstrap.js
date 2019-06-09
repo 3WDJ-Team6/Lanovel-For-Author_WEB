@@ -53,7 +53,7 @@ window.Echo = new Echo({
 });
 
 // redis채널설정
-window.Echo.channel('share-event')
+window.Echo.channel('share-event') // echo서버 연결
     .listen('ShareEvent', (data) => {
         console.log(data);
         window.data = data;

@@ -51,8 +51,6 @@ class ShareEvent implements ShouldBroadcast
             "id" => $this->id,
             "num" => $this->num,
             "content" => $this->content,
-            // "content" => DB::table('content_of_works')->where('num', 245)->get(),
-            // "ct" => $this->content
         ];
     }
 }

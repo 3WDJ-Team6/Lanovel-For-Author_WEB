@@ -29,6 +29,6 @@ class CommentOfWork extends Model
 
     public function getContent()
     {
-        return $content = ContentOfWork::where('num', 245)->get();
+        // return $content = ContentOfWork::where('num', 245)->get();
     }
 }
