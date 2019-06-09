@@ -249,11 +249,16 @@ class EditController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id = null, $num = null, $content = null)
+    public function show(Request $request, $nickname = null, $num = null)
     {
+        if($nickname = null || $num = null){
+            return 0;
+        }else{
         # 화면공유 로직
-        broadcast(new \App\Events\ShareEvent($id, $num, $content));
+        $content = $request->content;
+        broadcast(new \App\Events\ShareEvent($nickname, $num, $content));
         return 0;
+    }
     }
 
     /**
@@ -268,7 +273,7 @@ class EditController extends Controller
      */
     public function edit($num)
     {
-        broadcast(new \App\Events\ShareEvent());
+        // broadcast(new \App\Events\ShareEvent());
         // $redis = Redis::connection('share-event');
         // $redis->publish('share-event', 'temp');
         // $temp = Redis::get('num' . $num);

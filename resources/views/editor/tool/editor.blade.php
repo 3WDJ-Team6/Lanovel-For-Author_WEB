@@ -1,5 +1,21 @@
 @extends('layouts.app')
 @section('header')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<script src="{{ asset('js/app.js')}}"></script>
+<script>
+    <?php $num_of_work = json_encode($content_of_works['num_of_work']); ?>
+    var num_of_work = <?= $num_of_work ?>
+</script>
+<script>
+    <?php $ep_of_num = json_encode($content_of_works['num']); ?>
+    var ep_of_num = <?= $ep_of_num ?>
+</script>
+<script>
+    var userNickname = "{{$user}}";
+</script>
+<script src="{{asset('/js/chat.js') }}"></script>
+<script src="{{ asset('/js/editor.js') }}" defer></script>
+<link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
 @if(Auth::user()['roles'] == 2)
 <script>
     var userRoles = "writer";
@@ -9,16 +25,6 @@
     var userRoles = "illustrator";
 </script>
 @endif
-<script>
-    <?php $num_of_work = json_encode($content_of_works['num_of_work']); ?>
-    var num_of_work = <?= $num_of_work ?>
-</script>
-<script>
-    var userNickname = "{{$user}}";
-</script>
-<script src="{{asset('/js/chat.js') }}"></script>
-<script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
 <header>
     {{-- 타이틀과 목차 --}}
     <div class="title-bar">
