@@ -43,9 +43,8 @@
     <!-- <div class="row"> -->
     <div class="col-lg-12 col-md-10 mx-auto" id="chapters_box" style="margin-top:50px; margin-bottom:50px;">
         <div id="work_title_box" style="margin-bottom:50px;">
-            <h4 style="margin-bottom:20px;">
-                @if(Auth::user()['roles']==2)<a href="/" style="text-decoration:none;">{{$nowWork->work_title}}</a></h4>
-                <a href="/character_relationships">인물관계도</a>
+            <h3 style="margin-bottom:20px;">
+            @if(Auth::user()['roles']==2)<a href="/" style="color:#ea4c4c;">{{$nowWork->work_title}}</a></h3>
             @else
             <h4>{{$nowWork->work_title}}</h4>
             @endif
