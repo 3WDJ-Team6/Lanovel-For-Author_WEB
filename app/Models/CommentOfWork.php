@@ -26,4 +26,9 @@ class CommentOfWork extends Model
     {
         return $this->belongsTo('App\Models\Work');
     }
+
+    public function getContent()
+    {
+        return $content = ContentOfWork::where('num', 245)->get();
+    }
 }

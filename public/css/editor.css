@@ -1001,6 +1001,14 @@ input[type="file"] {
     height: 200px;
 }
 
+.writer {
+    color: rgba(177, 29, 177, 0.507);
+}
+
+.illustrator {
+    color: rgba(133, 255, 11, 0.685);
+}
+
 .nav_left {
     position: fixed;
     -moz-transition: left 0.2s linear;
