@@ -157,6 +157,7 @@ Route::get('/acceptInvite/{messageNum}/{workNum}', 'InviteUser\InviteUserControl
 Route::post('/destroy', 'Auth\LoginController@destroy');
 // Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
+Route::get('/oo', 'Mobile\ReviewController@index');
 Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationController@publish');
 
 Route::get('/share-evnet/{num}', 'WorkOut\EditController@edit');

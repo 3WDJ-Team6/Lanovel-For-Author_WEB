@@ -32,6 +32,7 @@ body {
             @endif
             {{-- 정렬 필터링  --}}
             <input type="hidden" name="_token" value="{{ Session::token() }}">
+
             <script>
                 $.ajax({
                     type: 'POST',
@@ -45,6 +46,7 @@ body {
                 });
 
             </script>
+
 
             <!-- Material inline 1 -->
             <form method="POST" id="filter"
@@ -92,6 +94,7 @@ body {
 
             <ul class="align">
                 @foreach ($posts as $post)
+
                 <li>
                     <figure class='book'>
                         <a href="{{url('editor/main/chapter')}}/{{$post['num']}}">

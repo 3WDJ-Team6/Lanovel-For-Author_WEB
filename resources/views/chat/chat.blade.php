@@ -11,19 +11,15 @@
 <body>
     <div class="container">
         <div class="row" id="app">
-            <div class="col-sm-10" style='margin:0;padding:0;'>
+            <div class=" offset-4 col-4 offset-sm-1 col-sm-10" style='margin:0;padding:0;'>
                 <li class="list-group-item active">Chatting Room
                     <div class="badge badge-pill badge-warning">@{{numberOfUser}}</div>
                 </li>
-                <ul class="list-group" v-chat-scroll style="background-color: #a1c0d5;">
+                <ul class="list-group" v-chat-scroll style="background-color: white;">
                     @foreach ($content_of_chat as $row)
                     <div>
                         <small id="usernickname" class="badge float-left" font-size="10px">{{$row['nickname']}}</small>
-                        // 나에게 보내는 메시지
-                        <li id="chatContent"
-                            class="list-group-item list-group-item-success chat__message chat__message-from-me" style="margin-bottom: 10px;
-                        display: flex;
-                        align-items: flex-end; justify-content: flex-end;">{{$row['content_of_chat']}}
+                        <li id="chatContent" class="list-group-item list-group-item-success">{{$row['content_of_chat']}}
                         </li>
                         <mark class="badge float-right" id="time">{{$row['created_at']->diffForHumans()}}</mark>
                     </div>

@@ -1,4 +1,6 @@
 @extends('layouts.app')
+
+
 @section('header')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="{{ asset('js/app.js')}}"></script>
@@ -14,6 +16,7 @@
     var userNickname = "{{$user}}";
 </script>
 <script src="{{asset('/js/chat.js') }}"></script>
+
 <script src="{{ asset('/js/editor.js') }}" defer></script>
 <link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
 @if(Auth::user()['roles'] == 2)
@@ -79,8 +82,9 @@
         <div class="ep-tem-area">
             <nav class="nav_left">
                 <div class="ep-tem-par">
-                    <span id="ep" class="ep-tem">&nbsp;목차&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span id="ep" class="ep-tem">에피소드&nbsp;&nbsp;</span>
                     <span id="tem" class="ep-tem">템플릿</span>
+
                 </div>
                 <a id="menuToggle_left">
                     <span class="sidebar_left"></span>
@@ -176,6 +180,7 @@
         </div>--}}
     </div>
     <script>
+
         jQuery(document).ready(function() {
             $.ajaxSetup({
                 headers: {
@@ -198,10 +203,7 @@
                     success: function(data) {
                         console.log(data);
                     }
-                });
-            }
 
-        });
     </script>
 
     <script type="text/javascript">
