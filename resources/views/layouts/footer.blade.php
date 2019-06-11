@@ -1,5 +1,5 @@
 <div class="clearfix" style="text-align:center;">
-    <a style="display:inline-block;" class="btn btn-primary" href="{{url('/store')}}">Illustore &rarr;</a>
+    <a style="display:inline-block; background-color:#ea4c4c; border:none;" class="btn btn-primary" href="{{url('/store')}}">Illustore store &rarr;</a>
 </div>
 
 <!-- Footer -->

@@ -171,8 +171,7 @@ class WorkListController extends Controller
     }
     public function selection($num = null, $userId = null, $type = null)
     {
-        $count = SubscribeOrInterest::where('num', $num)->where('role_of_work', 2)->count();
-        return $count;
+        // $count = SubscribeOrInterest::where('num_of_work', $num)->where('role_of_work', 2)->count();
 
         // 보유 포인트와 작품 구매 가격 비교
         $buyPoint = User::select(
@@ -298,7 +297,6 @@ class WorkListController extends Controller
 
         // 구독 여부 O : selection = "sub_selected"
         // 구독 여부 X : selection = "sub_unselected"
-        return $request . ':' . $id;
     }
 
     /**

@@ -17,7 +17,8 @@ use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Models\CommentOfWork;
 use App\Models\Grade;
-
+use App\Events\ShareEvent;
+use Illuminate\Support\Facades\Redis;
 
 class EditController extends Controller
 {
@@ -77,7 +78,7 @@ class EditController extends Controller
             ->with('chapter_of_works', $chapter_of_works)->with('num', $num)->with('nowChapter', $nowChapter);
     }
 
-    // public function store_memo(Request $request, $num) 
+    // public function store_memo(Request $request, $num)
     // {
     //     $memos = new Memo();
 
@@ -144,7 +145,7 @@ class EditController extends Controller
         // 회차 제목 추가
         $content_of_works->subsubtitle = $request->subsubtitle;
         // 회차 내용 디폴트값 넣어주기
-        $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
+        $content_of_works->content = "<p class='text_p' tabindex='-1'>物語《ものがたり》を書《か》きましょう</p>";
         $content_of_works->save();
 
         echo "<script>opener.parent.location.reload();window.close()</script>";
@@ -171,7 +172,7 @@ class EditController extends Controller
         ///////$subsubtitle의 값을 디비 $content_of_works의 subsubtitle에 넣고
         $content_of_works->subsubtitle = $subsubtitle;
         // 회차 내용 디폴트값 넣어주기
-        $content_of_works->content = "<p>物語《ものがたり》を書《か》きましょう</p>";
+        $content_of_works->content = "<p class='text_p' tabindex='-1'>物語《ものがたり》を書《か》きましょう</p>";
         $content_of_works->save();
         $titleNum = $content_of_works->num;
         ///////부모창의 addEpisode()함수에 '$subsubtitle' 값 전달
@@ -263,8 +264,17 @@ class EditController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
-    { }
+    public function show(Request $request, $nickname = null, $num = null)
+    {
+        if($nickname = null || $num = null){
+            return 0;
+        }else{
+        # 화면공유 로직
+        $content = $request->content;
+        broadcast(new \App\Events\ShareEvent($nickname, $num, $content));
+        return 0;
+    }
+    }
 
     /**
      * 에디터 수정
@@ -278,6 +288,13 @@ class EditController extends Controller
      */
     public function edit($num)
     {
+        // broadcast(new \App\Events\ShareEvent());
+        // $redis = Redis::connection('share-event');
+        // $redis->publish('share-event', 'temp');
+        // $temp = Redis::get('num' . $num);
+        // Redis::set('name', 'test');
+        // $values = Redis::command('lrange', ['name', 5, 10]);
+
         $chapter_of_num_of_now_content = ContentOfWork::select(
             'content_of_works.num_of_chapter'
         )->where('content_of_works.num', '=', $num)->first();
@@ -320,7 +337,8 @@ class EditController extends Controller
             ->with('content_of_works', $content_of_works)
             ->with('content_lists', $content_lists)
             ->with('titles', $titles)
-            ->with('memos', $memos);
+            ->with('memos', $memos)
+            ->with('user', Auth::user()['nickname']);
     }
 
     /**

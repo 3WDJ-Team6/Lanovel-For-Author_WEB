@@ -162,6 +162,7 @@ return [
         /*
          * Application Service Providers...
          */
+        Barryvdh\Debugbar\ServiceProvider::class,   //  laravel debugbar 등록
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\BroadcastServiceProvider::class,
@@ -235,7 +236,9 @@ return [
 
         #socialite kakaotalk
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-        'Kakao' => pouu69\KakaoApi\Facade\KakaoFacade::class,   //kakao Facade 등록
+        'Kakao' => pouu69\KakaoApi\Facade\KakaoFacade::class,   // kakao Facade 등록
+
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,          // Debugbar 사용 facade
         'Carbon' => 'Carbon\Carbon',    // blade에서 carbon을 사용하기 위해 등록
     ],
 

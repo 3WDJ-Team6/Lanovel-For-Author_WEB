@@ -50,7 +50,7 @@ return [
             'driver' => 'log',
         ],
 
-        'null' => [
+        'null' => [ // 브로드 캐스팅을 끌 수 있게 해줌.
             'driver' => 'null',
         ],
 
