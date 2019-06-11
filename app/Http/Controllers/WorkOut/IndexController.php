@@ -5,6 +5,7 @@ namespace App\Http\Controllers\WorkOut;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use App\Models\Work;
+use App\Models\Subscribe;
 use App\Models\User;
 use App\Models\PeriodOfWork;
 use App\Models\ChapterOfWork;
@@ -270,6 +271,13 @@ class IndexController extends Controller
     public function chapter_index($num)
     {
 
+        // 구독한 독자 기기토큰 가져오기
+        $tokens = Subscribe::select(
+            'users.phone_token'
+        )->where('subscribes.author_id', '=', Auth::user()['id'])
+            ->join('users', 'users.id', 'subscribes.reader_id')
+            ->get();
+
         $nowWork = Work::select(
             'works.*'
         )->where('works.num', '=', $num)->first();
@@ -294,7 +302,7 @@ class IndexController extends Controller
 
 
         return view('editor.main.chapter')
-            ->with('works', $works)->with('num', $num)->with('nowWork', $nowWork)->with('checkNum', $checkNum);
+            ->with('works', $works)->with('num', $num)->with('nowWork', $nowWork)->with('checkNum', $checkNum)->with('tokens', $tokens);
     }
 
     public function chapter_create($num)

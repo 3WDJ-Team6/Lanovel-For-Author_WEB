@@ -1,12 +1,15 @@
 @extends('layouts.app')
+
+
 @section('header')
 
 <script>
-    var num_of_work = <?php echo json_encode($content_of_works['num_of_work']); ?>;
+    var num_of_work = <? php echo json_encode($content_of_works['num_of_work']); ?> ;
 
 </script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="{{asset('/js/chat.js') }}"></script>
+
 <script src="{{ asset('/js/editor.js') }}" defer></script>
 <link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
 <header>
@@ -69,8 +72,9 @@
         <div class="ep-tem-area">
             <nav class="nav_left">
                 <div class="ep-tem-par">
-                    <span id="ep" class="ep-tem">&nbsp;목차&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span id="ep" class="ep-tem">에피소드&nbsp;&nbsp;</span>
                     <span id="tem" class="ep-tem">템플릿</span>
+
                 </div>
                 <a id="menuToggle_left">
                     <span class="sidebar_left"></span>
@@ -181,31 +185,44 @@
     </div>
     <script>
         jQuery(document).ready(function () {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('#sub').on("click", onSave);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $('#sub').on("click", onSave);
 
-            function onSave(e) {
-                $.ajax({
-                    type: "POST",
-                    url: "/update/{!! json_encode($content_of_works['num']) !!}",
-                    data: {
-                        content: $('.textarea').html(),
-                    },
-                    dataType: "JSON",
-                    error: function (e) {
-                        throw new Error("실.패");
-                    },
-                    success: function (data) {
-                        console.log(data);
+                    function onSave(e) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/update/{!! json_encode($content_of_works['num']) !!}",
+                            data: {
+                                content: $('.textarea').html(),
+                            },
+                            dataType: "JSON",
+                            error: function (e) {
+                                throw new Error("실.패");
+                            },
+                            success: function (data) {
+                                console.log(data);
+                            }
+                        });
                     }
-                });
-            }
+                    $('#invite').on("click", invite);
 
-        });
+                    function invite(e) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/invite/{!! json_encode(Auth::user()['nickname']) !!}",
+                            error: function (e) {
+                                throw new Error("실.패");
+                            },
+                            success: function (data) {
+                                console.log(data);
+                            }
+                        });
+                    }
+
     </script>
 
     <script type="text/javascript">
