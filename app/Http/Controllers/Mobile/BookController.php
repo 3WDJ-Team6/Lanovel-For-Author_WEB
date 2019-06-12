@@ -85,7 +85,18 @@ class BookController extends Controller
                             'user_id' => $userId,            # 독자 아이디 번호
                             // 'chapter_of_work' => 0,
                         ]);
-                        // $point--;
+
+                        // // 구매 시 포인트 차감
+                        // $buyPointM = User::where('id', $userId)
+                        //     ->update(
+                        //         ['point' => DB::raw("point - (select buy_price from works where num =" . $num . ")")]
+                        //     );
+
+                        // // 보유 포인트와 작품 구매 가격 비교
+                        // $buyPoint = User::select(
+                        //     DB::raw("(select(IF(point>works.buy_price, 'true', 'false')) from users JOIN works ON works.num =" . $num . " WHERE users.id=" . $userId . ") canBuy")
+                        // )->where('users.id', $userId)
+                        //     ->get();
                         break;
                     case 'lend':
                         try { # 구매이력이 있으나 렌탈기간이 지났다면 +3일 시켜줌
@@ -102,9 +113,18 @@ class BookController extends Controller
                                     'due_of_rental' => Carbon::now()->addDays(3),   # 만료 기간
                                 ]);
                         }
-                        // $point--;
-                        break;
+                        // // 보유 포인트와 작품 대여 가격 비교
+                        // $rentalPoint = User::select(
+                        //     DB::raw("(select(IF(point>works.rental_price, 'true', 'false')) from users JOIN works ON works.num =" . $num . " WHERE id=" . $userId . ") canRental")
+                        // )->where('users.id', $userId)
+                        //     ->get();
 
+                        // // 대여 시 포인트 차감
+                        // $rentalPointM = User::where('id', $userId)
+                        //     ->update(
+                        //         ['point' => DB::raw("point - (select rental_price from works where num =" . $num . ")")]
+                        //     );
+                        break;
                     case 'read':
                         break;
                     default:
@@ -112,13 +132,15 @@ class BookController extends Controller
                         break;
                 }
                 # 책의 OPF파일 주소 리턴
-                return response()->json(['opfPath' => $opfPath], 200);
+                return response()->json(['opfPath' => $opfPath], 200, [], JSON_UNESCAPED_UNICODE);
             } else {    # 액션이 없으면? -> 대여하거나, 구입하지 않고 다른 행위를 한다는 뜻(읽기 등)
                 return 'please send action Buy Or Lend';
             }
         } else {
+            // return html_entity_decode(preg_replace("/U\+([0-9A-F]{4})/", "&#x\\1;", $opfPath), ENT_NOQUOTES, 'UTF-8');
+            // return htmlentities($opfPath, ENT_QUOTES, "UTF-8");
             # 구매 이력이 있고 대여기간이 남아있으면
-            return response()->json(['opfPath' => $opfPath], 200);
+            return response()->json(['opfPath' => $opfPath], 200, [], JSON_UNESCAPED_UNICODE);
         }
     }
 
