@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Mobile;
-
 use DB;
 use Auth;
 use Carbon\Carbon;
@@ -10,7 +8,6 @@ use App\Traits\FileTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
-
 class BookController extends Controller
 {
     use FileTrait;
@@ -23,7 +20,6 @@ class BookController extends Controller
     {
         //
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -33,7 +29,6 @@ class BookController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -44,7 +39,6 @@ class BookController extends Controller
     {
         //
     }
-
     # 구매 또는 대여 -> 책 OPF주소 전달 -> READ
     public function show(Request $request, $bookNum = null, $bookTitle = null, $action = null)
     {
@@ -58,23 +52,18 @@ class BookController extends Controller
             'file_Path',
             DB::raw("if(due_of_rental < NOW(), FALSE, TRUE) as isRental")
         )->where('num_of_work', $bookNum)->where('user_id', $userId)->get(); # 1이면 대여중인책 Or 구입한 책(null)
-
         //책을 읽을 수 있는 URL을 전달함
         # 일단 칼럼이 있으면 구매 또는 렌탈한 책임. 렌탈한 날짜가 지나면 table값을 삭제 또는 접근 못하게 opf파일주소 눌렀을 때 기간이 초과한 작품이라고 적어 줌
         # 요청이 렌탈이고 현재 렌탈칼럼에 값이 없다면 현재날짜 + 3일로 DB에 table create 있으면 DB저장 없이 OPF파일주소 보내줌.
         # 요청이 구입이고 현재 구입칼럼에 값이 없다면 due_of_rental = NULL(구입),create 있으면 DB저장 없이 OPF파일주소 보내줌.
         # 요청 URL = readBook/WorkSpace/28/냥멍이/buy
-
         $filePath = $this->checkUserMakePath($folderPath, $bookNum);
         $this->hasFile($request, $filePath);
         # '/Author\Author@test\WorkSpace\폴더구조테스트\OEBPS\폴더구조테스트.opf'
         $opfPath = Storage::disk('s3')->url($filePath . DIRECTORY_SEPARATOR . 'OEBPS' . DIRECTORY_SEPARATOR . $bookTitle . '.opf');
-
         # 렌탈 테이블에 저장할 정보
         # Rentals->firstOrCreate(); return count($rentOrBuy);
-
         // return $rentOrBuy[0]['isRental']; # 렌탈 기간이 지났거나 구입되지 않은 책이면.
-
         if (count($rentOrBuy) < 1 || $rentOrBuy[0]['isRental'] == 0) { # 구매나 대여 이력이 없거나 있어도 렌탈기간이 지났다면
             if ($action) {
                 switch ($action) {
@@ -104,7 +93,6 @@ class BookController extends Controller
                         }
                         // $point--;
                         break;
-
                     case 'read':
                         break;
                     default:
@@ -121,7 +109,6 @@ class BookController extends Controller
             return response()->json(['opfPath' => $opfPath], 200);
         }
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -132,7 +119,6 @@ class BookController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -144,7 +130,6 @@ class BookController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *

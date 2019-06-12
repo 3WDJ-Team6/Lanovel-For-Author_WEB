@@ -10,6 +10,7 @@
 <script src="{{asset('/js/chat.js') }}"></script>
 
 <script src="{{ asset('/js/editor.js') }}" defer></script>
+<script src="{{asset('/js/invite_user.js')}}"></script>
 <link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
 <header>
     {{-- 타이틀과 목차 --}}

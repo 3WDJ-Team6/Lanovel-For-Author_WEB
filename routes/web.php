@@ -145,7 +145,7 @@ Auth::routes(); //로그인에 관한 모든 기능 연결
 Route::get('/loadSearchModal', 'InviteUser\InviteUserController@loadSearchModal');
 Route::get('/loadUserInfoModal/{UserEmail}', 'InviteUser\InviteUserController@loadUserInfoModal');
 Route::get('/inviteUser/{userid}', 'InviteUser\InviteUserController@loadInviteUserModal');
-Route::get('/sendInviteMessage/{usernickname}', 'InviteUser\InviteUserController@SendingInviteMessage');
+Route::post('/sendInviteMessage', 'InviteUser\InviteUserController@SendingInviteMessage');
 Route::get('/viewMessages', 'InviteUser\InviteUserController@viewMessages');
 Route::get('/viewMessage/{messageNum}', 'InviteUser\InviteUserController@viewMessage');
 Route::get('/acceptInvite/{messageNum}/{workNum}', 'InviteUser\InviteUserController@acceptInvite');

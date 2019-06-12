@@ -189,7 +189,9 @@ class PublicationController extends Controller
         </rootfiles>\n
     </container>\n";
         Storage::disk('s3')->put($filePath . '/META-INF/container.xml', $container); // container 파일
-        $covertype = str::after($coverName, '.');
+        // return $coverName;
+        $coverimage = str::after($coverName, 'images/');
+        $covertype = str::after($coverimage, '.');
         if ($covertype == 'jpg') {
             $covertype = 'jpeg';
         }
@@ -213,39 +215,70 @@ class PublicationController extends Controller
                 <meta property="rendition:spread">auto</meta>
             </metadata>
             <manifest>
- <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml" />
- <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml" />
- <item id="coverimage" properties="cover-image" href="images/' . $coverName . '"' . ' ' . 'media-type="image/' . $covertype . '" />
- <item id="stylesheet" href="css/stylesheet.css" media-type="text/css" />
- <item id="pagecss" href="css/page_styles.css" media-type="text/css" />
+                <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml" />
+                <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml" />
+                <item id="coverimage" properties="cover-image" href="images/' . $coverimage . '"' . ' ' . 'media-type="image/' . $covertype . '" />
+                <item id="stylesheet" href="css/stylesheet.css" media-type="text/css" />
+                <item id="pagecss" href="css/page_styles.css" media-type="text/css" />
+                <item id="images-cherryBlossom1" href="images/gifimages/cherryBlossom1.gif" media-type="image/gif" />
+                <item id="images-cherryBlossom2" href="images/gifimages/cherryBlossom2.gif" media-type="image/gif" />
+                <item id="images-lightning" href="images/gifimages/lightning.gif" media-type="image/gif" />
+                <item id="images-rain" href="images/gifimages/rain.gif" media-type="image/gif" />
+                <item id="images-snow" href="images/gifimages/snow.gif" media-type="image/gif" />
+                <item id="images-starlight" href="images/gifimages/starlight.gif" media-type="image/gif" />
+                <item id="images-yellowstar" href="images/gifimages/yellowstar.gif" media-type="image/gif" />
+                <item id="js-jquery" href="js/jquery.js" media-type="text/js" />
+                <item id="js-viewer" href="js/viewer.js" media-type="text/js" />
  ';
         foreach ($onlyimglist as $i => $il) {
+
             if (!str::contains($opf, $il)) {
-                $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il . '" media-type="application/xhtml+xml" />
+                $filetype = str::after($il, '.');
+                if ($filetype == 'jpg') {
+                    $filetype = 'jpeg';
+                }
+                $filetype= strtolower('image/'.$filetype);
+                $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il . '" media-type="'.$filetype.'" />
         ';
             }
         }
         foreach ($onlysoundlist as $i => $il) {
             if (!str::contains($opf, $il)) {
-                $opf = $opf . '<item id="sound-' . $i . '" href="sound/' . $il . '" media-type="application/xhtml+xml" />
+                $filetype = str::after($il, '.');
+                if ($filetype == 'mp3') {
+                    $filetype = 'mpeg';
+                }
+                $filetype=strtolower('audio/'.$filetype);
+                $opf = $opf . '<item id="audio-' . $i . '" href="audio/' . $il . '" media-type="'.$filetype.'" />
   ';
             }
         }
         foreach ($onlyvideolist as $i => $il) {
             if (!str::contains($opf, $il)) {
-                $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il . '" media-type="application/xhtml+xml" />
-  ';
-    }
- }
- foreach ($onlypurlist as $i => $il) {
-    if(!str::contains($opf,$il)){
-     $opf = $opf . '<item id="video-' . $i . '" href="purchase/' . $il. '" media-type="application/xhtml+xml" />
-  ';
-    }
- }
- foreach ($chapter_list as $i => $clist) {
-     $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" media-type="application/xhtml+xml" />
-  ';
+                $filetype = str::after($il, '.');
+                $filetype = strtolower('video/'.$filetype);
+                $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il . '" media-type="'.$filetype.'" />
+                    ';
+            }
+        }
+        foreach ($onlypurlist as $i => $il) {
+            if(!str::contains($opf,$il)){
+                $filetype = str::after($il, '.');
+                if ($filetype == 'jpg') {
+                    $filetype = 'jpeg';
+                    $filetype = strtolower('image/'.$filetype);
+                }
+                if ($filetype == 'png' || $filetype == 'gif') {
+                    $filetype = strtolower('image/'.$filetype);
+                    // return $filetype;
+                }
+            $opf = $opf . '<item id="purchase-' . $i . '" href="purchase/' . $il. '" media-type="'.$filetype.'" />
+        ';
+            }
+        }
+        foreach ($chapter_list as $i => $clist) {
+            $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" properties="scripted" media-type="application/xhtml+xml" />
+        ';
         }
 
         $opf = $opf . '</manifest>
@@ -267,9 +300,11 @@ class PublicationController extends Controller
 
         $nav =
             '<?xml version="1.0" encoding="UTF-8"?>
-            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/opf" xml:lang="jp" lang="jp">
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="jp" lang="jp">
             <head>
                 <meta http-equiv="default-style" content="text/html; charset=utf-8" />
+                <meta name="viewport"
+                    content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0" />
                 <title>Navigation</title>
                 <link rel="stylesheet" href="css/stylesheet.css" type="text/css" />
             </head>
@@ -282,7 +317,13 @@ class PublicationController extends Controller
                 <li><a href="nav.xhtml" class="nav_li">Contents</a></li>
   ';
         foreach ($chapter_list as $i => $clist) {
-            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li">' . $clist['subsubtitle'] . '</a></li>';
+            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li">' . $clist['subsubtitle'] . '</a>';
+            $a = 50-strlen($clist['subsubtitle']);
+            for($b=0; $a>=$b;$b++){
+                $nav = $nav.'-';
+            }
+            $nav = $nav .
+            $nav = $nav .'</li>';
         }
         $nav = $nav . '
     </ol>
@@ -297,7 +338,7 @@ class PublicationController extends Controller
             <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                 <head>
                     <meta http-equiv='default-style' content='text/html; charset=utf-8'/>
-                    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
+                    <meta name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
                     <title>" . $work_title . "</title>
                     <link rel='stylesheet' type='text/css' href='css/stylesheet.css' />
                     <link rel='stylesheet' type='text/css' href='css/page_styles.css' />
@@ -320,13 +361,20 @@ class PublicationController extends Controller
             $text = $clist['content'];
             while(1){
                 if(str::contains($text,'/sound/')){
+                    // echo "num : $i a<br>";
                     $text = str::replaceFirst('/sound/','/audio/',$text);
                 }elseif(str::contains($text,'https://s3.ap-northeast-2.amazonaws.com/')){
+                    // echo "num : $i b<br>";
                     $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/'.Auth::user()['email'].'/','../',$text);
                     // return $text;
+                }elseif (preg_match('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', $text)) {
+                    // echo "num : $i c<br>";
+                    $text = preg_replace('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', "$1<ruby>$2<rt>$3</rt></ruby>" , $text);
+                    if($i==2){
+                        // return $text;
+                    }
                 }else{
                     $clist['content']=$text;
-                    // return 3;
                     break;
                 }
             }
@@ -335,28 +383,26 @@ class PublicationController extends Controller
                 <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                     <head>
                     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-                    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
+                    <meta name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
                     <meta name='Adept.resource' value='urn:uuid:ad98550c-1f39-4200-91cd-f044b376b4f4' />
                     <title>" . $clist['subsubtitle'] . "</title>
                     <link rel='stylesheet' href='../css/stylesheet.css' type='text/css' />
                     <link rel='stylesheet' href='../css/page_styles.css' type='text/css' />
-                    <script src='../js/jquery.js'></script>
-                    <script src='../js/viewer.js'></script>
+                    <script src='../js/jquery.js' type='text/javascript'></script>
+                    <script src='../js/viewer.js' type='text/javascript'></script>
                     </head>
                 <body>
-                <div class='galley-rw'>
-                <section class='frontmatter-rw Dedication-rw exclude-auto-rw page-open-auto-rw' id='Dedication1'
-                    epub:type='frontmatter dedication'>
+                <span class='galley-rw'>
                     <h1>" . $clist['subsubtitle'] . "</h1>
                     " . $clist['content'] . "
-                </section>
-                </div>
+                </span>
                 </body>
             </html>
             ";
             Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'text' . DIRECTORY_SEPARATOR . 'main' . $i . '.xhtml', $contents);
         }        // 각 목차 내용
 
+        // return 0;
         $filePaths = $filePath;
         while (1) {
             if (str::contains($filePaths, "\\")) {
@@ -376,7 +422,10 @@ class PublicationController extends Controller
         $cssNmae = 'stylesheet';
         $cssFile =
             "
-            #sectionId{text-align:center; margin-top:5%; } #coverimgdiv{ background: url('" . $book_cover . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 398px; height: 554px; text-align:left;            }            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }            #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
+            #sectionId{text-align:center; margin-top:5%; }
+            #coverimgdiv{ background: url('../images/" . $coverimage . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 398px; height: 554px; text-align:left;            }
+            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }
+            #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
 
             .resize,
             .resize_mp4 {
@@ -478,7 +527,7 @@ class PublicationController extends Controller
             $cssFile =
                 "
                 @page {
-                  page-break-before: always;
+                  page-break-after: always;
                   margin-bottom: 5pt;
                   margin-top: 5pt
                   }
@@ -490,20 +539,14 @@ class PublicationController extends Controller
         $jsNmae = 'viewer';
         $jsFile =
             "
-            $(function(){
-                $('#Dedication1').each(function() {
-                    $(this).html(
-                        $(this).html()
-                        .replace(/[\|｜](.+?)《(.+?)》/g, '<ruby>$1<rt>$2</rt></ruby>')
-                        .replace(/[\|｜](.+?)（(.+?)）/g, '<ruby>$1<rt>$2</rt></ruby>')
-                        .replace(/[\|｜](.+?)\((.+?)\)/g, '<ruby>$1<rt>$2</rt></ruby>')
-                        .replace(/([一-龠]+)《(.+?)》/g, '<ruby>$1<rt>$2</rt></ruby>')
-                        .replace(/([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g, '<ruby>$1<rt>$2</rt></ruby>')
-                        .replace(/([一-龠]+)\(([ぁ-んァ-ヶ]+?)\)/g, '<ruby>$1<rt>$2</rt></ruby>')
-                        .replace(/[\|｜]《(.+?)》/g, '《$1》')
-                        .replace(/[\|｜]（(.+?)）/g, '（$1）')
-                        .replace(/[\|｜]\((.+?)\)/g, '($1)')
-                    );
+            $(document).ready(function () {
+                $(function () {
+                    $('#Dedication1').each(function () {
+                        $(this).html(
+                            $(this).html()
+                            .replace(/([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g, '<ruby>$1<rt>$2</rt></ruby>')
+                        );
+                    });
                 });
             });
             let isPlaying = false;
@@ -523,14 +566,17 @@ class PublicationController extends Controller
 }
             ";
 
-            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js')){
-                Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsNmae);
+            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js')){
+                Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsNmae);
             } // js
 
-        if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
-            Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');
-            Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'stylesheet.css', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css');
-        } // 직접 제작한 js와 css는 resource폴더에 보관하고 있다가 발행시 넣어줌.
+            if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
+                Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');
+                Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'stylesheet.css', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css');
+            } // 직접 제작한 js와 css는 resource폴더에 보관하고 있다가 발행시 넣어줌.
+            if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css')) {
+                Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'stylesheet.css', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css');
+            } // 직접 제작한 js와 css는 resource폴더에 보관하고 있다가 발행시 넣어줌.
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

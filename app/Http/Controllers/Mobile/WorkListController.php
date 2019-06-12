@@ -123,12 +123,12 @@ class WorkListController extends Controller
             DB::raw('(select group_concat(category_works.tag) from category_works where category_works.num_of_work = works.num) tag'),
             DB::raw('(select count(num_of_work) FROM recommend_of_works where recommend_of_works.num_of_work = works.num) recommends'),
             DB::raw("if((select count(recommend_of_works.num_of_work) FROM recommend_of_works WHERE recommend_of_works.num_of_work = works.num AND recommend_of_works.user_id = $userId),'t','f') recommends_or_not"),
-            DB::raw("IFNULL((select if(ISNULL(due_of_rental),'buy','rental') FROM rentals WHERE rentals.user_id = $userId AND rentals.chapter_of_work = $chapterNum),'0') check_buy_or_ren"), #?
+            // DB::raw("IFNULL((select if(ISNULL(due_of_rental),'buy','rental') FROM rentals WHERE rentals.user_id = $userId AND rentals.chapter_of_work = $chapterNum),'0') check_buy_or_ren"), #?
             DB::raw('(select count(*) from subscribe_or_interests WHERE subscribe_or_interests.role_of_work = 1) subscribe_count'),
             DB::raw("if((select count(*) from subscribe_or_interests WHERE subscribe_or_interests.role_of_work = 1 AND subscribe_or_interests.user_id = $userId),'t','f') sub_or_not"),
             DB::raw("if((select count(*) from subscribe_or_interests WHERE subscribe_or_interests.role_of_work = 2 AND subscribe_or_interests.user_id = $userId),'t','f' ) ins_or_not"),
             DB::raw('(select users.profile_photo from users where users.id in(select user_id from work_lists where num_of_work = 18) LIMIT 1) author_profile_photo'),
-            DB::raw("(select group_concat(content_of_works.subsubtitle) from content_of_works where content_of_works.num_of_chapter = $chapterNum) content_title_group"),
+            // DB::raw("(select group_concat(content_of_works.subsubtitle) from content_of_works where content_of_works.num_of_chapter = $chapterNum) content_title_group"),
             DB::raw("date_format(MAX(greatest(works.created_at , ifnull(content_of_works.created_at,''))),'%y-%m-%d') lastupdate")
         )->leftjoin('work_lists', 'works.num', '=', 'work_lists.num_of_work')
             ->leftjoin('category_works', 'works.num', '=', 'category_works.num_of_work')

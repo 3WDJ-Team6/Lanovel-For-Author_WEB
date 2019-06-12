@@ -15285,7 +15285,7 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             console.log(e);
         }).listenForWhisper('typing', function (e) {
             if (e.name != '') {
-                _this2.typing = 'typing...';
+                _this2.typing = e.message;
             } else {
                 _this2.typing = '';
             }
@@ -59086,7 +59086,7 @@ exports = module.exports = __webpack_require__(46)(false);
 
 
 // module
-exports.push([module.i, "\nmark {\r\n  background-color: #45b4e61a;\n}\n.list-group-item-success:not(.you) {\r\n  width: 90%;\r\n  float: left;\r\n  font-size:16px;\n}\n.you {\r\n  width: 90%;\r\n  float: right;\r\n  font-size:16px;\n}\n#time {\r\n  font-size: 9px;\r\n  color: black;\n}\n#chatcontent2 {\r\n  width: 90%;\r\n  float: left;\n}\n#usernickname {\r\n  left: 0px;\n}\r\n", ""]);
+exports.push([module.i, "\nmark {\n  background-color: #45b4e61a;\n}\n.list-group-item-success:not(.you) {\n  width: 90%;\n  float: left;\n  font-size: 16px;\n  background-color: #23b1d8;\n}\n.you {\n  width: 90%;\n  float: right;\n  font-size: 16px;\n}\n#time {\n  font-size: 9px;\n  color: black;\n}\n#chatcontent2 {\n  width: 90%;\n  float: left;\n}\n#usernickname {\n  left: 0px;\n}\n", ""]);
 
 // exports
 
