@@ -18,12 +18,13 @@ class CreateRequestOfIllustrationsTable extends Migration
 
             $table->integer('request_id')->comment("신청자회원번호")->unsigned();
             $table->foreign('request_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
 
             $table->integer('response_id')->comment("일러레회원번호")->unsigned();
             $table->foreign('response_id')
-                  ->references('id')->on('users');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
 
             $table->integer('type_of_request')->comment("신청타입");
             $table->integer('response_of_request')->default(1)->comment("요청결과");

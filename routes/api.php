@@ -31,4 +31,8 @@ Route::group(['prefix' => 'reader'], function () {
     Route::get('/selectionRequest/{workNum?}/{userId?}/{type?}', 'Mobile\WorkListController@selection');
     # 구독자에게 알림
     Route::get('/sendSMS/{phone_number?}', 'Mobile\SMSController@sendSMS');
+    # 리뷰 보여지기
+    Route::get('/showReview/{workNum}', 'Mobile\ReviewController@index');
+    # 리뷰 저장
+    Route::get('/saveReview/{workNum}/{userId}', 'Mobile\ReviewController@store');
 });

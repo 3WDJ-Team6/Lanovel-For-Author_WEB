@@ -130,6 +130,13 @@ class User extends Authenticatable
     }
 
     /**
+     * 하나의 회원은 여러 구독 테이블을 가질 수 있다.
+     */
+    public function subscribes()
+    {
+        return $this->hasMany('App\Models\Subscribe');
+    }
+    /**
      * 하나의 회원은 여러 작품 리스트에 참여할 수 있다.
      * 하나의 작품 리스트는 여러 회원을 포함할 수 있다.
      * 회원 : 작품 리스트 = 일 : 다

@@ -6,7 +6,6 @@
     body {
         font-family: 'M PLUS Rounded 1c';
     }
-
 </style>
 <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
 <link href="{{asset('css/templatemo_style.css')}}" rel="stylesheet">
@@ -16,14 +15,40 @@
         var option = "width=600, height=300, top=100"
         window.open(url, "", option);
     }
-
 </script>
+
 <script>
-    // function receiver() {
-    //     document.
-    // }
-
+    jQuery(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+    $('#push_alarm').on("click", alarm);
+    
+        function alarm(e) {
+            $.ajax({
+                type: "POST",
+                url: "https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send",
+                data: {
+                    notification: {
+                        title: '구독작가 신작알림',
+                        body: 'test'
+                    }
+                },
+                dataType: "JSON",
+                error: function (e) {
+                    console.log("실패");
+                },
+                success: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+    });
+    
 </script>
+
 @endsection
 
 @section('header')
@@ -43,9 +68,8 @@
     <!-- <div class="row"> -->
     <div class="col-lg-12 col-md-10 mx-auto" id="chapters_box" style="margin-top:50px; margin-bottom:50px;">
         <div id="work_title_box" style="margin-bottom:50px;">
-            <h4 style="margin-bottom:20px;">
-                @if(Auth::user()['roles']==2)<a href="/" style="text-decoration:none;">{{$nowWork->work_title}}</a></h4>
-                <a href="/character_relationships">인물관계도</a>
+            <h3 style="margin-bottom:20px;">
+            @if(Auth::user()['roles']==2)<a href="/" style="color:#ea4c4c;">{{$nowWork->work_title}}</a></h3>
             @else
             <h4>{{$nowWork->work_title}}</h4>
             @endif
@@ -93,7 +117,7 @@
                         <img src="{{asset('image/trash.png')}}" title="삭제"
                             style="text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
                     @if($cn->subsubtitle)
-                    <button type="button" style="border: none; background-color:white;  height:25px;">
+                    <button type="button" style="border: none; background-color:white;  height:25px;" id="push_alarm">
                         <a href="{{url('publication')}}/{{$row['num_of_work']}}/{{$row['num']}}">
                             <img src="{{asset('image/archive.png')}}" title="발행"
                                 style="text-align:center;width:30px; height:100%; font-size:15px; background-color:white; color:#6c757d;">
@@ -113,6 +137,7 @@
         </div>
     </div>
 </div>
+
 
 @endsection
 

@@ -1001,12 +1001,17 @@ input[type="file"] {
     height: 200px;
 }
 
+.focused {
+    color: white;
+    border-radius: 8%;
+}
+
 .writer {
-    color: rgba(177, 29, 177, 0.507);
+    background-color: rgba(177, 29, 177, 0.507);
 }
 
 .illustrator {
-    color: rgba(133, 255, 11, 0.685);
+    background-color: rgba(133, 255, 11, 0.685);
 }
 
 .nav_left {

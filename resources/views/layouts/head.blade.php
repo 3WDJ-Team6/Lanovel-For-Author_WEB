@@ -9,6 +9,10 @@
     <!-- Custom fonts for this template -->
     <link href="{{asset('fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
 
+    <link rel="stylesheet" type="text/css" href="{{asset('css/editor.css')}}" />
+
+    <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p&display=swap" rel="stylesheet">
+
     <!-- Custom styles for this template -->
     <link href="{{asset('css/clean-blog.min.css')}}" rel="stylesheet">
 
@@ -26,5 +30,14 @@
     <!-- Custom scripts for this template -->
     <!-- <script src="{{asset('js/clean-blog.min.js')}}"></script> -->
 
+    <style>
+    body {
+    background-color:#fffffa;
+    }
+
+    .nav-link{
+        /* font-family: "M PLUS 1p"; */
+    }
+    </style>
 
 </head>

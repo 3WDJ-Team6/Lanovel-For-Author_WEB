@@ -88,6 +88,7 @@ return array(
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Providers\\ViewServiceProvider' => $baseDir . '/app/Providers/ViewServiceProvider.php',
     'App\\Resource' => $baseDir . '/app/Models/Resource.php',
+    'App\\Subscribe' => $baseDir . '/app/Subscribe.php',
     'App\\Traits\\FileTrait' => $baseDir . '/app/Traits/FileTrait.php',
     'App\\Traits\\ModelScopes' => $baseDir . '/app/Traits/ModelScopes.php',
     'App\\WorkOut\\ReadBook' => $baseDir . '/app/Models/ReadBook.php',
