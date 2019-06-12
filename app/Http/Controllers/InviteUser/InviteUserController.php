@@ -144,8 +144,8 @@ class InviteUserController extends Controller
                 <input type='submit' id='invite' value='초대'>
 
         </form>
-        
-        
+
+
   ";
 
         return $text;
