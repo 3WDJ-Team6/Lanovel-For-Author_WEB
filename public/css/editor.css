@@ -4,19 +4,19 @@ html {
     height: 100%;
     max-width: 100%;
     max-height: 100%;
-    background-color: #fffffa;
 }
 
 /* nav */
 header {
-    background-color: #fffffa;
+    background-color: white;
+    box-shadow: 5px 5px 5px 0 black;
     width: 100%;
 }
 
-/* header .nav {
+header .nav {
     float: right;
     margin-top: 10px;
-} */
+}
 
 header * {
     display: inline;
@@ -1001,12 +1001,17 @@ input[type="file"] {
     height: 200px;
 }
 
+.focused {
+    color: white;
+    border-radius: 8%;
+}
+
 .writer {
-    color: rgba(177, 29, 177, 0.507);
+    background-color: rgba(177, 29, 177, 0.507);
 }
 
 .illustrator {
-    color: rgba(133, 255, 11, 0.685);
+    background-color: rgba(133, 255, 11, 0.685);
 }
 
 .nav_left {
@@ -1219,10 +1224,9 @@ input[type="file"] {
     margin: 3px;
 }
 
-/* 
 .mx-auto {
     text-align: center;
-} */
+}
 
 .list-group {
     overflow-y: scroll;

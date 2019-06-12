@@ -33,7 +33,8 @@
     <div class="title-bar">
         @foreach ($titles as $title)
         @if(Auth::user()['roles'] == 2)
-        <a href="{{url('/')}}" id="title"><span id="work">
+        <a href="{{url('/')}}" id="title">
+            <span id="work">
                 <h3>{{$title['work_title']}}</h3>
             </span></a>
         @else
