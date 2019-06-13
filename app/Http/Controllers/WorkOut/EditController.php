@@ -295,6 +295,12 @@ class EditController extends Controller
         // Redis::set('name', 'test');
         // $values = Redis::command('lrange', ['name', 5, 10]);
 
+        $work_of_num_of_now_content = ContentOfWork::select(
+            'content_of_works.num_of_work'
+        )->where('content_of_works.num','=',$num)->first();
+
+        $num_of_now_work = $work_of_num_of_now_content->num_of_work;
+
         $chapter_of_num_of_now_content = ContentOfWork::select(
             'content_of_works.num_of_chapter'
         )->where('content_of_works.num', '=', $num)->first();
@@ -330,6 +336,11 @@ class EditController extends Controller
 
         $content_of_works = ContentOfWork::select('*')->where('num', $num)->first();
 
+        $memberlist = WorkList::select(
+            // 'work_lists.user_id'
+            'users.nickname'
+        )->join('users', 'users.id', 'work_lists.user_id')
+        ->where('work_lists.num_of_work','=',$num_of_now_work)->get();
 
         // return $content_of_works['content'];
         // return $content_lists;
@@ -338,7 +349,8 @@ class EditController extends Controller
             ->with('content_lists', $content_lists)
             ->with('titles', $titles)
             ->with('memos', $memos)
-            ->with('user', Auth::user()['nickname']);
+            ->with('user', Auth::user()['nickname'])
+            ->with('memberlist',$memberlist);
     }
 
     /**
