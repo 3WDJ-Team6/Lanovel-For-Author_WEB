@@ -18,7 +18,8 @@ class CreateResourcesTable extends Migration
 
             $table->string('user_email')->comment("회원이메일");
             $table->foreign('user_email')
-                  ->references('email')->on('users');
+                ->references('email')->on('users')
+                ->onDelete('cascade');
 
             $table->string('name')->comment("파일명");
             $table->integer('size')->comment("파일사이즈");

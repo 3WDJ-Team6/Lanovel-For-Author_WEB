@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use App\Models\CommentOfWork;
+use App\Models\Grade;
 use App\Events\ShareEvent;
 use Illuminate\Support\Facades\Redis;
 
@@ -30,17 +32,30 @@ class EditController extends Controller
 
     public function __construct()
     {
-        /**
+        /**,
          * 인증 된 사용자만 목차 리스트 및 에디터에 접근할 수 있다.
          */
         // return $this->middleware('auth');
     }
     /** 목차 리스트 보기
-     * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
+     * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수) 작품 생성 시각, 작품 최종 수정 시각,
      */
 
     public function index($num)
     {
+        $num = 134;
+
+        $comment = CommentOfWork::select(
+            'comment_of_works.*',
+            'grades.grade',
+            'users.profile_photo'
+        )->where('comment_of_works.num_of_work', $num)
+
+            ->join('grades', 'grades.num_of_work', 'comment_of_works.num_of_work')
+            ->leftjoin('users', 'users.id', 'comment_of_works.user_id')
+            ->get();
+
+        return response()->json($comment, 200, [], JSON_PRETTY_PRINT);
 
         $nowChapter = ChapterOfWork::select(
             'chapter_of_works.*'
@@ -355,12 +370,15 @@ class EditController extends Controller
         $count = 0;
         $imglist = [];
         $ttext = $editor_content;
-
         while (1) {
             if (str::contains($editor_content, 'height: auto;">')) {
                 $editor_content = str::replaceFirst('height: auto;">', 'height: auto;" />', $editor_content);
             } elseif (str::contains($editor_content, 'height:auto;">')) {
                 $editor_content = str::replaceFirst('height:auto;">', 'height: auto;" />', $editor_content);
+            } elseif (preg_match('/servername="[!-z0-9]*\.[!-z0-9]{3,4}"/', $editor_content)) {
+                $editor_content = preg_replace('/servername="[!-z0-9]*\.[!-z0-9]{3,4}"/', "" , $editor_content);
+            } elseif (str::contains($editor_content, 'div')) {
+                $editor_content = str::replaceFirst('div', 'span', $editor_content);
             } elseif (str::contains($editor_content, '&nbsp;')) {
                 $editor_content = str::replaceFirst('&nbsp;', '', $editor_content);
             } elseif (str::contains($editor_content, 'resize">')) {

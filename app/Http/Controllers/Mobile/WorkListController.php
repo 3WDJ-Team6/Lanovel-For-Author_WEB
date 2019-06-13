@@ -201,9 +201,9 @@ class WorkListController extends Controller
         $result = SubscribeOrInterest::select(
             DB::raw("IF(role_of_work = 0, 'true', 'false') subOrInterstOrLike")
         )->where('subscribe_or_interests.user_id', $userId)
-            ->where('subscribe_or_interests.num_of_work', $num)
-            ->groupBy('subscribe_or_interests.user_id')
-            ->groupBy('subscribe_or_interests.num_of_work')->get();
+        ->where('subscribe_or_interests.num_of_work', $num)
+        ->groupBy('subscribe_or_interests.user_id')
+        ->groupBy('subscribe_or_interests.num_of_work')->get();
 
         $tempArr = [
             'requestType' => $type,

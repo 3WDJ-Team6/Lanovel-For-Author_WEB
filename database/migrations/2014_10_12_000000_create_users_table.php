@@ -34,6 +34,7 @@ class CreateUsersTable extends Migration
             $table->boolean('adult_certification')->default(false)->comment("성인인증여부");
 
             $table->integer('phone_number')->nullable()->comment("휴대전화번호");
+            $table->string('phone_token')->nullable()->comment("기기토큰");
 
             $table->rememberToken();
             $table->timestamps();
