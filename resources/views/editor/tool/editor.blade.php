@@ -18,6 +18,7 @@
 <script src="{{asset('/js/chat.js') }}"></script>
 
 <script src="{{ asset('/js/editor.js') }}" defer></script>
+<script src="{{asset('/js/invite_user.js')}}"></script>
 <link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
 @if(Auth::user()['roles'] == 2)
 <script>

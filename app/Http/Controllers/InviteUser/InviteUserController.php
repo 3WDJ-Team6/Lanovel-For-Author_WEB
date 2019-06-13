@@ -5,6 +5,7 @@ namespace App\Http\Controllers\InviteUser;
 use Auth;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
+use App\Models\ContentOfWork;
 use App\Models\Message;
 use App\Models\User;
 use App\Models\Work;
@@ -25,7 +26,6 @@ class InviteUserController extends Controller
         )->get();
 
         $text = "
-        <script src='" . asset('/js/invite_user.js') . "'></script>
         <style>
             .userlist{
                 display:none;
@@ -127,61 +127,65 @@ class InviteUserController extends Controller
             })->orderBy('works.created_at', 'desc')
             ->get();
         $text = "
-        <form action=" . url('sendInviteMessage/' . $nickname) . ">
+        <form id='sample_form'>
             <label>user E-mail</label>
             <input type='text' name='userid' id='userid' class='form-control' value = " . $nickname . " readonly>
             <div style='width:100%; overflow:auto'>
             <label>Work Title : </label>
-            <select name = 'title'>";
+            <select name = 'numofwork'>";
         foreach ($work_titles as $i => $row) {
             $text = $text . "<option value=" . $row["num"] . ">" . $row["work_title"] . "</option>";
         }
         $text = $text . "</select>
             <br>
                 <label>message for invite</label><br>
-                <textarea name='message' style='resize:none' cols ='85' rows='5'></textarea>
+                <textarea name='message' id='message_for_invite' style='resize:none' cols ='85' rows='5'></textarea>
                 <br>
-                <input type='submit' id='invite' value='초대'>
-
+            <input type='button' id='submitbtn' value='초대'>
         </form>
-
-
   ";
 
         return $text;
     }
-    public function SendingInviteMessage(Request $request, $nickname)
+    public function SendingInviteMessage(Request $request)
     {
-        // $userid = $request->get('userid');
-        $work_num = $request->get('title');
-        $invite_message = $request->get('message');
+        $userid = $request->usernickname;
+        $work_num = $request->numofwork;
+        $invite_message = $request->message;
 
+        // echo "<script>alert('test');</script>";
         $user_id = User::select(
             'users.id'
-        )->where('users.nickname', $nickname)
+        )->where('users.nickname', $userid)
             ->first()->id;
-
         $work_title = Work::select(
             'works.work_title'
         )->where('works.num', $work_num)
             ->first()->work_title;
 
-        $list = new WorkList();
-        $list->num_of_work = $work_num;
-        $list->user_id = $user_id;
-        $list->accept_request = 1;
-        $list->last_time_of_working = Carbon::now();
-        $list->save();
+        $worklist = WorkList::select(
+            DB::raw("SELECT if(user_id = $user_id,'t','f') FROM work_lists WHERE user_id = $user_id AND num_of_work = $work_num")
+        );
+        if($worklist=='t'){
+        }else{
+            $list = new WorkList();
+            $list->num_of_work = $work_num;
+            $list->user_id = $user_id;
+            $list->accept_request = 1;
+            $list->last_time_of_working = Carbon::now();
+            $list->save();
 
-        $message = new Message();
-        $message->from_id = Auth::user()['id'];
-        $message->to_id = $user_id;
-        $message->message_title = 'invite message';
-        $message->message_content = $invite_message;
-        $message->num_of_work = $work_num;
-        $message->save();
-
+            $message = new Message();
+            $message->from_id = Auth::user()['id'];
+            $message->to_id = $user_id;
+            $message->message_title = 'invite message';
+            $message->message_content = $invite_message;
+            $message->num_of_work = $work_num;
+            $message->save();
+        }
         // event(new InviteEvent(Auth::user()['nickname'], $nickname, 'invite message', $nickname . "님이 " . $work_title . '작품에 초대하셧습니다.'));
+
+        // return redirect()->back()->withInput();
     }
     public function viewMessages()
     {

@@ -358,12 +358,15 @@ class EditController extends Controller
         $count = 0;
         $imglist = [];
         $ttext = $editor_content;
-
         while (1) {
             if (str::contains($editor_content, 'height: auto;">')) {
                 $editor_content = str::replaceFirst('height: auto;">', 'height: auto;" />', $editor_content);
             } elseif (str::contains($editor_content, 'height:auto;">')) {
                 $editor_content = str::replaceFirst('height:auto;">', 'height: auto;" />', $editor_content);
+            } elseif (preg_match('/servername="[!-z0-9]*\.[!-z0-9]{3,4}"/', $editor_content)) {
+                $editor_content = preg_replace('/servername="[!-z0-9]*\.[!-z0-9]{3,4}"/', "" , $editor_content);
+            } elseif (str::contains($editor_content, 'div')) {
+                $editor_content = str::replaceFirst('div', 'span', $editor_content);
             } elseif (str::contains($editor_content, '&nbsp;')) {
                 $editor_content = str::replaceFirst('&nbsp;', '', $editor_content);
             } elseif (str::contains($editor_content, 'resize">')) {
