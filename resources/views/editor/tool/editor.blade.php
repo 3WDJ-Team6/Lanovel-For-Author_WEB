@@ -15,7 +15,7 @@
 </script>
 <script src="{{asset('/js/chat.js') }}"></script>
 <script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
+<link href="{{ asset('css/editor.css?a') }}" rel="stylesheet">
 @if(Auth::user()['roles'] == 2)
 <script>
     var userRoles = "writer";
@@ -50,13 +50,12 @@
     {{-- 상단 메뉴 --}}
     <div class="nav">
         <div class="nav-bar">
-
             <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
                 @csrf
                 <ul>
-                    <li class="nav-btn"><span id="chatting">채팅</span></li>
+                    {{-- <li class="nav-btn"><span id="chatting">채팅</span></li>--}}
                     <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></li>
-                    <li class="nav-btn">멤버리스트</li>
+                    <li class="nav-btn" id="mem-btn">멤버리스트</li>
                     <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a>
                     </li>
                     <li class="nav-btn"><button type="submit" id='sub'>저장</button></li>
@@ -102,7 +101,8 @@
                         </script>
                     </div>
                     <div class="ep-list">
-                        {{-- 회차 리스트 띄워주기 --}} @foreach($content_lists as $row)
+                        {{-- 회차 리스트 띄워주기 --}}
+                        @foreach($content_lists as $row)
                         <a href="{{url('/editor')}}/{{$row['num']}}">- {{$row['subsubtitle']}}<br></a>
                         @endforeach
                     </div>
@@ -175,6 +175,11 @@
         {{--<div class="focus_user" style="display:none;">
             {{$user}}
         </div>--}}
+    </div>
+    <div id="member_list">
+            @foreach($memberlist as $row)
+                <div class="member_list_li">&nbsp;{{$row['nickname']}}</div>
+            @endforeach
     </div>
     <script>
         jQuery(document).ready(function() {
