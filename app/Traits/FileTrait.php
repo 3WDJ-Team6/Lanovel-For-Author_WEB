@@ -67,4 +67,15 @@ trait FileTrait
             return redirect('/')->withErrors('파일이 존재하지 않습니다.');
         }
     }
+
+    function unicodeString($str, $encoding = null)
+    {
+
+        if (is_null($encoding)) $encoding = ini_get('mbstring.internal_encoding');
+
+        return preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/u', function ($match) use ($encoding) {
+
+            return mb_convert_encoding(pack('H*', $match[1]), $encoding, 'UTF-16BE');
+        }, $str);
+    }
 }

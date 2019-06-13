@@ -143,7 +143,8 @@ class InviteUserController extends Controller
                 <br>
             <input type='button' id='submitbtn' value='초대'>
         </form>
-        ";
+  ";
+
         return $text;
     }
     public function SendingInviteMessage(Request $request)

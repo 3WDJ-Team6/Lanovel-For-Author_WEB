@@ -35,9 +35,6 @@ $(document).ready(function () {
         Str[0] = Str[0].replace('userid=', '');
         Str[1] = Str[1].replace('numofwork=', '');
         Str[2] = Str[2].replace('message=', '');
-        console.log(Str[0]);
-        console.log(Str[1]);
-        console.log(Str[2]);
         $.ajax({
             url: '/sendInviteMessage',
             method: "post",
@@ -48,6 +45,7 @@ $(document).ready(function () {
             },
             success: function () {
                 $('.jquery-modal1').css('display', 'none');
+                $('#member_list').append("<div class='member_list_li'>&nbsp;초보그림쟁이</div>");
             },
             error: function (e) {
                 console.log(e);
