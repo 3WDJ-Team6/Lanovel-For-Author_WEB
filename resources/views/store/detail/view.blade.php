@@ -4,6 +4,9 @@
 @include('layouts.store.head')
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="{{asset('js/store/detail_view_image.js')}}"></script>
 <!-- <link rel="stylesheet" href="{{asset('css/store/view_image.css')}}"> -->
@@ -14,6 +17,9 @@
     }
 
 </style>
+
+
+
 @endsection
 
 @section('header')
@@ -23,6 +29,8 @@
 @section('content')
 
 <body>
+
+
     <section class="new_arrivals_area" style="width:100%; margin-top:120px; margin-bottom:50px;">
         <!-- 전부 -->
         <div class="row" style="justify-content:center; width:100%;">
@@ -64,9 +72,39 @@
                         </div>
                         <div class="price" name="price_of_illustration"
                             style="width:260px; margin:20px; text-align:right; display:inline-block;">
-                            <h5>Price : {{$product->price_of_illustration}} <button type="button" onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'" class="btn btn-light"
-                                    style="width:80px;">구매</h5>
+                            <h5>Price : {{$product->price_of_illustration}}
+
+                                <button type="button" class="btn btn-light" data-toggle="modal"
+                                    data-target="#alarmModal" style="width:80px;">구매</button> </h5>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="alarmModal" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content" style="align-content:start;">
+                                        <div class="modal-header" style="align-content:start;">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel"></h4>
+                                        </div>
+                                        <div class="modal-body" style="align-content:start;">
+                                            <h4 style="align-content:start;">해당 삽화를 구매하시겠습니까? &nbsp &nbsp &nbsp &nbsp
+                                                &nbsp &nbsp &nbsp &nbsp
+                                                &nbsp &nbsp </h4>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default"
+                                                data-dismiss="modal">취소</button>
+                                            <button type="button"
+                                                onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'"
+                                                class="btn btn-primary">구매</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                     <div class="nickname" name="nickname"
                         style="width:100%; text-align:center; margin:10px;text-align:left;">
@@ -104,7 +142,7 @@
 
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-10 col-sm-offset-1" id="logout">
+                        <div class="col-sm-10 col-sm-offset-1" id="logout" style="margin:0;">
                             <div class="page-header">
                             </div>
                             <div class="comment-tabs" style="width:700px;">
@@ -349,6 +387,20 @@
         </div>
 
     </section>
+
+    <script>
+        $(document).ready(function () {
+            $("#alarm").click(function () {
+                console.log("ddd");
+
+                $("#alarmModal").modal();
+
+                console.log("aaa");
+
+            });
+        });
+
+    </script>
 
 </body>
 

@@ -90,16 +90,19 @@ class IllustController extends Controller
      */
     public function index()
     {
+
         $products = IllustrationList::select(
             // 작품번호
             'illustration_lists.*',
             'users.nickname',
-            'illust_files.url_of_illustration'
+            'illust_files.*'
         )->join('users', 'users.id', 'illustration_lists.user_id')
             ->join('illust_files', 'illustration_lists.num', 'illust_files.num_of_illust')
-            ->orderByRaw('illustration_lists.hits_of_illustration', 'desc')
+            ->groupBy('num_of_illust')
+            ->orderByRaw('illustration_lists.hits_of_illustration', 'asc')
             ->limit(5)
             ->get();
+
         $uid = Auth::user()['id'];
         if (isset($uid)) {
             $check_message = Message::select(
@@ -420,7 +423,7 @@ class IllustController extends Controller
             // return response()->json($urls->savename_of_illustration, 200, [], JSON_PRETTY_PRINT);
             Storage::disk('s3')->copy($urls->folderPath . $urls->savename_of_illustration, $userPath . $urls->savename_of_illustration);
         }
-        return redirect()->back()->with('message', '구매 성공')->with('illust_info', $illust_info);
+        return redirect()->back()->with('success', '일러스트를 구매했습니다.')->with('illust_info', $illust_info);
     }
 
     public function buyIllustInCart()

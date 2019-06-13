@@ -7,6 +7,7 @@ use App\Models\Work;
 use App\Models\WorkList;
 use App\Models\ChapterOfWork;
 use App\Models\ContentOfWork;
+use App\Models\Subscribe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
@@ -23,11 +24,49 @@ class PublicationController extends Controller
         2. 사용자가 사용할려면 epubcheck.jar 및 기타 부속품이 필요한데 어케 해결할지
         3. 사용자별로 epubcheck.jar 파일위치가 달라질텐데 ...
     */
-    public function publish($num_of_work, $num_of_chapter)
+    public function publish($num_of_work, $num_of_chapter, request $request)
     {
         $work_title = Work::select(            // 작품 제목 가져오기
             'works.work_title'
         )->where('works.num', '=', $num_of_work)->first()->work_title;
+
+
+        $fcmUrl = 'https://fcm.googleapis.com/fcm/send';
+        $token = 'fbNGwmVlMUs:APA91bHXrhAoBDjAMC94fKjG2CsFPipXGR3JN3x495S0i9ur2FXNbGP24l1VB6BJyZwIYXuwHs605mjETheLd74hX-UCPVTD33Z0owKB2dU1APxBvzmW9os6M5sAM0KreEffl0ZkLYw6';
+
+
+        $notification = [
+            'title' => $work_title,
+            'body' => $work_title . '(이)가 새로 업데이트 되었습니다.'
+        ];
+
+        $extraNotificationData = ["message" => $notification, "moredata" => 'dd'];
+
+        $fcmNotification = [
+            //'registration_ids' => $tokenList, //multple token array
+            'to'        => $token, //single token
+            'notification' => $notification,
+            'data' => $extraNotificationData
+        ];
+
+        $headers = [
+            'Authorization: key=AAAAME6lzTk:APA91bG210Qvf5nG3RNwvXWWlXeKB5Gg5k0CTmNoFYnxc7hx8kRcmI_8vk-Gpb23MLTU5a9wY8IIBRg0MV4QY9W7b8fQy3fFDyuPVTttt7eDS45mUukzy4UdqLbYZ_smG53O1mXR_tX2',
+            'Content-Type: application/json'
+        ];
+
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $fcmUrl);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmNotification));
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+
+        // dd($result);
 
         $book_cover = Work::select(
             'works.bookcover_of_work'
@@ -111,22 +150,20 @@ class PublicationController extends Controller
                     $text = str::after($text, "/sound/");
                     $test = str::before($text, '">');
                     $onlysoundlist = Arr::add($onlysoundlist, 'names' . $count, $test);
-                }
-                elseif (str::contains($text2, "/video/")) {
+                } elseif (str::contains($text2, "/video/")) {
                     $text2 = str::after($text2, "/video/");
                     $test2 = str::before($text2, '" ');
                     $onlyvideolist = Arr::add($onlyvideolist, 'namev' . $count, $test2);
-                }
-                elseif (str::contains($text3, "/images/")) {
+                } elseif (str::contains($text3, "/images/")) {
                     $text3 = str::after($text3, "/images/");
                     $test3 = str::before($text3, '" ');
                     $onlyimglist = Arr::add($onlyimglist, 'namei' . $count, $test3);
-                }elseif (str::contains($text4, "/purchase/")) {
+                } elseif (str::contains($text4, "/purchase/")) {
                     $text4 = str::after($text4, "/purchase/");
                     $test4 = str::before($text4, '" ');
                     $onlypurlist = Arr::add($onlypurlist, 'namep' . $count, $test4);
                     // return $onlypurlist;
-                }else {
+                } else {
                     break;
                 }
                 $count += 1;
@@ -322,7 +359,6 @@ class PublicationController extends Controller
             for($b=0; $a>=$b;$b++){
                 $nav = $nav.'-';
             }
-            $nav = $nav .
             $nav = $nav .'</li>';
         }
         $nav = $nav . '
@@ -418,6 +454,10 @@ class PublicationController extends Controller
                 Storage::disk('s3')->copy($giffile, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $giffilet);
             }
         }
+        // 마스터엔 없고 내꺼엔 있었음.
+        if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'sound' . DIRECTORY_SEPARATOR . 'tool_icon' . DIRECTORY_SEPARATOR . 'speaker_icon.png')) {
+            Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'speaker_icon.png', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'sound' . DIRECTORY_SEPARATOR . 'tool_icon' . DIRECTORY_SEPARATOR . 'speaker_icon.png');
+        } // js
         // custom css
         $cssNmae = 'stylesheet';
         $cssFile =
@@ -516,16 +556,17 @@ class PublicationController extends Controller
             p {
                 display:block;
                 margin:0;
-                font-size:1.5em;
+                font-size:1em;
                 line-height:1.6em;
                 page-break-after:always;
             }
             div, img, video {max-width:100% max-height:100%}
             ";
-            Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
-            $cssNmae = 'page_styles';
-            $cssFile =
-                "
+
+        Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
+        $cssNmae = 'page_styles';
+        $cssFile =
+            "
                 @page {
                   page-break-after: always;
                   margin-bottom: 5pt;
@@ -534,7 +575,7 @@ class PublicationController extends Controller
                   ";
 
 
-            Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
+        Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
 
         $jsNmae = 'viewer';
         $jsFile =
@@ -607,6 +648,8 @@ class PublicationController extends Controller
         // flush();                # 시스템 출력 버퍼를 비움
         // readfile($filepath);    # file을 출력하는 php 함수
 
+
+
         return back()->withSuccess($work_title . '의 ' . $chapter_title . ' 이(가) 정상적으로 발행 되었습니다.');
         /*
  위의 생성된 파일들을 바탕으로 epub 파일 생성됨.(
@@ -619,6 +662,7 @@ class PublicationController extends Controller
 
         // $file = 'java -jar c:\epubcheck-4.1.1\epubcheck.jar -mode exp -save "C:\\' . $work_title . $chapter_title . '"';
         // shell_exec($file);
+
 
     }
 }

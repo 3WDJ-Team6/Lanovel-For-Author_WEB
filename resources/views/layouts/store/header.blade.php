@@ -3,6 +3,7 @@
     <script type="text/javascript">
         var div = document.getElementById("alramimg");
         div.style.display = 'inline-block';
+
     </script>
     @isset($invite_message)
     @foreach ($invite_message as $i => $im)
@@ -13,6 +14,7 @@
         if (text == '0') {
             document.getElementById("messagecount").style.display = 'none';
         }
+
     </script>
     @endforeach
     @endif
@@ -23,7 +25,8 @@
     <link href="{{ asset('css/jquery.modal.min.1.css') }}" rel="stylesheet">
     <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
         <nav class="classy-navbar" id="essenceNav">
-            <a class="nav-brand" href="{{ asset('/store') }}"><img src="{{ asset('image/store/illustore.png') }}" alt="" style="width:200px;" /></a>
+            <a class="nav-brand" href="{{ asset('/store') }}"><img src="{{ asset('image/store/illustore.png') }}" alt=""
+                    style="width:200px;" /></a>
 
             <div class="classy-navbar-toggler">
                 <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -56,7 +59,8 @@
             </div>
 
             <form action="{{ url('store/find/search') }}" method="post">
-                <button type="button submit" class="btn btn-light" style="margin:25px; width:100px; height:40px; font-size:15px;">
+                <button type="button submit" class="btn btn-light"
+                    style="margin:25px; width:100px; height:40px; font-size:15px;">
                     <img src="{{asset('image/store/check-box.png')}}" style="width:18px;"> 필터링</i>
                 </button>
             </form>
@@ -64,10 +68,12 @@
             @if(Auth::check())
             @if(Auth::user()['roles']==2)
             <div class="favourite-area">
-                <a href="{{ url('/') }}"><img src="{{ asset('image/store/edit.png') }}" style="width:100px;" alt="" /></a>
+                <a href="{{ url('/') }}"><img src="{{ asset('image/store/edit.png') }}" style="width:100px;"
+                        alt="" /></a>
             </div>
             <div class="favourite-area">
-                <a href="#"><img src="{{ asset('image/store/heart.svg') }}" style="width:60px; height:60px;" alt="" /></a>
+                <a href="#"><img src="{{ asset('image/store/heart.svg') }}" style="width:60px; height:60px;"
+                        alt="" /></a>
             </div>
             <div class="cart-area">
                 <a href="#" id="essenceCartBtn">
@@ -106,7 +112,8 @@
                                     <img src="{{$product->url_of_illustration}}" class="cart-thumb" alt="" />
                                     <!-- Cart Item Desc -->
                                     <div class="cart-item-desc">
-                                        <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
+                                        <span class="product-remove"><i class="fa fa-close"
+                                                aria-hidden="true"></i></span>
                                         <!-- <span class="badge">{{$product->nickname}}</span> -->
                                         <h6>
                                             {{$product->illustration_title}}
@@ -156,7 +163,8 @@
                     <div class="user-login-info">
                         <form method="post" action="{{ route('logout') }}" id="frm">
                             @csrf
-                            <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
+                            <a href="#" onclick="document.getElementById('frm').submit();"><img
+                                    src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
                         </form>
                     </div>
                 </div>
@@ -169,7 +177,8 @@
                 <div class="user-login-info">
                     <form method="post" action="{{ route('logout') }}" id="frm">
                         @csrf
-                        <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
+                        <a href="#" onclick="document.getElementById('frm').submit();"><img
+                                src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
                     </form>
                 </div>
             </div>
@@ -181,7 +190,8 @@
                     <button onclick="document.getElementById('id01').style.display='block'" class="w3-button" style="background-color: transparent !important;
                      outline: none;">
                         <img src="{{asset('image/store/message.png')}}" style="display:inline-block">
-                        <span id="messagecount" class="list-group-item-danger" style="margin-top:1%; position:absolute; display:inline-block; z-index:100; background-color:white;"></span>
+                        <span id="messagecount" class="list-group-item-danger"
+                            style="margin-top:1%; position:absolute; display:inline-block; z-index:100; background-color:white;"></span>
                     </button>
                 </a>
             </div>
@@ -189,7 +199,8 @@
             <div id="id01" class="w3-modal">
                 <div class="w3-modal-content w3-card-4">
                     <header class="w3-container" style="background-color:#FAEBFF;">
-                        <span onclick="document.getElementById('id01').style.display='none'" class="s w3-display-topright" style="cursor:pointer">&times;</span>
+                        <span onclick="document.getElementById('id01').style.display='none'"
+                            class="s w3-display-topright" style="cursor:pointer">&times;</span>
                         <h2>New message</h2>
                     </header>
                     <div class="w3-container">
@@ -205,7 +216,9 @@
                                 @foreach($invite_messages as $invite)
                                 <tr>
                                     <td>{{$invite->from_id}}</td>
-                                    <td><a href="{{url('/viewMessage/$invite->message_num')}}">{{$invite->message_title}}</a></td>
+                                    <td><a
+                                            href="{{url('/viewMessage/$invite->message_num')}}">{{$invite->message_title}}</a>
+                                    </td>
                                     <td>{{$invite->created_at}}</td>
                                 </tr>
                                 @endforeach
@@ -225,7 +238,8 @@
             <div class="user-login-info">
                 <form method="post" action="{{ route('logout') }}" id="frm">
                     @csrf
-                    <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
+                    <a href="#" onclick="document.getElementById('frm').submit();"><img
+                            src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
                 </form>
             </div>
 

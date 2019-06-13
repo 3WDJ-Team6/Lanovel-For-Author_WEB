@@ -15,7 +15,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
-
+use App\Models\CommentOfWork;
+use App\Models\Grade;
+use App\Events\ShareEvent;
+use Illuminate\Support\Facades\Redis;
 
 class EditController extends Controller
 {
@@ -29,17 +32,30 @@ class EditController extends Controller
 
     public function __construct()
     {
-        /**
+        /**,
          * 인증 된 사용자만 목차 리스트 및 에디터에 접근할 수 있다.
          */
         // return $this->middleware('auth');
     }
     /** 목차 리스트 보기
-     * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
+     * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수) 작품 생성 시각, 작품 최종 수정 시각,
      */
 
     public function index($num)
     {
+        $num = 134;
+
+        $comment = CommentOfWork::select(
+            'comment_of_works.*',
+            'grades.grade',
+            'users.profile_photo'
+        )->where('comment_of_works.num_of_work', $num)
+
+            ->join('grades', 'grades.num_of_work', 'comment_of_works.num_of_work')
+            ->leftjoin('users', 'users.id', 'comment_of_works.user_id')
+            ->get();
+
+        return response()->json($comment, 200, [], JSON_PRETTY_PRINT);
 
         $nowChapter = ChapterOfWork::select(
             'chapter_of_works.*'
@@ -129,7 +145,7 @@ class EditController extends Controller
         // 회차 제목 추가
         $content_of_works->subsubtitle = $request->subsubtitle;
         // 회차 내용 디폴트값 넣어주기
-        $content_of_works->content = "物語《ものがたり》を書《か》きましょう";
+        $content_of_works->content = "<p class='text_p' tabindex='-1'>物語《ものがたり》を書《か》きましょう</p>";
         $content_of_works->save();
 
         echo "<script>opener.parent.location.reload();window.close()</script>";
@@ -156,7 +172,7 @@ class EditController extends Controller
         ///////$subsubtitle의 값을 디비 $content_of_works의 subsubtitle에 넣고
         $content_of_works->subsubtitle = $subsubtitle;
         // 회차 내용 디폴트값 넣어주기
-        $content_of_works->content = "<p>物語《ものがたり》を書《か》きましょう</p>";
+        $content_of_works->content = "<p class='text_p' tabindex='-1'>物語《ものがたり》を書《か》きましょう</p>";
         $content_of_works->save();
         $titleNum = $content_of_works->num;
         ///////부모창의 addEpisode()함수에 '$subsubtitle' 값 전달
@@ -248,8 +264,17 @@ class EditController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
-    { }
+    public function show(Request $request, $nickname = null, $num = null)
+    {
+        if($nickname = null || $num = null){
+            return 0;
+        }else{
+        # 화면공유 로직
+        $content = $request->content;
+        broadcast(new \App\Events\ShareEvent($nickname, $num, $content));
+        return 0;
+    }
+    }
 
     /**
      * 에디터 수정
@@ -263,6 +288,13 @@ class EditController extends Controller
      */
     public function edit($num)
     {
+        // broadcast(new \App\Events\ShareEvent());
+        // $redis = Redis::connection('share-event');
+        // $redis->publish('share-event', 'temp');
+        // $temp = Redis::get('num' . $num);
+        // Redis::set('name', 'test');
+        // $values = Redis::command('lrange', ['name', 5, 10]);
+
         $chapter_of_num_of_now_content = ContentOfWork::select(
             'content_of_works.num_of_chapter'
         )->where('content_of_works.num', '=', $num)->first();
@@ -305,7 +337,8 @@ class EditController extends Controller
             ->with('content_of_works', $content_of_works)
             ->with('content_lists', $content_lists)
             ->with('titles', $titles)
-            ->with('memos', $memos);
+            ->with('memos', $memos)
+            ->with('user', Auth::user()['nickname']);
     }
 
     /**
@@ -340,8 +373,8 @@ class EditController extends Controller
                 $editor_content = str::replaceFirst('resize">', 'resize" />', $editor_content);
             } elseif (str::contains($editor_content, '<br>')) {
                 $editor_content = str::replaceFirst('<br>', '<br />', $editor_content);
-            } elseif (str::contains($editor_content, '</video>')) {
-                $editor_content = str::replaceFirst('</video>', '', $editor_content);
+            } elseif (str::contains($editor_content, '></video>')) {
+                $editor_content = str::replaceFirst('></video>', '/>', $editor_content);
             } elseif (str::contains($editor_content, 'src="/images/tool_icon/speaker_icon.png" alt="alt"')) {
                 $editor_content = str::replaceFirst('src="/images/tool_icon/speaker_icon.png" alt="alt"', 'src="../images/tool_icon/speaker_icon.png" alt="alt"', $editor_content);
             } elseif (str::contains($editor_content, 'onclick="audioPlay(event)">')) {

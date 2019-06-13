@@ -19,16 +19,19 @@
                     @foreach ($content_of_chat as $row)
                     <div>
                         <small id="usernickname" class="badge float-left" font-size="10px">{{$row['nickname']}}</small>
-                        <li id="chatContent" class="list-group-item list-group-item-success">{{$row['content_of_chat']}}</li>
+                        <li id="chatContent" class="list-group-item list-group-item-success">{{$row['content_of_chat']}}
+                        </li>
                         <mark class="badge float-right" id="time">{{$row['created_at']->diffForHumans()}}</mark>
                     </div>
                     @endforeach
-                    <message v-for="(value,index) in chat.message" :key=value.index :color=chat.color[index] :user=chat.user[index] :time=chat.time[index]>
+                    <message v-for="(value,index) in chat.message" :key=value.index :color=chat.color[index]
+                        :user=chat.user[index] :time=chat.time[index]>
                         @{{value}}
                     </message>
                 </ul>
                 <div class="badge badge-primary">@{{typing}}</div>
-                <input type="text" class="form-control" placeholder="Type your message here" v-model='message' @keyup.enter='send'>
+                <input type="text" class="form-control" placeholder="Type your message here" v-model='message'
+                    @keyup.enter='send'>
             </div>
         </div>
     </div>

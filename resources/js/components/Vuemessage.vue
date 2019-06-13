@@ -29,11 +29,12 @@ export default {
 mark {
   background-color: #45b4e61a;
 }
+
 .list-group-item-success:not(.you) {
   width: 90%;
   float: left;
   font-size: 16px;
-  background-color: #23b1d8;
+  background-color: #ffb6e5;
 }
 .you {
   width: 90%;
@@ -41,8 +42,8 @@ mark {
   font-size: 16px;
 }
 #time {
-  font-size: 9px;
-  color: black;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.5);
 }
 #chatcontent2 {
   width: 90%;

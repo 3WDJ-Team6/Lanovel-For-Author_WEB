@@ -623,7 +623,7 @@ li>button {
     max-height: fit-content;
     text-align: center;
     position: relative;
-    margin-left: 16px;
+    margin-left: 30px;
 }
 
 .ep-title {
@@ -999,6 +999,19 @@ input[type="file"] {
 .speaker {
     width: 100px;
     height: 200px;
+}
+
+.focused {
+    color: white;
+    border-radius: 8%;
+}
+
+.writer {
+    background-color: rgba(177, 29, 177, 0.507);
+}
+
+.illustrator {
+    background-color: rgba(133, 255, 11, 0.685);
 }
 
 .nav_left {

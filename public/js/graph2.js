@@ -139,7 +139,6 @@ valueAxis.cursorTooltipEnabled = false;
 var axisRange = valueAxis.axisRanges.create();
 axisRange.value = 6000;
 axisRange.grid.strokeOpacity = 0.1;
-axisRange.label.text = "Goal";
 axisRange.label.align = "right";
 axisRange.label.verticalCenter = "bottom";
 axisRange.label.fillOpacity = 0.8;
