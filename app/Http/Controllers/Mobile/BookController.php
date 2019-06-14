@@ -6,6 +6,7 @@ use DB;
 use Auth;
 use Carbon\Carbon;
 use App\Models\Rental;
+use App\Models\Work;
 use App\Traits\FileTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -46,7 +47,7 @@ class BookController extends Controller
     }
 
     # 구매 또는 대여 -> 책 OPF주소 전달 -> READ
-    public function show(Request $request, $bookNum = null, $bookTitle = null, $action = null)
+    public function show(Request $request, $bookNum = null, $action = null, $bookTitle = null)
     {
         $userId = Auth::user()['id'] ? $userId =  Auth::user()['id'] : 22;  //유저번호 접속자 or Reader
         $folderPath = 'WorkSpace';
@@ -58,6 +59,7 @@ class BookController extends Controller
             'file_Path',
             DB::raw("if(due_of_rental < NOW(), FALSE, TRUE) as isRental")
         )->where('num_of_work', $bookNum)->where('user_id', $userId)->get(); # 1이면 대여중인책 Or 구입한 책(null)
+        $bookTitle = empty($bookTitle) ? Work::select('work_title')->where('num', $bookNum)->first()->work_title : $bookTitle;
 
         //책을 읽을 수 있는 URL을 전달함
         # 일단 칼럼이 있으면 구매 또는 렌탈한 책임. 렌탈한 날짜가 지나면 table값을 삭제 또는 접근 못하게 opf파일주소 눌렀을 때 기간이 초과한 작품이라고 적어 줌
@@ -143,7 +145,6 @@ class BookController extends Controller
             return response()->json(['opfPath' => $opfPath], 200, [], JSON_UNESCAPED_UNICODE);
         }
     }
-
     /**
      * Show the form for editing the specified resource.
      *
