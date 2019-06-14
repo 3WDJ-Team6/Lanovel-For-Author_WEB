@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Mobile;
 
 use DB;
@@ -24,7 +23,6 @@ class BookController extends Controller
     {
         //
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -34,7 +32,6 @@ class BookController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -45,7 +42,6 @@ class BookController extends Controller
     {
         //
     }
-
     # 구매 또는 대여 -> 책 OPF주소 전달 -> READ
     public function show(Request $request, $bookNum = null, $action = null, $bookTitle = null)
     {
@@ -66,17 +62,13 @@ class BookController extends Controller
         # 요청이 렌탈이고 현재 렌탈칼럼에 값이 없다면 현재날짜 + 3일로 DB에 table create 있으면 DB저장 없이 OPF파일주소 보내줌.
         # 요청이 구입이고 현재 구입칼럼에 값이 없다면 due_of_rental = NULL(구입),create 있으면 DB저장 없이 OPF파일주소 보내줌.
         # 요청 URL = readBook/WorkSpace/28/냥멍이/buy
-
         $filePath = $this->checkUserMakePath($folderPath, $bookNum);
         $this->hasFile($request, $filePath);
         # '/Author\Author@test\WorkSpace\폴더구조테스트\OEBPS\폴더구조테스트.opf'
         $opfPath = Storage::disk('s3')->url($filePath . DIRECTORY_SEPARATOR . 'OEBPS' . DIRECTORY_SEPARATOR . $bookTitle . '.opf');
-
         # 렌탈 테이블에 저장할 정보
         # Rentals->firstOrCreate(); return count($rentOrBuy);
-
         // return $rentOrBuy[0]['isRental']; # 렌탈 기간이 지났거나 구입되지 않은 책이면.
-
         if (count($rentOrBuy) < 1 || $rentOrBuy[0]['isRental'] == 0) { # 구매나 대여 이력이 없거나 있어도 렌탈기간이 지났다면
             if ($action) {
                 switch ($action) {
@@ -155,7 +147,6 @@ class BookController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -167,7 +158,6 @@ class BookController extends Controller
     {
         //
     }
-
     /**
      * Remove the specified resource from storage.
      *

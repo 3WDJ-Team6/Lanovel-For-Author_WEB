@@ -1003,6 +1003,7 @@ input[type="file"] {
 
 .focused {
     color: white;
+    font-weight: 550;
     border-radius: 8%;
 }
 
@@ -1011,7 +1012,27 @@ input[type="file"] {
 }
 
 .illustrator {
-    background-color: rgba(133, 255, 11, 0.685);
+    background-color: rgba(95, 182, 8, 0.685);
+}
+
+#member_list {
+    width: 150px;
+    height: auto;
+    /* border: 1px solid #000000; */
+    /* padding-left: 15px; */
+    position: absolute;
+    display: none;
+}
+
+.member_list_li {
+    border-bottom: 1px solid #000000;
+    font-weight: 550;
+    background-color: rgba(177, 29, 177, 0.507);
+    color: white;
+}
+
+.member_list_li:nth-child(2n) {
+    background-color: rgba(95, 182, 8, 0.685);
 }
 
 .nav_left {

@@ -173,29 +173,29 @@ class WorkListController extends Controller
     {
         // $count = SubscribeOrInterest::where('num_of_work', $num)->where('role_of_work', 2)->count();
 
-        // // 보유 포인트와 작품 구매 가격 비교
-        // $buyPoint = User::select(
-        //     DB::raw("(select(IF(point>works.buy_price, 'true', 'false')) from users JOIN works ON works.num =" . $num . " WHERE users.id=" . $userId . ") canBuy")
-        // )->where('users.id', $userId)
-        //     ->get();
+        // 보유 포인트와 작품 구매 가격 비교
+        $buyPoint = User::select(
+            DB::raw("(select(IF(point>works.buy_price, 'true', 'false')) from users JOIN works ON works.num =" . $num . " WHERE users.id=" . $userId . ") canBuy")
+        )->where('users.id', $userId)
+            ->get();
 
-        // // 보유 포인트와 작품 대여 가격 비교
-        // $rentalPoint = User::select(
-        //     DB::raw("(select(IF(point>works.rental_price, 'true', 'false')) from users JOIN works ON works.num =" . $num . " WHERE id=" . $userId . ") canRental")
-        // )->where('users.id', $userId)
-        //     ->get();
+        // 보유 포인트와 작품 대여 가격 비교
+        $rentalPoint = User::select(
+            DB::raw("(select(IF(point>works.rental_price, 'true', 'false')) from users JOIN works ON works.num =" . $num . " WHERE id=" . $userId . ") canRental")
+        )->where('users.id', $userId)
+            ->get();
 
-        // // 대여 시 포인트 차감
-        // $rentalPointM = User::where('id', $userId)
-        //     ->update(
-        //         ['point' => DB::raw("point - (select rental_price from works where num =" . $num . ")")]
-        //     );
+        // 대여 시 포인트 차감
+        $rentalPointM = User::where('id', $userId)
+            ->update(
+                ['point' => DB::raw("point - (select rental_price from works where num =" . $num . ")")]
+            );
 
-        // // 구매 시 포인트 차감
-        // $buyPointM = User::where('id', $userId)
-        //     ->update(
-        //         ['point' => DB::raw("point - (select buy_price from works where num =" . $num . ")")]
-        //     );
+        // 구매 시 포인트 차감
+        $buyPointM = User::where('id', $userId)
+            ->update(
+                ['point' => DB::raw("point - (select buy_price from works where num =" . $num . ")")]
+            );
 
         // 134 = 작품 번호 22 = 유저번호 0,1,2 = 구독,관심,좋아요 구분
         $result = SubscribeOrInterest::select(

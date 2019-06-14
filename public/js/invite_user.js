@@ -1,26 +1,55 @@
-// $(document).on("change", "input[type='text']", function () {
-//     $(".userlist_li").show();
-//     console.log("리시트쇼");
+$(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+        }
+    });
 
-$(document).on("keyup", "input[type='text']", function () {
-    var k = $(this).val();
-    $("#userlists > .userlist").hide();
-    // $(".userlist_li:contains('" + k + "')").hide();
-    console.log(k.length);
-    console.log(k);
-    // var temp = $(".userlist_li:contains('" + k + "')");
-    // $("#userlist").show();
-    $("#userlists > div > a > #info > div:contains('" + k + "')").parent().parent().parent().show();
-    if (k.length == 0) {
+    $(document).on("keyup", "input[type='text']", function () {
+        var k = $(this).val();
         $("#userlists > .userlist").hide();
-    }
-})
-$(document).on(function () {
-    function load() {
-        $("#alramimg").parent().show();
-    }
-})
-// });
-
-// 특정 값만 보이고 특정 값은 보이지 않는 리스트를 띄워야 되는데 이게 안됨.
-// jquery에서 받아오는 id값이나 class 값을 적당히 조절
+        // $(".userlist_li:contains('" + k + "')").hide();
+        // alert("test");
+        // var temp = $(".userlist_li:contains('" + k + "')");
+        // $("#userlist").show();
+        $("#userlists > div > a > #info > div:contains('" + k + "')").parent().parent().parent().show();
+        if (k.length == 0) {
+            $("#userlists > .userlist").hide();
+        }
+    })
+    $(document).on(function () {
+        function load() {
+            $("#alramimg").parent().show();
+        }
+    })
+    var html = '';
+    $(document).on('click', '#submitbtn', function () {
+        // console.log(document.getElementById('message_for_invite').value);
+        // console.log(target_nickname);
+        // console.log(num_of_work);
+        // var form = $('#sample_form')[0];
+        // formData = new FormData(form);
+        // formData.append("#")
+        var str = $("#sample_form").serialize();
+        Str = str.split("&");
+        Str[0] = Str[0].replace('userid=', '');
+        Str[1] = Str[1].replace('numofwork=', '');
+        Str[2] = Str[2].replace('message=', '');
+        $.ajax({
+            url: '/sendInviteMessage',
+            method: "post",
+            data: {
+                usernickname: Str[0],
+                numofwork: Str[1],
+                message: Str[2]
+            },
+            success: function () {
+                $('.jquery-modal1').css('display', 'none');
+                $('#member_list').append("<div class='member_list_li'>&nbsp;초보그림쟁이</div>");
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
+    });
+});
