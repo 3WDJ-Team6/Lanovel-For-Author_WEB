@@ -24,17 +24,14 @@ $(document).ready(function () {
     })
     var html = '';
     $(document).on('click', '#submitbtn', function () {
-        // console.log(document.getElementById('message_for_invite').value);
-        // console.log(target_nickname);
-        // console.log(num_of_work);
-        // var form = $('#sample_form')[0];
-        // formData = new FormData(form);
-        // formData.append("#")
         var str = $("#sample_form").serialize();
         Str = str.split("&");
-        Str[0] = Str[0].replace('userid=', '');
+        Str[0] = decodeURIComponent(Str[0].replace('userid=', ''));
         Str[1] = Str[1].replace('numofwork=', '');
-        Str[2] = Str[2].replace('message=', '');
+        Str[2] = decodeURIComponent(Str[2].replace('message=', ''));
+        console.log(Str[0]);
+        console.log(Str[1]);
+        console.log(Str[2]);
         $.ajax({
             url: '/sendInviteMessage',
             method: "post",
@@ -45,7 +42,7 @@ $(document).ready(function () {
             },
             success: function () {
                 $('.jquery-modal1').css('display', 'none');
-                $('#member_list').append("<div class='member_list_li'>&nbsp;초보그림쟁이</div>");
+                // $('#member_list').append("<div class='member_list_li'>&nbsp;초보그림쟁이</div>");
             },
             error: function (e) {
                 console.log(e);

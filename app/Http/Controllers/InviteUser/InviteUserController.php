@@ -153,7 +153,7 @@ class InviteUserController extends Controller
         $work_num = $request->numofwork;
         $invite_message = $request->message;
 
-        // echo "<script>alert('test');</script>";
+        // echo "<script>console.log('$userid');</script>";
         $user_id = User::select(
             'users.id'
         )->where('users.nickname', $userid)
