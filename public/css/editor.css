@@ -4,6 +4,8 @@ html {
     height: 100%;
     max-width: 100%;
     max-height: 100%;
+    background-color: #fffffa;
+    font-family: 'Kosugi Maru', sans-serif;
 }
 
 /* nav */
@@ -121,9 +123,9 @@ li>button {
     }
 
     .nav_left {
-        height: 520px;
+        height: 525px;
         left: -300px;
-        top: 55px;
+        /* top: 2px; */
         width: 300px;
     }
 
@@ -134,16 +136,16 @@ li>button {
     }
 
     .nav_right {
-        height: 557px;
+        height: 553px;
         right: -300px;
-        top: 55px;
+        top: 50px;
         width: 300px;
     }
 
     .nav_right #menuToggle_right {
         height: 40px;
         left: -50px;
-        top: 47%;
+        top: 50%;
     }
 
     #ccc {
@@ -197,7 +199,7 @@ li>button {
     }
 
     .area {
-        height: 550px;
+        height: 800px;
     }
 
     .textarea {
@@ -216,7 +218,7 @@ li>button {
     .nav_left {
         height: 520px;
         left: -160px;
-        top: 55px;
+        top: 60px;
         width: 160px;
     }
 
@@ -229,7 +231,7 @@ li>button {
     .nav_right {
         height: 547px;
         right: -160px;
-        top: 55px;
+        top: 100px;
         width: 160px;
     }
 
@@ -441,7 +443,7 @@ li>button {
 
 /* 끝 가로가 최소900px 최대958px이고 세로가 최소 900px일때 */
 .area {
-    border-bottom: 4px solid rgb(50, 186, 231);
+    border: 3px solid #a1c45a;
     background-color: white;
     width: 100%;
     max-width: 100%;
@@ -467,7 +469,7 @@ li>button {
 }
 
 .btn {
-    background: rgb(118, 206, 235);
+    background: #f1c550;
     border: 3px solid #fff;
     border-radius: 5px;
     color: #fff;
@@ -482,8 +484,8 @@ li>button {
 
 .btn:hover {
     background: #fff;
-    color: rgb(118, 206, 235);
-    border: 3px solid rgb(118, 206, 235);
+    color: #f1c550;
+    border: 3px solid #f1c550;
 }
 
 #popbutton {
@@ -586,12 +588,13 @@ li>button {
     -o-transition: width 0.2s;
     -webkit-transition: width 0.2s;
     transition: width 0.2s;
+    /* background-color: #f1c550; */
 }
 
 .ep-tem-par {
-    background-color: #45b3e63e;
+    background-color: #f1d075;
     width: auto;
-    border-bottom: 2px solid #007bff;
+    /* border-bottom: 2px solid #f1c550; */
 }
 
 .ep-tem:hover {
@@ -600,13 +603,13 @@ li>button {
 }
 
 .ep-tem:nth-child(1) {
-    border-right: 2px solid #007bff;
+    border-right: 2px solid #f1c95b;
     /* margin-right: 10px; */
 }
 
 .ep,
 .tem {
-    background-color: #45b3e63e;
+    background-color: #fff9e0;
     width: auto;
     height: 100%;
     max-height: fit-content;
@@ -617,7 +620,7 @@ li>button {
 }
 
 .ep-tem {
-    color: #007bff;
+    color: white;
     width: auto;
     height: 100%;
     max-height: fit-content;
@@ -630,11 +633,11 @@ li>button {
     margin-top: -43px;
     margin-bottom: 5px;
     text-align: center;
-    color: #007bff;
+    color: black;
 }
 
 .ep-list {
-    background-color: #45b3e63e;
+    background-color: #fff9e0;
     border-radius: 0.25em;
     padding: 8px;
     overflow-y: scroll;
@@ -642,7 +645,7 @@ li>button {
 }
 
 .tem-list {
-    background-color: #45b3e63e;
+    background-color: #fff9e0;
     border-radius: 0.25em;
     overflow-y: scroll;
     margin-top: -43px;
@@ -650,7 +653,7 @@ li>button {
 }
 
 .ep-list:hover {
-    background-color: #45b3e671;
+    background-color: #fff9e0;
 }
 
 .ep-li:hover {
@@ -1045,7 +1048,7 @@ input[type="file"] {
 }
 
 .nav_left #menuToggle_left {
-    background: #45b3e667;
+    background: #f1c550;
     display: block;
     position: relative;
     width: 50px;
@@ -1098,7 +1101,7 @@ input[type="file"] {
 }
 
 .nav_right {
-    background-color: #45b3e667;
+    background-color: #fff9e0;
     position: fixed;
     -moz-transition: right 0.2s linear;
     -o-transition: right 0.2s linear;
@@ -1108,7 +1111,7 @@ input[type="file"] {
 }
 
 .nav_right #menuToggle_right {
-    background: #45b3e667;
+    background: #f1c550;
     display: block;
     position: relative;
     width: 50px;

@@ -34,7 +34,7 @@
 
             <div class="content_box" style="display:b  lock;">
                 <div class="content_title">
-                    <img src="{{asset('image/templatemo_content_title.png')}}" style=""></div>
+                    <img src="{{asset('image/top.png')}}" style=""></div>
                 <div id="work_title_box"
                     style="height:50px; display:inline-block; margin-left:10%; margin-top:5%; margin-bottom:2%;">
                     <a href="{{url('editor/main/chapter')}}/{{$nowChapter['num_of_work']}}"
@@ -46,7 +46,7 @@
                 <div class="post-subtitle" style="width:100%; margin-left:8%;">
                     <a href="javascript:popup({{$num}})" target="_blank" style="color:black; text-decoration:none;">
 
-                        <img src="{{asset('image/plus.png')}}"
+                        <img src="{{asset('image/add.png')}}"
                             style="width:40px; height:40px; margin-right:1%; display:inline-block;">
 
                         목차 추가</a>
@@ -88,7 +88,7 @@
                 </div>
                 @endforeach
                 <div class="gototop">
-                    <img src="{{asset('image/templatemo_gotoTop.jpg')}}" style="display:inline-block;">
+                    <img src="{{asset('image/bottom.png')}}" style="display:inline-block;">
                 </div>
                 <!-- Pager -->
             </div>
