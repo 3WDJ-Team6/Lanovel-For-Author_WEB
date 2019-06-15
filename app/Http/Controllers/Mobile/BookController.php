@@ -10,6 +10,7 @@ use App\Traits\FileTrait;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 class BookController extends Controller
 {
@@ -28,9 +29,66 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($workNum)
     {
-        //
+
+        /**
+         * 작품 제목
+         */
+        $work_title = Work::select(
+            'works.work_title'
+        )->where('works.num', $workNum)->first()->work_title;
+
+        /**
+         * 작품 작가 이메일
+         */
+        $authorFolder = User::select(
+            'users.email'
+        )->leftjoin('work_lists', 'work_lists.user_id', '=', 'users.id')
+            ->leftjoin('works', 'works.num', '=', 'work_lists.num_of_work')
+            ->where('users.roles', 2)
+            ->where('works.num', $workNum)
+            ->first()->email;
+
+        # 작품 다운로드
+        $work_title == '냥멍이' ? $work_title = '냥멍이' : $work_title = $work_title;
+        $authorFolder == 'Author@test' ? $authorFolder = 'Author@test' : $authorFolder = $authorFolder;
+        shell_exec('mkdir /mnt/epubz');
+        //shell_exec('cd /mnt/mountpoint/Author/Author@test/WorkSpace'); // shell_exec('zip /mnt/epubz/folder.zip -r 폴더구조테스트/*'); // 해당 폴더 압축 ->shell로 대체
+        shell_exec('zipdir ' . $authorFolder . ' ' . $work_title); // zip 유저명 폴더명 $1 $2 shell폴더안에 있는 zipdir.sh (shell프로그램)
+        # zip 으로 만드는건 끝
+
+        $filepath = '/mnt/epubz/' . $work_title . '.epub';
+        $filesize = filesize($filepath);
+        $path_parts = pathinfo($filepath);
+        $filename = $path_parts['basename'];
+        $extension = $path_parts['extension'];
+
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Content-Type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=" . $work_title . '.epub');
+        header("Content-Transfer-Encoding: binary");
+        header("Content-Length: $filesize");
+
+        ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
+        flush();                # 시스템 출력 버퍼를 비움
+        readfile($filepath);    # file을 출력하는 php 함수
+
+
+
+        return back()->withSuccess($work_title . '의 ' . $chapter_title . ' 이(가) 정상적으로 발행 되었습니다.');
+        /*
+                위의 생성된 파일들을 바탕으로 epub 파일 생성됨.(
+                image.png만 있으면
+                확장자 변경은 파일을 가져올 때 파일 확장자 받아서
+                opf 파일이랑 cover.xhtml 수정하면됨.
+                )
+        */
+        // return $num_of_work;
+
+        // $file = 'java -jar c:\epubcheck-4.1.1\epubcheck.jar -mode exp -save "C:\\' . $work_title . $chapter_title . '"';
+        // shell_exec($file);
     }
     /**
      * Store a newly created resource in storage.
