@@ -11,7 +11,7 @@ html {
 /* nav */
 header {
     background-color: white;
-    box-shadow: 5px 5px 5px 0 black;
+    /* box-shadow: 5px 5px 5px 0 black; */
     width: 100%;
 }
 

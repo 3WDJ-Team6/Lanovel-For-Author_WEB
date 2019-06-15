@@ -36,14 +36,14 @@
                 <div class="content_title">
                     <img src="{{asset('image/top.png')}}" style=""></div>
                 <div id="work_title_box"
-                    style="height:50px; display:inline-block; margin-left:10%; margin-top:5%; margin-bottom:2%;">
+                    style="height:50px; text-align:left; display:inline-block; margin-left:10%; margin-top:5%; margin-bottom:2%; ">
                     <a href="{{url('editor/main/chapter')}}/{{$nowChapter['num_of_work']}}"
-                        style="font-size:25px; color:black; text-decoration:none;">{{$nowChapter->subtitle}}</a>
+                        style="font-size:25px; color:black; text-decoration:none; ">{{$nowChapter->subtitle}}</a>
                 </div>
 
                 <!-- {{-- 새 회차 추가  --}} -->
                 <!-- <div class="post-preview" style="width:100%; height:100px; align-items: center; display: flex; justify-content: center;"> -->
-                <div class="post-subtitle" style="width:100%; margin-left:8%;">
+                <div class="post-subtitle" style="width:100%; margin-left:8%; text-align:left;">
                     <a href="javascript:popup({{$num}})" target="_blank" style="color:black; text-decoration:none;">
 
                         <img src="{{asset('image/add.png')}}"
@@ -55,7 +55,7 @@
 
                 <!-- {{-- 회차 출력 부분  --}} -->
                 @foreach( $chapter_of_works as $row )
-                <div class="post-preview" style="height:100px; margin:1%; display:block;">
+                <div class="post-preview" style="height:100px; margin:1%; text-align:left;">
                     <a href="{{url('/editor')}}/{{$row['num']}}">
                         <div class="post-subtitle"
                             style="font-size:22px; display:inline-block; margin-left:7%; margin-top:2%; margin-bottom:2%;">
