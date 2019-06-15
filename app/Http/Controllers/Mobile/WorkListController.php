@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\WorkList;
 use App\Models\Work;
-use App\Models\Rental;
+use App\Models\Subscribe;
 use Illuminate\Support\Facades\DB;
 use App\Models\RecommendOfWork;
 use App\Models\SubscribeOrInterest;
@@ -123,7 +123,7 @@ class WorkListController extends Controller
             DB::raw("(select group_concat(category_works.tag) from category_works where category_works.num_of_work = $workNum) tag"),
             DB::raw('(select count(subscribe_or_interests.num_of_work) FROM subscribe_or_interests where subscribe_or_interests.role_of_work = 2) recommends_count'),
             DB::raw("(SELECT COUNT(ss2.reader_id) FROM subscribes AS ss2 WHERE ss2.author_id = (SELECT user_id FROM work_lists AS workl WHERE workl.num_of_work = $workNum ORDER BY created_at LIMIT 1 )) countsub"),
-            DB::raw("(if((SELECT reader_id FROM subscribes AS ss WHERE ss.reader_id = $userId),'t','f')) sub_or_not"),
+            DB::raw("(if((SELECT reader_id FROM subscribes WHERE reader_id=$userId AND author_id IN (SELECT user_id FROM work_lists WHERE num_of_work = $workNum)),'t','f') sub_or_not)"),
             DB::raw("(if((SELECT num_of_work FROM subscribe_or_interests AS soi1 where soi1.num_of_work = $workNum AND soi1.role_of_work = 1 AND soi1.user_id = $userId) IS NOT null,'t','f')) ins_of_not"),
             DB::raw("(if((SELECT num_of_work FROM subscribe_or_interests AS soi2 where soi2.num_of_work = $workNum AND soi2.role_of_work = 2 AND soi2.user_id = $userId) IS NOT null,'t','f')) rec_of_not"),
             DB::raw("(select users.profile_photo from users where users.id in(select user_id from work_lists where num_of_work = $workNum) LIMIT 1) author_profile_photo"),
@@ -169,7 +169,7 @@ class WorkListController extends Controller
         // Reantal::selete('due_of_lental')->where('','')->get();
         return '보낸 리퀘스트 :' . $request . ':' . $point;
     }
-    public function selection($num = null, $userId = null, $type = null)
+    public function selection($num = null, $userId = null, $type = null, $authorId = null)
     {
         // $count = SubscribeOrInterest::where('num_of_work', $num)->where('role_of_work', 2)->count();
 
@@ -220,20 +220,29 @@ class WorkListController extends Controller
             case 'sub_selected':
                 $state = 'subscribe';
                 // 구독 여부가 TRUE 일 때 구독 취소
-                $deleteSub = SubscribeOrInterest::where('subscribe_or_interests.user_id', $userId)
-                    ->where('subscribe_or_interests.num_of_work', $num)
-                    ->where('subscribe_or_interests.role_of_work', 0)
+                // $deleteSub = SubscribeOrInterest::where('subscribe_or_interests.user_id', $userId)
+                //     ->where('subscribe_or_interests.num_of_work', $num)
+                //     ->where('subscribe_or_interests.role_of_work', 0)
+                //     ->delete();
+                $deleteSub = Subscribe::where('subscribes.reader_id', $userId)
+                    ->where('subscribes.author_id', $authorId)
                     ->delete();
                 break;
 
             case 'sub_unselected':
                 $state = 'subscribe';
                 // 구독 여부가 FALSE 일 때 구독 신청
-                $addSub = SubscribeOrInterest::firstOrCreate(
+                // $addSub = SubscribeOrInterest::firstOrCreate(
+                //     [
+                //         'num_of_work' => $num,
+                //         'user_id' => $userId,
+                //         'role_of_work' => 0,
+                //     ]
+                $addSub = Subscribe::firstOrCreate(
                     [
-                        'num_of_work' => $num,
-                        'user_id' => $userId,
-                        'role_of_work' => 0,
+                        'reader_id' => $userId,
+                        'author_id' => $authorId,
+                        'created_at' => Carbon::now(),
                     ]
                 );
                 break;

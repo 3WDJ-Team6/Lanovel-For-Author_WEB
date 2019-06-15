@@ -89,7 +89,6 @@ class MyListController extends Controller
             ->groupBy('works.num')
             ->get();
 
-
         return response()->json($allMyList, 200, [], JSON_PRETTY_PRINT);
     }
 }
