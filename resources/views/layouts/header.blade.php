@@ -19,16 +19,16 @@
                     <a class="nav-link" id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:#45b4e6;border:0;background:transparent;">SEARCH USER</a>
                 </li> -->
                 <li class="nav-item">
-                    <button class="nav-link" onclick="location.href='{{url('/graph')}}'" style="font-size:25px; color:#a1c45a;border:0;background:transparent;">Revenue graph</button>
+                    <button class="nav-link" onclick="location.href='{{url('/graph')}}'" style="font-size:25px; color:#a1c45a;background:transparent;">Revenue graph</button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" href="#" style="font-size:25px; color:#a1c45a;border:0;background:transparent;">Chatting</button>
+                    <button class="nav-link" href="#" style="font-size:25px; color:#a1c45a;background:transparent;">Chatting</button>
                 </li>
                 @if(Auth::check()) {{-- 로그인 되어 있을 때 --}}
                 <li class="nav-item">
                 <form method="post" action="{{route('logout')}}" id='logout_btn' name="logout">
                     @csrf
-                        <a class="nav-link" href="javascript:logout.submit();" style="font-size:25px; color:#a1c45a;">Logout</a></button>
+                        <button class="nav-link" href="javascript:logout.submit();" style="font-size:25px; color:#a1c45a; border:0; font-weight: 800;background:transparent;">Logout</a></button>
                 </form>
                 </li>
                 @else

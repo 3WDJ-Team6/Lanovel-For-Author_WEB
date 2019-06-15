@@ -23,10 +23,13 @@ body {
 <body>
     @if(Auth::user()['roles'] == 2)
     <!-- Main Content -->
-    <div class="container col-10" style="margin-top:5%;">
+    <!-- <div class="image" style="width:100px;">
+    <img src="{{asset('image/person1.png')}}" style="">
+    </div> -->
+    <div class="container col-12" style="margin-top:5%;">
         <div class="form-group " style="margin-top:6%;">
             @if(Session::has('success')) 
-            <div class="alert alert-info" style="max-width: 1140px; margin-right: auto; margin-left: auto;">
+            <div class="alert alert-info" style="max-width: 1140px; margin-right: auto; margin-left: auto; border:none; color:white; background-color: #f1b875;">
             {{ Session::get('success') }}
             </div>
             @endif

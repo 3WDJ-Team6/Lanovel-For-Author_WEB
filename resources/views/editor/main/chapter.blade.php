@@ -5,9 +5,12 @@
 <style>
     body {
         font-family: 'M PLUS Rounded 1c';
+        background-color:#fffffa;
     }
-
 </style>
+<link rel="stylesheet" type="text/css" href="{{asset('css/normalize.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{asset('css/demo.css')}}" />
+<link rel="stylesheet" type="text/css" href="{{asset('css/book.css')}}" />
 <link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
 <link href="{{asset('css/templatemo_style.css')}}" rel="stylesheet">
 <script langauge="javascript">
@@ -44,7 +47,7 @@
     <div class="col-lg-12 col-md-10 mx-auto" id="chapters_box" style="margin-top:50px; margin-bottom:50px;">
         <div id="work_title_box" style="margin-bottom:50px;">
             <h3 style="margin-bottom:20px;">
-            @if(Auth::user()['roles']==2)<a href="/" style="color:#ea4c4c;">{{$nowWork->work_title}}</a></h3>
+                @if(Auth::user()['roles']==2)<a href="/" style="color:#ea4c4c;">{{$nowWork->work_title}}</a></h3>
             @else
             <h4>{{$nowWork->work_title}}</h4>
             @endif
@@ -52,12 +55,12 @@
             <p>{{$nowWork->introduction_of_work}}</p>
         </div>
         <div class="chapter" style="align-items:center; justify-contents:center;">
-            <div class="post-preview" style=" margin-top:0; width:110px; display:inline-block; margin:0.1%">
+            <div class="post-preview" style=" margin-top:0; width:90px; display:inline-block;">
                 <h5 class="post-subtitle" style="display:inline-block; ">
                     <a href="javascript:popup({{$num}})" target="_blank"
                         style="display:block; color:black; text-decoration:none;">
-                        <img src="{{asset('image/plus.png')}}" alt="표지1"
-                            style="width:70px; height:70px; margin-bottom:130%; display:block;">
+                        <img src="{{asset('image/add.png')}}" alt="표지1"
+                            style="width:60px; height:60px; margin-bottom:200%; display:block;">
                     </a>
                 </h5>
             </div>
@@ -67,20 +70,49 @@
             @foreach($checkNum as $cn)
             @if($row->num == $cn->num)
 
-            <div class="post-preview" style="width:230px; height:280px; display:inline-block; margin:0.1%">
-                <a href="{{url('editor/main/list')}}/{{$row['num']}}" style="text-decoration:none;">
-                    <img src="{{asset('image/note.png')}}" alt="표지1"
-                        style="width:110px; height:150px; display:block; margin-left:25%; margin-top:5%; margin-bottom:10%; box-shadow: 5px 5px 15px -7px rgba(0, 0, 0, 1);"
-                        class="img-thumbnail">
-                    <!-- <div class="subtitle-form" style="display:inline-block;"> -->
-                    <h5 class="post-subtitle"
-                        style="display:flex; margin-left:2%; justify-content: center; align-items; center;">
-                        {{$row->subtitle}}
-                    </h5>
-                    <!-- </div> -->
+            <div class="post-preview " style="display:inline-block; margin:3%">
+            <ul class="align">
+                <figure class='book'>
+                    <a href="{{url('editor/main/list')}}/{{$row['num']}}" style="text-decoration:none;">
+                        <ul class='hardcover_front'>
+                            <li>
+                                <div class="coverDesign yellow">
+                                    <img src="{{asset('image/note.png')}}" alt="표지1" style="width:auto; height:220px;">
+                                </div>
+                            </li>
+                            <li></li>
+                        </ul>
 
-                </a>
+                        <!-- Pages -->
 
+                        <ul class='page'>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+
+                            <!-- Back -->
+
+                            <ul class='hardcover_back'>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                            <ul class='book_spine'>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                        <!-- <div class="subtitle-form" style="display:inline-block;"> -->
+                        <h5 class="post-subtitle"
+                            style="display:flex; margin-left:2%; justify-content: center; align-items; center;">
+                            {{$row->subtitle}}
+                        </h5>
+                        <!-- </div> -->
+
+                    </a>
+                </figure>
+                </ul>
                 <p class="post-meta"
                     style="font-size:13px; margin-bottom:0; display:flex; justify-content: center; align-items; center;">
                     Posted by {{Auth::user()['nickname']}} on May </p>

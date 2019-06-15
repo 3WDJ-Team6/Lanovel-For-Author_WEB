@@ -30,7 +30,7 @@ html {
 }
 
 body {
-    background: #ecf0f1;
+    /* background: #ecf0f1; */
     color: #34495e;
     font-family: 'Lato', 'Arial', sans-serif;
     font-weight: 400;
@@ -81,7 +81,7 @@ a {
     width: 500px;
     min-height: 300px;
     display: inline-block;
-    margin: 30px 20px 30px 70px;
+    margin: 30px 40px 30px 70px;
     padding: 0 0 0 10px;
     vertical-align: top;
 }
@@ -179,7 +179,7 @@ Table of Contents
     background: -moz-linear-gradient(left, #e1ddd8 0%, #fffbf6 100%);
     background: -ms-linear-gradient(left, #e1ddd8 0%, #fffbf6 100%);
     background: linear-gradient(left, #e1ddd8 0%, #fffbf6 100%);
-    box-shadow: inset 0px -1px 2px rgba(50, 50, 50, 0.1), inset -1px 0px 1px rgba(150, 150, 150, 0.2);
+    /* box-shadow: inset 0px -1px 2px rgba(50, 50, 50, 0.1), inset -1px 0px 1px rgba(150, 150, 150, 0.2); */
     border-radius: 0px 5px 5px 0px;
 }
 
@@ -343,7 +343,7 @@ Table of Contents
 }
 
 .hardcover_front li:last-child:before {
-    box-shadow: 0px 0px 30px 5px #333;
+    /* box-shadow: 0px 0px 30px 5px #333; */
     -webkit-transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(-2px) translateY(-78px);
     -moz-transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(-2px) translateY(-78px);
     transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(-2px) translateY(-78px);
@@ -382,7 +382,7 @@ Table of Contents
 }
 
 .hardcover_back li:last-child:before {
-    box-shadow: 10px -1px 80px 20px #666;
+    /* box-shadow: 10px -1px 80px 20px #666; */
     -webkit-transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(2px) translateY(-78px);
     -moz-transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(2px) translateY(-78px);
     transform: rotateX(90deg) rotateZ(90deg) translateZ(-140px) translateX(2px) translateY(-78px);
@@ -441,7 +441,7 @@ Table of Contents
 }
 
 .book_spine li:last-child:before {
-    box-shadow: 5px -1px 100px 40px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 5px -1px 100px 40px rgba(0, 0, 0, 0.2); */
     -webkit-transform: rotateX(90deg) rotateZ(90deg) translateZ(-210px) translateX(2px) translateY(-6px);
     -moz-transform: rotateX(90deg) rotateZ(90deg) translateZ(-210px) translateX(2px) translateY(-6px);
     transform: rotateX(90deg) rotateZ(90deg) translateZ(-210px) translateX(2px) translateY(-6px);
@@ -608,7 +608,7 @@ Table of Contents
     color: #f8f8f8;
     font-size: 1em;
     text-align: center;
-    text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.1);
+    /* text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.1); */
 }
 
 .yellow {
