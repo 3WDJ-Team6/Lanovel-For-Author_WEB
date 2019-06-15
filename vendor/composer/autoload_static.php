@@ -674,6 +674,7 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Providers\\ViewServiceProvider' => __DIR__ . '/../..' . '/app/Providers/ViewServiceProvider.php',
         'App\\Resource' => __DIR__ . '/../..' . '/app/Models/Resource.php',
+        'App\\Subscribe' => __DIR__ . '/../..' . '/app/Subscribe.php',
         'App\\Traits\\FileTrait' => __DIR__ . '/../..' . '/app/Traits/FileTrait.php',
         'App\\Traits\\ModelScopes' => __DIR__ . '/../..' . '/app/Traits/ModelScopes.php',
         'App\\WorkOut\\ReadBook' => __DIR__ . '/../..' . '/app/Models/ReadBook.php',

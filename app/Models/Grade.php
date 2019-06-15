@@ -11,6 +11,13 @@ class Grade extends Model
 {
     protected $table = 'grades';
 
+
+    // 새 평점 저장
+    public function storeGrade(array $grade_info)
+    {
+        Grade::insert($grade_info);
+    }
+
     /**
      * 하나의 작품은 여러 개의 평점을 가질 수 있다.
      */

@@ -847,6 +847,35 @@ $(document).ready(function() {
         }
     });
 
+    //화면공유
+    var node = document.getElementById("popup_result");
+
+    function setCaret(node) {
+        var caretID = "caret";
+        var cc = document.createElement("span");
+        cc.id = caretID;
+        window
+            .getSelection()
+            .getRangeAt(0)
+            .insertNode(cc);
+
+        node.blur();
+    }
+
+    function getCaret(node) {
+        var caretID = "caret";
+
+        node.focus();
+
+        var range = document.createRange();
+        cc = document.getElementById(caretID);
+        range.selectNode(cc);
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        range.deleteContents();
+    }
+
     function delay(callback, ms) {
         var timer = 0;
         return function() {
@@ -858,8 +887,8 @@ $(document).ready(function() {
             }, ms || 0);
         };
     }
-
     let post_content = $(".textarea").html();
+
     function redis_ajax() {
         $.ajax({
             type: "POST",
@@ -875,29 +904,34 @@ $(document).ready(function() {
             success: function(data) {
                 console.log("성공");
                 console.log("수정완료");
+                getCaret(node);
             }
         });
     }
     $(".textarea").keyup(
         delay(function(e) {
+            setCaret(node);
             post_content = $(".textarea").html();
             console.log("닉네임 : ", userNickname);
             console.log("에피소드번호 : ", ep_of_num);
             console.log("내용 : ", post_content);
             redis_ajax();
-        }, 500)
+        }, 1000)
     );
 
     $(document).on(
         "input",
         ".textarea",
         delay(function(e) {
+            setCaret(node);
             post_content = $(".textarea").html();
             redis_ajax();
-        }, 500)
+        }, 1000)
     );
 
     redis_ajax();
+    //화면공유//
+
     //툴 팝업 링크해제 뒤로 한칸내리는역할
     $("#unlink").after("<div></div>");
     //툴 팝업 링크해제 뒤로 한칸내리는역할//
@@ -916,28 +950,49 @@ $(document).ready(function() {
     //         }
     //     }
     // });
+
     //포커스
-    let focus_flag = false;
+    let writer_flag = false;
+    let illust_flag = false;
     $(document).on("mousedown", ".text_p", function() {
-        if ($(".user_focus").length) {
-            console.log("포커스풀림");
-            $(".user_focus").remove();
-            focus_flag = false;
+        if ($(".writer_focus").length && userRoles === "writer") {
+            console.log("작가 포커스풀림1");
+            $(".writer_focus").remove();
+            writer_flag = false;
         }
-        if (focus_flag === false) {
-            console.log("포커스됨");
+        if ($(".illust_focus").length && userRoles === "illustrator") {
+            console.log("일러 포커스풀림1");
+            $(".illust_focus").remove();
+            illust_flag = false;
+        }
+        if (writer_flag === false && userRoles === "writer") {
+            console.log("작가 포커스됨");
             $(this).append(
-                "<span class='user_focus " +
+                "<span class='focused writer_focus " +
                     userRoles +
-                    " ' contentEditable='false'>" +
+                    "'contentEditable='false'>&nbsp;" +
                     userNickname +
-                    "</span>"
+                    "&nbsp;</span>"
             );
-            focus_flag = true;
-        } else if (focus_flag === true) {
-            console.log("포커스풀림");
-            $(".user_focus").remove();
-            focus_flag = false;
+            writer_flag = true;
+        } else if (illust_flag === false && userRoles === "illustrator") {
+            console.log("일러 포커스됨");
+            $(this).append(
+                "<span class='focused illust_focus " +
+                    userRoles +
+                    "'contentEditable='false'>&nbsp;" +
+                    userNickname +
+                    "&nbsp;</span>"
+            );
+            illust_flag = true;
+        } else if (writer_flag === true && userRoles === "writer") {
+            console.log("작가 포커스풀림2");
+            $(".writer_focus").remove();
+            writer_flag = false;
+        } else if (illust_flag === true && userRoles === "illustrator") {
+            console.log(" 일러 포커스풀림2");
+            $(".illust_focus").remove();
+            illust_flag = false;
         }
     });
     //포커스//
@@ -1031,11 +1086,25 @@ $(document).ready(function() {
     });
     //resize된 파일을 우클릭 및 삭제//
 
+    //멤버리스트
+    $("#mem-btn").click(function(event) {
+        $("#member_list")
+            .toggle()
+            .css({
+                top: event.pageY + -30 + "px",
+                left: event.pageX + -30 + "px"
+            });
+    });
+    //멤버리스트//
+
     //미리보기+루비
     $("#pre-btn").click(function() {
         $(".textarea").each(function() {
             var text = $(".textarea").html();
             $("#result").html(text);
+            if ($("#result > .text_p > .focused").length) {
+                $("#result > .text_p > .focused").remove();
+            }
             $("#result").html(
                 $("#result")
                     .html()

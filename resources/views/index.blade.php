@@ -35,6 +35,7 @@ body {
             @endif
             {{-- 정렬 필터링  --}}
             <input type="hidden" name="_token" value="{{ Session::token() }}">
+
             <script>
                 $.ajax({
                     type: 'POST',
@@ -42,16 +43,15 @@ body {
                     data: {
                         status_of_work: $('input:checkbox:checked').val()
                     },
-                    success: function (data) {
+                    success: function(data) {
                         alert(data);
                     }
                 });
-
             </script>
 
+
             <!-- Material inline 1 -->
-            <form method="POST" id="filter"
-                style="display:block; align-items: center; display: flex; justify-content: center;">
+            <form method="POST" id="filter" style="display:block; align-items: center; display: flex; justify-content: center;">
                 {{ csrf_field() }}
                 <label class="container-checkbox">회차
                     <input type="checkbox" name="type_of_work[]" value="3">
@@ -80,10 +80,12 @@ body {
             <div class="col-lg-12 col-md-10 mx-auto">
                 <div class="post-preview">
                     <a href="{{url('/createBook')}}">
+
                         <h3 class="post-title" style="align-items: center; display: flex; justify-content: center;">
                             <img src="{{asset('image/add.png')}}" alt="표지1"
                                 style="margin-right:2%; width:40px; height:auto;">
                             <!-- <div class="add-font" style="font-size:30px; color:#ea4c4c;">作品追加</div> -->
+
                         </h3>
                 </div>
             </div>
@@ -95,6 +97,8 @@ body {
 
             <ul class="align">
                 @foreach ($posts as $post)
+
+
                 <li>
                     <figure class='book'>
                         <a href="{{url('editor/main/chapter')}}/{{$post['num']}}">
@@ -206,8 +210,6 @@ body {
             </ul>
         </div>
     </div><!-- /container -->
-
-
 
     </div>
     @else

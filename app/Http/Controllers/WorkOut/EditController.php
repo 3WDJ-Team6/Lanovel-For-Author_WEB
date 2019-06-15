@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use App\Models\CommentOfWork;
+use App\Models\Grade;
 use App\Events\ShareEvent;
 use Illuminate\Support\Facades\Redis;
 
@@ -30,18 +32,17 @@ class EditController extends Controller
 
     public function __construct()
     {
-        /**
+        /**,
          * 인증 된 사용자만 목차 리스트 및 에디터에 접근할 수 있다.
          */
         // return $this->middleware('auth');
     }
     /** 목차 리스트 보기
-     * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수), 작품 생성 시각, 작품 최종 수정 시각,
+     * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수) 작품 생성 시각, 작품 최종 수정 시각,
      */
 
     public function index($num)
     {
-
         $nowChapter = ChapterOfWork::select(
             'chapter_of_works.*'
         )->where('chapter_of_works.num', '=', $num)
@@ -251,14 +252,14 @@ class EditController extends Controller
      */
     public function show(Request $request, $nickname = null, $num = null)
     {
-        if($nickname = null || $num = null){
+        if ($nickname = null || $num = null) {
             return 0;
-        }else{
-        # 화면공유 로직
-        $content = $request->content;
-        broadcast(new \App\Events\ShareEvent($nickname, $num, $content));
-        return 0;
-    }
+        } else {
+            # 화면공유 로직
+            $content = $request->content;
+            broadcast(new \App\Events\ShareEvent($nickname, $num, $content));
+            return 0;
+        }
     }
 
     /**
@@ -279,6 +280,12 @@ class EditController extends Controller
         // $temp = Redis::get('num' . $num);
         // Redis::set('name', 'test');
         // $values = Redis::command('lrange', ['name', 5, 10]);
+
+        $work_of_num_of_now_content = ContentOfWork::select(
+            'content_of_works.num_of_work'
+        )->where('content_of_works.num', '=', $num)->first();
+
+        $num_of_now_work = $work_of_num_of_now_content->num_of_work;
 
         $chapter_of_num_of_now_content = ContentOfWork::select(
             'content_of_works.num_of_chapter'
@@ -315,6 +322,11 @@ class EditController extends Controller
 
         $content_of_works = ContentOfWork::select('*')->where('num', $num)->first();
 
+        $memberlist = WorkList::select(
+            // 'work_lists.user_id'
+            'users.nickname'
+        )->join('users', 'users.id', 'work_lists.user_id')
+            ->where('work_lists.num_of_work', '=', $num_of_now_work)->get();
 
         // return $content_of_works['content'];
         // return $content_lists;
@@ -323,7 +335,8 @@ class EditController extends Controller
             ->with('content_lists', $content_lists)
             ->with('titles', $titles)
             ->with('memos', $memos)
-            ->with('user', Auth::user()['nickname']);
+            ->with('user', Auth::user()['nickname'])
+            ->with('memberlist', $memberlist);
     }
 
     /**
@@ -343,12 +356,15 @@ class EditController extends Controller
         $count = 0;
         $imglist = [];
         $ttext = $editor_content;
-
         while (1) {
             if (str::contains($editor_content, 'height: auto;">')) {
                 $editor_content = str::replaceFirst('height: auto;">', 'height: auto;" />', $editor_content);
             } elseif (str::contains($editor_content, 'height:auto;">')) {
                 $editor_content = str::replaceFirst('height:auto;">', 'height: auto;" />', $editor_content);
+            } elseif (preg_match('/servername="[!-z0-9]*\.[!-z0-9]{3,4}"/', $editor_content)) {
+                $editor_content = preg_replace('/servername="[!-z0-9]*\.[!-z0-9]{3,4}"/', "", $editor_content);
+            } elseif (str::contains($editor_content, 'div')) {
+                $editor_content = str::replaceFirst('div', 'span', $editor_content);
             } elseif (str::contains($editor_content, '&nbsp;')) {
                 $editor_content = str::replaceFirst('&nbsp;', '', $editor_content);
             } elseif (str::contains($editor_content, 'resize">')) {

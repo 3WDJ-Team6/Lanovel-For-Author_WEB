@@ -1,4 +1,6 @@
 @extends('layouts.app')
+
+
 @section('header')
 <link href="https://fonts.googleapis.com/css?family=Kosugi+Maru&display=swap" rel="stylesheet">
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -16,7 +18,9 @@
 </script>
 <script src="{{asset('/js/chat.js') }}"></script>
 <script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?aaaaaaaaa') }}" rel="stylesheet">
+<link href="{{ asset('css/editor.css?a') }}" rel="stylesheet">
+<script src="{{asset('/js/invite_user.js')}}"></script>
+
 @if(Auth::user()['roles'] == 2)
 <script>
     var userRoles = "writer";
@@ -51,13 +55,12 @@
     <div class="nav" style="display:inline-block; float:right; ">
     <div class="nav">
         <div class="nav-bar" style="margin-top:6%;">
-
             <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
                 @csrf
                 <ul>
-                    <li class="nav-btn"><span id="chatting">채팅</span></li>
+                    {{-- <li class="nav-btn"><span id="chatting">채팅</span></li>--}}
                     <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></li>
-                    <li class="nav-btn">멤버리스트</li>
+                    <li class="nav-btn" id="mem-btn">멤버리스트</li>
                     <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a>
                     </li>
                     <li class="nav-btn"><button type="submit" id='sub'>저장</button></li>
@@ -177,7 +180,13 @@
             {{$user}}
         </div>--}}
     </div>
+    <div id="member_list">
+            @foreach($memberlist as $row)
+                <div class="member_list_li">&nbsp;{{$row['nickname']}}</div>
+            @endforeach
+    </div>
     <script>
+
         jQuery(document).ready(function() {
             $.ajaxSetup({
                 headers: {
@@ -200,10 +209,7 @@
                     success: function(data) {
                         console.log(data);
                     }
-                });
-            }
 
-        });
     </script>
 
     <script type="text/javascript">
