@@ -43,20 +43,6 @@ class EditController extends Controller
 
     public function index($num)
     {
-        $num = 134;
-
-        $comment = CommentOfWork::select(
-            'comment_of_works.*',
-            'grades.grade',
-            'users.profile_photo'
-        )->where('comment_of_works.num_of_work', $num)
-
-            ->join('grades', 'grades.num_of_work', 'comment_of_works.num_of_work')
-            ->leftjoin('users', 'users.id', 'comment_of_works.user_id')
-            ->get();
-
-        return response()->json($comment, 200, [], JSON_PRETTY_PRINT);
-
         $nowChapter = ChapterOfWork::select(
             'chapter_of_works.*'
         )->where('chapter_of_works.num', '=', $num)
@@ -266,14 +252,14 @@ class EditController extends Controller
      */
     public function show(Request $request, $nickname = null, $num = null)
     {
-        if($nickname = null || $num = null){
+        if ($nickname = null || $num = null) {
             return 0;
-        }else{
-        # 화면공유 로직
-        $content = $request->content;
-        broadcast(new \App\Events\ShareEvent($nickname, $num, $content));
-        return 0;
-    }
+        } else {
+            # 화면공유 로직
+            $content = $request->content;
+            broadcast(new \App\Events\ShareEvent($nickname, $num, $content));
+            return 0;
+        }
     }
 
     /**
@@ -297,7 +283,7 @@ class EditController extends Controller
 
         $work_of_num_of_now_content = ContentOfWork::select(
             'content_of_works.num_of_work'
-        )->where('content_of_works.num','=',$num)->first();
+        )->where('content_of_works.num', '=', $num)->first();
 
         $num_of_now_work = $work_of_num_of_now_content->num_of_work;
 
@@ -340,7 +326,7 @@ class EditController extends Controller
             // 'work_lists.user_id'
             'users.nickname'
         )->join('users', 'users.id', 'work_lists.user_id')
-        ->where('work_lists.num_of_work','=',$num_of_now_work)->get();
+            ->where('work_lists.num_of_work', '=', $num_of_now_work)->get();
 
         // return $content_of_works['content'];
         // return $content_lists;
@@ -350,7 +336,7 @@ class EditController extends Controller
             ->with('titles', $titles)
             ->with('memos', $memos)
             ->with('user', Auth::user()['nickname'])
-            ->with('memberlist',$memberlist);
+            ->with('memberlist', $memberlist);
     }
 
     /**
@@ -376,7 +362,7 @@ class EditController extends Controller
             } elseif (str::contains($editor_content, 'height:auto;">')) {
                 $editor_content = str::replaceFirst('height:auto;">', 'height: auto;" />', $editor_content);
             } elseif (preg_match('/servername="[!-z0-9]*\.[!-z0-9]{3,4}"/', $editor_content)) {
-                $editor_content = preg_replace('/servername="[!-z0-9]*\.[!-z0-9]{3,4}"/', "" , $editor_content);
+                $editor_content = preg_replace('/servername="[!-z0-9]*\.[!-z0-9]{3,4}"/', "", $editor_content);
             } elseif (str::contains($editor_content, 'div')) {
                 $editor_content = str::replaceFirst('div', 'span', $editor_content);
             } elseif (str::contains($editor_content, '&nbsp;')) {

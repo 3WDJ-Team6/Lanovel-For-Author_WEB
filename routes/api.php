@@ -35,4 +35,8 @@ Route::group(['prefix' => 'reader'], function () {
     Route::get('/showReview/{workNum}', 'Mobile\ReviewController@index');
     # 리뷰 저장
     Route::get('/saveReview/{workNum}/{userId}', 'Mobile\ReviewController@store');
+    # 작품 구매 or 대여 리스트
+    Route::get('/getMyList/{UserId}', 'Mobile\MyListController@getMyList');
+    # 구독중인 작가의 작품 리스트
+    Route::get('/getSubscribeWorks/{UserId}', 'Mobile\MyListController@getSubList');
 });
