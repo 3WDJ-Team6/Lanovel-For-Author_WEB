@@ -49,7 +49,6 @@ class IndexController extends Controller
      */
     public function index(request $request)
     {
-
         // $periods = PeriodOfWork::select(
         //     'period_of_works.*'
         // )->join('work_lists', 'work_lists.num_of_work', '=', 'period_of_works.num_of_work')
