@@ -27,6 +27,7 @@ class ReviewController extends Controller
     {
         /**
          * 리뷰 리스트
+         *
          * => 서버로부터 특정 작품에 작성된 리뷰들 리스트 json 형식으로 받음
          *   (리뷰 리스트 : 리뷰 단 유저 프로필사진 url, 유저 닉네임, 평점, 리뷰 내용)
          */
@@ -39,8 +40,7 @@ class ReviewController extends Controller
             ->join('grades', 'grades.user_id', '=', 'reviews.user_id')
             ->where('reviews.num_of_work', $workNum)->get();
 
-
-        return $reviews->toJson(JSON_PRETTY_PRINT);
+        return response()->json($reviews, 200, [], JSON_PRETTY_PRINT);
     }
 
     /**

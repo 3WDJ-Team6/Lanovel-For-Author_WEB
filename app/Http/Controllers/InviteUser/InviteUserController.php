@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\InviteUser;
-
 use Auth;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
@@ -13,7 +11,6 @@ use App\Models\WorkList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-
 class InviteUserController extends Controller
 {
     public function loadSearchModal()
@@ -24,7 +21,6 @@ class InviteUserController extends Controller
             'users.introduction_message',
             'users.profile_photo'
         )->get();
-
         $text = "
         <style>
             .userlist{
@@ -78,7 +74,6 @@ class InviteUserController extends Controller
             </div>
             <div id='invite' class='modal1' role='dialog'>
         </div>";
-
         return $text;
     }
     public function loadUserInfoModal($UserEmail)
@@ -144,7 +139,6 @@ class InviteUserController extends Controller
             <input type='button' id='submitbtn' value='초대'>
         </form>
   ";
-
         return $text;
     }
     public function SendingInviteMessage(Request $request)
@@ -152,7 +146,7 @@ class InviteUserController extends Controller
         $userid = $request->usernickname;
         $work_num = $request->numofwork;
         $invite_message = $request->message;
-
+        // echo "<script>alert('test');</script>";
         $user_id = User::select(
             'users.id'
         )->where('users.nickname', $userid)
@@ -161,7 +155,6 @@ class InviteUserController extends Controller
             'works.work_title'
         )->where('works.num', $work_num)
             ->first()->work_title;
-
         $worklist = WorkList::select(
             DB::raw("SELECT if(user_id = $user_id,'t','f') FROM work_lists WHERE user_id = $user_id AND num_of_work = $work_num")
         );
@@ -173,23 +166,19 @@ class InviteUserController extends Controller
             $list->accept_request = 1;
             $list->last_time_of_working = Carbon::now();
             $list->save();
-
             $message = new Message();
             $message->from_id = Auth::user()['id'];
             $message->to_id = $user_id;
-            // $message->message_title = 'invite message';
-            $message->message_title = Auth::user()['nickname']."님이 $work_title 작품에 초대하였습니다.";
+            $message->message_title = Auth::user()['nickname']."님이 $work_title작품에 초대 하셨습니다";
             $message->message_content = $invite_message;
             $message->num_of_work = $work_num;
             $message->save();
         }
         // event(new InviteEvent(Auth::user()['nickname'], $nickname, 'invite message', $nickname . "님이 " . $work_title . '작품에 초대하셧습니다.'));
-
         // return redirect()->back()->withInput();
     }
     public function viewMessages()
     {
-        return Auth::user()['id'];
         $invite_messages = Message::select(
             'messages.num',
             'messages.message_title',
@@ -199,11 +188,9 @@ class InviteUserController extends Controller
             DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0) count")
         )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
             ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
-            // ->where('message_title', 'like', 'invite%')
+            ->where('message_title', 'like', 'invite%')
             ->where('to_id', '=', Auth::user()['id'])
             ->get();
-            return $invite_messages;
-
         $text = "
         <style>
             table{
@@ -239,11 +226,9 @@ class InviteUserController extends Controller
         </div>";
         return $text;
     }
-
     public function viewMessage($messageNum)
     {
         $inviteRoomNum = Message::select('num_of_work')->where('num', $messageNum)->get()[0]->num_of_work;
-
         $invite_message = Message::select(
             'messages.message_title',
             'messages.message_content',
@@ -254,11 +239,9 @@ class InviteUserController extends Controller
             ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
             ->where('messages.num', $messageNum)
             ->get();
-
         DB::update('UPDATE messages
         SET condition_message = 1
         WHERE messages.num =' . $messageNum);
-
         // return $invite_message;
         foreach ($invite_message as $i => $im) {
             $text = "
