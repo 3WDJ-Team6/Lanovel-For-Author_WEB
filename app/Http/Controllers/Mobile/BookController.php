@@ -102,21 +102,7 @@ class BookController extends Controller
                                     'due_of_rental' => Carbon::now()->addDays(3),   # 만료 기간
                                 ]);
                         }
-<<<<<<< HEAD
                         // $point--;
-=======
-                        // // 보유 포인트와 작품 대여 가격 비교
-                        // $rentalPoint = User::select(
-                        //     DB::raw("(select(IF(point>works.rental_price, 'true', 'false')) from users JOIN works ON works.num =" . $num . " WHERE id=" . $userId . ") canRental")
-                        // )->where('users.id', $userId)
-                        //     ->get();
-
-                        // // 대여 시 포인트 차감
-                        // $rentalPointM = User::where('id', $userId)
-                        //     ->update(
-                        //         ['point' => DB::raw("point - (select rental_price from works where num =" . $num . ")")]
-                        //     );
->>>>>>> f48000e51e54effd28c94aef34c5e9562e1dcb4b
                         break;
                     case 'read':
                         break;

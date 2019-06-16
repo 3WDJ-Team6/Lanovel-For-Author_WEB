@@ -153,7 +153,6 @@ class InviteUserController extends Controller
         $work_num = $request->numofwork;
         $invite_message = $request->message;
 
-        // echo "<script>console.log('$userid');</script>";
         $user_id = User::select(
             'users.id'
         )->where('users.nickname', $userid)
@@ -178,7 +177,8 @@ class InviteUserController extends Controller
             $message = new Message();
             $message->from_id = Auth::user()['id'];
             $message->to_id = $user_id;
-            $message->message_title = 'invite message';
+            // $message->message_title = 'invite message';
+            $message->message_title = Auth::user()['nickname']."님이 $work_title 작품에 초대하였습니다.";
             $message->message_content = $invite_message;
             $message->num_of_work = $work_num;
             $message->save();
@@ -189,6 +189,7 @@ class InviteUserController extends Controller
     }
     public function viewMessages()
     {
+        return Auth::user()['id'];
         $invite_messages = Message::select(
             'messages.num',
             'messages.message_title',
@@ -198,9 +199,10 @@ class InviteUserController extends Controller
             DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0) count")
         )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
             ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
-            ->where('message_title', 'like', 'invite%')
+            // ->where('message_title', 'like', 'invite%')
             ->where('to_id', '=', Auth::user()['id'])
             ->get();
+            return $invite_messages;
 
         $text = "
         <style>

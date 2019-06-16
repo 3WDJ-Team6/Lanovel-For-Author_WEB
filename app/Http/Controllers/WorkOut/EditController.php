@@ -43,20 +43,6 @@ class EditController extends Controller
 
     public function index($num)
     {
-        $num = 134;
-
-        // $comment = CommentOfWork::select(
-        //     'comment_of_works.*',
-        //     'grades.grade',
-        //     'users.profile_photo'
-        // )->where('comment_of_works.num_of_work', $num)
-
-        //     ->join('grades', 'grades.num_of_work', 'comment_of_works.num_of_work')
-        //     ->leftjoin('users', 'users.id', 'comment_of_works.user_id')
-        //     ->get();
-
-        // return response()->json($comment, 200, [], JSON_PRETTY_PRINT);
-
         $nowChapter = ChapterOfWork::select(
             'chapter_of_works.*'
         )->where('chapter_of_works.num', '=', $num)
@@ -391,7 +377,8 @@ class EditController extends Controller
                 $editor_content = str::replaceFirst('src="/images/tool_icon/speaker_icon.png" alt="alt"', 'src="../images/tool_icon/speaker_icon.png" alt="alt"', $editor_content);
             } elseif (str::contains($editor_content, 'onclick="audioPlay(event)">')) {
                 $editor_content = str::replaceFirst('onclick="audioPlay(event)">', 'onclick="audioPlay(event)" />', $editor_content);
-            } else {
+            }
+             else {
                 break;
             }
         }

@@ -374,7 +374,7 @@ class PublicationController extends Controller
             <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                 <head>
                     <meta http-equiv='default-style' content='text/html; charset=utf-8'/>
-                    <meta name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
+                    <meta name='viewport' content='width=1500, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
                     <title>" . $work_title . "</title>
                     <link rel='stylesheet' type='text/css' href='css/stylesheet.css' />
                     <link rel='stylesheet' type='text/css' href='css/page_styles.css' />

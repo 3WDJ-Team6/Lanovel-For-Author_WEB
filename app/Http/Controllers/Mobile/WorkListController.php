@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\WorkList;
 use App\Models\Work;
-use App\Models\Rental;
+use App\Models\Subscribe;
 use Illuminate\Support\Facades\DB;
 use App\Models\RecommendOfWork;
 use App\Models\SubscribeOrInterest;
@@ -109,7 +109,6 @@ class WorkListController extends Controller
         // 받아와야할 변수 작품번호(지금 18들어가있는곳), 챕터번호(23번), 현재 로그인중인 사용자(9번), type_of_work = 2 (단행본일 때)
         // 2) 작품 페이지 (단행본) + 3번 목차
         // 책 이미지, 책 제목, 작가명, 일러스트레이터명, 평점, 단행본|연재작 여부, 가격, 대여기간, 카테고리(해시태그), 줄거리, 업데이트 날짜
-        $authorId = '';
         $works = Work::select(
             'works.num',
             'works.work_title',
@@ -119,30 +118,31 @@ class WorkListController extends Controller
             'works.rental_price',
             'works.buy_price',
             DB::raw('IFNULL((select(round(avg(grades.grade),1)) from grades where grades.num_of_work = works.num AND grades.role_of_work = 1),0) grades'),
-            // DB::raw("(select group_concat(case when users.roles = 1 then 'Reader' when users.roles = 2 then 'Author' when users.roles = 3 then 'Illustrator' end, ' : ' , nickname ) from users where users.id in (select work_lists.user_id FROM work_lists WHERE work_lists.num_of_work = works.num)) participant"),
-            DB::raw("(select group_concat(nickname) from users where users.id in (SELECT user_id FROM work_lists WHERE work_lists.num_of_work = works.num AND users.roles=2)) author"),
-            DB::raw("(select group_concat(nickname) from users where users.id in (SELECT user_id FROM work_lists WHERE work_lists.num_of_work = works.num AND users.roles=3)) illustrator"),
-            DB::raw('(select group_concat(category_works.tag) from category_works where category_works.num_of_work = works.num) tag'),
-            DB::raw('(select count(num_of_work) FROM recommend_of_works where recommend_of_works.num_of_work = works.num) recommends'),
-            DB::raw("if((select count(recommend_of_works.num_of_work) FROM recommend_of_works WHERE recommend_of_works.num_of_work = works.num AND recommend_of_works.user_id = $userId),'t','f') recommends_or_not"),
-            //DB::raw("IFNULL((select if(ISNULL(due_of_rental),'buy','rental') FROM rentals WHERE rentals.user_id = $userId AND rentals.chapter_of_work = $chapterNum),'0') check_buy_or_ren"), #?
-            DB::raw('(select count(*) from subscribe_or_interests WHERE subscribe_or_interests.role_of_work = 1) subscribe_count'),
-            DB::raw("if((select count(*) from subscribe_or_interests WHERE subscribe_or_interests.role_of_work = 1 AND subscribe_or_interests.user_id = $userId),'t','f') sub_or_not"),
-            DB::raw("if((select count(*) from subscribe_or_interests WHERE subscribe_or_interests.role_of_work = 2 AND subscribe_or_interests.user_id = $userId),'t','f' ) ins_or_not"),
-            DB::raw('(select users.profile_photo from users where users.id in(select user_id from work_lists where num_of_work = 18) LIMIT 1) author_profile_photo'),
-            //DB::raw("(select group_concat(content_of_works.subsubtitle) from content_of_works where content_of_works.num_of_chapter = $chapterNum) content_title_group"),
-            DB::raw("date_format(MAX(greatest(works.created_at , ifnull(content_of_works.created_at,''))),'%y-%m-%d') lastupdate")
-        )->leftjoin('work_lists', 'works.num', '=', 'work_lists.num_of_work')
-            ->leftjoin('category_works', 'works.num', '=', 'category_works.num_of_work')
-            ->leftjoin('content_of_works', 'works.num', '=', 'content_of_works.num_of_work')
-            ->leftjoin('subscribe_or_interests', 'works.num', '=', 'subscribe_or_interests.num_of_work')
-            ->where('work_lists.accept_request', '=', 0)
-            ->where('works.num', '=', $workNum)
-            ->where('works.type_of_work', '=', 2)
+            DB::raw("(select group_concat(us1.nickname)) author"),
+            DB::raw("(select group_concat(us2.nickname)) illustrator"),
+            DB::raw("(select group_concat(category_works.tag) from category_works where category_works.num_of_work = $workNum) tag"),
+            DB::raw('(select count(subscribe_or_interests.num_of_work) FROM subscribe_or_interests where subscribe_or_interests.role_of_work = 2) recommends_count'),
+            DB::raw("(SELECT COUNT(ss2.reader_id) FROM subscribes AS ss2 WHERE ss2.author_id = (SELECT user_id FROM work_lists AS workl WHERE workl.num_of_work = $workNum ORDER BY created_at LIMIT 1 )) countsub"),
+            DB::raw("(if((SELECT reader_id FROM subscribes WHERE reader_id=$userId AND author_id IN (SELECT user_id FROM work_lists WHERE num_of_work = $workNum)),'t','f')) sub_or_not"),
+            DB::raw("(if((SELECT num_of_work FROM subscribe_or_interests AS soi1 where soi1.num_of_work = $workNum AND soi1.role_of_work = 1 AND soi1.user_id = $userId) IS NOT null,'t','f')) ins_of_not"),
+            DB::raw("(if((SELECT num_of_work FROM subscribe_or_interests AS soi2 where soi2.num_of_work = $workNum AND soi2.role_of_work = 2 AND soi2.user_id = $userId) IS NOT null,'t','f')) rec_of_not"),
+            DB::raw("(select users.profile_photo from users where users.id in(select user_id from work_lists where num_of_work = $workNum) LIMIT 1) author_profile_photo"),
+            DB::raw("(SELECT date_format(max(cow.updated_at),'%y-%m-%d') lastupdate FROM content_of_works AS cow WHERE cow.num_of_work = $workNum) lastupdate")
+        )->leftjoin('work_lists as wl', 'works.num', '=', 'wl.num_of_work')
+            ->leftJoin('users as us1', function ($join) {
+                $join->on('wl.user_id', '=', 'us1.id')
+                    ->where('us1.roles', 2);
+            })
+            ->leftJoin('users as us2', function ($join) {
+                $join->on('wl.user_id', '=', 'us2.id')
+                    ->where('us2.roles', 3);
+            })
+            ->where('works.num', $workNum)
             ->groupBy('works.num')
-            ->orderBy('work_lists.created_at', 'asc')->get();
+            ->orderBy('works.num', 'desc')->get();
 
-        return response()->json($works, 200, [], JSON_PRETTY_PRINT);
+        return response()->json($works, 200);
+        // return response()->json($works, 200, [], JSON_PRETTY_PRINT);
     }
 
     /**
@@ -169,7 +169,7 @@ class WorkListController extends Controller
         // Reantal::selete('due_of_lental')->where('','')->get();
         return '보낸 리퀘스트 :' . $request . ':' . $point;
     }
-    public function selection($num = null, $userId = null, $type = null)
+    public function selection($num = null, $userId = null, $type = null, $authorId = null)
     {
         // $count = SubscribeOrInterest::where('num_of_work', $num)->where('role_of_work', 2)->count();
 
@@ -201,9 +201,9 @@ class WorkListController extends Controller
         $result = SubscribeOrInterest::select(
             DB::raw("IF(role_of_work = 0, 'true', 'false') subOrInterstOrLike")
         )->where('subscribe_or_interests.user_id', $userId)
-        ->where('subscribe_or_interests.num_of_work', $num)
-        ->groupBy('subscribe_or_interests.user_id')
-        ->groupBy('subscribe_or_interests.num_of_work')->get();
+            ->where('subscribe_or_interests.num_of_work', $num)
+            ->groupBy('subscribe_or_interests.user_id')
+            ->groupBy('subscribe_or_interests.num_of_work')->get();
 
         $tempArr = [
             'requestType' => $type,
@@ -220,20 +220,29 @@ class WorkListController extends Controller
             case 'sub_selected':
                 $state = 'subscribe';
                 // 구독 여부가 TRUE 일 때 구독 취소
-                $deleteSub = SubscribeOrInterest::where('subscribe_or_interests.user_id', $userId)
-                    ->where('subscribe_or_interests.num_of_work', $num)
-                    ->where('subscribe_or_interests.role_of_work', 0)
+                // $deleteSub = SubscribeOrInterest::where('subscribe_or_interests.user_id', $userId)
+                //     ->where('subscribe_or_interests.num_of_work', $num)
+                //     ->where('subscribe_or_interests.role_of_work', 0)
+                //     ->delete();
+                $deleteSub = Subscribe::where('subscribes.reader_id', $userId)
+                    ->where('subscribes.author_id', $authorId)
                     ->delete();
                 break;
 
             case 'sub_unselected':
                 $state = 'subscribe';
                 // 구독 여부가 FALSE 일 때 구독 신청
-                $addSub = SubscribeOrInterest::firstOrCreate(
+                // $addSub = SubscribeOrInterest::firstOrCreate(
+                //     [
+                //         'num_of_work' => $num,
+                //         'user_id' => $userId,
+                //         'role_of_work' => 0,
+                //     ]
+                $addSub = Subscribe::firstOrCreate(
                     [
-                        'num_of_work' => $num,
-                        'user_id' => $userId,
-                        'role_of_work' => 0,
+                        'reader_id' => $userId,
+                        'author_id' => $authorId,
+                        'created_at' => Carbon::now(),
                     ]
                 );
                 break;
