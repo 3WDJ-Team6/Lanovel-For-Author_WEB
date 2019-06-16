@@ -49,4 +49,26 @@ $(document).ready(function () {
             }
         })
     });
+    $(document).on('click', '#viewMessage', function () {
+        num = document.getElementById('viewMessage').className;
+        // console.log('/viewMessage/' + num);
+        $.ajax({
+            url: '/viewMessage/' + num,
+            method: "post",
+            data: {
+                num: num
+            },
+            success: function (result) {
+                // console.log(result);
+                // jQuery("h2").html(result);
+                jQuery("#w3-modal-content").html(result);
+                // document.getElementById('id01').innerHTML = "test";
+                // $('.jquery-modal1').css('display', 'none');
+                // $('#member_list').append("<div class='member_list_li'>&nbsp;초보그림쟁이</div>");
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
+    });
 });

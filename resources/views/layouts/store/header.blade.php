@@ -20,6 +20,7 @@
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="{{ asset('js/jquery/jquery.modal.min.1.js') }}" defer></script>
+        <script src="{{ asset('js/invite_user.js') }}" defer></script>
         <link href="{{ asset('css/jquery.modal.min.1.css') }}" rel="stylesheet">
         <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
             <nav class="classy-navbar" id="essenceNav">
@@ -201,7 +202,7 @@
                                 class="s w3-display-topright" style="cursor:pointer">&times;</span>
                             <h2>New message</h2>
                         </header>
-                        <div class="w3-container">
+                        <div class="w3-container"  id="w3-modal-content">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -211,15 +212,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {{-- @foreach($invite_messages as $invite)
+                                    @foreach($invite_message as $invite)
                                     <tr>
                                         <td>{{$invite->from_id}}</td>
-                                        <td><a
-                                                href="{{url('/viewMessage/$invite->message_num')}}">{{$invite->message_title}}</a>
+                                        <td><a id="viewMessage" class="{{$invite->message_num}}" href="#">{{$invite->message_title}}</a>
                                         </td>
                                         <td>{{$invite->created_at}}</td>
                                     </tr>
-                                    @endforeach --}}
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
