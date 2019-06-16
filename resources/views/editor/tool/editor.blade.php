@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('header')
+<link href="https://fonts.googleapis.com/css?family=Kosugi+Maru&display=swap" rel="stylesheet">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="{{ asset('js/app.js')}}"></script>
 <script>
@@ -31,16 +32,15 @@
     <div class="title-bar">
         @foreach ($titles as $title)
         @if(Auth::user()['roles'] == 2)
-        <a href="{{url('/')}}" id="title">
-            <span id="work">
-                <h3>{{$title['work_title']}}</h3>
+        <a href="{{url('/')}}" id="title"><span id="work">
+                <button style="display:inline-block; font-size:30px; color:#a1c45a; border:0; font-weight:800; background:transparent; margin-top:0.5%;">{{$title['work_title']}}</button>
             </span></a>
         @else
-        <h3>{{$title['work_title']}}</h3>
+        <button style="display:inline-block; font-size:25px; color:#a1c45a; border:0; font-weight:800; background:transparent;">{{$title['work_title']}}</button>
         @endif
         <a href="{{url('editor/main/chapter')}}/{{$title['num']}}">
             <span id="chapter">
-                &nbsp;&nbsp;&nbsp;<h5>{{$title['subtitle']}}</h5>
+                &nbsp;&nbsp;&nbsp;<button style="display:inline-block; font-size:25px; color:#a1c45a; border:0; font-weight:800; background:transparent;">{{$title['subtitle']}}</button>
             </span>
         </a>
         @endforeach
@@ -49,8 +49,9 @@
     <div id="ccc"></div>
 
     {{-- 상단 메뉴 --}}
+    <div class="nav" style="display:inline-block; float:right; ">
     <div class="nav">
-        <div class="nav-bar">
+        <div class="nav-bar" style="margin-top:6%;">
             <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
                 @csrf
                 <ul>
@@ -75,14 +76,13 @@
 <div class="content">
 
     {{-- 전체 에리어 --}}
-    <div class="area">
+    <div class="area" style="height:600px;">
         {{-- 에피소드랑 템플릿 에리어 --}}
         <div class="ep-tem-area">
-            <nav class="nav_left">
+            <nav class="nav_left" style="top:70px; height:568px;">
                 <div class="ep-tem-par">
-                    <span id="ep" class="ep-tem">에피소드&nbsp;&nbsp;</span>
-                    <span id="tem" class="ep-tem">템플릿</span>
-
+                    <span id="ep" class="ep-tem">&nbsp;list&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span id="tem" class="ep-tem">template</span>
                 </div>
                 <a id="menuToggle_left">
                     <span class="sidebar_left"></span>
@@ -103,9 +103,8 @@
                         </script>
                     </div>
                     <div class="ep-list">
-                        {{-- 회차 리스트 띄워주기 --}}
-                        @foreach($content_lists as $row)
-                        <a href="{{url('/editor')}}/{{$row['num']}}">- {{$row['subsubtitle']}}<br></a>
+                        {{-- 회차 리스트 띄워주기 --}} @foreach($content_lists as $row)
+                        <a href="{{url('/editor')}}/{{$row['num']}}" style="color:black;">{{$row['subsubtitle']}}<br></a>
                         @endforeach
                     </div>
                     <div class="ep-btns">
@@ -155,7 +154,7 @@
         <div class="resource-area">
             <form action="{{url('/images')}}" id="file_form" method="POST" enctype="multipart/form-data">
                 @csrf
-                <nav class="nav_right">
+                <nav class="nav_right" style="top:70px; height:593px;">
                     <a href="" id="menuToggle_right">
                         <span class="sidebar_right"></span>
                     </a>
