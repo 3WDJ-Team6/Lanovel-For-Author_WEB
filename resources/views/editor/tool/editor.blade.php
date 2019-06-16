@@ -1,6 +1,4 @@
 @extends('layouts.app')
-
-
 @section('header')
 <link href="https://fonts.googleapis.com/css?family=Kosugi+Maru&display=swap" rel="stylesheet">
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -17,10 +15,9 @@
     var userNickname = "{{$user}}";
 </script>
 <script src="{{asset('/js/chat.js') }}"></script>
+<script src="{{asset('/js/invite_user.js')}}"></script>
 <script src="{{ asset('/js/editor.js') }}" defer></script>
 <link href="{{ asset('css/editor.css?a') }}" rel="stylesheet">
-<script src="{{asset('/js/invite_user.js')}}"></script>
-
 @if(Auth::user()['roles'] == 2)
 <script>
     var userRoles = "writer";
@@ -196,6 +193,9 @@
             $('#sub').on("click", onSave);
 
             function onSave(e) {
+                if ($(".textarea > .text_p > .focused").length) {
+                    $(".textarea > .text_p > .focused").remove();
+                }
                 $.ajax({
                     type: "POST",
                     url: "/update/{!! json_encode($content_of_works['num']) !!}",
@@ -209,6 +209,9 @@
                     success: function(data) {
                         console.log(data);
                     }
+                });
+            }
+        });
 
     </script>
 
