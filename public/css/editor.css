@@ -78,7 +78,7 @@ li>button {
     }
 
     .ep-tem {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
 
     .ep-title {
@@ -263,7 +263,7 @@ li>button {
     }
 
     .ep-tem {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
 
     .ep-title {
@@ -481,7 +481,7 @@ li>button {
 }
 
 .btn:hover {
-    background: #fff;
+    background-color: #fff;
     color: rgb(118, 206, 235);
     border: 3px solid rgb(118, 206, 235);
 }
@@ -623,7 +623,7 @@ li>button {
     max-height: fit-content;
     text-align: center;
     position: relative;
-    margin-left: 30px;
+    margin-left: 20px;
 }
 
 .ep-title {

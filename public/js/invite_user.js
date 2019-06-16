@@ -45,7 +45,7 @@ $(document).ready(function () {
             },
             success: function () {
                 $('.jquery-modal1').css('display', 'none');
-                $('#member_list').append("<div class='member_list_li'>&nbsp;초보그림쟁이</div>");
+                $('#member_list').append("<div class='member_list_li'>&nbsp;" + Str[0] + "</div>");
             },
             error: function (e) {
                 console.log(e);

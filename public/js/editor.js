@@ -849,9 +849,8 @@ $(document).ready(function() {
 
     //화면공유
     var node = document.getElementById("popup_result");
-
+    var caretID = "caret";
     function setCaret(node) {
-        var caretID = "caret";
         var cc = document.createElement("span");
         cc.id = caretID;
         window
@@ -863,12 +862,10 @@ $(document).ready(function() {
     }
 
     function getCaret(node) {
-        var caretID = "caret";
-
         node.focus();
 
         var range = document.createRange();
-        cc = document.getElementById(caretID);
+        var cc = document.getElementById(caretID);
         range.selectNode(cc);
         var selection = window.getSelection();
         selection.removeAllRanges();
@@ -1031,9 +1028,7 @@ $(document).ready(function() {
             imgId = $(".textarea .obj_thum").attr("id");
             imgId = imgId + resize_num;
             $(".textarea .obj_thum").attr("id", "" + imgId + "");
-            $(".textarea .obj_thum")
-                .attr("class", "resize")
-                .draggable();
+            $(".textarea .obj_thum").attr("class", "resize");
             mp4Id = $(".textarea .mp4_icon").attr("id");
             mp4Id = mp4Id + resize_mp4;
             $(".textarea .mp4_icon").attr("id", "" + mp4Id + "");

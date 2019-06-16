@@ -41,21 +41,7 @@ class EditController extends Controller
      * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수) 작품 생성 시각, 작품 최종 수정 시각,
      */
 
-    public function index($num)
-    {
-        $num = 134;
-
-        $comment = CommentOfWork::select(
-            'comment_of_works.*',
-            'grades.grade',
-            'users.profile_photo'
-        )->where('comment_of_works.num_of_work', $num)
-
-            ->join('grades', 'grades.num_of_work', 'comment_of_works.num_of_work')
-            ->leftjoin('users', 'users.id', 'comment_of_works.user_id')
-            ->get();
-
-        return response()->json($comment, 200, [], JSON_PRETTY_PRINT);
+    public function index($num){
 
         $nowChapter = ChapterOfWork::select(
             'chapter_of_works.*'
