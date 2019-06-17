@@ -26,8 +26,8 @@
         <div class="right-box col-4" style="z-index: 2; margin-right:3%;">
             <form method="POST" action="{{ route('login') }}">
                 @csrf
-                <img src="image/editor_logo.png" class="rocky-dashed animate-pop-in" alt="logo" width="100%"
-                    style="margin-bottom: 50px">
+                <img src="{{asset('image/editor_logo.png')}}" class="rocky-dashed animate-pop-in" alt="logo"
+                    width="100%" style="margin-bottom: 50px">
                 <div class="header-title animate-pop-in">
                     <input placeholder=" example@gmail.com" id="email" type="email"
                         class="login{{ $errors->has('id') ? ' is-invalid' : '' }}" name="email" value="{{ old('id') }}"
