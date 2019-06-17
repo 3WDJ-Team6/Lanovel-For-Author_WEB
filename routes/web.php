@@ -162,4 +162,8 @@ Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationControl
 
 Route::get('/share-evnet/{num}', 'WorkOut\EditController@edit');
 
+Route::get('/test', function () {
+    return view('editor.main.test');
+});
+
 Route::post('/postest/{nickname}/{num}', 'WorkOut\EditController@show');
