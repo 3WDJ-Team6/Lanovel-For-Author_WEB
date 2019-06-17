@@ -40,9 +40,9 @@ class EditController extends Controller
     /** 목차 리스트 보기
      * 필요한 데이터 - 챕터 제목(or 권수), 회차 제목(or 회차수) 작품 생성 시각, 작품 최종 수정 시각,
      */
-editor_tool
-    public function index($num){
 
+    public function index($num)
+    {
         $nowChapter = ChapterOfWork::select(
             'chapter_of_works.*'
         )->where('chapter_of_works.num', '=', $num)
@@ -377,7 +377,8 @@ editor_tool
                 $editor_content = str::replaceFirst('src="/images/tool_icon/speaker_icon.png" alt="alt"', 'src="../images/tool_icon/speaker_icon.png" alt="alt"', $editor_content);
             } elseif (str::contains($editor_content, 'onclick="audioPlay(event)">')) {
                 $editor_content = str::replaceFirst('onclick="audioPlay(event)">', 'onclick="audioPlay(event)" />', $editor_content);
-            } else {
+            }
+             else {
                 break;
             }
         }

@@ -19,7 +19,7 @@ body {
 @endsection
 
 @section('content')
-  
+
 <body>
     @if(Auth::user()['roles'] == 2)
     <!-- Main Content -->
@@ -28,7 +28,7 @@ body {
     </div> -->
     <div class="container col-12" style="margin-top:5%;">
         <div class="form-group " style="margin-top:6%;">
-            @if(Session::has('success')) 
+            @if(Session::has('success'))
             <div class="alert alert-info" style="max-width: 1140px; margin-right: auto; margin-left: auto; border:none; color:white; background-color: #f1b875;">
             {{ Session::get('success') }}
             </div>
@@ -135,7 +135,7 @@ body {
                                 <li></li>
                             </ul>
                             <figcaption>
-                                <h1 style="width:500px;">{{ $post->work_title }}</h1>
+                                <h4 style="width:500px;">{{ $post->work_title }}</h4>
                                 <span style="color:#ea4c4c;">By @foreach ($user_lists as $user)
                                     @if($post->num == $user->num)
                                     {{ $user->nickname }}
