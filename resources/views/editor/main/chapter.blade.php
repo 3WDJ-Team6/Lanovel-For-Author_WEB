@@ -64,7 +64,7 @@
 <!-- Main Content -->
 <div class="container" style="margin-top:3%; margin-botttom:3%;">
     @if(Session::has('success'))
-    <div class="alert alert-info">{{ Session::get('success') }}</div>
+    <div class="alert alert-info" style="margin-top:8%;border:none; color:white; background-color: #f1b875;">{{ Session::get('success') }}</div>
     @endif
     <!-- Material inline 1 -->
     <div class="form-check form-check-inline" style="width:100%;"></div>
