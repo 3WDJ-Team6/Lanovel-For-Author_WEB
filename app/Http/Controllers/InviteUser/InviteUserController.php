@@ -178,7 +178,7 @@ class InviteUserController extends Controller
             $message = new Message();
             $message->from_id = Auth::user()['id'];
             $message->to_id = $user_id;
-            $message->message_title = 'invite message';
+            $message->message_title = Auth::user()['nickname']."님이 $work_title 작품에 초대하셨습니다.";
             $message->message_content = $invite_message;
             $message->num_of_work = $work_num;
             $message->save();
@@ -195,8 +195,7 @@ class InviteUserController extends Controller
 
         $inviteEditor = ContentOfWork::select('num')
         ->where('num_of_work',$inviteRoomNum)
-        ->orderBy('created_at','desc')->limit(1)->get()[0]->num;
-
+        ->orderBy('created_at','asc')->limit(1)->get()[0]->num;
 
         $invite_message = Message::select(
             'messages.message_title',

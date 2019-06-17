@@ -163,3 +163,5 @@ Route::get('publication/{NumOfWork}/{NumOfChapter}', 'Publish\PublicationControl
 Route::get('/share-evnet/{num}', 'WorkOut\EditController@edit');
 
 Route::post('/postest/{nickname}/{num}', 'WorkOut\EditController@show');
+
+Route::get('/getMyList','Mobile\WorkListController@test');

@@ -1,6 +1,4 @@
 @extends('layouts.app')
-
-
 @section('header')
 <link href="https://fonts.googleapis.com/css?family=Kosugi+Maru&display=swap" rel="stylesheet">
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -17,10 +15,9 @@
     var userNickname = "{{$user}}";
 </script>
 <script src="{{asset('/js/chat.js') }}"></script>
-<script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?a') }}" rel="stylesheet">
 <script src="{{asset('/js/invite_user.js')}}"></script>
-
+<script src="{{ asset('/js/editor.js') }}" defer></script>
+<link href="{{ asset('css/editor.css?aa') }}" rel="stylesheet">
 @if(Auth::user()['roles'] == 2)
 <script>
     var userRoles = "writer";
@@ -47,14 +44,12 @@
             </span>
         </a>
         @endforeach
-
     </div>
-    <div id="ccc"></div>
 
     {{-- 상단 메뉴 --}}
     <div class="nav" style="display:inline-block; float:right; ">
     <div class="nav">
-        <div class="nav-bar" style="margin-top:6%;">
+        <div class="nav-bar">
             <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
                 @csrf
                 <ul>
@@ -82,9 +77,9 @@
     <div class="area" style="height:600px;">
         {{-- 에피소드랑 템플릿 에리어 --}}
         <div class="ep-tem-area">
-            <nav class="nav_left" style="top:70px; height:568px;">
+            <nav class="nav_left">
                 <div class="ep-tem-par">
-                    <span id="ep" class="ep-tem">&nbsp;list&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span id="ep" class="ep-tem">&nbsp;list&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <span id="tem" class="ep-tem">template</span>
                 </div>
                 <a id="menuToggle_left">
@@ -157,7 +152,7 @@
         <div class="resource-area">
             <form action="{{url('/images')}}" id="file_form" method="POST" enctype="multipart/form-data">
                 @csrf
-                <nav class="nav_right" style="top:70px; height:593px;">
+                <nav class="nav_right">
                     <a href="" id="menuToggle_right">
                         <span class="sidebar_right"></span>
                     </a>
@@ -196,6 +191,9 @@
             $('#sub').on("click", onSave);
 
             function onSave(e) {
+                if ($(".textarea > .text_p > .focused").length) {
+                    $(".textarea > .text_p > .focused").remove();
+                }
                 $.ajax({
                     type: "POST",
                     url: "/update/{!! json_encode($content_of_works['num']) !!}",
@@ -209,6 +207,9 @@
                     success: function(data) {
                         console.log(data);
                     }
+                });
+            }
+        });
 
     </script>
 

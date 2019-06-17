@@ -19,7 +19,7 @@
                     <a class="nav-link" id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:#45b4e6;border:0;background:transparent;">SEARCH USER</a>
                 </li> -->
                 <li class="nav-item">
-                    <button class="nav-link" onclick="location.href='{{url('/graph')}}'" style="font-size:25px; color:#a1c45a;background:transparent;">Revenue graph</button>
+                    <button class="nav-link" onclick="location.href='{{url('/getMyList')}}'" style="font-size:25px; color:#a1c45a;background:transparent;">Revenue graph</button>
                 </li>
                 <li class="nav-item">
                     <button class="nav-link" href="#" style="font-size:25px; color:#a1c45a;background:transparent;">Chatting</button>

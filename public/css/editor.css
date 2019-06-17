@@ -5,7 +5,7 @@ html {
     max-width: 100%;
     max-height: 100%;
     background-color: #fffffa;
-    font-family: 'Kosugi Maru', sans-serif;
+    font-family: "Kosugi Maru", sans-serif;
 }
 
 /* nav */
@@ -80,7 +80,7 @@ li>button {
     }
 
     .ep-tem {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
 
     .ep-title {
@@ -123,10 +123,10 @@ li>button {
     }
 
     .nav_left {
-        height: 525px;
-        left: -300px;
-        /* top: 2px; */
         width: 300px;
+        height: 561px;
+        left: -300px;
+        top: 62px;
     }
 
     .nav_left #menuToggle_left {
@@ -136,9 +136,9 @@ li>button {
     }
 
     .nav_right {
-        height: 553px;
+        height: 593px;
         right: -300px;
-        top: 50px;
+        top: 62px;
         width: 300px;
     }
 
@@ -265,7 +265,7 @@ li>button {
     }
 
     .ep-tem {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
     }
 
     .ep-title {
@@ -443,7 +443,8 @@ li>button {
 
 /* 끝 가로가 최소900px 최대958px이고 세로가 최소 900px일때 */
 .area {
-    border: 3px solid #a1c45a;
+    border-top: 3px solid #a1c45a;
+    border-bottom: 3px solid #a1c45a;
     background-color: white;
     width: 100%;
     max-width: 100%;
@@ -626,7 +627,7 @@ li>button {
     max-height: fit-content;
     text-align: center;
     position: relative;
-    margin-left: 30px;
+    margin-left: 17px;
 }
 
 .ep-title {
@@ -1011,7 +1012,8 @@ input[type="file"] {
 }
 
 .writer {
-    background-color: rgba(177, 29, 177, 0.507);
+    height: 100px;
+    background-color: #f1c550;
 }
 
 .illustrator {
@@ -1030,7 +1032,7 @@ input[type="file"] {
 .member_list_li {
     border-bottom: 1px solid #000000;
     font-weight: 550;
-    background-color: rgba(177, 29, 177, 0.507);
+    background-color: #f1c550;
     color: white;
 }
 
@@ -1220,6 +1222,7 @@ input[type="file"] {
 }
 
 .css_eft_name {
+    color: #f1c550;
     padding: 10px;
     border: 3px solid white;
     top: 25%;

@@ -158,6 +158,7 @@ class PublicationController extends Controller
                     $test2 = str::before($text2, '" ');
                     $onlyvideolist = Arr::add($onlyvideolist, 'namev' . $count, $test2);
                 } elseif (str::contains($text3, "/images/")) {
+                    // return $text3;
                     $text3 = str::after($text3, "/images/");
                     $test3 = str::before($text3, '" ');
                     $onlyimglist = Arr::add($onlyimglist, 'namei' . $count, $test3);
