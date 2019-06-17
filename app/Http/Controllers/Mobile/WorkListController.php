@@ -124,7 +124,7 @@ class WorkListController extends Controller
             DB::raw("(select group_concat(category_works.tag) from category_works where category_works.num_of_work = $workNum) tag"),
             DB::raw('(select count(subscribe_or_interests.num_of_work) FROM subscribe_or_interests where subscribe_or_interests.role_of_work = 2) recommends_count'),
             DB::raw("(SELECT COUNT(ss2.reader_id) FROM subscribes AS ss2 WHERE ss2.author_id = (SELECT user_id FROM work_lists AS workl WHERE workl.num_of_work = $workNum ORDER BY created_at LIMIT 1 )) countsub"),
-            DB::raw("(if((SELECT reader_id FROM subscribes WHERE reader_id=$userId AND author_id IN (SELECT user_id FROM work_lists WHERE num_of_work = $workNum)),'t','f') sub_or_not)"),
+            DB::raw("(if((SELECT reader_id FROM subscribes WHERE reader_id=$userId AND author_id IN (SELECT user_id FROM work_lists WHERE num_of_work = $workNum)),'t','f')) sub_or_not"),
             DB::raw("(if((SELECT num_of_work FROM subscribe_or_interests AS soi1 where soi1.num_of_work = $workNum AND soi1.role_of_work = 1 AND soi1.user_id = $userId) IS NOT null,'t','f')) ins_of_not"),
             DB::raw("(if((SELECT num_of_work FROM subscribe_or_interests AS soi2 where soi2.num_of_work = $workNum AND soi2.role_of_work = 2 AND soi2.user_id = $userId) IS NOT null,'t','f')) rec_of_not"),
             DB::raw("(select users.profile_photo from users where users.id in(select user_id from work_lists where num_of_work = $workNum) LIMIT 1) author_profile_photo"),
@@ -217,6 +217,8 @@ class WorkListController extends Controller
         ];
         // return response()->json($tempArr, 200, [], JSON_PRETTY_PRINT);
 
+        $authorId == null ? 23 : $authorNum = User::select('id')->where('nickname', $authorId)->first()->id;
+
         switch ($type) {
             case 'sub_selected':
                 $state = 'subscribe';
@@ -226,7 +228,7 @@ class WorkListController extends Controller
                 //     ->where('subscribe_or_interests.role_of_work', 0)
                 //     ->delete();
                 $deleteSub = Subscribe::where('subscribes.reader_id', $userId)
-                    ->where('subscribes.author_id', $authorId)
+                    ->where('subscribes.author_id', $authorNum)
                     ->delete();
                 break;
 
@@ -242,7 +244,7 @@ class WorkListController extends Controller
                 $addSub = Subscribe::firstOrCreate(
                     [
                         'reader_id' => $userId,
-                        'author_id' => $authorId,
+                        'author_id' => $authorNum,
                         'created_at' => Carbon::now(),
                     ]
                 );

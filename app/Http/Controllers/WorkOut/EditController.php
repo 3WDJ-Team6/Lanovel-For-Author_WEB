@@ -43,6 +43,7 @@ class EditController extends Controller
 
     public function index($num)
     {
+
         $nowChapter = ChapterOfWork::select(
             'chapter_of_works.*'
         )->where('chapter_of_works.num', '=', $num)

@@ -42,7 +42,6 @@ $(document).ready(function () {
             },
             success: function () {
                 $('.jquery-modal1').css('display', 'none');
-                // $('#member_list').append("<div class='member_list_li'>&nbsp;초보그림쟁이</div>");
             },
             error: function (e) {
                 console.log(e);
@@ -59,12 +58,8 @@ $(document).ready(function () {
                 num: num
             },
             success: function (result) {
-                // console.log(result);
-                // jQuery("h2").html(result);
                 jQuery("#w3-modal-content").html(result);
-                // document.getElementById('id01').innerHTML = "test";
-                // $('.jquery-modal1').css('display', 'none');
-                // $('#member_list').append("<div class='member_list_li'>&nbsp;초보그림쟁이</div>");
+                $('#member_list').append("<div class='member_list_li'>&nbsp;" + Str[0] + "</div>");
             },
             error: function (e) {
                 console.log(e);
