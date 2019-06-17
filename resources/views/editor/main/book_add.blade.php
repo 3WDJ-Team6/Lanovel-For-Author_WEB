@@ -129,8 +129,8 @@
                                 onkeyup="commas(this)" />원
                         </div>
                         <div class="form-group" id="rent">
-                            대여 가격<input type="text" name="rental_price" class="form-control" id="rent" onkeyup="commas(this)"
-                                style="width:400px;" numberOnly />원
+                            대여 가격<input type="text" name="rental_price" class="form-control" id="rent"
+                                onkeyup="commas(this)" style="width:400px;" numberOnly />원
                         </div>
                         <div class="form-group">
                             작품 소개<input type="text" name="introduction_of_work" class="form-control" placeholder="제한 없음"
