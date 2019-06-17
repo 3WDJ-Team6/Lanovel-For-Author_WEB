@@ -45,7 +45,7 @@ class WorkListController extends Controller
             // 'chapter_of_works.subtitle',                 //챕터 제목
             'works.introduction_of_work',
             'works.bookcover_of_work',
-            DB::raw('(select count(num_of_work) FROM recommend_of_works where recommend_of_works.num_of_work = works.num) recommends'),
+            DB::raw('(select count(num_of_work) FROM subscribe_or_interests where subscribe_or_interests.num_of_work = works.num and subscribe_or_interests.role_of_work=2 ) recommends'),
             DB::raw('IFNULL((select(round(avg(grades.grade),1)) from grades where grades.num_of_work = works.num AND grades.role_of_work = 1),0) grades'),
             // DB::raw("(select group_concat(case when users.roles = 1 then 'Reader' when users.roles = 2 then 'Author' when users.roles = 3 then 'Illustrator' end, ' : ' , nickname ) from users where users.id in (select work_lists.user_id FROM work_lists WHERE work_lists.num_of_work = works.num)) participant"),
             DB::raw("(select group_concat(nickname) from users where users.id in (SELECT user_id FROM work_lists WHERE work_lists.num_of_work = works.num AND users.roles=2)) author"),
@@ -216,7 +216,7 @@ class WorkListController extends Controller
         ];
         // return response()->json($tempArr, 200, [], JSON_PRETTY_PRINT);
 
-        $authorNum = User::select('id')->where('nickname', $authorId)->first()->id;
+        $authorId == null ? 23 : $authorNum = User::select('id')->where('nickname', $authorId)->first()->id;
 
         switch ($type) {
             case 'sub_selected':
