@@ -17,7 +17,7 @@
 <script src="{{asset('/js/chat.js') }}"></script>
 <script src="{{asset('/js/invite_user.js')}}"></script>
 <script src="{{ asset('/js/editor.js') }}" defer></script>
-<link href="{{ asset('css/editor.css?a') }}" rel="stylesheet">
+<link href="{{ asset('css/editor.css?aa') }}" rel="stylesheet">
 @if(Auth::user()['roles'] == 2)
 <script>
     var userRoles = "writer";
@@ -52,14 +52,18 @@
         <div class="nav-bar">
             <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
                 @csrf
-                <ul>
                     {{-- <li class="nav-btn"><span id="chatting">채팅</span></li>--}}
-                    <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></li>
-                    <li class="nav-btn" id="mem-btn">멤버리스트</li>
-                    <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a>
-                    </li>
-                    <li class="nav-btn"><button type="submit" id='sub'>저장</button></li>
-                </ul>
+                    <button class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></button>
+                    <button class="nav-btn" id="mem-btn">
+                        멤버리스트
+                        <div id="member_list">
+                            @foreach($memberlist as $row)
+                                <div class="member_list_li">&nbsp;{{$row['nickname']}}</div>
+                            @endforeach
+                        </div>
+                    </button>
+                    <button class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></button>
+                    <button class="nav-btn" type="submit" id='sub'>저장</button>
             </form>
         </div>
     </div>
@@ -74,10 +78,10 @@
 <div class="content">
 
     {{-- 전체 에리어 --}}
-    <div class="area" style="height:600px;">
+    <div class="area">
         {{-- 에피소드랑 템플릿 에리어 --}}
         <div class="ep-tem-area">
-            <nav class="nav_left" style="top:86px; height:568px;">
+            <nav class="nav_left">
                 <div class="ep-tem-par">
                     <span id="ep" class="ep-tem">&nbsp;list&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <span id="tem" class="ep-tem">template</span>
@@ -147,12 +151,11 @@
         <div id="popup_result" class="textarea" contentEditable="true" autocorrect="false">
             {!! $content_of_works['content'] !!}
         </div>
-        {{-- <span contentEditable="false" style="color: yellow">│시발</span> --}}
         {{-- 리소스 에리어 --}}
         <div class="resource-area">
             <form action="{{url('/images')}}" id="file_form" method="POST" enctype="multipart/form-data">
                 @csrf
-                <nav class="nav_right" style="top:86px; height:593px;">
+                <nav class="nav_right">
                     <a href="" id="menuToggle_right">
                         <span class="sidebar_right"></span>
                     </a>
@@ -175,11 +178,6 @@
             {{$user}}
         </div>--}}
     </div>
-    <div id="member_list">
-            @foreach($memberlist as $row)
-                <div class="member_list_li">&nbsp;{{$row['nickname']}}</div>
-            @endforeach
-    </div>
     <script>
 
         jQuery(document).ready(function() {
@@ -193,6 +191,9 @@
             function onSave(e) {
                 if ($(".textarea > .text_p > .focused").length) {
                     $(".textarea > .text_p > .focused").remove();
+                }
+                if($("#caret").length){
+                    $("#caret").remove();
                 }
                 $.ajax({
                     type: "POST",

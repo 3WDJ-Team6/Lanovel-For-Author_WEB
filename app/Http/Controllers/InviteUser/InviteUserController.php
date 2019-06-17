@@ -142,8 +142,7 @@ class InviteUserController extends Controller
                 <textarea name='message' id='message_for_invite' style='resize:none' cols ='85' rows='5'></textarea>
                 <br>
             <input type='button' id='submitbtn' value='초대'>
-        </form>
-  ";
+        </form>";
 
         return $text;
     }
