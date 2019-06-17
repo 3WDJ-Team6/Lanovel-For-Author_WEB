@@ -5,6 +5,7 @@
 <script src="{{ asset('js/jquery/jquery.modal.min.1.js') }}" defer></script>
 {{-- 모달창 css  --}}
 <link href="{{ asset('css/jquery.modal.min.1.css') }}" rel="stylesheet">
+
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand" href="{{url('/')}}" style="font-size:30px; color:#a1c45a">Writing room</a>
@@ -19,10 +20,10 @@
                     <a class="nav-link" id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:#45b4e6;border:0;background:transparent;">SEARCH USER</a>
                 </li> -->
                 <li class="nav-item">
-                    <button class="nav-link" onclick="location.href='{{url('/graph')}}'" style="font-size:25px; color:#a1c45a;background:transparent;">Revenue graph</button>
+                    <button class="nav-link" onclick="location.href='{{url('/graph')}}'" style="font-size:25px;  border:0; font-weight: 800;color:#a1c45a;background:transparent;">Revenue graph</button>
                 </li>
                 <li class="nav-item">
-                    <button class="nav-link" href="#" style="font-size:25px; color:#a1c45a;background:transparent;">Chatting</button>
+                    <button class="nav-link" href="#" style="font-size:25px;  border:0; font-weight: 800;color:#a1c45a;background:transparent;">Chatting</button>
                 </li>
                 @if(Auth::check()) {{-- 로그인 되어 있을 때 --}}
                 <li class="nav-item">
