@@ -79,7 +79,7 @@
     <div class="area" style="height:600px;">
         {{-- 에피소드랑 템플릿 에리어 --}}
         <div class="ep-tem-area">
-            <nav class="nav_left" style="top:70px; height:568px;">
+            <nav class="nav_left" style="top:86px; height:568px;">
                 <div class="ep-tem-par">
                     <span id="ep" class="ep-tem">&nbsp;list&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <span id="tem" class="ep-tem">template</span>
@@ -104,7 +104,7 @@
                     </div>
                     <div class="ep-list">
                         {{-- 회차 리스트 띄워주기 --}} @foreach($content_lists as $row)
-                        <a href="{{url('/editor')}}/{{$row['num']}}" style="color:black;">{{$row['subsubtitle']}}<br></a>
+                        <p style=" margin:2.5% margin-top:5%;"><a href="{{url('/editor')}}/{{$row['num']}}" style="color:black;">{{$row['subsubtitle']}}<br></a></p>
                         @endforeach
                     </div>
                     <div class="ep-btns">
@@ -154,7 +154,7 @@
         <div class="resource-area">
             <form action="{{url('/images')}}" id="file_form" method="POST" enctype="multipart/form-data">
                 @csrf
-                <nav class="nav_right" style="top:70px; height:593px;">
+                <nav class="nav_right" style="top:86px; height:593px;">
                     <a href="" id="menuToggle_right">
                         <span class="sidebar_right"></span>
                     </a>
