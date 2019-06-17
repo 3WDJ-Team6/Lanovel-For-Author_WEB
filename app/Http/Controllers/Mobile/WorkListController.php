@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\RecommendOfWork;
 use App\Models\SubscribeOrInterest;
 use App\Models\User;
+use Auth;
 use Illuminate\Support\Carbon;
 
 class WorkListController extends Controller

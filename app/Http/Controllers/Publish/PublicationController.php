@@ -158,6 +158,7 @@ class PublicationController extends Controller
                     $test2 = str::before($text2, '" ');
                     $onlyvideolist = Arr::add($onlyvideolist, 'namev' . $count, $test2);
                 } elseif (str::contains($text3, "/images/")) {
+                    // return $text3;
                     $text3 = str::after($text3, "/images/");
                     $test3 = str::before($text3, '" ');
                     $onlyimglist = Arr::add($onlyimglist, 'namei' . $count, $test3);
@@ -358,10 +359,10 @@ class PublicationController extends Controller
   ';
         foreach ($chapter_list as $i => $clist) {
             $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li">' . $clist['subsubtitle'] . '</a>';
-            $a = 50 - strlen($clist['subsubtitle']);
-            for ($b = 0; $a >= $b; $b++) {
-                $nav = $nav . '-';
-            }
+            // $a = 50 - strlen($clist['subsubtitle']);
+            // for ($b = 0; $a >= $b; $b++) {
+            //     $nav = $nav . '-';
+            // }
             $nav = $nav . '</li>';
         }
         $nav = $nav . '
@@ -377,7 +378,7 @@ class PublicationController extends Controller
             <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                 <head>
                     <meta http-equiv='default-style' content='text/html; charset=utf-8'/>
-                    <meta name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
+                    <meta name='viewport' content='width=1500, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
                     <title>" . $work_title . "</title>
                     <link rel='stylesheet' type='text/css' href='css/stylesheet.css' />
                     <link rel='stylesheet' type='text/css' href='css/page_styles.css' />

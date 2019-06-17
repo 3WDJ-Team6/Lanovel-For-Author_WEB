@@ -44,14 +44,12 @@
             </span>
         </a>
         @endforeach
-
     </div>
-    <div id="ccc"></div>
 
     {{-- 상단 메뉴 --}}
     <div class="nav" style="display:inline-block; float:right; ">
     <div class="nav">
-        <div class="nav-bar" style="margin-top:6%;">
+        <div class="nav-bar">
             <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
                 @csrf
                 <ul>
@@ -81,7 +79,7 @@
         <div class="ep-tem-area">
             <nav class="nav_left" style="top:86px; height:568px;">
                 <div class="ep-tem-par">
-                    <span id="ep" class="ep-tem">&nbsp;list&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <span id="ep" class="ep-tem">&nbsp;list&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     <span id="tem" class="ep-tem">template</span>
                 </div>
                 <a id="menuToggle_left">

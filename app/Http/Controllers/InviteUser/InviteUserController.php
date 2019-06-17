@@ -178,7 +178,7 @@ class InviteUserController extends Controller
             $message = new Message();
             $message->from_id = Auth::user()['id'];
             $message->to_id = $user_id;
-            $message->message_title = 'invite message';
+            $message->message_title = Auth::user()['nickname']."님이 $work_title 작품에 초대하셨습니다.";
             $message->message_content = $invite_message;
             $message->num_of_work = $work_num;
             $message->save();
@@ -187,60 +187,15 @@ class InviteUserController extends Controller
 
         // return redirect()->back()->withInput();
     }
-    public function viewMessages()
-    {
-        $invite_messages = Message::select(
-            'messages.num',
-            'messages.message_title',
-            'messages.message_content',
-            'u2.nickname as from_id',
-            'messages.created_at',
-            DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0) count")
-        )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
-            ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
-            ->where('message_title', 'like', 'invite%')
-            ->where('to_id', '=', Auth::user()['id'])
-            ->get();
 
-        $text = "
-        <style>
-            table{
-                width: 100%;
-                border: 1px solid #444444;
-            }
-            th, td{
-                border: 1px solid #444444;
-            }
-        </style>
-        <div>
-            <table style='width:100%;border:1px solid #444444'>
-                <thead>
-                    <tr>
-                        <td>보낸사람</td>
-                        <td>제목</td>
-                        <td>내용</td>
-                        <td>날짜</td>
-                    </tr>
-                </thead>
-                <tbody>";
-        foreach ($invite_messages as $i => $im) {
-            $text = $text . "
-                    <tr>
-                            <td>" . $im['from_id'] . "</td>
-                            <td><a href='viewMessage/" . $im['num'] . "' rel='modal:open'>" . $im['message_title'] . "</a></td>
-                            <td>" . $im['message_content'] . "</td>
-                            <td>" . $im['created_at'] . "</td>
-                    </tr>";
-        }
-        $text = $text . "</tbody>
-            </table>
-        </div>";
-        return $text;
-    }
-
-    public function viewMessage($messageNum)
+    public function viewMessage(Request $request)
     {
+        $messageNum = $request->num;
         $inviteRoomNum = Message::select('num_of_work')->where('num', $messageNum)->get()[0]->num_of_work;
+
+        $inviteEditor = ContentOfWork::select('num')
+        ->where('num_of_work',$inviteRoomNum)
+        ->orderBy('created_at','asc')->limit(1)->get()[0]->num;
 
         $invite_message = Message::select(
             'messages.message_title',
@@ -260,11 +215,11 @@ class InviteUserController extends Controller
         // return $invite_message;
         foreach ($invite_message as $i => $im) {
             $text = "
-            <div>보낸 사람 " . $im['from_id'] . "</div>
-            <div>받은 시간 " . $im['created_at'] . "</div>
-            <div>message title " . $im['message_title'] . "</div>
+            <div>보낸 사람 : " . $im['from_id'] . "</div>
+            <div>받은 시간 : " . $im['created_at'] . "</div>
+            <div>메시지 제목 :  " . $im['message_title'] . "</div>
             <div>" . $im['message_content'] . "</div>
-            <div> <a href='/acceptInvite/" . $messageNum . '/' . $inviteRoomNum . "'>accept invite</a></div>
+            <div> <a href='/acceptInvite/" . $messageNum . '/' . $inviteEditor . "'>작업방으로 이동</a></div>
             ";
         }
         return $text;
@@ -276,6 +231,6 @@ class InviteUserController extends Controller
         SET accept_request = 0
         WHERE work_lists.user_id = messages.to_id
         AND work_lists.created_at = messages.created_at');
-        return redirect('editor/main/chapter/' . $inviteRoomNum);
+        return redirect('editor/' . $inviteRoomNum);
     }
 }
