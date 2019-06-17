@@ -40,7 +40,10 @@ class PublicationController extends Controller
             'body' => $work_title . '(이)가 새로 업데이트 되었습니다.'
         ];
 
-        $extraNotificationData = ["message" => $notification, "moredata" => 'dd'];
+        $extraNotificationData = [
+            "message" => $notification,
+            "num_of_work" => $num_of_work
+        ];
 
         $fcmNotification = [
             //'registration_ids' => $tokenList, //multple token array
@@ -274,8 +277,8 @@ class PublicationController extends Controller
                 if ($filetype == 'jpg') {
                     $filetype = 'jpeg';
                 }
-                $filetype= strtolower('image/'.$filetype);
-                $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il . '" media-type="'.$filetype.'" />
+                $filetype = strtolower('image/' . $filetype);
+                $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il . '" media-type="' . $filetype . '" />
         ';
             }
         }
@@ -285,31 +288,31 @@ class PublicationController extends Controller
                 if ($filetype == 'mp3') {
                     $filetype = 'mpeg';
                 }
-                $filetype=strtolower('audio/'.$filetype);
-                $opf = $opf . '<item id="audio-' . $i . '" href="audio/' . $il . '" media-type="'.$filetype.'" />
+                $filetype = strtolower('audio/' . $filetype);
+                $opf = $opf . '<item id="audio-' . $i . '" href="audio/' . $il . '" media-type="' . $filetype . '" />
   ';
             }
         }
         foreach ($onlyvideolist as $i => $il) {
             if (!str::contains($opf, $il)) {
                 $filetype = str::after($il, '.');
-                $filetype = strtolower('video/'.$filetype);
-                $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il . '" media-type="'.$filetype.'" />
+                $filetype = strtolower('video/' . $filetype);
+                $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il . '" media-type="' . $filetype . '" />
                     ';
             }
         }
         foreach ($onlypurlist as $i => $il) {
-            if(!str::contains($opf,$il)){
+            if (!str::contains($opf, $il)) {
                 $filetype = str::after($il, '.');
                 if ($filetype == 'jpg') {
                     $filetype = 'jpeg';
-                    $filetype = strtolower('image/'.$filetype);
+                    $filetype = strtolower('image/' . $filetype);
                 }
                 if ($filetype == 'png' || $filetype == 'gif') {
-                    $filetype = strtolower('image/'.$filetype);
+                    $filetype = strtolower('image/' . $filetype);
                     // return $filetype;
                 }
-            $opf = $opf . '<item id="purchase-' . $i . '" href="purchase/' . $il. '" media-type="'.$filetype.'" />
+                $opf = $opf . '<item id="purchase-' . $i . '" href="purchase/' . $il . '" media-type="' . $filetype . '" />
         ';
             }
         }
@@ -355,11 +358,11 @@ class PublicationController extends Controller
   ';
         foreach ($chapter_list as $i => $clist) {
             $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li">' . $clist['subsubtitle'] . '</a>';
-            $a = 50-strlen($clist['subsubtitle']);
-            for($b=0; $a>=$b;$b++){
-                $nav = $nav.'-';
+            $a = 50 - strlen($clist['subsubtitle']);
+            for ($b = 0; $a >= $b; $b++) {
+                $nav = $nav . '-';
             }
-            $nav = $nav .'</li>';
+            $nav = $nav . '</li>';
         }
         $nav = $nav . '
     </ol>
@@ -395,22 +398,22 @@ class PublicationController extends Controller
         $multimedialist = [];
         foreach ($chapter_list as $i => $clist) {
             $text = $clist['content'];
-            while(1){
-                if(str::contains($text,'/sound/')){
+            while (1) {
+                if (str::contains($text, '/sound/')) {
                     // echo "num : $i a<br>";
-                    $text = str::replaceFirst('/sound/','/audio/',$text);
-                }elseif(str::contains($text,'https://s3.ap-northeast-2.amazonaws.com/')){
+                    $text = str::replaceFirst('/sound/', '/audio/', $text);
+                } elseif (str::contains($text, 'https://s3.ap-northeast-2.amazonaws.com/')) {
                     // echo "num : $i b<br>";
-                    $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/'.Auth::user()['email'].'/','../',$text);
+                    $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/' . Auth::user()['email'] . '/', '../', $text);
                     // return $text;
-                }elseif (preg_match('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', $text)) {
+                } elseif (preg_match('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', $text)) {
                     // echo "num : $i c<br>";
-                    $text = preg_replace('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', "$1<ruby>$2<rt>$3</rt></ruby>" , $text);
-                    if($i==2){
+                    $text = preg_replace('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', "$1<ruby>$2<rt>$3</rt></ruby>", $text);
+                    if ($i == 2) {
                         // return $text;
                     }
-                }else{
-                    $clist['content']=$text;
+                } else {
+                    $clist['content'] = $text;
                     break;
                 }
             }
@@ -607,17 +610,17 @@ class PublicationController extends Controller
 }
             ";
 
-            if(!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js')){
-                Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsNmae);
-            } // js
+        if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js')) {
+            Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsNmae);
+        } // js
 
-            if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
-                Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');
-                Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'stylesheet.css', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css');
-            } // 직접 제작한 js와 css는 resource폴더에 보관하고 있다가 발행시 넣어줌.
-            if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css')) {
-                Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'stylesheet.css', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css');
-            } // 직접 제작한 js와 css는 resource폴더에 보관하고 있다가 발행시 넣어줌.
+        if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
+            Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');
+            Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'stylesheet.css', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css');
+        } // 직접 제작한 js와 css는 resource폴더에 보관하고 있다가 발행시 넣어줌.
+        if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css')) {
+            Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'stylesheet.css', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'stylesheet.css');
+        } // 직접 제작한 js와 css는 resource폴더에 보관하고 있다가 발행시 넣어줌.
 
 
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
