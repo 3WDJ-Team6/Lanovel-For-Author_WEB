@@ -106,7 +106,7 @@
                     </div>
                     <div class="ep-list">
                         {{-- 회차 리스트 띄워주기 --}} @foreach($content_lists as $row)
-                        <a href="{{url('/editor')}}/{{$row['num']}}" style="color:black;">{{$row['subsubtitle']}}<br></a>
+                        <p style=" margin:2.5% margin-top:5%;"><a href="{{url('/editor')}}/{{$row['num']}}" style="color:black;">{{$row['subsubtitle']}}<br></a></p>
                         @endforeach
                     </div>
                     <div class="ep-btns">

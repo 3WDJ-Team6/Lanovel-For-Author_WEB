@@ -42,6 +42,23 @@ $(document).ready(function () {
             },
             success: function () {
                 $('.jquery-modal1').css('display', 'none');
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
+    });
+    $(document).on('click', '#viewMessage', function () {
+        num = document.getElementById('viewMessage').className;
+        // console.log('/viewMessage/' + num);
+        $.ajax({
+            url: '/viewMessage/' + num,
+            method: "post",
+            data: {
+                num: num
+            },
+            success: function (result) {
+                jQuery("#w3-modal-content").html(result);
                 $('#member_list').append("<div class='member_list_li'>&nbsp;" + Str[0] + "</div>");
             },
             error: function (e) {

@@ -9,7 +9,7 @@
     <!-- Custom fonts for this template -->
     <link href="{{asset('fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet" type="text/css" href="{{asset('css/editor.css')}}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{{asset('css/editor.css')}}" /> -->
 
     <link href="https://fonts.googleapis.com/css?family=M+PLUS+1p&display=swap" rel="stylesheet">
 

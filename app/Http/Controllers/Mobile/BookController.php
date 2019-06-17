@@ -31,10 +31,6 @@ class BookController extends Controller
      */
     public function create($workNum)
     {
-
-        /**
-         * 작품 제목
-         */
         $work_title = Work::select(
             'works.work_title'
         )->where('works.num', $workNum)->first()->work_title;
@@ -58,7 +54,7 @@ class BookController extends Controller
         shell_exec('zipdir ' . $authorFolder . ' ' . $work_title); // zip 유저명 폴더명 $1 $2 shell폴더안에 있는 zipdir.sh (shell프로그램)
         # zip 으로 만드는건 끝
 
-        $filepath = '/mnt/epubz/' . $work_title . '.epub';
+        $filepath = '/mnt/epubz/' . $work_title . '.zip';
         $filesize = filesize($filepath);
         $path_parts = pathinfo($filepath);
         $filename = $path_parts['basename'];
@@ -74,10 +70,6 @@ class BookController extends Controller
         ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
         flush();                # 시스템 출력 버퍼를 비움
         readfile($filepath);    # file을 출력하는 php 함수
-
-
-
-        return back()->withSuccess($work_title . '의 ' . $chapter_title . ' 이(가) 정상적으로 발행 되었습니다.');
         /*
                 위의 생성된 파일들을 바탕으로 epub 파일 생성됨.(
                 image.png만 있으면
