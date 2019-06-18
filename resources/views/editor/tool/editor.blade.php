@@ -51,19 +51,14 @@
     <div class="nav">
         <div class="nav-bar">
             <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
+                <ul>
                 @csrf
                     {{-- <li class="nav-btn"><span id="chatting">채팅</span></li>--}}
-                    <button class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></button>
-                    <button class="nav-btn" id="mem-btn">
-                        멤버리스트
-                        <div id="member_list">
-                            @foreach($memberlist as $row)
-                                <div class="member_list_li">&nbsp;{{$row['nickname']}}</div>
-                            @endforeach
-                        </div>
-                    </button>
-                    <button class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></button>
-                    <button class="nav-btn" type="submit" id='sub'>저장</button>
+                    <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></li>
+                    <li class="nav-btn" id="mem-btn">멤버리스트</li>
+                    <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
+                    <li class="nav-btn"><button type="submit" id='sub'>저장<button></li>
+                </ul>
             </form>
         </div>
     </div>
@@ -163,7 +158,11 @@
                 </nav>
             </form>
         </div>
-
+        <div id="member_list">
+            @foreach($memberlist as $row)
+                <div class="member_list_li">&nbsp;{{$row['nickname']}}</div>
+            @endforeach
+        </div>
         {{-- 글쓰기도구팝업 --}}
         <div id="popbutton">
             <div class="tool_popup_box"></div>
