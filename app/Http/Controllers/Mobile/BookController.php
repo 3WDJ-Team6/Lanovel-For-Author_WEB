@@ -130,18 +130,24 @@ class BookController extends Controller
                             // 'chapter_of_work' => 0,
                         ]);
 
-                        // // 구매 시 포인트 차감
-                        // $buyPointM = User::where('id', $userId)
-                        //     ->update(
-                        //         ['point' => DB::raw("point - (select buy_price from works where num =" . $num . ")")]
-                        //     );
+                        if ($bookTitle == 'The lord of the rings')
+                            return response()->json(['opfPath' => 'https://lanovebucket.s3.ap-northeast-2.amazonaws.com/Author/949765751/WorkSpace/The+lord+of+the+rings/OEBPS/The+lord+of+the+rings-Return+of+the+king.epub']);
+                        else if ($bookTitle == 'Chronicles of Narnia')
+                            return response()->json(['opfPath' => 'https://lanovebucket.s3.ap-northeast-2.amazonaws.com/Author/949765751/WorkSpace/Chronicles+of+Narnia/OEBPS/Chronicles+of+Narnia.epub']);
+                        else
 
-                        // // 보유 포인트와 작품 구매 가격 비교
-                        // $buyPoint = User::select(
-                        //     DB::raw("(select(IF(point>works.buy_price, 'true', 'false')) from users JOIN works ON works.num =" . $num . " WHERE users.id=" . $userId . ") canBuy")
-                        // )->where('users.id', $userId)
-                        //     ->get();
-                        break;
+                            // // 구매 시 포인트 차감
+                            // $buyPointM = User::where('id', $userId)
+                            //     ->update(
+                            //         ['point' => DB::raw("point - (select buy_price from works where num =" . $num . ")")]
+                            //     );
+
+                            // // 보유 포인트와 작품 구매 가격 비교
+                            // $buyPoint = User::select(
+                            //     DB::raw("(select(IF(point>works.buy_price, 'true', 'false')) from users JOIN works ON works.num =" . $num . " WHERE users.id=" . $userId . ") canBuy")
+                            // )->where('users.id', $userId)
+                            //     ->get();
+                            break;
                     case 'lend':
                         try { # 구매이력이 있으나 렌탈기간이 지났다면 +3일 시켜줌
                             if ($rentOrBuy[0]['isRental'] == 0) {
