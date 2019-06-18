@@ -142,8 +142,8 @@ class WorkListController extends Controller
             ->groupBy('works.num')
             ->orderBy('works.num', 'desc')->get();
 
-        return response()->json($works, 200);
-        // return response()->json($works, 200, [], JSON_PRETTY_PRINT);
+        // return response()->json($works, 200);
+        return response()->json($works, 200, [], JSON_PRETTY_PRINT);
     }
 
     /**
@@ -217,7 +217,7 @@ class WorkListController extends Controller
         ];
         // return response()->json($tempArr, 200, [], JSON_PRETTY_PRINT);
 
-        $authorId == null ? 23 : $authorNum = User::select('id')->where('nickname', $authorId)->first()->id;
+        $authorNum = User::select('id')->where('nickname', $authorId)->first()->id;
 
         switch ($type) {
             case 'sub_selected':
