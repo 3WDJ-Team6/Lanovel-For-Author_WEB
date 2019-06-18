@@ -38,15 +38,6 @@ li > button {
     padding: 1px;
 }
 
-.nav-btn {
-    margin: 10px;
-    font-size: 20px;
-    font-weight: 800;
-    background: transparent;
-    border: 0;
-    padding: 1px;
-}
-
 .title-bar {
     font-size: 1.7em;
     margin-left: 20px;
@@ -86,11 +77,6 @@ li > button {
 @media screen and (min-height: 700px) {
     header {
         height: 7%;
-    }
-    .nav-bar {
-        height: 34px;
-        margin-top: -12px;
-        margin-bottom: 12px;
     }
     .ep-tem {
         font-size: 1.5rem;
@@ -184,11 +170,6 @@ li > button {
         height: 7%;
     }
 
-    .nav-bar {
-        height: 38px;
-        margin-top: -15px;
-        margin-bottom: 15px;
-    }
     .ep-tem {
         font-size: 0.7rem;
     }
