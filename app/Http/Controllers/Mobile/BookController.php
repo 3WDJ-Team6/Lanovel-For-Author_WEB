@@ -31,13 +31,12 @@ class BookController extends Controller
      */
     public function create($workNum)
     {
+        # 작품 제목
         $work_title = Work::select(
             'works.work_title'
         )->where('works.num', $workNum)->first()->work_title;
 
-        /**
-         * 작품 작가 이메일
-         */
+        # 작가 메일
         $authorFolder = User::select(
             'users.email'
         )->leftjoin('work_lists', 'work_lists.user_id', '=', 'users.id')

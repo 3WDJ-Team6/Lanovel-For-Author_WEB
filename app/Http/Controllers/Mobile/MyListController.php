@@ -9,6 +9,7 @@ use App\Models\Work;
 use App\Models\Subscribe;
 use DB;
 use App\Models\Rental;
+use App\Models\SubscribeOrInterest;
 
 class MyListController extends Controller
 {
