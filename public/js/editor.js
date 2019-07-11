@@ -609,28 +609,48 @@ $(document).on("click", ".obj_kinds", function () {
                     console.log("item.name : " + item.name);
                     console.log("item.src : " + item.src);
                     console.log("index : " + index);
-                    chng_text = item.name.substr(0, 9) + "...";
-                    $("#obj_feild").append(
-                        "<span id='objLi_" +
-                        index +
-                        "' class='obj_file'>" +
-                        "<img id='obj_" +
-                        index +
-                        "' src='" +
-                        item.src +
-                        "' servername='" +
-                        item.fileName +
-                        "' alt='alt" +
-                        "' class='obj_thum' /><span class='obj_name' title='" +
-                        item.name +
-                        "'>" +
-                        chng_text +
-                        "</span></span>"
-                    );
+                    chng_text = item.name.toString().substring(0, 9) + "...";
+                    if (item.name.length > 9) {
+                        $("#obj_feild").append(
+                            "<span id='objLi_" +
+                            index +
+                            "' class='obj_file'>" +
+                            "<img id='obj_" +
+                            index +
+                            "' src='" +
+                            item.src +
+                            "' servername='" +
+                            item.fileName +
+                            "' alt='alt" +
+                            "' class='obj_thum' /><span class='obj_name' title='" +
+                            item.name +
+                            "'>" +
+                            chng_text +
+                            "</span></span>"
+                        );
+                    } else {
+                        $("#obj_feild").append(
+                            "<span id='objLi_" +
+                            index +
+                            "' class='obj_file'>" +
+                            "<img id='obj_" +
+                            index +
+                            "' src='" +
+                            item.src +
+                            "' servername='" +
+                            item.fileName +
+                            "' alt='alt" +
+                            "' class='obj_thum' /><span class='obj_name' title='" +
+                            item.name +
+                            "'>" +
+                            item.name +
+                            "</span></span>"
+                        );
+                    }
                 });
             } else if (folder_kinds == "video") {
                 $.each(data, function (index, item) {
-                    chng_text = item.name.substr(0, 9) + "...";
+                    chng_text = item.name.toString().substring(0, 9) + "...";
                     $("#obj_feild").append(
                         "<span id='objLi_" +
                         index +
@@ -653,24 +673,44 @@ $(document).on("click", ".obj_kinds", function () {
                 });
             } else {
                 $.each(data, function (index, item) {
-                    chng_text = item.name.substr(0, 9) + "...";
-                    $("#obj_feild").append(
-                        "<span id='objLi_" +
-                        index +
-                        "' class='obj_file'>" +
-                        "<span id='play" +
-                        index +
-                        "()' src='" +
-                        item.src +
-                        "' servername='" +
-                        item.fileName +
-                        "' class='obj_thum mp3_icon'></span>" +
-                        "<span class='obj_name' title='" +
-                        item.name +
-                        "'>" +
-                        chng_text +
-                        "</span></span>"
-                    );
+                    chng_text = item.name.toString().substring(0, 9) + "...";
+                    if (item.name.length > 9) {
+                        $("#obj_feild").append(
+                            "<span id='objLi_" +
+                            index +
+                            "' class='obj_file'>" +
+                            "<span id='play" +
+                            index +
+                            "()' src='" +
+                            item.src +
+                            "' servername='" +
+                            item.fileName +
+                            "' class='obj_thum mp3_icon'></span>" +
+                            "<span class='obj_name' title='" +
+                            item.name +
+                            "'>" +
+                            chng_text +
+                            "</span></span>"
+                        );
+                    } else {
+                        $("#obj_feild").append(
+                            "<span id='objLi_" +
+                            index +
+                            "' class='obj_file'>" +
+                            "<span id='play" +
+                            index +
+                            "()' src='" +
+                            item.src +
+                            "' servername='" +
+                            item.fileName +
+                            "' class='obj_thum mp3_icon'></span>" +
+                            "<span class='obj_name' title='" +
+                            item.name +
+                            "'>" +
+                            item.name +
+                            "</span></span>"
+                        );
+                    }
                 });
             }
         }
@@ -697,7 +737,7 @@ $(document).on("change", 'input[type="file"]', function (event) {
     formData.append("image", $("#image")[0].files[0]);
     var file_name = $("#image")[0].files[0].name;
     console.log("file_name : " + file_name);
-    var chng_name = file_name.substr(0, 9) + "...";
+    var chng_name = file_name.toString().substring(0, 9) + "...";
     console.log(reader);
     console.log(form);
     console.log($("#image")[0].files[0].name);
@@ -912,7 +952,7 @@ $(document).ready(function () {
             console.log("에피소드번호 : ", ep_of_num);
             console.log("내용 : ", post_content);
             redis_ajax();
-        }, 1500)
+        }, 1000)
     );
 
     $(document).on(
@@ -1033,7 +1073,7 @@ $(document).ready(function () {
             $(".textarea .mp4_icon").attr("id", "" + mp4Id + "");
             $(".textarea .mp4_icon").attr("class", "resize_mp4");
             $(".resize_mp4").replaceWith(
-                "<video id='obj_12' controls src='https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/video/1557648920Sakurasou_ED.mp4' class='resize' type='video/webm'/>"
+                "<video id='obj_12' controls src='https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/video/1557648920Sakurasou_ED.mp4' servername='1557648920Sakurasou_ED.mp4' class='resize' type='video/webm'/>"
             );
         });
     //리소스 파일을 textarea에 넣으면 class를 resize로 변경//
@@ -1081,14 +1121,14 @@ $(document).ready(function () {
     //resize된 파일을 우클릭 및 삭제//
 
     //멤버리스트
-    // $("#mem-btn").click(function (event) {
-    //     $("#member_list")
-    //         .toggle()
-    //         .css({
-    //             top: event.pageY + -30 + "px",
-    //             left: event.pageX + -30 + "px"
-    //         });
-    // });
+    $("#mem-btn").click(function (event) {
+        $("#member_list")
+            .toggle()
+            .css({
+                top: event.pageY + -30 + "px",
+                left: event.pageX + -30 + "px"
+            });
+    });
     //멤버리스트//
 
     //미리보기+루비
@@ -1109,10 +1149,6 @@ $(document).ready(function () {
                 .replace(
                     /class="resize"/g,
                     "style='width:100%;height:auto'"
-                )
-                .replace(
-                    /class="text_p"/g,
-                    ""
                 )
             );
         });

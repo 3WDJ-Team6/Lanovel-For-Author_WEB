@@ -189,6 +189,7 @@ class PublicationController extends Controller
         foreach ($onlypurlist as $i => $vl2) {
             $text2 = str::start($vl2, "Author/" . Auth::user()['email'] . "/purchase/");
             $purlist2[$i] = $text2;
+            // return $purlist2[$i];
         }
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS') || !Storage::disk('s3')->exists($filePath . 'META-INF')) {
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'text', 0777, true);
@@ -203,11 +204,13 @@ class PublicationController extends Controller
             Storage::disk('s3')->makeDirectory($filePath . 'META-INF', 0777, true);
         }
         foreach ($imglist2 as $i => $imglist) {
+            // return $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i];
             if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i])) {
                 Storage::disk('s3')->copy($imglist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i]);
             }
         }
         foreach ($purlist2 as $i => $purlist) {
+            // return $filePath. 'OEBPS' . DIRECTORY_SEPARATOR . 'purchase' . DIRECTORY_SEPARATOR . $onlypurlist[$i];
             if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'purchase' . DIRECTORY_SEPARATOR . $onlypurlist[$i])) {
                 Storage::disk('s3')->copy($purlist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'purchase' . DIRECTORY_SEPARATOR . $onlypurlist[$i]);
             }
@@ -232,6 +235,7 @@ class PublicationController extends Controller
         Storage::disk('s3')->put($filePath . '/META-INF/container.xml', $container); // container 파일
         // return $coverName;
         $coverimage = str::after($coverName, 'images/');
+
         $covertype = str::after($coverimage, '.');
         if ($covertype == 'jpg') {
             $covertype = 'jpeg';
@@ -240,7 +244,7 @@ class PublicationController extends Controller
         $isodate = date('Y-m-d\TH:i:s\Z');
         $opf =
             '<?xml version="1.0" encoding="UTF-8"?>
-        <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="rendition: http://www.idpf.org/vocab/rendition/#" unique-identifier="bookID">
+        <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="rendition: http://www.idpf.org/vocab/rendition/#" unique-identifier="bookID" prefix="cc: http://creativecommons.org/ns#">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
                 <dc:title id="title">' . $work_title . '</dc:title>
                 <dc:identifier id="bookID">' . strtolower($work_title) . '</dc:identifier>
@@ -248,12 +252,10 @@ class PublicationController extends Controller
                 <dc:creator id="__dccreator1">' . $work_list . '</dc:creator>
                 <dc:contributor id="contrib1">' . 'Illustrator' . '</dc:contributor>
                 <dc:language>JP</dc:language>
-                <meta refines="#__dccreator1" property="role" scheme="marc:relators" id="role">aut</meta>
                 <dc:publisher>영진출판사</dc:publisher>
+                <meta refines="#title" property="title-type">main</meta>
+                <meta refines="#contrib1" property="role" scheme="marc:relators">mrk</meta>
                 <meta property="dcterms:modified">' . $isodate . '</meta>
-                <meta property="rendition:layout">pre-paginated</meta>
-                <meta property="rendition:orientation">landscape</meta>
-                <meta property="rendition:spread">auto</meta>
             </metadata>
             <manifest>
                 <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml" />
@@ -354,11 +356,11 @@ class PublicationController extends Controller
                     <nav epub:type="toc" id="toc">
                         <h1>Contents</h1>
                         <ol epub:type="list">
-                <li><a href="cover.xhtml" class="nav_li">' . 'cover' . $work_title . '</a></li>
-                <li><a href="nav.xhtml" class="nav_li">Contents</a></li>
-  ';
-        foreach ($chapter_list as $i => $clist) {
-            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li">' . $clist['subsubtitle'] . '</a>';
+                        <li><a href="cover.xhtml" class="nav_li"><span class="white_back">' . 'cover' . $work_title . '</span></a></li>
+                        <li><a href="nav.xhtml" class="nav_li"><span class="white_back">Contents</span></a></li>
+          ';
+                foreach ($chapter_list as $i => $clist) {
+                    $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li"><span class="white_back">' . $clist['subsubtitle'] . '</span></a>';
             // $a = 50 - strlen($clist['subsubtitle']);
             // for ($b = 0; $a >= $b; $b++) {
             //     $nav = $nav . '-';
@@ -399,24 +401,33 @@ class PublicationController extends Controller
         $multimedialist = [];
         foreach ($chapter_list as $i => $clist) {
             $text = $clist['content'];
+            $int = 1;
             while (1) {
                 if (str::contains($text, '/sound/')) {
                     // echo "num : $i a<br>";
                     $text = str::replaceFirst('/sound/', '/audio/', $text);
-                } elseif (str::contains($text, 'https://s3.ap-northeast-2.amazonaws.com/')) {
+                } elseif (str::contains($text, 'https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/')) {
                     // echo "num : $i b<br>";
                     $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/' . Auth::user()['email'] . '/', '../', $text);
+                    // return $text;
+                } elseif (preg_match('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//',$text)) {
+                    // echo "num : $i b<br>";
+                    $text = preg_replace('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//' , "", $text);
                     // return $text;
                 } elseif (preg_match('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', $text)) {
                     // echo "num : $i c<br>";
                     $text = preg_replace('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', "$1<ruby>$2<rt>$3</rt></ruby>", $text);
-                    if ($i == 2) {
-                        // return $text;
-                    }
-                } else {
+                } elseif (str::contains($text,'onclick="audioPlay(event)" /></span>')){
+                    $text = str::replaceFirst('onclick="audioPlay(event)" /></span>','onclick="audioPlay(event)"></span>',$text);
+                } elseif (str::contains($text,'<audio id="')){
+                    $text = str::replaceFirst('<audio id="','<audio id ="'.$int.'',$text);
+                } elseif (preg_match('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/', $text)) {
+                    $text = preg_replace('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/',"$1$2$3 >"  , $text);
+                } else{
                     $clist['content'] = $text;
                     break;
                 }
+                $int=$int+1;
             }
             $contents =
                 "<?xml version='1.0' encoding='UTF-8'?>
@@ -424,7 +435,6 @@ class PublicationController extends Controller
                     <head>
                     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
                     <meta name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
-                    <meta name='Adept.resource' value='urn:uuid:ad98550c-1f39-4200-91cd-f044b376b4f4' />
                     <title>" . $clist['subsubtitle'] . "</title>
                     <link rel='stylesheet' href='../css/stylesheet.css' type='text/css' />
                     <link rel='stylesheet' href='../css/page_styles.css' type='text/css' />
@@ -432,10 +442,8 @@ class PublicationController extends Controller
                     <script src='../js/viewer.js' type='text/javascript'></script>
                     </head>
                 <body>
-                <span class='galley-rw'>
                     <h1>" . $clist['subsubtitle'] . "</h1>
                     " . $clist['content'] . "
-                </span>
                 </body>
             </html>
             ";
@@ -468,7 +476,7 @@ class PublicationController extends Controller
             "
             #sectionId{text-align:center; margin-top:5%; }
             #coverimgdiv{ background: url('../images/" . $coverimage . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 398px; height: 554px; text-align:left;            }
-            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }
+            #worktitlespan{  font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }
             #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
 
             .resize,
@@ -479,11 +487,38 @@ class PublicationController extends Controller
                 background-repeat: no-repeat;
                 /* position: relative; */
             }
+            h1{
+                text-align:center;
+            }
             ol{
                 list-style-type:none;
             }
+            li{
+                text-align:center;
+                position: relative;
+                z-index: 1;
+            }
             .nav_li{
-                font-size:1.3em;
+                font-size:1.3em sans-serif;
+                text-decoration: none;
+                font-weight: 600;
+                color:black;
+            }
+            .nav_li:before{
+                border-top: 2px solid #dfdfdf;
+                content:'';
+                margin: 0 auto;
+
+                top: 50%; left: 0; right: 0; bottom: 0;
+                width: 100%;
+                z-index: -1;
+            }
+            li:hover{
+                opacity:0.5;
+            }
+            .white_back{
+                background: #fff;
+                padding: 0 15px;
             }
             .tem_effect {
                 display: inline-block;

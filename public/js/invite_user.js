@@ -8,10 +8,6 @@ $(document).ready(function () {
     $(document).on("keyup", "input[type='text']", function () {
         var k = $(this).val();
         $("#userlists > .userlist").hide();
-        // $(".userlist_li:contains('" + k + "')").hide();
-        // alert("test");
-        // var temp = $(".userlist_li:contains('" + k + "')");
-        // $("#userlist").show();
         $("#userlists > div > a > #info > div:contains('" + k + "')").parent().parent().parent().show();
         if (k.length == 0) {
             $("#userlists > .userlist").hide();
@@ -29,9 +25,6 @@ $(document).ready(function () {
         Str[0] = decodeURIComponent(Str[0].replace('userid=', ''));
         Str[1] = Str[1].replace('numofwork=', '');
         Str[2] = decodeURIComponent(Str[2].replace('message=', ''));
-        console.log(Str[0]);
-        console.log(Str[1]);
-        console.log(Str[2]);
         $.ajax({
             url: '/sendInviteMessage',
             method: "post",
@@ -50,7 +43,6 @@ $(document).ready(function () {
     });
     $(document).on('click', '#viewMessage', function () {
         num = document.getElementById('viewMessage').className;
-        // console.log('/viewMessage/' + num);
         $.ajax({
             url: '/viewMessage/' + num,
             method: "post",
@@ -68,7 +60,6 @@ $(document).ready(function () {
     });
     $(document).on('click', '#viewMessage', function () {
         num = document.getElementById('viewMessage').className;
-        // console.log('/viewMessage/' + num);
         $.ajax({
             url: '/viewMessage/' + num,
             method: "post",
@@ -76,12 +67,7 @@ $(document).ready(function () {
                 num: num
             },
             success: function (result) {
-                // console.log(result);
-                // jQuery("h2").html(result);
                 jQuery("#w3-modal-content").html(result);
-                // document.getElementById('id01').innerHTML = "test";
-                // $('.jquery-modal1').css('display', 'none');
-                // $('#member_list').append("<div class='member_list_li'>&nbsp;초보그림쟁이</div>");
             },
             error: function (e) {
                 console.log(e);
