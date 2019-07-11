@@ -529,9 +529,7 @@ class PublicationController extends Controller
             #snow,
             #starlight,
             #yellowstar,
-            #lightning,
-            #fire1,
-            #fire2 {
+            #lightning {
                 display: inline-block;
                 position: absolute;
             }
