@@ -320,7 +320,7 @@ var folder_name_ko = "";
 function getResource() {
     $.ajax({
         type: "GET",
-        url: "/getDir/" + num_of_work, //private, public, 나중에 책의 num값도 넘겨줘야함
+        url: "/getDir/" + num_of_work,
         dataType: "json",
         error: function (e) {
             console.log(e);
@@ -442,7 +442,6 @@ function getFolders() {
                                 );
                                 break;
                             default:
-                                // console.log(folder_name);
                                 break;
                         }
                         $("#resource-feild").append(
@@ -462,29 +461,6 @@ function getFolders() {
                         console.log("folder_name2 : " + folder_name);
                         folder_name = folder_name[data.length - 4];
                         console.log("folder_name3 : " + folder_name);
-                        // switch (folder_name) {
-                        //     case "audio":
-                        //         folder_name_kinds = folder_name.replace(
-                        //             "audio",
-                        //             "효과음"
-                        //         );
-                        //         break;
-                        //     case "images":
-                        //         folder_name_kinds = folder_name.replace(
-                        //             "images",
-                        //             "이미지"
-                        //         );
-                        //         break;
-                        //     case "video":
-                        //         folder_name_kinds = folder_name.replace(
-                        //             "video",
-                        //             "동영상"
-                        //         );
-                        //         break;
-                        //     default:
-                        //         console.log(folder_name);
-                        //         break;
-                        // }
                         if (folder_name === "images") {
                             folder_name_kinds = folder_name.replace(
                                 "images",
@@ -716,11 +692,6 @@ $(document).on("click", ".obj_kinds", function () {
         }
     });
 });
-window.onunload = unloadPage;
-
-function unloadPage() {
-    alert("unload event detected!");
-}
 $(document).on("click", ".back.foldername", function () {
     console.log("백눌렀지?");
     getResource();
@@ -1038,9 +1009,6 @@ $(document).ready(function () {
         if ($(".ep-tem").prop("id") == "ep") {
             $(".tem").hide();
         }
-        // if ($('div').hasClass('tem')) {
-        //     $('#tem').hide();
-        // }
         $(".ep").show();
     });
     //에피소드관리//
@@ -1073,7 +1041,7 @@ $(document).ready(function () {
             $(".textarea .mp4_icon").attr("id", "" + mp4Id + "");
             $(".textarea .mp4_icon").attr("class", "resize_mp4");
             $(".resize_mp4").replaceWith(
-                "<video id='obj_12' controls src='https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/video/1557648920Sakurasou_ED.mp4' servername='1557648920Sakurasou_ED.mp4' class='resize' type='video/webm'/>"
+                "<video id='obj_12' controls src='https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/video/1560822413hyouka.mp4' class='resize' type='video/webm'/>"
             );
         });
     //리소스 파일을 textarea에 넣으면 class를 resize로 변경//
@@ -1150,6 +1118,8 @@ $(document).ready(function () {
                     /class="resize"/g,
                     "style='width:100%;height:auto'"
                 )
+                .replace(
+                    /class="text_p"/g, "")
             );
         });
     });
@@ -1168,8 +1138,6 @@ $(document).ready(function () {
     var css_eft_val = "";
     $(".css_eft_control").click(function () {
         css_eft_val = $(this).attr("id");
-        // css_eft_val = $(event.target);
-        // css_eft_val = css_eft_val.attr("id");
         console.log(css_eft_val);
         tool_imgId_width = $("#" + tool_imgId).width();
         tool_imgId_height = $("#" + tool_imgId).height();
@@ -1253,39 +1221,25 @@ $(document).ready(function () {
             $("#" + tool_imgId).wrap("<span class='tem_effect'></span>");
             switch (css_eft_val) {
                 case "css_eft_cB1": //벚꽃1
-                    $("#" + tool_imgId).before(
-                        "<span id='cherryBlossom1' class='css_eft'></span>"
-                    );
+                    $("#" + tool_imgId).before("<span id='cherryBlossom1' class='css_eft'></span>");
                     break;
                 case "css_eft_cB2": //벚꽃2
-                    $("#" + tool_imgId).before(
-                        "<span id='cherryBlossom2' class='css_eft'></span>"
-                    );
+                    $("#" + tool_imgId).before("<span id='cherryBlossom2' class='css_eft'></span>");
                     break;
                 case "css_eft_rain": //비
-                    $("#" + tool_imgId).before(
-                        "<span id='rain' class='css_eft'></span>"
-                    );
+                    $("#" + tool_imgId).before("<span id='rain' class='css_eft'></span>");
                     break;
                 case "css_eft_snow": //눈
-                    $("#" + tool_imgId).before(
-                        "<span id='snow' class='css_eft'></span>"
-                    );
+                    $("#" + tool_imgId).before("<span id='snow' class='css_eft'></span>");
                     break;
                 case "css_eft_starlight": //반짝임
-                    $("#" + tool_imgId).before(
-                        "<span id='starlight' class='css_eft'></span>"
-                    );
+                    $("#" + tool_imgId).before("<span id='starlight' class='css_eft'></span>");
                     break;
                 case "css_eft_yellowstar": //노란별
-                    $("#" + tool_imgId).before(
-                        "<span id='yellowstar' class='css_eft'></span>"
-                    );
+                    $("#" + tool_imgId).before("<span id='yellowstar' class='css_eft'></span>");
                     break;
                 case "css_eft_lightning": //번개
-                    $("#" + tool_imgId).before(
-                        "<span id='lightning' class='css_eft'></span>"
-                    );
+                    $("#" + tool_imgId).before("<span id='lightning' class='css_eft'></span>");
                     break;
                 default:
                     break;
@@ -1331,7 +1285,6 @@ $(document).ready(function () {
                 .css({
                     width: tool_imgId_width,
                     height: tool_imgId_height
-                    // "background-size": "auto"
                 });
         }
     });

@@ -61,7 +61,7 @@
                     </a>
                     @endif
 
-                    <b><a class="invis-btn" href="">{{ __('회원가입') }}</a></b>
+                    <a class="invis-btn" href=""><b>{{ __('회원가입') }}</b></a>
                 </div>
             </form>
         </div>

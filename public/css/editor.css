@@ -38,15 +38,6 @@ li > button {
     padding: 1px;
 }
 
-.nav-btn {
-    margin: 10px;
-    font-size: 20px;
-    font-weight: 800;
-    background: transparent;
-    border: 0;
-    padding: 1px;
-}
-
 .title-bar {
     font-size: 1.7em;
     margin-left: 20px;
@@ -87,11 +78,7 @@ li > button {
     header {
         height: 7%;
     }
-    .nav-bar {
-        height: 34px;
-        margin-top: -12px;
-        margin-bottom: 12px;
-    }
+
     .ep-tem {
         font-size: 1.5rem;
     }
@@ -184,11 +171,6 @@ li > button {
         height: 7%;
     }
 
-    .nav-bar {
-        height: 38px;
-        margin-top: -15px;
-        margin-bottom: 15px;
-    }
     .ep-tem {
         font-size: 0.7rem;
     }
@@ -329,7 +311,7 @@ li > button {
     .nav_left {
         height: 730px;
         left: -300px;
-        top: 49px;
+        top: 62px;
         width: 300px;
     }
 
@@ -340,9 +322,9 @@ li > button {
     }
 
     .nav_right {
-        height: 760px;
+        height: 754px;
         right: -300px;
-        top: 49px;
+        top: 62px;
         width: 300px;
     }
 
@@ -1057,6 +1039,7 @@ input[type="file"] {
     position: absolute;
     display: none;
 }
+
 #member_list:hover {
     display: block;
 }
@@ -1280,7 +1263,7 @@ input[type="file"] {
 }
 
 .clearfix a {
-    margin: 3px;
+    margin-top: 8px;
 }
 
 .mx-auto {
