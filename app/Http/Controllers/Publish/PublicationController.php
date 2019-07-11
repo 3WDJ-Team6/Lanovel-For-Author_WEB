@@ -361,6 +361,7 @@ class PublicationController extends Controller
           ';
                 foreach ($chapter_list as $i => $clist) {
                     $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li"><span class="white_back">' . $clist['subsubtitle'] . '</span></a>';
+
             // $a = 50 - strlen($clist['subsubtitle']);
             // for ($b = 0; $a >= $b; $b++) {
             //     $nav = $nav . '-';
@@ -508,7 +509,6 @@ class PublicationController extends Controller
                 border-top: 2px solid #dfdfdf;
                 content:'';
                 margin: 0 auto;
-
                 top: 50%; left: 0; right: 0; bottom: 0;
                 width: 100%;
                 z-index: -1;
