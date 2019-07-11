@@ -26,25 +26,6 @@ class InviteUserController extends Controller
         )->get();
 
         $text = "
-        <style>
-            .userlist{
-                display:none;
-                color:#646464;
-            }
-            .userImage{
-                width:100%;
-                text-align:center;
-            }
-            .userthumb {
-                width:200px;
-                height:200px;
-                margin-top:5px;
-                position:relative;
-            }
-            .userinfo {
-                width:100%;
-            }
-        </style>
         <div class='modal-content'>
             <div class='modal-header'>
                 <h4 class='modal-title'>협업자 초대</h4>
@@ -77,7 +58,26 @@ class InviteUserController extends Controller
                 </form>
             </div>
             <div id='invite' class='modal1' role='dialog'>
-        </div>";
+        </div>
+        <style>
+            .userlist{
+                display:none;
+                color:#646464;
+            }
+            .userImage{
+                width:100%;
+                text-align:center;
+            }
+            .userthumb {
+                width:200px;
+                height:200px;
+                margin-top:5px;
+                position:relative;
+            }
+            .userinfo {
+                width:100%;
+            }
+        </style>";
 
         return $text;
     }

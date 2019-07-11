@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Grade extends Model
 {
     protected $table = 'grades';
+    public $timestamps = false;
 
 
     // 새 평점 저장

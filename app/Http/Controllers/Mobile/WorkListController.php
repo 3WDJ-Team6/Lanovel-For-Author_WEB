@@ -105,11 +105,13 @@ class WorkListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($workNum, $userId)   # 작품을 누르면 작품 페이지로 이동
+    public function show()   # 작품을 누르면 작품 페이지로 이동
     {
         // 받아와야할 변수 작품번호(지금 18들어가있는곳), 챕터번호(23번), 현재 로그인중인 사용자(9번), type_of_work = 2 (단행본일 때)
         // 2) 작품 페이지 (단행본) + 3번 목차
         // 책 이미지, 책 제목, 작가명, 일러스트레이터명, 평점, 단행본|연재작 여부, 가격, 대여기간, 카테고리(해시태그), 줄거리, 업데이트 날짜
+        $workNum = 135;
+        $userId = 22;
         $works = Work::select(
             'works.num',
             'works.work_title',
@@ -123,10 +125,14 @@ class WorkListController extends Controller
             DB::raw("(select group_concat(us2.nickname)) illustrator"),
             DB::raw("(select group_concat(category_works.tag) from category_works where category_works.num_of_work = $workNum) tag"),
             DB::raw('(select count(subscribe_or_interests.num_of_work) FROM subscribe_or_interests where subscribe_or_interests.role_of_work = 2) recommends_count'),
-            DB::raw("(SELECT COUNT(ss2.reader_id) FROM subscribes AS ss2 WHERE ss2.author_id = (SELECT user_id FROM work_lists AS workl WHERE workl.num_of_work = $workNum ORDER BY created_at LIMIT 1 )) countsub"),
-            DB::raw("(if((SELECT reader_id FROM subscribes WHERE reader_id=$userId AND author_id IN (SELECT user_id FROM work_lists WHERE num_of_work = $workNum)),'t','f')) sub_or_not"),
-            DB::raw("(if((SELECT num_of_work FROM subscribe_or_interests AS soi1 where soi1.num_of_work = $workNum AND soi1.role_of_work = 1 AND soi1.user_id = $userId) IS NOT null,'t','f')) ins_of_not"),
-            DB::raw("(if((SELECT num_of_work FROM subscribe_or_interests AS soi2 where soi2.num_of_work = $workNum AND soi2.role_of_work = 2 AND soi2.user_id = $userId) IS NOT null,'t','f')) rec_of_not"),
+            DB::raw("(SELECT COUNT(ss2.reader_id) FROM subscribes AS ss2 WHERE ss2.author_id =
+            (SELECT user_id FROM work_lists AS workl WHERE workl.num_of_work = $workNum ORDER BY created_at LIMIT 1 )) countsub"),
+            DB::raw("(if((SELECT reader_id FROM subscribes
+            WHERE reader_id=$userId AND author_id IN (SELECT user_id FROM work_lists WHERE num_of_work = $workNum)),'t','f')) sub_or_not"),
+            DB::raw("(if((SELECT num_of_work FROM subscribe_or_interests AS soi1
+            where soi1.num_of_work = $workNum AND soi1.role_of_work = 1 AND soi1.user_id = $userId) IS NOT null,'t','f')) ins_of_not"),
+            DB::raw("(if((SELECT num_of_work FROM subscribe_or_interests AS soi2
+            where soi2.num_of_work = $workNum AND soi2.role_of_work = 2 AND soi2.user_id = $userId) IS NOT null,'t','f')) rec_of_not"),
             DB::raw("(select users.profile_photo from users where users.id in(select user_id from work_lists where num_of_work = $workNum) LIMIT 1) author_profile_photo"),
             DB::raw("(SELECT date_format(max(cow.updated_at),'%y-%m-%d') lastupdate FROM content_of_works AS cow WHERE cow.num_of_work = $workNum) lastupdate")
         )->leftjoin('work_lists as wl', 'works.num', '=', 'wl.num_of_work')
@@ -141,9 +147,8 @@ class WorkListController extends Controller
             ->where('works.num', $workNum)
             ->groupBy('works.num')
             ->orderBy('works.num', 'desc')->get();
-
-        return response()->json($works, 200);
-        // return response()->json($works, 200, [], JSON_PRETTY_PRINT);
+        // return response()->json($works, 200);
+        return response()->json($works, 200, [], JSON_PRETTY_PRINT);
     }
 
     /**
@@ -217,7 +222,7 @@ class WorkListController extends Controller
         ];
         // return response()->json($tempArr, 200, [], JSON_PRETTY_PRINT);
 
-        $authorId == null ? 23 : $authorNum = User::select('id')->where('nickname', $authorId)->first()->id;
+        $authorNum = User::select('id')->where('nickname', $authorId)->first()->id;
 
         switch ($type) {
             case 'sub_selected':

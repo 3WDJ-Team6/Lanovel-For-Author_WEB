@@ -164,4 +164,4 @@ Route::get('/share-evnet/{num}', 'WorkOut\EditController@edit');
 
 Route::post('/postest/{nickname}/{num}', 'WorkOut\EditController@show');
 
-Route::get('/getMyList','Mobile\WorkListController@test');
+Route::get('/getMyList','Mobile\MyListController@getMyList');

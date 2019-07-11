@@ -7,30 +7,22 @@ use App\Http\Controllers\Controller;
 use App\Models\WorkList;
 use App\Models\Work;
 use App\Models\Subscribe;
+use App\Models\SubscribeOrInterest;
+use Auth;
 use DB;
 use App\Models\Rental;
+use App\Models\SubscribeOrInterest;
 
 class MyListController extends Controller
 {
     public function getSubList($userId)
     {
-        # 구독 작가 작품
-        $forforWhereOfResult1 = Subscribe::select(
-            'author_id'
-        )->where('reader_id', $userId)
+        # 관심 작품 리스트
+        $interestsList = SubscribeOrInterest::select(
+            'subscribe_or_interests.num_of_work'
+        )->where('subscribe_or_interests.user_id', $userId)
+            ->where('subscribe_or_interests.role_of_work', '1')
             ->get();
-        $collectResult111 = collect($forforWhereOfResult1);
-        $forforWhereOfResult1Value = $collectResult111->pluck('author_id')->toarray();
-
-        // return $forforWhereOfResult1Value;
-
-        $forWhereOfResult1 = WorkList::select(
-            'num_of_work'
-        )->where('work_lists.user_id', $forforWhereOfResult1Value)
-            ->get();
-        $collectResult11 = collect($forWhereOfResult1);
-        $forWhereOfResult1Value = $collectResult11->pluck('num_of_work')->toarray();
-
         $allSubList = Work::select(
             'works.num',
             'works.work_title',
@@ -42,23 +34,15 @@ class MyListController extends Controller
             DB::raw("(SELECT GROUP_CONCAT(nickname) FROM users WHERE users.id IN (SELECT user_id FROM work_lists WHERE work_lists.num_of_work = works.num AND users.roles=3)) illustrator"),
             DB::raw("(SELECT GROUP_CONCAT(tag) AS tag FROM category_works AS cw WHERE cw.num_of_work = works.num) tag")
         )
-            ->leftjoin('work_lists', 'work_lists.num_of_work', '=', 'works.num')
-            ->leftJoin('users as us1', function ($join) {
-                $join->on('work_lists.user_id', '=', 'us1.id')
-                    ->where('us1.roles', 2);
-            })->leftJoin('users as us2', function ($join) {
-                $join->on('work_lists.user_id', '=', 'us2.id')
-                    ->where('us1.roles', 3);
-            })
-            ->whereIn('works.num', $forWhereOfResult1Value)
+            ->whereIn('works.num', $interestsList)
             ->groupBy('works.num')
             ->get();
-
         return response()->json($allSubList, 200, [], JSON_PRETTY_PRINT);
     }
+
     public function getMyList($userId)
     {
-        # 구매or 대여작품
+        # 구매 or 대여한 작품의 리스트
         $forWhereOfResult2 = Rental::select(
             'num_of_work'
         )->where('rentals.user_id', $userId)

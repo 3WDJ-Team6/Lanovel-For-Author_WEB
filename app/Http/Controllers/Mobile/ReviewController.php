@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Mobile;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Grade;
+use Carbon;
 use App\Http\Controllers\Controller;
 
 class ReviewController extends Controller
@@ -61,35 +62,30 @@ class ReviewController extends Controller
      */
     public function store(Request $request, $workNum, $userId)
     {
+        // return "0";
+        // return $request;
         // 리뷰 저장 정보
-        $review_info = array([
-            // 리뷰 달 작품 번호
-            'num_of_work' => $workNum,
-            // 리뷰 다는 유저 아이디
-            'user_id' => $userId,
-            // 리뷰 내용
-            'content_of_review' => $request->get('content_of_review'),
-            // 생성 날짜 (현재)
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
 
-        // 평점 저장 정보
-        $grade_info = array([
-            // 평점 달 작품 번호
-            'num_of_work' => $workNum,
-            // 평점 다는 유저 아이디
-            'user_id' => $userId,
-            // 작품 상태 (일단 default 1 로 해둠..)
-            'role_of_work' => 1,
-            // 평점
-            'grade' => $request->get('grade')
-        ]);
+        $review_save = new Review();
 
-        // 리뷰 저장
-        $this->review_model->storeReview($review_info);
-        // 평점 저장
-        $this->grade_model->storeGrade($grade_info);
+        $review_save->content_of_review = $request->content_of_review;
+        $review_save->num_of_work = $workNum;
+        $review_save->user_id = $userId;
+        $review_save->created_at = Carbon::now();
+        $review_save->updated_at = Carbon::now();
+
+        $review_save->save();
+
+
+
+        $grade_save = new Grade();
+
+        $grade_save->role_of_work = 1;
+        $grade_save->num_of_work = $workNum;
+        $grade_save->user_id = $userId;
+        $grade_save->grade = $request->grade;
+
+        $grade_save->save();
     }
 
     /**

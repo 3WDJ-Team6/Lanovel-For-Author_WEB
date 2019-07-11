@@ -1041,7 +1041,7 @@ $(document).ready(function () {
             $(".textarea .mp4_icon").attr("id", "" + mp4Id + "");
             $(".textarea .mp4_icon").attr("class", "resize_mp4");
             $(".resize_mp4").replaceWith(
-                "<video id='obj_12' controls src='https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/video/1557648920Sakurasou_ED.mp4' servername='1557648920Sakurasou_ED.mp4' class='resize' type='video/webm'/>"
+                "<video id='obj_12' controls src='https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/video/1560822413hyouka.mp4' class='resize' type='video/webm'/>"
             );
         });
     //리소스 파일을 textarea에 넣으면 class를 resize로 변경//

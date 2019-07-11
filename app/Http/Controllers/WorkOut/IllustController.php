@@ -336,11 +336,10 @@ class IllustController extends Controller
             'messages.message_title',
             'messages.message_content',
             'u2.nickname as from_id',
-            'messages.created_at',
-            DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0) count")
+            'messages.created_at'
         )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
             ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
-            ->where('to_id', '=', Auth::user()['id'])
+            ->where('u1.to_id', '=', Auth::user()['id'])
             ->get();
         return $invite_messages;
     }
