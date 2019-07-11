@@ -354,11 +354,11 @@ class PublicationController extends Controller
                     <nav epub:type="toc" id="toc">
                         <h1>Contents</h1>
                         <ol epub:type="list">
-                <li><a href="cover.xhtml" class="nav_li">' . 'cover' . $work_title . '</a></li>
-                <li><a href="nav.xhtml" class="nav_li">Contents</a></li>
+                <li><a href="cover.xhtml" class="nav_li"><span class="white_back">' . 'cover' . $work_title . '</span></a></li>
+                <li><a href="nav.xhtml" class="nav_li"><span class="white_back">Contents</span></a></li>
   ';
         foreach ($chapter_list as $i => $clist) {
-            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li">' . $clist['subsubtitle'] . '</a>';
+            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li"><span class="white_back">' . $clist['subsubtitle'] . '</span></a>';
             // $a = 50 - strlen($clist['subsubtitle']);
             // for ($b = 0; $a >= $b; $b++) {
             //     $nav = $nav . '-';
@@ -432,10 +432,8 @@ class PublicationController extends Controller
                     <script src='../js/viewer.js' type='text/javascript'></script>
                     </head>
                 <body>
-                <span class='galley-rw'>
                     <h1>" . $clist['subsubtitle'] . "</h1>
                     " . $clist['content'] . "
-                </span>
                 </body>
             </html>
             ";
@@ -479,11 +477,38 @@ class PublicationController extends Controller
                 background-repeat: no-repeat;
                 /* position: relative; */
             }
+            h1{
+                text-align:center;
+            }
             ol{
                 list-style-type:none;
             }
+            li{
+                text-align:center;
+                position: relative;
+                z-index: 1;
+            }
             .nav_li{
-                font-size:1.3em;
+                font-size:1.3em sans-serif;
+                text-decoration: none;
+                font-weight: 600;
+                color:black;
+            }
+            .nav_li:before{
+                border-top: 2px solid #dfdfdf;
+                content:'';
+                margin: 0 auto;
+                position: absolute;
+                top: 50%; left: 0; right: 0; bottom: 0;
+                width: 100%;
+                z-index: -1;
+            }
+            li:hover{
+                opacity:0.5;
+            }
+            .white_back{
+                background: #fff;
+                padding: 0 15px;
             }
             .tem_effect {
                 display: inline-block;

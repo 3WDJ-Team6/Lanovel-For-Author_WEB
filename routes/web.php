@@ -120,7 +120,7 @@ Route::group(['middleware' => ['guest']], function () { # guest만 사용가능�
 });
 
 // 일러스트 등록 페이지
-Route::get('/illustCreate', 'WorkOut\IllustController@create');
+// Route::get('/illustCreate', 'WorkOut\IllustController@create');
 
 // 일러스트 등록
 Route::post('/illustStore', 'WorkOut\IllustController@store');

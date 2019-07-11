@@ -78,6 +78,7 @@ li > button {
     header {
         height: 7%;
     }
+
     .ep-tem {
         font-size: 1.5rem;
     }
@@ -310,7 +311,7 @@ li > button {
     .nav_left {
         height: 730px;
         left: -300px;
-        top: 49px;
+        top: 62px;
         width: 300px;
     }
 
@@ -321,9 +322,9 @@ li > button {
     }
 
     .nav_right {
-        height: 760px;
+        height: 754px;
         right: -300px;
-        top: 49px;
+        top: 62px;
         width: 300px;
     }
 
@@ -1038,6 +1039,7 @@ input[type="file"] {
     position: absolute;
     display: none;
 }
+
 #member_list:hover {
     display: block;
 }
@@ -1261,7 +1263,7 @@ input[type="file"] {
 }
 
 .clearfix a {
-    margin: 3px;
+    margin-top: 8px;
 }
 
 .mx-auto {

@@ -135,7 +135,7 @@ body {
                                 <li></li>
                             </ul>
                             <figcaption>
-                                <h4 style="width:500px;">{{ $post->work_title }}</h4>
+                                <h2 style="width:500px;">{{ $post->work_title }}</h2>
                                 <span style="color:#ea4c4c;">By @foreach ($user_lists as $user)
                                     @if($post->num == $user->num)
                                     {{ $user->nickname }}
