@@ -377,8 +377,7 @@ class EditController extends Controller
                 $editor_content = str::replaceFirst('src="/images/tool_icon/speaker_icon.png" alt="alt"', 'src="../images/tool_icon/speaker_icon.png" alt="alt"', $editor_content);
             } elseif (str::contains($editor_content, 'onclick="audioPlay(event)">')) {
                 $editor_content = str::replaceFirst('onclick="audioPlay(event)">', 'onclick="audioPlay(event)" />', $editor_content);
-            }
-             else {
+            } else {
                 break;
             }
         }

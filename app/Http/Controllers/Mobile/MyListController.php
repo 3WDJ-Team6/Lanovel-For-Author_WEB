@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Models\WorkList;
 use App\Models\Work;
 use App\Models\Subscribe;
+use App\Models\SubscribeOrInterest;
+use Auth;
 use DB;
 use App\Models\Rental;
 use App\Models\SubscribeOrInterest;
@@ -21,7 +23,6 @@ class MyListController extends Controller
         )->where('subscribe_or_interests.user_id', $userId)
             ->where('subscribe_or_interests.role_of_work', '1')
             ->get();
-
         $allSubList = Work::select(
             'works.num',
             'works.work_title',

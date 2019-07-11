@@ -1,22 +1,4 @@
 <header class="header_area">
-
-        <script type="text/javascript">
-            var div = document.getElementById("alramimg");
-            div.style.display = 'inline-block';
-        </script>
-        @isset($invite_message)
-        @foreach ($invite_message as $i => $im)
-
-        <script type="text/javascript">
-            document.getElementById("messagecount").innerHTML = '<?php echo $im->count; ?>';
-            var text = document.getElementById("messagecount").innerHTML;
-            if (text == '0') {
-                document.getElementById("messagecount").style.display = 'none';
-            }
-        </script>
-        @endforeach
-        @endif
-
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
         <script src="{{ asset('js/jquery/jquery.modal.min.1.js') }}" defer></script>

@@ -719,7 +719,7 @@ $(document).on("change", 'input[type="file"]', function(event) {
     formData.append("image", $("#image")[0].files[0]);
     var file_name = $("#image")[0].files[0].name;
     console.log("file_name : " + file_name);
-    var chng_name = file_name.substr(0, 9) + "...";
+    var chng_name = file_name.toString().substring(0, 9) + "...";
     console.log(reader);
     console.log(form);
     console.log($("#image")[0].files[0].name);
@@ -934,7 +934,7 @@ $(document).ready(function() {
             console.log("에피소드번호 : ", ep_of_num);
             console.log("내용 : ", post_content);
             redis_ajax();
-        }, 1500)
+        }, 1000)
     );
 
     $(document).on(
@@ -1056,6 +1056,8 @@ $(document).ready(function() {
             $(".textarea .mp4_icon").attr("class", "resize_mp4");
             $(".resize_mp4").replaceWith(
                 "<video id='obj_12' controls src='https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/video/1560822413hyouka.mp4' class='resize' type='video/webm'/>"
+              
+              
             );
         });
     //리소스 파일을 textarea에 넣으면 class를 resize로 변경//
