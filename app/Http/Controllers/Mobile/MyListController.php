@@ -11,16 +11,18 @@ use App\Models\SubscribeOrInterest;
 use Auth;
 use DB;
 use App\Models\Rental;
+use App\Models\SubscribeOrInterest;
 
 class MyListController extends Controller
 {
     public function getSubList($userId)
     {
+        # 관심 작품 리스트
         $interestsList = SubscribeOrInterest::select(
             'subscribe_or_interests.num_of_work'
-        )->where('subscribe_or_interests.user_id',$userId)
-        ->where('subscribe_or_interests.role_of_work','1')
-        ->get();
+        )->where('subscribe_or_interests.user_id', $userId)
+            ->where('subscribe_or_interests.role_of_work', '1')
+            ->get();
         $allSubList = Work::select(
             'works.num',
             'works.work_title',
@@ -32,15 +34,15 @@ class MyListController extends Controller
             DB::raw("(SELECT GROUP_CONCAT(nickname) FROM users WHERE users.id IN (SELECT user_id FROM work_lists WHERE work_lists.num_of_work = works.num AND users.roles=3)) illustrator"),
             DB::raw("(SELECT GROUP_CONCAT(tag) AS tag FROM category_works AS cw WHERE cw.num_of_work = works.num) tag")
         )
-            ->whereIn('works.num',$interestsList)
+            ->whereIn('works.num', $interestsList)
             ->groupBy('works.num')
             ->get();
-
         return response()->json($allSubList, 200, [], JSON_PRETTY_PRINT);
     }
+
     public function getMyList($userId)
     {
-        # 구매or 대여작품
+        # 구매 or 대여한 작품의 리스트
         $forWhereOfResult2 = Rental::select(
             'num_of_work'
         )->where('rentals.user_id', $userId)

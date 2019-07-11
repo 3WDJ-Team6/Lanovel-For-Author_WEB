@@ -149,7 +149,6 @@ class IndexController extends Controller
      */
     public function store(Request $request)    //SetBookCover
     {
-        return $request;
         Auth::user()['roles'] === 2 ? $role = "Author" : $role = "Illustrator";
         $bookName = $request->work_title;
 
