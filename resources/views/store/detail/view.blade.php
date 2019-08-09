@@ -360,7 +360,7 @@
                                         src="{{$post->url_of_illustration}}" onclick="currentDiv(1)"
                                         alt="Nature and sunrise" style="width:225px; height:150px;">
                                 </div>
-                                <!-- <div class="w3-col s4"> 
+                                <!-- <div class="w3-col s4">
                                     <img class="demo w3-opacity w3-hover-opacity-off"
                                         src="{{asset('image/store/img_snow_wide.jpg')}}" style="width:100%"
                                         onclick="currentDiv(2)" alt="French Alps">

@@ -232,7 +232,9 @@ class PublicationController extends Controller
             <rootfile full-path='OEBPS/" . $work_title . ".opf' media-type='application/oebps-package+xml'/>\n
         </rootfiles>\n
     </container>\n";
+
         Storage::disk('s3')->put($filePath . '/META-INF/container.xml', $container); // container 파일
+
         // return $coverName;
         $coverimage = str::after($coverName, 'images/');
 
@@ -244,7 +246,7 @@ class PublicationController extends Controller
         $isodate = date('Y-m-d\TH:i:s\Z');
         $opf =
             '<?xml version="1.0" encoding="UTF-8"?>
-        <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="rendition: http://www.idpf.org/vocab/rendition/#" unique-identifier="bookID" prefix="cc: http://creativecommons.org/ns#">
+        <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="cc: http://creativecommons.org/ns#" unique-identifier="bookID">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
                 <dc:title id="title">' . $work_title . '</dc:title>
                 <dc:identifier id="bookID">' . strtolower($work_title) . '</dc:identifier>
@@ -411,6 +413,10 @@ class PublicationController extends Controller
                     // echo "num : $i b<br>";
                     $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/' . Auth::user()['email'] . '/', '../', $text);
                     // return $text;
+                } elseif (str::contains($text, 'type="video/webm"')) {
+                    // echo "num : $i b<br>";
+                    $text = str::replaceFirst('type="video/webm"', ' ', $text);
+                    // return $text;
                 } elseif (preg_match('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//',$text)) {
                     // echo "num : $i b<br>";
                     $text = preg_replace('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//' , "", $text);
@@ -420,9 +426,11 @@ class PublicationController extends Controller
                     $text = preg_replace('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', "$1<ruby>$2<rt>$3</rt></ruby>", $text);
                 } elseif (str::contains($text,'onclick="audioPlay(event)" /></span>')){
                     $text = str::replaceFirst('onclick="audioPlay(event)" /></span>','onclick="audioPlay(event)"></span>',$text);
-                } elseif (str::contains($text,'<audio id="')){
-                    $text = str::replaceFirst('<audio id="','<audio id ="'.$int.'',$text);
-                } elseif (preg_match('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/', $text)) {
+                }
+                // elseif (str::contains($text,'<audio id="')){
+                //     $text = str::replaceFirst('<audio id="','<audio id ="'.$int,$text);
+                // }
+                elseif (preg_match('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/', $text)) {
                     $text = preg_replace('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/',"$1$2$3 >"  , $text);
                 } else{
                     $clist['content'] = $text;
@@ -474,131 +482,121 @@ class PublicationController extends Controller
         // custom css
         $cssNmae = 'stylesheet';
         $cssFile =
-            "
-            #sectionId{text-align:center; margin-top:5%; }
-            #coverimgdiv{ background: url('../images/" . $coverimage . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 398px; height: 554px; text-align:left;            }
-            #worktitlespan{  font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }
-            #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
+        "
+        #sectionId{text-align:center; margin-top:5%; }
+        #coverimgdiv{ background: url('../images/" . $coverimage . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 398px; height: 554px; text-align:left;            }
+        #worktitlespan{  font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }
+        #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
 
-            .resize,
-            .resize_mp4 {
-                width: 400px;
-                height: auto;
-                background-size: auto;
-                background-repeat: no-repeat;
-                /* position: relative; */
-            }
-            h1{
-                text-align:center;
-            }
-            ol{
-                list-style-type:none;
-            }
-            li{
-                text-align:center;
-                position: relative;
-                z-index: 1;
-            }
-            .nav_li{
-                font-size:1.3em sans-serif;
-                text-decoration: none;
-                font-weight: 600;
-                color:black;
-            }
-            .nav_li:before{
-                border-top: 2px solid #dfdfdf;
-                content:'';
-                margin: 0 auto;
-                top: 50%; left: 0; right: 0; bottom: 0;
-                width: 100%;
-                z-index: -1;
-            }
-            li:hover{
-                opacity:0.5;
-            }
-            .white_back{
-                background: #fff;
-                padding: 0 15px;
-            }
-            .tem_effect {
-                display: inline-block;
-            }
-            #cherryBlossom1,
-            #cherryBlossom2,
-            #rain,
-            #snow,
-            #starlight,
-            #yellowstar,
-            #lightning {
-                display: inline-block;
-                position: absolute;
-            }
-            .calibre7 {
-                display: block;
-                font-size: 0.77419em;
-                text-indent: 20pt;
-                margin: 0
-                }
+        .resize,
+        .resize_mp4 {
+            width: 400px;
+            height: auto;
+            background-size: auto;
+            background-repeat: no-repeat;
+            /* position: relative; */
+        }
+        h1{
+            text-align:center;
+        }
+        ol{
+            list-style-type:none;
+            padding-inline-start: 0px;
+        }
+        li{
+            text-align:center;
+            position: relative;
+            z-index: 1;
+        }
+        .nav_li{
+            text-decoration: none;
+            font-weight: 600;
+            color:black;
+        }
+        .nav_li:before{
+            border-top: 2px solid #dfdfdf;
+            content:'';
+            margin: 0 auto;
+            top: 50%; left: 0; right: 0; bottom: 0;
+            width: 100%;
+            z-index: -1;
+        }
+        li:hover{
+            opacity:0.5;
+        }
+        .white_back{
+            background: #fff;
+            padding: 0 15px;
+        }
+        .tem_effect {
+            display: inline-block;
+        }
+        .cherryBlossom1,
+        .cherryBlossom2,
+        .rain,
+        .snow,
+        .starlight,
+        .yellowstar,
+        .lightning,
+        .fire1,
+        .fire2 {
+            display: inline-block;
+            position: absolute;
+        }
+        .calibre7 {
+            display: block;
+            font-size: 0.77419em;
+            text-indent: 20pt;
+            margin: 0
+        }
 
-            #css_eft_cB1,
-            #css_eft_cB2,
-            #css_eft_rain,
-            #css_eft_snow,
-            #css_eft_starlight,
-            #css_eft_yellowstar,
-            #css_eft_lightning {
-                width: 120px;
-                height: 120px;
-            }
-            #cherryBlossom1,
-            #css_eft_cB1 {
-                background: url('../images/gifimages/cherryBlossom1.gif');
-            }
+        .deai, .nekowork:hover {
+            cursor: pointer;
+        }
 
-            #cherryBlossom2,
-            #css_eft_cB2 {
-                background: url('../images/gifimages/cherryBlossom2.gif');
-            }
+        .cherryBlossom1{
+            background: url('../images/gifimages/cherryBlossom1.gif');
+        }
 
-            #rain,
-            #css_eft_rain {
-                background: url('../images/gifimages/rain.gif');
-            }
+        .cherryBlossom2{
+            background: url('../images/gifimages/cherryBlossom2.gif');
+        }
 
-            #snow,
-            #css_eft_snow {
-                background: url('../images/gifimages/snow.gif');
-            }
+        .rain{
 
-            #starlight,
-            #css_eft_starlight {
-                background: url('../images/gifimages/starlight.gif');
-            }
+            background: url('../images/gifimages/rain.gif');
+        }
 
-            #yellowstar,
-            #css_eft_yellowstar {
-                background: url('../images/gifimages/yellowstar.gif');
-            }
+        .snow{
+            background: url('../images/gifimages/snow.gif');
+        }
 
-            #lightning,
-            #css_eft_lightning {
-                background: url('../images/gifimages/lightning.gif');
-            }
-            body{
-                display:block;
-                margin-bottom:2em;
-                margin-top:2em;
-                page-break-before:always;
-            }
-            p {
-                display:block;
-                margin:0;
-                font-size:1em;
-                line-height:1.6em;
-                page-break-after:always;
-            }
-            div, img, video {max-width:100% max-height:100%}
-            ";
+        .starlight{
+            background: url('../images/gifimages/starlight.gif');
+        }
+
+        .yellowstar{
+            background: url('../images/gifimages/yellowstar.gif');
+        }
+
+        .lightning {
+            background: url('../images/gifimages/lightning.gif');
+        }
+        body{
+            display:block;
+            margin-bottom:2em;
+            margin-top:2em;
+            page-break-before:always;
+        }
+        p {
+            display:block;
+            margin:0;
+            font-size:1em;
+            line-height:1.6em;
+            page-break-after:always;
+        }
+        div, img, video {max-width:100% max-height:100%}
+        ";
 
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . $cssNmae . '.css', $cssFile);
         $cssNmae = 'page_styles';
@@ -627,26 +625,44 @@ class PublicationController extends Controller
                     });
                 });
             });
+            var gifOn = false;
+            $('.deai').click(function() {
+                if (gifOn == false) {
+                    $(this).attr('src', '../images/gifimages/gifimages/deai.gif');
+                    gifOn = true;
+                } else {
+                    $(this).attr('src', 'https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/images/1565068502deai.png');
+                    gifOn = false;
+                }
+            });
+
+            $('.nekowork').click(function() {
+                $(this).fadeToggle(2000);
+            });
+
             let isPlaying = false;
             let audioPlay_num = null;
-
             function audioPlay(e) {
-                audioPlay_num = e.target.nextElementSibling.id;
-                // console.log(audioPlay_num);
+                if (e.target.classList.contains('css_eft')) {
+                    audioPlay_num = e.target.nextElementSibling.nextElementSibling.id;
+                    console.log('1');
+                } else {
+                    audioPlay_num = e.target.nextElementSibling.id;
+                    console.log('2');
+                }
                 var audio = document.getElementById(audioPlay_num);
                 if (isPlaying) {
                     audio.pause();
                     isPlaying = false;
+                    console.log('3');
                 } else {
                     audio.play();
                     isPlaying = true;
+                    console.log('4');
                 }
-}
+            }
             ";
-
-        if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js')) {
-            Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsNmae);
-        } // js
+            Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsFile);
 
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');

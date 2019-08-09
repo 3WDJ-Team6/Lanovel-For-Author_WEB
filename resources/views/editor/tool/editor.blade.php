@@ -53,7 +53,7 @@
             <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
                 <ul>
                 @csrf
-                    {{-- <li class="nav-btn"><span id="chatting">채팅</span></li>--}}
+                    <li class="nav-btn"><span id="chatting">채팅</span></li>
                     <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></li>
                     <li class="nav-btn" id="mem-btn">멤버리스트</li>
                     <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
@@ -219,5 +219,6 @@
         });
     </script>
 </div>
+<div id="ccc"></div>
 @include('layouts/footer')
 @endsection
