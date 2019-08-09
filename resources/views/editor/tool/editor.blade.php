@@ -177,6 +177,16 @@
             {{$user}}
         </div>--}}
     </div>
+    <p id="prof-Ol"
+    style="position: absolute;top: 0px;left: 0px;opacity: 0.5;height: 100%;width: 100%;z-index: 65555;background-color: rgb(102, 102, 102);display: none;margin: 0;">
+    </p>
+    <p id="prof-Bg" style="z-index: 65555;top: 100px;left: 35%;display: none;height: 240px;width: 644px;position: absolute;">
+        <img id="prof-misaki" class="prof" src="/image/prof_misaki.jpg" style="width: 630px; height: 480px; display: none;">
+        <img id="prof-mashiro" class="prof" src="/image/prof_mashiro.jpg" style="width: 630px; height: 480px; display: none;">
+        <img id="prof-nanami" class="prof" src="/image/prof_nanami.jpg" style="width: 630px; height: 480px; display: none;">
+        <img id="prof-sorata" class="prof" src="/image/prof_sorata.jpg" style="width: 630px; height: 480px; display: none;">
+    </p>
+
     <script>
 
         jQuery(document).ready(function() {

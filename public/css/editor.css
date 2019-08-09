@@ -30,7 +30,7 @@ header li {
     font-weight: 800;
 }
 
-li > button {
+li>button {
     font-size: 20px;
     font-weight: 800;
     background: transparent;
@@ -523,44 +523,37 @@ li > button {
 }
 
 #underline {
-    background: url("/image/tool_menu_icon/underline.png") no-repeat center
-        center;
+    background: url("/image/tool_menu_icon/underline.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #strikeThrough {
-    background: url("/image/tool_menu_icon/strikethrough.png") no-repeat center
-        center;
+    background: url("/image/tool_menu_icon/strikethrough.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #fontSize {
-    background: url("/image/tool_menu_icon/font-size.png") no-repeat center
-        center;
+    background: url("/image/tool_menu_icon/font-size.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #createLink {
-    background: url("/image/tool_menu_icon/add-link.png") no-repeat center
-        center;
+    background: url("/image/tool_menu_icon/add-link.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #unlink {
-    background: url("/image/tool_menu_icon/remove-link.png") no-repeat center
-        center;
+    background: url("/image/tool_menu_icon/remove-link.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #indent {
-    background: url("/image/tool_menu_icon/indent-right.png") no-repeat center
-        center;
+    background: url("/image/tool_menu_icon/indent-right.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #outdent {
-    background: url("/image/tool_menu_icon/indent-left.png") no-repeat center
-        center;
+    background: url("/image/tool_menu_icon/indent-left.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
@@ -570,20 +563,17 @@ li > button {
 } */
 
 #justifyCenter {
-    background: url("/image/tool_menu_icon/justify-center.png") no-repeat center
-        center;
+    background: url("/image/tool_menu_icon/justify-center.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #justifyLeft {
-    background: url("/image/tool_menu_icon/justify-left.png") no-repeat center
-        center;
+    background: url("/image/tool_menu_icon/justify-left.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
 #justifyRight {
-    background: url("/image/tool_menu_icon/justify-right.png") no-repeat center
-        center;
+    background: url("/image/tool_menu_icon/justify-right.png") no-repeat center center;
     background-size: 32px 32px;
 }
 
@@ -1090,7 +1080,7 @@ input[type="file"] {
     margin-top: -7px;
 }
 
-.nav_left > .ep > .ep-list > h4 > a:after {
+.nav_left>.ep>.ep-list>h4>a:after {
     background: #ffffff;
     content: "";
     display: block;
@@ -1102,7 +1092,7 @@ input[type="file"] {
     width: 0;
 }
 
-.nav_left > .ep > .ep-list > h4 > a:hover:after {
+.nav_left>.ep>.ep-list>h4>a:hover:after {
     width: 100%;
 }
 
@@ -1164,15 +1154,13 @@ input[type="file"] {
     display: inline-block;
 }
 
-#cherryBlossom1,
-#cherryBlossom2,
-#rain,
-#snow,
-#starlight,
-#yellowstar,
-#lightning,
-#fire1,
-#fire2 {
+.cherryBlossom1,
+.cherryBlossom2,
+.rain,
+.snow,
+.starlight,
+.yellowstar,
+.lightning {
     display: inline-block;
     position: absolute;
     /* z-index: 1; */
@@ -1189,37 +1177,37 @@ input[type="file"] {
     height: 120px;
 }
 
-#cherryBlossom1,
+.cherryBlossom1,
 #css_eft_cB1 {
     background: url("/image/css_effect/cherryBlossom1.gif");
 }
 
-#cherryBlossom2,
+.cherryBlossom2,
 #css_eft_cB2 {
     background: url("/image/css_effect/cherryBlossom2.gif");
 }
 
-#rain,
+.rain,
 #css_eft_rain {
     background: url("/image/css_effect/rain.gif");
 }
 
-#snow,
+.snow,
 #css_eft_snow {
     background: url("/image/css_effect/snow.gif");
 }
 
-#starlight,
+.starlight,
 #css_eft_starlight {
     background: url("/image/css_effect/starlight.gif");
 }
 
-#yellowstar,
+.yellowstar,
 #css_eft_yellowstar {
     background: url("/image/css_effect/yellowstar.gif");
 }
 
-#lightning,
+.lightning,
 #css_eft_lightning {
     background: url("/image/css_effect/lightning.gif");
 }
@@ -1246,6 +1234,11 @@ input[type="file"] {
 
 .css_eft_name:hover {
     border: 3px solid rgb(118, 206, 235);
+}
+
+.deai,
+.nekowork:hover {
+    cursor: pointer;
 }
 
 /* //content */

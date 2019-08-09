@@ -1,5 +1,6 @@
 // 글작업 팝업버튼생성
-var commands = [{
+var commands = [
+    {
         cmd: "bold"
     },
     {
@@ -22,7 +23,8 @@ var commands = [{
     {
         cmd: "fontSize",
         val: "3",
-        desc: "1(가장 작음)~7(가장 큼) 중 하나를 선택해 크기를 조절할 수 있습니다."
+        desc:
+            "1(가장 작음)~7(가장 큼) 중 하나를 선택해 크기를 조절할 수 있습니다."
     },
     {
         cmd: "indent"
@@ -59,8 +61,8 @@ function doCommand(cmdKey) {
 function init() {
     var html = "",
         template =
-        '<button class="tool_popup" id="%cmd%" onclick="doCommand(\'%cmd%\')"></button>';
-    commands.map(function (command, i) {
+            '<button class="tool_popup" id="%cmd%" onclick="doCommand(\'%cmd%\')"></button>';
+    commands.map(function(command, i) {
         commandRelation[command.cmd] = command;
         var temp = template;
         temp = temp.replace(/%cmd%/gi, command.cmd);
@@ -89,13 +91,13 @@ function popTool(ResultId, PopbndId) {
 
 popTool.prototype = {
     //도구버튼 숨기기
-    hiddenPopbtn: function () {
+    hiddenPopbtn: function() {
         if (popbtnobj != null) {
             popbtnobj.style.display = "none";
         }
     },
     //팝업창
-    popopen: function (e) {
+    popopen: function(e) {
         var event = window.event || e;
 
         var kwd = getSelectText();
@@ -280,7 +282,7 @@ function addEpisode(sub, num) {
 function editEpisode(chgsub, orisub) {
     console.log("바뀐제목 : " + chgsub + " 원래제목 : " + orisub);
     $(".ep-title").text(chgsub);
-    $(".ep-list a").each(function () {
+    $(".ep-list a").each(function() {
         var text = $(this).text();
         console.log("text : " + text);
         $(this)
@@ -295,10 +297,16 @@ let isPlaying = false;
 let audioPlay_num = null;
 
 function audioPlay(e) {
-    audioPlay_num = e.target.nextElementSibling.id;
-    console.log(audioPlay_num);
+    if (e.target.classList.contains("css_eft")) {
+        audioPlay_num = e.target.nextElementSibling.nextElementSibling.id;
+        console.log("css_eft 실행됨");
+    } else {
+        audioPlay_num = e.target.nextElementSibling.id;
+        console.log("css eft 실행안됨");
+    }
+    console.log("audioPlay_num : " + audioPlay_num);
     var audio = document.getElementById(audioPlay_num);
-    console.log(audio);
+    console.log("audio : " + audio);
 
     if (isPlaying) {
         audio.pause();
@@ -308,6 +316,17 @@ function audioPlay(e) {
         isPlaying = true;
     }
 }
+// function audioPlay(e) {
+//     audioPlay_num = e.target.nextElementSibling.id;
+//     var audio = document.getElementById(audioPlay_num);
+//     if (isPlaying) {
+//       audio.pause();
+//       isPlaying = false;
+//     }else {
+//       audio.play();
+//       isPlaying = true;
+//     }
+//   }
 //이미지에 추가된 음악 재생 및 정지//
 
 //리소스파일 리스팅
@@ -322,11 +341,11 @@ function getResource() {
         type: "GET",
         url: "/getDir/" + num_of_work,
         dataType: "json",
-        error: function (e) {
+        error: function(e) {
             console.log(e);
             throw new Error("실-패");
         },
-        success: function (data) {
+        success: function(data) {
             console.log(data);
             $("#resource-feild").html("");
             for (var i = 0; i < 2; i++) {
@@ -353,10 +372,10 @@ function getResource() {
                 console.log("폴더이름 : " + folder_name_ko);
                 $("#resource-feild").append(
                     "<span id='obj_" +
-                    i +
-                    "' class='obj' onclick='getFolders()'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
-                    folder_name_ko +
-                    "</span></span>"
+                        i +
+                        "' class='obj' onclick='getFolders()'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
+                        folder_name_ko +
+                        "</span></span>"
                 );
             }
         }
@@ -365,7 +384,7 @@ function getResource() {
 var folder_name_kinds = "";
 
 function getFolders() {
-    $(document).on("click", ".obj, .back.folderkinds", function () {
+    $(document).on("click", ".obj, .back.folderkinds", function() {
         if (this.id == "obj_0") {
             folder = "private";
         } else if (this.id == "obj_1") {
@@ -375,12 +394,12 @@ function getFolders() {
             type: "GET",
             url: "/getDir/" + num_of_work + "/" + folder,
             dataType: "json",
-            error: function (data) {
+            error: function(data) {
                 console.log(22222222);
                 console.log(data);
                 throw new Error("실-패");
             },
-            success: function (data) {
+            success: function(data) {
                 switch (folder) {
                     case "private":
                         folder_name_ko = "개인 폴더";
@@ -398,15 +417,15 @@ function getFolders() {
                 $("#resource-feild").html("");
                 $("#resource-feild").prepend(
                     "<span class='folder_name'>" +
-                    folder_name_ko +
-                    "</span>" +
-                    "<span class='back foldername'>" +
-                    "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512.001 512.001' style='enable-background:new 0 0 512.001 512.001;' xml:space='preserve' width='32px' height='32px' class=''><g><g>" +
-                    "<g>" +
-                    "<path d='M384.834,180.699c-0.698,0-348.733,0-348.733,0l73.326-82.187c4.755-5.33,4.289-13.505-1.041-18.26    c-5.328-4.754-13.505-4.29-18.26,1.041l-82.582,92.56c-10.059,11.278-10.058,28.282,0.001,39.557l82.582,92.561    c2.556,2.865,6.097,4.323,9.654,4.323c3.064,0,6.139-1.083,8.606-3.282c5.33-4.755,5.795-12.93,1.041-18.26l-73.326-82.188    c0,0,348.034,0,348.733,0c55.858,0,101.3,45.444,101.3,101.3s-45.443,101.3-101.3,101.3h-61.58    c-7.143,0-12.933,5.791-12.933,12.933c0,7.142,5.79,12.933,12.933,12.933h61.58c70.12,0,127.166-57.046,127.166-127.166    C512,237.745,454.954,180.699,384.834,180.699' data-original='#000000' class='active-path'" +
-                    "data-old_color='#B7CBFC' fill='#476ACD'/>" +
-                    "</g>" +
-                    "</span>"
+                        folder_name_ko +
+                        "</span>" +
+                        "<span class='back foldername'>" +
+                        "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512.001 512.001' style='enable-background:new 0 0 512.001 512.001;' xml:space='preserve' width='32px' height='32px' class=''><g><g>" +
+                        "<g>" +
+                        "<path d='M384.834,180.699c-0.698,0-348.733,0-348.733,0l73.326-82.187c4.755-5.33,4.289-13.505-1.041-18.26    c-5.328-4.754-13.505-4.29-18.26,1.041l-82.582,92.56c-10.059,11.278-10.058,28.282,0.001,39.557l82.582,92.561    c2.556,2.865,6.097,4.323,9.654,4.323c3.064,0,6.139-1.083,8.606-3.282c5.33-4.755,5.795-12.93,1.041-18.26l-73.326-82.188    c0,0,348.034,0,348.733,0c55.858,0,101.3,45.444,101.3,101.3s-45.443,101.3-101.3,101.3h-61.58    c-7.143,0-12.933,5.791-12.933,12.933c0,7.142,5.79,12.933,12.933,12.933h61.58c70.12,0,127.166-57.046,127.166-127.166    C512,237.745,454.954,180.699,384.834,180.699' data-original='#000000' class='active-path'" +
+                        "data-old_color='#B7CBFC' fill='#476ACD'/>" +
+                        "</g>" +
+                        "</span>"
                 );
                 if (folder == "private") {
                     for (var i = 0; i < data.length - 1; i++) {
@@ -446,11 +465,11 @@ function getFolders() {
                         }
                         $("#resource-feild").append(
                             "<span id='obj_" +
-                            i +
-                            "' class='obj_kinds'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
-                            folder_name_kinds +
-                            "</span>" +
-                            "</span>"
+                                i +
+                                "' class='obj_kinds'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
+                                folder_name_kinds +
+                                "</span>" +
+                                "</span>"
                         );
                     }
                 } else {
@@ -468,11 +487,11 @@ function getFolders() {
                             );
                             $("#resource-feild").append(
                                 "<span id='obj_" +
-                                i +
-                                "' class='obj_kinds'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
-                                folder_name_kinds +
-                                "</span>" +
-                                "</span>"
+                                    i +
+                                    "' class='obj_kinds'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
+                                    folder_name_kinds +
+                                    "</span>" +
+                                    "</span>"
                             );
                         }
                     }
@@ -487,7 +506,7 @@ var folder_files = "";
 var folder_input_name = "";
 let svgg =
     "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512.001 512.001' style='enable-background:new 0 0 512.001 512.001;' xml:space='preserve' width='32px' height='32px' class=''><g><path d='M384.834,180.699c-0.698,0-348.733,0-348.733,0l73.326-82.187c4.755-5.33,4.289-13.505-1.041-18.26    c-5.328-4.754-13.505-4.29-18.26,1.041l-82.582,92.56c-10.059,11.278-10.058,28.282,0.001,39.557l82.582,92.561    c2.556,2.865,6.097,4.323,9.654,4.323c3.064,0,6.139-1.083,8.606-3.282c5.33-4.755,5.795-12.93,1.041-18.26l-73.326-82.188    c0,0,348.034,0,348.733,0c55.858,0,101.3,45.444,101.3,101.3s-45.443,101.3-101.3,101.3h-61.58    c-7.143,0-12.933,5.791-12.933,12.933c0,7.142,5.79,12.933,12.933,12.933h61.58c70.12,0,127.166-57.046,127.166-127.166    C512,237.745,454.954,180.699,384.834,180.699' data-original='#000000' class='active-path' data-old_color='#B7CBFC' fill='#476ACD' /></g></svg>";
-$(document).on("click", ".obj_kinds", function () {
+$(document).on("click", ".obj_kinds", function() {
     if (folder == "private") {
         if (this.id == "obj_0") {
             folder_kinds = "images";
@@ -529,27 +548,27 @@ $(document).on("click", ".obj_kinds", function () {
         type: "GET",
         url: "/getDir/" + num_of_work + "/" + folder_files + "/" + folder_kinds,
         dataType: "json",
-        error: function (data) {
+        error: function(data) {
             console.log(
                 "/getDir/" +
-                num_of_work +
-                "/" +
-                folder_files +
-                "/" +
-                folder_kinds
+                    num_of_work +
+                    "/" +
+                    folder_files +
+                    "/" +
+                    folder_kinds
             );
             console.log(44444444);
             console.log(data);
             throw new Error("실-패");
         },
-        success: function (data) {
+        success: function(data) {
             console.log(
                 "/getDir/" +
-                num_of_work +
-                "/" +
-                folder_files +
-                "/" +
-                folder_kinds
+                    num_of_work +
+                    "/" +
+                    folder_files +
+                    "/" +
+                    folder_kinds
             );
             console.log(33333333);
             console.log(data);
@@ -558,11 +577,11 @@ $(document).on("click", ".obj_kinds", function () {
             $("#resource-feild").html("");
             $("#resource-feild").prepend(
                 "<span class='folder_name'>" +
-                folder_name_kinds +
-                "</span>" +
-                "<span class='back folderkinds'>" +
-                svgg +
-                "</span>"
+                    folder_name_kinds +
+                    "</span>" +
+                    "<span class='back folderkinds'>" +
+                    svgg +
+                    "</span>"
             );
             if (folder_kinds == "images") {
                 folder_input_name = "image";
@@ -575,13 +594,13 @@ $(document).on("click", ".obj_kinds", function () {
             } else {
                 $(".back").after(
                     "<div class='upload_loading'><label for='image' class='upload_label'>+</label><input type='file' name='" +
-                    folder_input_name +
-                    "' id='image' /></div><div id='obj_feild'></div>"
+                        folder_input_name +
+                        "' id='image' /></div><div id='obj_feild'></div>"
                 );
             }
 
             if (folder_kinds == "images" || folder_kinds == "purchase") {
-                $.each(data, function (index, item) {
+                $.each(data, function(index, item) {
                     console.log("item.name : " + item.name);
                     console.log("item.src : " + item.src);
                     console.log("index : " + index);
@@ -589,102 +608,102 @@ $(document).on("click", ".obj_kinds", function () {
                     if (item.name.length > 9) {
                         $("#obj_feild").append(
                             "<span id='objLi_" +
-                            index +
-                            "' class='obj_file'>" +
-                            "<img id='obj_" +
-                            index +
-                            "' src='" +
-                            item.src +
-                            "' servername='" +
-                            item.fileName +
-                            "' alt='alt" +
-                            "' class='obj_thum' /><span class='obj_name' title='" +
-                            item.name +
-                            "'>" +
-                            chng_text +
-                            "</span></span>"
+                                index +
+                                "' class='obj_file'>" +
+                                "<img id='obj_" +
+                                index +
+                                "' src='" +
+                                item.src +
+                                "' servername='" +
+                                item.fileName +
+                                "' alt='alt" +
+                                "' class='obj_thum' /><span class='obj_name' title='" +
+                                item.name +
+                                "'>" +
+                                chng_text +
+                                "</span></span>"
                         );
                     } else {
                         $("#obj_feild").append(
                             "<span id='objLi_" +
-                            index +
-                            "' class='obj_file'>" +
-                            "<img id='obj_" +
-                            index +
-                            "' src='" +
-                            item.src +
-                            "' servername='" +
-                            item.fileName +
-                            "' alt='alt" +
-                            "' class='obj_thum' /><span class='obj_name' title='" +
-                            item.name +
-                            "'>" +
-                            item.name +
-                            "</span></span>"
+                                index +
+                                "' class='obj_file'>" +
+                                "<img id='obj_" +
+                                index +
+                                "' src='" +
+                                item.src +
+                                "' servername='" +
+                                item.fileName +
+                                "' alt='alt" +
+                                "' class='obj_thum' /><span class='obj_name' title='" +
+                                item.name +
+                                "'>" +
+                                item.name +
+                                "</span></span>"
                         );
                     }
                 });
             } else if (folder_kinds == "video") {
-                $.each(data, function (index, item) {
+                $.each(data, function(index, item) {
                     chng_text = item.name.toString().substring(0, 9) + "...";
                     $("#obj_feild").append(
                         "<span id='objLi_" +
-                        index +
-                        "' class='obj_file'>" +
-                        "<img id='obj_" +
-                        index +
-                        "' src='/image/tool_icon/mp4_icon.png' " +
-                        "source='" +
-                        item.src +
-                        "' servername='" +
-                        item.fileName +
-                        "' class='mp4_icon' type='video/webm' />" +
-                        // "</video>" +
-                        "<span class='obj_name' title='" +
-                        item.name +
-                        "'>" +
-                        chng_text +
-                        "</span></span>"
-                    );
-                });
-            } else {
-                $.each(data, function (index, item) {
-                    chng_text = item.name.toString().substring(0, 9) + "...";
-                    if (item.name.length > 9) {
-                        $("#obj_feild").append(
-                            "<span id='objLi_" +
                             index +
                             "' class='obj_file'>" +
-                            "<span id='play" +
+                            "<img id='obj_" +
                             index +
-                            "()' src='" +
+                            "' src='/image/tool_icon/mp4_icon.png' " +
+                            "source='" +
                             item.src +
                             "' servername='" +
                             item.fileName +
-                            "' class='obj_thum mp3_icon'></span>" +
+                            "' class='mp4_icon' type='video/webm' />" +
+                            // "</video>" +
                             "<span class='obj_name' title='" +
                             item.name +
                             "'>" +
                             chng_text +
                             "</span></span>"
+                    );
+                });
+            } else {
+                $.each(data, function(index, item) {
+                    chng_text = item.name.toString().substring(0, 9) + "...";
+                    if (item.name.length > 9) {
+                        $("#obj_feild").append(
+                            "<span id='objLi_" +
+                                index +
+                                "' class='obj_file'>" +
+                                "<span id='play" +
+                                index +
+                                "()' src='" +
+                                item.src +
+                                "' servername='" +
+                                item.fileName +
+                                "' class='obj_thum mp3_icon'></span>" +
+                                "<span class='obj_name' title='" +
+                                item.name +
+                                "'>" +
+                                chng_text +
+                                "</span></span>"
                         );
                     } else {
                         $("#obj_feild").append(
                             "<span id='objLi_" +
-                            index +
-                            "' class='obj_file'>" +
-                            "<span id='play" +
-                            index +
-                            "()' src='" +
-                            item.src +
-                            "' servername='" +
-                            item.fileName +
-                            "' class='obj_thum mp3_icon'></span>" +
-                            "<span class='obj_name' title='" +
-                            item.name +
-                            "'>" +
-                            item.name +
-                            "</span></span>"
+                                index +
+                                "' class='obj_file'>" +
+                                "<span id='play" +
+                                index +
+                                "()' src='" +
+                                item.src +
+                                "' servername='" +
+                                item.fileName +
+                                "' class='obj_thum mp3_icon'></span>" +
+                                "<span class='obj_name' title='" +
+                                item.name +
+                                "'>" +
+                                item.name +
+                                "</span></span>"
                         );
                     }
                 });
@@ -692,7 +711,7 @@ $(document).on("click", ".obj_kinds", function () {
         }
     });
 });
-$(document).on("click", ".back.foldername", function () {
+$(document).on("click", ".back.foldername", function() {
     console.log("백눌렀지?");
     getResource();
 });
@@ -701,7 +720,7 @@ $(document).on("click", ".back.foldername", function () {
 //파일추가
 let appendId = null;
 var publicUrl = "";
-$(document).on("change", 'input[type="file"]', function (event) {
+$(document).on("change", 'input[type="file"]', function(event) {
     var reader = new FileReader();
     var form = $("#file_form")[0];
     var formData = new FormData(form);
@@ -736,30 +755,30 @@ $(document).on("change", 'input[type="file"]', function (event) {
         contentType: false,
         data: formData,
         type: "POST",
-        success: function () {
+        success: function() {
             $("span").remove("#file_loading");
         },
-        beforeSend: function () {
+        beforeSend: function() {
             $("#image").after("<span id='file_loading'></span>");
         },
-        complete: function () {
+        complete: function() {
             $("#obj_feild").prepend(
                 "<span id='objLi_" +
-                appendId +
-                "' class='obj_file'><img id='obj_" +
-                appendId +
-                "' class='obj_thum' /><span class='obj_name' title='" +
-                file_name +
-                "'>" +
-                chng_name +
-                "</span></span>"
+                    appendId +
+                    "' class='obj_file'><img id='obj_" +
+                    appendId +
+                    "' class='obj_thum' /><span class='obj_name' title='" +
+                    file_name +
+                    "'>" +
+                    chng_name +
+                    "</span></span>"
             );
             var output = document.getElementById("objLi_" + appendId);
             var child = output.children[0];
             child.src = URL.createObjectURL(event.target.files[0]);
             // appendId++;
         },
-        error: function (e) {
+        error: function(e) {
             console.log(e + "에러");
         }
     });
@@ -773,7 +792,7 @@ var image_name = "";
 var path = "";
 var server_name = "";
 var publicUrl = "";
-$(document).on("contextmenu", ".obj_file", function () {
+$(document).on("contextmenu", ".obj_file", function() {
     event.preventDefault();
     img = $(this)
         .children(".obj_thum")
@@ -804,10 +823,10 @@ $(document).on("contextmenu", ".obj_file", function () {
             top: event.pageY + "px",
             left: event.pageX + "px"
         })
-        .bind("click", function () {
+        .bind("click", function() {
             $("div.custom-menu").remove();
         });
-    $(document).on("click", "#file-delete", function () {
+    $(document).on("click", "#file-delete", function() {
         console.log("image_id : " + image_id);
 
         switch (folder) {
@@ -834,22 +853,22 @@ $(document).on("contextmenu", ".obj_file", function () {
             method: "delete",
             url: publicUrl,
             type: "POST",
-            success: function () {
+            success: function() {
                 console.log(image_name);
                 $("#" + image_id).remove();
             },
-            error: function () {
+            error: function() {
                 console.log("에러");
             }
         });
     });
-    $(document).on("click", "body", function () {
+    $(document).on("click", "body", function() {
         $("div.custom-menu").remove();
     });
 });
 //파일 우클릭 & 삭제//
 
-$(document).ready(function () {
+$(document).ready(function() {
     $.ajaxSetup({
         headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
@@ -885,11 +904,11 @@ $(document).ready(function () {
 
     function delay(callback, ms) {
         var timer = 0;
-        return function () {
+        return function() {
             var context = this,
                 args = arguments;
             clearTimeout(timer);
-            timer = setTimeout(function () {
+            timer = setTimeout(function() {
                 callback.apply(context, args);
             }, ms || 0);
         };
@@ -904,11 +923,11 @@ $(document).ready(function () {
                 content: post_content
             },
             dataType: "JSON",
-            error: function (e) {
+            error: function(e) {
                 console.log(e);
                 throw new Error("실-패");
             },
-            success: function (data) {
+            success: function(data) {
                 console.log("성공");
                 console.log("수정완료");
                 getCaret(node);
@@ -916,7 +935,7 @@ $(document).ready(function () {
         });
     }
     $(".textarea").keyup(
-        delay(function (e) {
+        delay(function(e) {
             setCaret(node);
             post_content = $(".textarea").html();
             console.log("닉네임 : ", userNickname);
@@ -929,7 +948,7 @@ $(document).ready(function () {
     $(document).on(
         "input",
         ".textarea",
-        delay(function (e) {
+        delay(function(e) {
             setCaret(node);
             post_content = $(".textarea").html();
             redis_ajax();
@@ -938,6 +957,40 @@ $(document).ready(function () {
 
     redis_ajax();
     //화면공유//
+
+    var profId = "";
+    $(".profile").click(function() {
+        profId = $(this).attr("id");
+        console.log(profId);
+        $("#prof-Ol").show();
+        $("#prof-Bg").show();
+        switch (profId) {
+            case "misaki":
+                $("#prof-misaki").fadeIn(1000);
+                break;
+
+            case "mashiro":
+                $("#prof-mashiro").fadeIn(1000);
+                break;
+
+            case "nanami":
+                $("#prof-nanami").fadeIn(1000);
+                break;
+
+            case "sorata":
+                $("#prof-sorata").fadeIn(1000);
+                break;
+
+            default:
+                break;
+        }
+    });
+
+    $("#prof-Ol").click(function() {
+        $("#prof-Ol").hide();
+        $("#prof-Bg").hide();
+        $(".prof").hide();
+    });
 
     //툴 팝업 링크해제 뒤로 한칸내리는역할
     $("#unlink").after("<div></div>");
@@ -961,7 +1014,7 @@ $(document).ready(function () {
     //포커스
     let writer_flag = false;
     let illust_flag = false;
-    $(document).on("mousedown", ".text_p", function () {
+    $(document).on("mousedown", ".text_p", function() {
         if ($(".writer_focus").length && userRoles === "writer") {
             console.log("작가 포커스풀림1");
             $(".writer_focus").remove();
@@ -976,20 +1029,20 @@ $(document).ready(function () {
             console.log("작가 포커스됨");
             $(this).append(
                 "<span class='focused writer_focus " +
-                userRoles +
-                "'contentEditable='false'>&nbsp;" +
-                userNickname +
-                "&nbsp;</span>"
+                    userRoles +
+                    "'contentEditable='false'>&nbsp;" +
+                    userNickname +
+                    "&nbsp;</span>"
             );
             writer_flag = true;
         } else if (illust_flag === false && userRoles === "illustrator") {
             console.log("일러 포커스됨");
             $(this).append(
                 "<span class='focused illust_focus " +
-                userRoles +
-                "'contentEditable='false'>&nbsp;" +
-                userNickname +
-                "&nbsp;</span>"
+                    userRoles +
+                    "'contentEditable='false'>&nbsp;" +
+                    userNickname +
+                    "&nbsp;</span>"
             );
             illust_flag = true;
         } else if (writer_flag === true && userRoles === "writer") {
@@ -1005,7 +1058,7 @@ $(document).ready(function () {
     //포커스//
 
     //에피소드관리
-    $("#ep").click(function () {
+    $("#ep").click(function() {
         if ($(".ep-tem").prop("id") == "ep") {
             $(".tem").hide();
         }
@@ -1014,7 +1067,7 @@ $(document).ready(function () {
     //에피소드관리//
 
     //템플릿관리
-    $("#tem").click(function () {
+    $("#tem").click(function() {
         if ($("div").hasClass("ep")) {
             $(".ep").hide();
         }
@@ -1029,7 +1082,7 @@ $(document).ready(function () {
     var resize_mp4 = null;
     document
         .getElementById("popup_result")
-        .addEventListener("input", function (e) {
+        .addEventListener("input", function(e) {
             resize_num = $(".resize").length;
             resize_mp4 = $(".resize_mp4").length;
             imgId = $(".textarea .obj_thum").attr("id");
@@ -1048,15 +1101,22 @@ $(document).ready(function () {
 
     //resize된 파일을 클릭했을 때
     var tool_imgId = "";
-    $(document).on("click", ".resize, .css_eft", function () {
+    $(document).on("click", ".resize, .css_eft", function(e) {
+        // console.log(tool_imgId);
         tool_imgId = $(this).attr("id");
+        if (e.target.classList.contains("css_eft")) {
+            tool_imgId = $(this)
+                .next()
+                .attr("id");
+            $("#" + tool_imgId).trigger(audioPlay(event));
+        }
         console.log(tool_imgId);
     });
     //resize된 파일을 클릭했을 때//
 
     //resize된 파일을 우클릭 및 삭제
     var tool_image_id = "";
-    $(document).on("contextmenu", ".tem_effect, .resize", function () {
+    $(document).on("contextmenu", ".tem_effect, .resize", function() {
         // tool_image_id = $(this).attr("id");
         tool_image_id = $(event.target);
         console.log(tool_image_id);
@@ -1072,24 +1132,24 @@ $(document).ready(function () {
                 top: event.pageY + "px",
                 left: event.pageX + "px"
             })
-            .bind("click", function () {
+            .bind("click", function() {
                 $("div.custom-menu").remove();
             });
-        $(document).on("click", "#file-delete", function () {
+        $(document).on("click", "#file-delete", function() {
             if (tool_image_id.parent().hasClass("tem_effect")) {
                 tool_image_id.parent().remove();
                 tool_image_id.children().remove();
             }
             tool_image_id.remove();
         });
-        $(document).on("click", "body", function () {
+        $(document).on("click", "body", function() {
             $("div.custom-menu").remove();
         });
     });
     //resize된 파일을 우클릭 및 삭제//
 
     //멤버리스트
-    $("#mem-btn").click(function (event) {
+    $("#mem-btn").click(function(event) {
         $("#member_list")
             .toggle()
             .css({
@@ -1100,8 +1160,8 @@ $(document).ready(function () {
     //멤버리스트//
 
     //미리보기+루비
-    $("#pre-btn").click(function () {
-        $(".textarea").each(function () {
+    $("#pre-btn").click(function() {
+        $(".textarea").each(function() {
             var text = $(".textarea").html();
             $("#result").html(text);
             if ($("#result > .text_p > .focused").length) {
@@ -1109,24 +1169,23 @@ $(document).ready(function () {
             }
             $("#result").html(
                 $("#result")
-                .html()
-                .replace(
-                    /([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g,
-                    "<ruby>$1<rt>$2</rt></ruby>"
-                )
-                .replace(
-                    /class="resize"/g,
-                    "style='width:100%;height:auto'"
-                )
-                .replace(
-                    /class="text_p"/g, "")
+                    .html()
+                    .replace(
+                        /([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g,
+                        "<ruby>$1<rt>$2</rt></ruby>"
+                    )
+                    .replace(
+                        /class="resize"/g,
+                        "style='width:100%;height:auto'"
+                    )
+                    .replace(/class="text_p"/g, "")
             );
         });
     });
     //미리보기+루비//
 
     //a태그 드래그 금지
-    $("body").hover(function () {
+    $("body").hover(function() {
         $("a").attr("draggable", "false");
     });
     //a태그 드래그 금지//
@@ -1136,7 +1195,7 @@ $(document).ready(function () {
     var tool_imgId_width = 0;
     var tool_imgId_height = 0;
     var css_eft_val = "";
-    $(".css_eft_control").click(function () {
+    $(".css_eft_control").click(function() {
         css_eft_val = $(this).attr("id");
         console.log(css_eft_val);
         tool_imgId_width = $("#" + tool_imgId).width();
@@ -1146,33 +1205,33 @@ $(document).ready(function () {
             console.log("이미 새로고침하고 클래스 씌워져있어");
             switch (css_eft_val) {
                 case "css_eft_cB1": //벚꽃1
-                    $("#" + tool_imgId).attr("id", "cherryBlossom1");
+                    $("#" + tool_imgId).attr("class", "css_eft cherryBlossom1");
                     break;
                 case "css_eft_cB2": //벚꽃2
-                    $("#" + tool_imgId).attr("id", "cherryBlossom2");
+                    $("#" + tool_imgId).attr("class", "css_eft cherryBlossom2");
                     break;
                 case "css_eft_rain": //비
-                    $("#" + tool_imgId).attr("id", "rain");
+                    $("#" + tool_imgId).attr("class", "css_eft rain");
                     break;
                 case "css_eft_snow": //눈
-                    $("#" + tool_imgId).attr("id", "snow");
+                    $("#" + tool_imgId).attr("class", "css_eft snow");
                     break;
                 case "css_eft_starlight": //반짝임
-                    $("#" + tool_imgId).attr("id", "starlight");
+                    $("#" + tool_imgId).attr("class", "css_eft starlight");
                     break;
                 case "css_eft_yellowstar": //노란별
-                    $("#" + tool_imgId).attr("id", "yellowstar");
+                    $("#" + tool_imgId).attr("class", "css_eft yellowstar");
                     break;
                 case "css_eft_lightning": //번개
-                    $("#" + tool_imgId).attr("id", "lightning");
+                    $("#" + tool_imgId).attr("class", "css_eft lightning");
                     break;
                 default:
                     break;
             }
         } else if (
             $("#" + tool_imgId)
-            .prev()
-            .hasClass("css_eft")
+                .prev()
+                .hasClass("css_eft")
         ) {
             console.log("이미 씌운거있어서 따른효과로 바꿨어");
 
@@ -1180,37 +1239,37 @@ $(document).ready(function () {
                 case "css_eft_cB1": //벚꽃1
                     $("#" + tool_imgId)
                         .prev()
-                        .attr("id", "cherryBlossom1");
+                        .attr("class", "css_eft cherryBlossom1");
                     break;
                 case "css_eft_cB2": //벚꽃2
                     $("#" + tool_imgId)
                         .prev()
-                        .attr("id", "cherryBlossom2");
+                        .attr("class", "css_eft cherryBlossom2");
                     break;
                 case "css_eft_rain": //비
                     $("#" + tool_imgId)
                         .prev()
-                        .attr("id", "rain");
+                        .attr("class", "css_eft rain");
                     break;
                 case "css_eft_snow": //눈
                     $("#" + tool_imgId)
                         .prev()
-                        .attr("id", "snow");
+                        .attr("class", "css_eft snow");
                     break;
                 case "css_eft_starlight": //반짝임
                     $("#" + tool_imgId)
                         .prev()
-                        .attr("id", "starlight");
+                        .attr("class", "css_eft starlight");
                     break;
                 case "css_eft_yellowstar": //노란별
                     $("#" + tool_imgId)
                         .prev()
-                        .attr("id", "yellowstar");
+                        .attr("class", "css_eft yellowstar");
                     break;
                 case "css_eft_lightning": //번개
                     $("#" + tool_imgId)
                         .prev()
-                        .attr("id", "lightning");
+                        .attr("class", "css_eft lightning");
                     break;
                 default:
                     break;
@@ -1221,25 +1280,39 @@ $(document).ready(function () {
             $("#" + tool_imgId).wrap("<span class='tem_effect'></span>");
             switch (css_eft_val) {
                 case "css_eft_cB1": //벚꽃1
-                    $("#" + tool_imgId).before("<span id='cherryBlossom1' class='css_eft'></span>");
+                    $("#" + tool_imgId).before(
+                        "<span class='css_eft cherryBlossom1'></span>"
+                    );
                     break;
                 case "css_eft_cB2": //벚꽃2
-                    $("#" + tool_imgId).before("<span id='cherryBlossom2' class='css_eft'></span>");
+                    $("#" + tool_imgId).before(
+                        "<span class='css_eft cherryBlossom2'></span>"
+                    );
                     break;
                 case "css_eft_rain": //비
-                    $("#" + tool_imgId).before("<span id='rain' class='css_eft'></span>");
+                    $("#" + tool_imgId).before(
+                        "<span class='css_eft rain'></span>"
+                    );
                     break;
                 case "css_eft_snow": //눈
-                    $("#" + tool_imgId).before("<span id='snow' class='css_eft'></span>");
+                    $("#" + tool_imgId).before(
+                        "<span class='css_eft snow'></span>"
+                    );
                     break;
                 case "css_eft_starlight": //반짝임
-                    $("#" + tool_imgId).before("<span id='starlight' class='css_eft'></span>");
+                    $("#" + tool_imgId).before(
+                        "<span class='css_eft starlight'></span>"
+                    );
                     break;
                 case "css_eft_yellowstar": //노란별
-                    $("#" + tool_imgId).before("<span id='yellowstar' class='css_eft'></span>");
+                    $("#" + tool_imgId).before(
+                        "<span class='css_eft yellowstar'></span>"
+                    );
                     break;
                 case "css_eft_lightning": //번개
-                    $("#" + tool_imgId).before("<span id='lightning' class='css_eft'></span>");
+                    $("#" + tool_imgId).before(
+                        "<span class='css_eft lightning'></span>"
+                    );
                     break;
                 default:
                     break;
@@ -1256,7 +1329,7 @@ $(document).ready(function () {
 
     //크게, 작게, 원래사이즈
     var size_val = "";
-    $(".size_control").click(function () {
+    $(".size_control").click(function() {
         size_val = $(this).attr("id");
         console.log(size_val);
         switch (size_val) {
@@ -1275,8 +1348,8 @@ $(document).ready(function () {
         }
         if (
             $("#" + tool_imgId)
-            .prev()
-            .hasClass("css_eft")
+                .prev()
+                .hasClass("css_eft")
         ) {
             tool_imgId_width = $("#" + tool_imgId).width();
             tool_imgId_height = $("#" + tool_imgId).height();
@@ -1294,7 +1367,7 @@ $(document).ready(function () {
     var audio_val = "";
     var audio_num = null;
     var audio_src = "";
-    $(document).on("click", ".mp3_icon", function () {
+    $(document).on("click", ".mp3_icon", function() {
         audio_val = $(this).attr("id");
         audio_num = audio_val.replace("play", "").replace("()", "");
         audio_src = $(this).attr("src");
@@ -1302,37 +1375,42 @@ $(document).ready(function () {
             $("#" + tool_imgId).removeAttr("onclick");
             $(".speaker").remove();
         } else if ($("#" + tool_imgId).hasClass("css_eft")) {
+            console.log("바꾸기전 : " + tool_imgId);
+            tool_imgId = $("#" + tool_imgId)
+                .next()
+                .attr("id");
+            console.log("바꾸고 후 : " + tool_imgId);
             $("#" + tool_imgId).attr("onclick", "audioPlay(event)");
             $("#" + tool_imgId).after(
                 "<audio id='audio" +
-                audio_num +
-                "' src='" +
-                audio_src +
-                "'></audio>"
+                    audio_num +
+                    "' src='" +
+                    audio_src +
+                    "'></audio>"
             );
             $("#" + tool_imgId)
                 .next()
                 .next()
                 .after(
                     "<span class='speaker'>" +
-                    "<img src='/images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
-                    "</span>"
+                        "<img src='/images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
+                        "</span>"
                 );
         } else {
             $("#" + tool_imgId).attr("onclick", "audioPlay(event)");
             $("#" + tool_imgId).after(
                 "<audio id='audio" +
-                audio_num +
-                "' src='" +
-                audio_src +
-                "'></audio>"
+                    audio_num +
+                    "' src='" +
+                    audio_src +
+                    "'></audio>"
             );
             $("#" + tool_imgId)
                 .next()
                 .after(
                     "<span class='speaker'>" +
-                    "<img src='/images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
-                    "</span>"
+                        "<img src='/images/tool_icon/speaker_icon.png' alt='alt' style='width:24px;height:auto;' />" +
+                        "</span>"
                 );
         }
     });
@@ -1380,21 +1458,42 @@ $(document).ready(function () {
     //처음에 윈도우창 사이즈 값 저장
     var window_width = null;
     var window_height = null;
-    $(window).ready(function () {
+    $(window).ready(function() {
         window_width = $(window).width();
         window_height = $(window).height();
     });
     //처음에 윈도우창 사이즈 값 저장//
 
     //윈도우창크기 바뀔때마다 사이즈 값 저장
-    $(window).on("resize", function () {
+    $(window).on("resize", function() {
         window_width = $(window).width();
         window_height = $(window).height();
     });
     //윈도우창크기 바뀔때마다 사이즈 값 저장//
+    var gifOn = false;
+    $(".deai").click(function() {
+        if (gifOn == false) {
+            $(this).attr(
+                "src",
+                "https://lanovebucket.s3.ap-northeast-2.amazonaws.com/Author/authorID%40google.com/WorkSpace/%E3%81%95%E3%81%8F%E3%82%89%E8%8D%98%E3%81%AE%E3%83%9A%E3%83%83%E3%83%88%E3%81%AA%E5%BD%BC%E5%A5%B3/OEBPS/images/gifimages/deai.gif"
+            );
+            gifOn = true;
+        } else {
+            $(this).attr(
+                "src",
+                "https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/images/1565068502deai.png"
+            );
+            gifOn = false;
+        }
+    });
 
+    $(".nekowork").click(function() {
+        $(this)
+            .next()
+            .fadeToggle(1300);
+    });
     //오른쪽 사이드바
-    $("#menuToggle_right").click(function (e) {
+    $("#menuToggle_right").click(function(e) {
         var parent = $(this).parent("nav");
 
         parent.toggleClass("open_right");
@@ -1448,7 +1547,7 @@ $(document).ready(function () {
     });
 
     //왼쪽사이드바
-    $("#menuToggle_left").click(function (e) {
+    $("#menuToggle_left").click(function(e) {
         var parent = $(this).parent("nav");
         parent.toggleClass("open_left");
         //세로가 최소 700px, 가로가 최소 700px 이면서 최대 899px 이거나 세로가 최소 900px, 가로가 최소700px 이면서 최대958px일때
