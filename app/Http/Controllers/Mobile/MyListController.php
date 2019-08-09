@@ -11,7 +11,6 @@ use App\Models\SubscribeOrInterest;
 use Auth;
 use DB;
 use App\Models\Rental;
-use App\Models\SubscribeOrInterest;
 
 class MyListController extends Controller
 {

@@ -17,14 +17,6 @@ use App\Models\Work;
 |
 */
 
-
-// 초대 메시지
-Route::post('/invite/{nickname}', 'InviteUser\InviteUserController@SendingInviteMessage');
-
-
-
-
-
 // 에디터에서 저장 후 회차 리스트 화면으로 back
 Route::get('/redirectList/{num}', function () {
     return redirect('editor/main/list/{num}');
@@ -99,14 +91,14 @@ Route::group(['middleware' => ['auth',]], function () { # route 그룹안에 있
     Route::get('/getDir/{bookNum}/{dir?}/{forderName?}', 'Storage\DirectoryController@index', ['only' => ['index', 'update', 'store', 'destroy']])->name('getDir');
 });
 
-
-
+# pusher chat
 Route::get('/editor/tool/editor/innerchat', 'Chat\ChatController@chat');
 Route::post('/send', 'Chat\ChatController@send');
+# fixed chat
+Route::get('/getChat', 'Chat\ChatController@getChat');
+Route::post('/messageSend', 'Chat\ChatController@messageSend');
 
-# authoriztion # make:auth로 생성
 Route::get('/home', 'HomeController@index')->name('home');
-
 // 에디터 진입
 Route::get('/editor/tool/editor/{num}', 'WorkOut\EditController@edit');
 
@@ -143,9 +135,11 @@ Route::get('/cartIndex', 'WorkOut\IllustController@cartIndex');
 Route::get('/view/{num}', 'WorkOut\IllustController@detailView');
 Route::get('/myPage', 'WorkOut\IllustController@myPage');
 
-
+# authoriztion # make:auth로 생성
 Auth::routes(); //로그인에 관한 모든 기능 연결
 
+// 초대 메시지
+Route::post('/invite/{nickname}', 'InviteUser\InviteUserController@SendingInviteMessage');
 Route::get('/loadSearchModal', 'InviteUser\InviteUserController@loadSearchModal');
 Route::get('/loadUserInfoModal/{UserEmail}', 'InviteUser\InviteUserController@loadUserInfoModal');
 Route::get('/inviteUser/{userid}', 'InviteUser\InviteUserController@loadInviteUserModal');
@@ -164,4 +158,4 @@ Route::get('/share-evnet/{num}', 'WorkOut\EditController@edit');
 
 Route::post('/postest/{nickname}/{num}', 'WorkOut\EditController@show');
 
-Route::get('/getMyList','Mobile\MyListController@getMyList');
+Route::get('/getMyList', 'WorkOut\GraphController@index');
