@@ -18,13 +18,24 @@ class ChatEvent implements ShouldBroadcast
     public $message;
     public $user;
 
-    public function __construct($message,User $user){
-        $this->message = $message;
+    public function __construct($messages = null, $user = null)
+    {
+        $this->message = $messages;
         $this->user = $user->nickname;
         $this->dontBroadcastToCurrentUser();
     }
 
-    public function broadcastOn(){
-        return new PrivateChannel('chat');
+    public function broadcastOn()
+    {
+        return new Channel('chat');
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            "status" => "success",
+            "nickName" => $this->user,
+            'message' => $this->message
+        ];
     }
 }
