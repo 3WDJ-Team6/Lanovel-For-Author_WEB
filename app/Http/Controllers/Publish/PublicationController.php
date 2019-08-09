@@ -493,6 +493,7 @@ class PublicationController extends Controller
             }
             ol{
                 list-style-type:none;
+                padding-inline-start: 0px;
             }
             li{
                 text-align:center;
@@ -523,15 +524,15 @@ class PublicationController extends Controller
             .tem_effect {
                 display: inline-block;
             }
-            #cherryBlossom1,
-            #cherryBlossom2,
-            #rain,
-            #snow,
-            #starlight,
-            #yellowstar,
-            #lightning,
-            #fire1,
-            #fire2 {
+            .cherryBlossom1,
+            .cherryBlossom2,
+            .rain,
+            .snow,
+            .starlight,
+            .yellowstar,
+            .lightning,
+            .fire1,
+            .fire2 {
                 display: inline-block;
                 position: absolute;
             }
@@ -540,50 +541,38 @@ class PublicationController extends Controller
                 font-size: 0.77419em;
                 text-indent: 20pt;
                 margin: 0
-                }
-
-            #css_eft_cB1,
-            #css_eft_cB2,
-            #css_eft_rain,
-            #css_eft_snow,
-            #css_eft_starlight,
-            #css_eft_yellowstar,
-            #css_eft_lightning {
-                width: 120px;
-                height: 120px;
             }
-            #cherryBlossom1,
-            #css_eft_cB1 {
+
+            .deai, .nekowork:hover {
+                cursor: pointer;
+            }
+
+            .cherryBlossom1{
                 background: url('../images/gifimages/cherryBlossom1.gif');
             }
 
-            #cherryBlossom2,
-            #css_eft_cB2 {
+            .cherryBlossom2{
                 background: url('../images/gifimages/cherryBlossom2.gif');
             }
 
-            #rain,
-            #css_eft_rain {
+            .rain{
+
                 background: url('../images/gifimages/rain.gif');
             }
 
-            #snow,
-            #css_eft_snow {
+            .snow{
                 background: url('../images/gifimages/snow.gif');
             }
 
-            #starlight,
-            #css_eft_starlight {
+            .starlight{
                 background: url('../images/gifimages/starlight.gif');
             }
 
-            #yellowstar,
-            #css_eft_yellowstar {
+            .yellowstar{
                 background: url('../images/gifimages/yellowstar.gif');
             }
 
-            #lightning,
-            #css_eft_lightning {
+            .lightning {
                 background: url('../images/gifimages/lightning.gif');
             }
             body{
@@ -629,12 +618,29 @@ class PublicationController extends Controller
                     });
                 });
             });
+            var gifOn = false;
+            $('.deai').click(function() {
+                if (gifOn == false) {
+                    $(this).attr('src', '../images/gifimages/gifimages/deai.gif');
+                    gifOn = true;
+                } else {
+                    $(this).attr('src', 'https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/images/1565068502deai.png');
+                    gifOn = false;
+                }
+            });
+
+            $('.nekowork').click(function() {
+                $(this).fadeToggle(2000);
+            });
+
             let isPlaying = false;
             let audioPlay_num = null;
-
             function audioPlay(e) {
-                audioPlay_num = e.target.nextElementSibling.id;
-                // console.log(audioPlay_num);
+                if (e.target.classList.contains('css_eft')) {
+                    audioPlay_num = e.target.nextElementSibling.nextElementSibling.id;
+                } else {
+                    audioPlay_num = e.target.nextElementSibling.id;
+                }
                 var audio = document.getElementById(audioPlay_num);
                 if (isPlaying) {
                     audio.pause();
@@ -643,12 +649,11 @@ class PublicationController extends Controller
                     audio.play();
                     isPlaying = true;
                 }
-}
+            }
             ";
 
-        if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js')) {
-            Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsNmae);
-        } // js
+
+        Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsFile);
 
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');
