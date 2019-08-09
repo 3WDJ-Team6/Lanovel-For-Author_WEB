@@ -60,14 +60,23 @@ window.Echo.channel('share-event')
         $(".textarea").html(window.data.content);
     });
 
-window.Pusher = require('pusher-js');
+// Event
+window.Echo.channel('chat')
+    .listen('ChatEvent', (data) => {
+        console.log(data.nickName);
+        console.log(data.message);
+        console.log('Listen...');
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: "ebbebf6fd111ee412754",
-    cluster: "ap3",
-    encrypted: true
-});
+    });
+
+
+// window.Pusher = require('pusher-js');
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: "ebbebf6fd111ee412754",
+//     cluster: "ap3",
+//     encrypted: true
+// });
 
 
 // 접속정보
