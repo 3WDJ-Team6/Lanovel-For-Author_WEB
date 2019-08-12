@@ -2,7 +2,7 @@
 @section('header')
 <link href="https://fonts.googleapis.com/css?family=Kosugi+Maru&display=swap" rel="stylesheet">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<script src="{{ asset('js/app.js')}}"></script>
+{{-- <script src="{{ asset('js/app.js')}}"></script> --}}
 <script>
     <?php $num_of_work = json_encode($content_of_works['num_of_work']); ?>
     var num_of_work = <?= $num_of_work ?>
@@ -187,17 +187,6 @@
         <img id="prof-nanami" class="prof" src="/image/prof_nanami.jpg" style="width: 630px; height: 480px; display: none;">
         <img id="prof-sorata" class="prof" src="/image/prof_sorata.jpg" style="width: 630px; height: 480px; display: none;">
     </p>
-
-    <script>
-
-        jQuery(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('#sub').on("click", onSave);
-
 
 {{-- 채팅 --}}
 <div id='ccc'></div>
