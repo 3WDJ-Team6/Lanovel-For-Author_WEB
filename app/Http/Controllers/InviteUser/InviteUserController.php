@@ -28,11 +28,12 @@ class InviteUserController extends Controller
         $text = "
         <div class='modal-content'>
             <div class='modal-header'>
-                <h4 class='modal-title'>협업자 초대</h4>
+                <h3 class='modal-title'><img src='../../../image/logo_book.png' class='logo'><b style='position: absolute;top: 25px;'>&nbsp;協業者コンタクト</b></h3>
             </div>
             <div class='modal-body'>
                 <form>
-                    <input type='text' placeholder ='ID 또는 E-mail로 찾기' name='userid' id='userid' class='form-control'/>
+                    <input type='text' placeholder ='ID or E-mailで検索' name='userid' id='userid' class='form-control'/>
+                    <img class='search' src='../../../image/search.png'>
                     <div style='width:100%; height:400px; overflow:auto'>
                     <ul id='userlists'>
                     ";
@@ -40,14 +41,17 @@ class InviteUserController extends Controller
             $text = $text . "
                 <div class='userlist'>
                     <a href='" . url("loadUserInfoModal/" . $user['email']) . "' rel='modal:open' title='" . $user['email'] . "'>
-                        <div class='userImage'>
-                            <img src='" . $user['profile_photo'] . "' class='userthumb' onError=javascript:this.src='" . asset('image/no_image.png') . "'>
-                        </div>
                         <span id='info' class='" . $user['email'] . "'style='width:600px;position:relative;'>
-                            <div class='userinfo'>이름 : " . $user['nickname'] . "</div>
-                            <div class='userinfo'>소개 : " . $user['introduction_message'] . "</div>
-                            <div class='userinfo'>메일 : " . $user['email'] . "</div>
-                    </span>
+                            <img src='" . $user['profile_photo'] . "' class='userthumb' onError=javascript:this.src='" . asset('image/no_image.png') . "'>
+                            <div class='userinfo'>-</div>
+                            <div class='userinfo'><b>ニックネーム</b> : " . $user['nickname'] . "</div>
+                            <div class='userinfo'><b>紹介</b> : " . $user['introduction_message'] . "</div>
+                            <div class='userinfo'><b>メール</b> : " . $user['email'] . "</div>
+                            <div class='li_ed_icon'>
+                                <img src='../../../image/like_icon.png'>
+                                <img src='../../../image/edit_icon.png'>
+                            </div>
+                        </span>
                     </a>
                 </div>
         ";
@@ -58,26 +62,7 @@ class InviteUserController extends Controller
                 </form>
             </div>
             <div id='invite' class='modal1' role='dialog'>
-        </div>
-        <style>
-            .userlist{
-                display:none;
-                color:#646464;
-            }
-            .userImage{
-                width:100%;
-                text-align:center;
-            }
-            .userthumb {
-                width:200px;
-                height:200px;
-                margin-top:5px;
-                position:relative;
-            }
-            .userinfo {
-                width:100%;
-            }
-        </style>";
+        </div>";
 
         return $text;
     }
@@ -95,21 +80,26 @@ class InviteUserController extends Controller
             'users.profile_photo'
         )->where('users.email', '=', $UserEmail)
             ->first()->profile_photo;
+        $email = User::select(
+            'users.email'
+        )->where('users.email', '=', $UserEmail)
+            ->first()->email;
         $text = "
-        <div>
-            <div>
-                <img src='" . $profile_photo . "' onError=javascript:this.src='" . asset('image/no_image.png') . "' style='width:80px;height:50%;float:center;'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h3 class='modal-title'><img src='../../../image/logo_book.png' class='logo'><b style='position: absolute;top: 25px;'>&nbsp;協業者コンタクト</b></h3>
             </div>
-            <div>
-                " . $nickname . "<br>" . $introduction_message . "
-            </div>
-            " . $UserEmail . "
-            <ul class='navbar-nav ml-auto' style='display:block'>
-            <li class='nav-item' style='display:inline-block; float:left'>
-                <a class='nav-link' style='color:#45b4e6'>View profile</a>
+            <div class='modal-body'>
+                <img src='" . $profile_photo . "' class='userthumb' style='width:150px;height:150px;' onError=javascript:this.src='" . asset('image/no_image.png') . "'>
+                <div class='userinfo'><b>ニックネーム</b> : " . $nickname . "</div>
+                <div class='userinfo'><b>紹介</b> : " . $introduction_message . "</div>
+                <div class='userinfo'><b>メール</b> : " . $email. "</div>
+            <ul class='navbar-nav ml-auto' style='display:block;'>
+            <li class='nav-item' style='display:inline-block;float:left;padding-bottom: 20px;'>
+                <a class='nav-link' style='color:#f1c550;'><b>プロフィール</b></a>
             </li>
             <li class='nav-item' style='display:inline-block; float:right;'>
-                <a href='" . url('/inviteUser/' . $nickname) . "' class='nav-link' style='color:#45b4e6;' rel='modal:open'>Send invite Message</a>
+                <a href='" . url('/inviteUser/' . $nickname) . "' class='nav-link' style='color:#f1c550;padding-right:30px;' rel='modal:open'><b>メッセージ</b></a>
             </li>
         </ul>
         </div>
@@ -118,6 +108,22 @@ class InviteUserController extends Controller
     }
     public function loadInviteUserModal($nickname)
     {
+        $nickname = User::select(
+            'users.nickname'
+        )->where('users.nickname', '=', $nickname)
+            ->first()->nickname;
+        $introduction_message = User::select(
+            'users.introduction_message'
+        )->where('users.nickname', '=', $nickname)
+            ->first()->introduction_message;
+        $profile_photo = User::select(
+            'users.profile_photo'
+        )->where('users.nickname', '=', $nickname)
+            ->first()->profile_photo;
+        $email = User::select(
+            'users.email'
+        )->where('users.nickname', '=', $nickname)
+            ->first()->email;
         $work_titles = Work::select(
             'works.work_title',
             'works.num'
@@ -127,22 +133,37 @@ class InviteUserController extends Controller
             })->orderBy('works.created_at', 'desc')
             ->get();
         $text = "
-        <form id='sample_form'>
-            <label>user E-mail</label>
-            <input type='text' name='userid' id='userid' class='form-control' value = " . $nickname . " readonly>
-            <div style='width:100%; overflow:auto'>
-            <label>Work Title : </label>
-            <select name = 'numofwork'>";
-        foreach ($work_titles as $i => $row) {
-            $text = $text . "<option value=" . $row["num"] . ">" . $row["work_title"] . "</option>";
-        }
-        $text = $text . "</select>
-            <br>
-                <label>message for invite</label><br>
-                <textarea name='message' id='message_for_invite' style='resize:none' cols ='85' rows='5'></textarea>
-                <br>
-            <input type='button' id='submitbtn' value='초대'>
-        </form>";
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h3 class='modal-title'><img src='../../../image/logo_book.png' class='logo'><b style='position:absolute;top: 25px;'>&nbsp;協業者コンタクト</b></h3>
+            </div>
+            <div class='modal-body'>
+                <img src='" . $profile_photo . "' class='userthumb' style='width:150px;height:150px;' onError=javascript:this.src='" . asset('image/no_image.png') . "'>
+                <div class='userinfo'><b>ニックネーム</b> : " . $nickname . "</div>
+                <div class='userinfo'><b>紹介</b> : " . $introduction_message . "</div>
+                <div class='userinfo'><b>メール</b> : " . $email . "</div>
+                <form id='sample_form'>
+                    <input type='text' style='display:none;' name='userid' id='userid' class='form-control' value = " . $nickname . " readonly>
+                    <div style='width:100%;border:4px solid #dee2e6;margin-top:100px'>
+                        <div style='background-color:#eeeeee;'>
+                            <label style='margin:7px;margin-left:10px'>Work Title : </label>
+                            <select name = 'numofwork'>";
+                            foreach ($work_titles as $i => $row) {
+                                $text = $text . "<option value=" . $row["num"] . ">" . $row["work_title"] . "</option>";
+                            }
+                            $text = $text . "</select>
+                        </div>
+                        <textarea name='message' placeholder='送るメッセージを書いてください' id='message_for_invite' style='font-size:23px;background-color:#fcfcfc;height:300px;padding:10px;padding-left:30px;resize:none' cols ='85' rows='5'></textarea>
+                    </div>
+                    <input style='width:200px;height:50px;background-color:red;color:white;border:0;border-radius:5px;font-weight:800;margin-left:40%;margin-top:20px;' type='button' id='submitbtn' value='S E N D'>
+                </form>
+            </div>
+        </div>
+        <style>
+        textarea::placeholder {
+            color: #808080;
+          }
+        </style>";
 
         return $text;
     }
@@ -177,7 +198,7 @@ class InviteUserController extends Controller
             $message = new Message();
             $message->from_id = Auth::user()['id'];
             $message->to_id = $user_id;
-            $message->message_title = Auth::user()['nickname']."님이 $work_title 작품에 초대하셨습니다.";
+            $message->message_title = Auth::user()['nickname']."様が $work_title 作品に招待しました。";
             $message->message_content = $invite_message;
             $message->num_of_work = $work_num;
             $message->save();
@@ -214,11 +235,11 @@ class InviteUserController extends Controller
         // return $invite_message;
         foreach ($invite_message as $i => $im) {
             $text = "
-            <div>보낸 사람 : " . $im['from_id'] . "</div>
-            <div>받은 시간 : " . $im['created_at'] . "</div>
-            <div>메시지 제목 :  " . $im['message_title'] . "</div>
+            <div>送ったID : " . $im['from_id'] . "</div>
+            <div>時間 : " . $im['created_at'] . "</div>
+            <div>メッセージのタイトル :  " . $im['message_title'] . "</div>
             <div>" . $im['message_content'] . "</div>
-            <div> <a href='/acceptInvite/" . $messageNum . '/' . $inviteEditor . "'>작업방으로 이동</a></div>
+            <div> <a href='/acceptInvite/" . $messageNum . '/' . $inviteEditor . "'>Writing Roomに移動</a></div>
             ";
         }
         return $text;
