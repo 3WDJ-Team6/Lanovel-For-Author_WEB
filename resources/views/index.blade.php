@@ -30,7 +30,7 @@ body {
         <div class="form-group " style="margin-top:6%;">
             @if(Session::has('success'))
             <div class="alert alert-info" style="max-width: 1140px; margin-right: auto; margin-left: auto; border:none; color:white; background-color: #f1b875;">
-            {{ Session::get('success') }}
+            {{ Session::get('success') }}<br>{{Session::get('success2')}}
             </div>
             @endif
             {{-- 정렬 필터링  --}}
