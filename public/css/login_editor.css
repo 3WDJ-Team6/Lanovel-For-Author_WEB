@@ -150,6 +150,7 @@ header:after {
     top: 82%;
     right: 43%;
     cursor: pointer;
+    margin-top: 1.5%;
 }
 
 .header-button {

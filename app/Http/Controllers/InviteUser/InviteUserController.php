@@ -155,6 +155,7 @@ class InviteUserController extends Controller
                         </div>
                         <textarea name='message' placeholder='送るメッセージを書いてください' id='message_for_invite' style='font-size:23px;background-color:#fcfcfc;height:300px;padding:10px;padding-left:30px;resize:none' cols ='85' rows='5'></textarea>
                     </div>
+                    <input type='hidden' name='p_p' id='userp_p' value=".$profile_photo.">
                     <input style='width:200px;height:50px;background-color:red;color:white;border:0;border-radius:5px;font-weight:800;margin-left:40%;margin-top:20px;' type='button' id='submitbtn' value='S E N D'>
                 </form>
             </div>

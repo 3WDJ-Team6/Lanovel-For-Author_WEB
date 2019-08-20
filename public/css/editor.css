@@ -4,13 +4,14 @@ html {
     height: 100%;
     max-width: 100%;
     max-height: 100%;
-    background-color: #fffffa;
+    background-image: url("/image/background_pattern.png");
+    background-size: cover;
     font-family: "Kosugi Maru", sans-serif;
 }
 
 /* nav */
 header {
-    background-color: white;
+    /* background-color: white; */
     /* box-shadow: 5px 5px 5px 0 black; */
     width: 100%;
 }
@@ -39,10 +40,12 @@ li>button {
 }
 
 .title-bar {
-    font-size: 1.7em;
-    margin-left: 20px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    font-size: 1.2em;
+    padding-top: 4%;
+}
+
+.nav-btn {
+    color: white;
 }
 
 .nav-btn:hover {
@@ -54,9 +57,8 @@ li>button {
 
 /* content */
 .content {
-    padding-top: 5px;
     width: 100%;
-    height: 83%;
+    height: 100%;
     position: relative;
     overflow: auto;
 }
@@ -74,11 +76,7 @@ li>button {
 }
 
 /* 세로가 최소 700px일때 */
-@media screen and (min-height: 700px) {
-    header {
-        height: 7%;
-    }
-
+/* @media screen and (min-height: 700px) {
     .ep-tem {
         font-size: 1.5rem;
     }
@@ -103,10 +101,6 @@ li>button {
     .tem-list {
         height: 96%;
         padding: 8px;
-    }
-
-    .area {
-        height: 600px;
     }
 
     .textarea {
@@ -161,16 +155,12 @@ li>button {
     .modal {
         width: 27%;
     }
-}
+} */
 
 /* 끝 세로가 최소 700px일때 */
 
 /* 세로가 최소 700px 가로가 최소 700px 최대 899px일때 */
-@media screen and (min-height: 700px) and (min-width: 700px) and (max-width: 899px) {
-    header {
-        height: 7%;
-    }
-
+/* @media screen and (min-height: 700px) and (min-width: 700px) and (max-width: 899px) {
     .ep-tem {
         font-size: 0.7rem;
     }
@@ -199,9 +189,7 @@ li>button {
         padding-left: 6px;
     }
 
-    .area {
-        height: 535px;
-    }
+
 
     .textarea {
         margin-top: 30px;
@@ -255,16 +243,12 @@ li>button {
     .modal {
         width: 54%;
     }
-}
+} */
 
 /* 끝 세로가 최소 700px 가로가 최소 700px 최대 899px일때 */
 
 /* 세로가 최소 900px일때 */
 @media screen and (min-height: 900px) {
-    header {
-        height: 5%;
-    }
-
     .ep-tem {
         font-size: 1.5rem;
     }
@@ -291,10 +275,6 @@ li>button {
         padding-left: 8px;
     }
 
-    .area {
-        height: 760px;
-    }
-
     .textarea {
         margin-top: 30px;
         margin-right: 1px;
@@ -305,33 +285,35 @@ li>button {
     }
 
     #resource-feild {
-        padding-left: 13px;
+        padding-left: 15%;
     }
 
     .nav_left {
-        height: 708px;
+        height: 100%;
         left: -300px;
-        top: 62px;
+        top: 0;
         width: 300px;
     }
 
     .nav_left #menuToggle_left {
-        height: 40px;
-        left: 300px;
-        top: 42%;
+        height: 195px;
+        width: 260px;
+        left: 198px;
+        top: 39%;
     }
 
     .nav_right {
-        height: 754px;
+        height: 100%;
         right: -300px;
-        top: 62px;
-        width: 300px;
+        top: 0;
+        width: 336px;
     }
 
     .nav_right #menuToggle_right {
-        height: 40px;
-        left: -50px;
-        top: 47%;
+        width: 260px;
+        height: 177px;
+        left: -224px;
+        top: 44%;
     }
 
     #ccc {
@@ -353,10 +335,6 @@ li>button {
 
 /* 가로가 최소700px 최대958px이고 세로가 최소 900px일때 */
 @media screen and (min-height: 700px) and (min-width: 900px) and (max-width: 1200px) {
-    header {
-        height: 5%;
-    }
-
     .ep-tem {
         font-size: 1rem;
         bottom: -3px;
@@ -382,10 +360,6 @@ li>button {
     .tem-list {
         height: 99.5%;
         padding-left: 30px;
-    }
-
-    .area {
-        height: 760px;
     }
 
     .textarea {
@@ -444,12 +418,16 @@ li>button {
 
 /* 끝 가로가 최소900px 최대958px이고 세로가 최소 900px일때 */
 .area {
-    border-top: 3px solid #a1c45a;
-    border-bottom: 3px solid #a1c45a;
-    background-color: white;
+    /* border-top: 3px solid #a1c45a;
+    border-bottom: 3px solid #a1c45a; */
+    background-image: url("/image/tool_icon/edit_background.png");
+    background-size: 1300px 937px;
+    background-repeat: no-repeat;
     width: 100%;
+    height: 937px;
     max-width: 100%;
     max-height: 100%;
+    margin-left: 16.2%;
 }
 
 .tool-bar {
@@ -578,11 +556,11 @@ li>button {
 }
 
 .ep-tem-area {
-    float: left;
-    width: 0;
-    height: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
+    /* float: left; */
+    /* width: 500px; */
+    /* height: 937px; */
+    /* padding-left: 20px;
+    padding-right: 20px; */
     overflow-y: scroll;
     -webkit-animation: showSlowlyElement 400ms;
     animation: showSlowlyElement 400ms;
@@ -611,7 +589,7 @@ li>button {
 
 .ep,
 .tem {
-    background-color: #fff9e0;
+    /* background-color: #fff9e0; */
     width: auto;
     height: 100%;
     max-height: fit-content;
@@ -639,7 +617,7 @@ li>button {
 }
 
 .ep-list {
-    background-color: #fff9e0;
+    /* background-color: #fff9e0; */
     border-radius: 0.25em;
     padding: 8px;
     overflow-y: scroll;
@@ -647,7 +625,7 @@ li>button {
 }
 
 .tem-list {
-    background-color: #fff9e0;
+    /* background-color: #fff9e0; */
     border-radius: 0.25em;
     overflow-y: scroll;
     margin-top: -43px;
@@ -655,7 +633,7 @@ li>button {
 }
 
 .ep-list:hover {
-    background-color: #fff9e0;
+    /* background-color: #fff9e0; */
 }
 
 .ep-li:hover {
@@ -704,11 +682,11 @@ li>button {
 
 .textarea {
     position: relative;
-    height: 93%;
-    max-width: 100%;
-    max-height: 93%;
+    height: 60%;
+    max-width: 58%;
+    max-height: 65%;
     overflow: scroll;
-    float: left;
+    /* float: left; */
     -webkit-animation: showSlowlyElement 400ms;
     animation: showSlowlyElement 400ms;
     outline: 0px solid transparent;
@@ -717,6 +695,8 @@ li>button {
     -o-transition: width 0.2s;
     -webkit-transition: width 0.2s;
     transition: width 0.2s;
+    background-color: white;
+    margin-left: 4.8%
 }
 
 .effect {
@@ -760,7 +740,7 @@ pre {
 }
 
 #resource-feild {
-    height: 90%;
+    height: 77%;
     overflow-y: scroll;
 }
 
@@ -944,7 +924,9 @@ input[readonly] {
     background-color: #fdfdfd;
     cursor: pointer;
     border: 1px solid #ebebeb;
-    border-bottom-color: #e2e2e2;
+    background-image: url("/image/tool_icon/upload_label.png");
+    background-size: cover;
+    /* border-bottom-color: #e2e2e2; */
     border-radius: 0.25em;
     top: 50px;
 }
@@ -1046,6 +1028,7 @@ input[type="file"] {
 }
 
 .nav_left {
+    background: url("/image/tool_icon/edit_left_back.png");
     position: fixed;
     -moz-transition: left 0.2s linear;
     -o-transition: left 0.2s linear;
@@ -1055,10 +1038,12 @@ input[type="file"] {
 }
 
 .nav_left #menuToggle_left {
-    background: #f1c550;
+    /* background: #f1c550; */
+    background: url("/image/tool_icon/edit_left.png") 102px -16px no-repeat;
     display: block;
     position: relative;
-    width: 50px;
+    margin-bottom: -60%;
+    /* width: 50px; */
 }
 
 .nav_left #menuToggle_left:hover {
@@ -1068,15 +1053,15 @@ input[type="file"] {
 .nav_left #menuToggle_left .sidebar_left {
     content: "";
     display: block;
-    width: 15px;
-    height: 15px;
-    border-top: 4px solid rgb(255, 255, 255);
-    border-left: 4px solid rgb(255, 255, 255);
+    width: 50px;
+    height: 50px;
+    border-top: 7px solid rgb(255, 255, 255);
+    border-left: 7px solid rgb(255, 255, 255);
     -webkit-transform: rotate(5deg);
     transform: rotate(135deg);
     position: absolute;
-    top: 50%;
-    left: 30%;
+    top: 33%;
+    left: 49%;
     margin-top: -7px;
 }
 
@@ -1102,13 +1087,14 @@ input[type="file"] {
 
 .open_left #menuToggle_left .sidebar_left {
     background: transparent;
-    left: 40%;
-    top: 50%;
+    left: 59%;
+    top: 33%;
     transform: rotate(-45deg);
 }
 
 .nav_right {
-    background-color: #fff9e0;
+    /* background-color: #fff9e0; */
+    background: url("/image/tool_icon/edit_right_back.png");
     position: fixed;
     -moz-transition: right 0.2s linear;
     -o-transition: right 0.2s linear;
@@ -1118,24 +1104,26 @@ input[type="file"] {
 }
 
 .nav_right #menuToggle_right {
-    background: #f1c550;
+    /* background: #f1c550; */
+    background: url("/image/tool_icon/edit_right.png") 102px -16px no-repeat;
     display: block;
     position: relative;
-    width: 50px;
+    margin-bottom: -30%;
+    /* width: 50px; */
 }
 
 .nav_right #menuToggle_right .sidebar_right {
     content: "";
     display: block;
-    width: 15px;
-    height: 15px;
-    border-top: 4px solid rgb(255, 255, 255);
-    border-right: 4px solid rgb(255, 255, 255);
+    width: 50px;
+    height: 50px;
+    border-top: 7px solid rgb(255, 255, 255);
+    border-right: 7px solid rgb(255, 255, 255);
     -webkit-transform: rotate(225deg);
     transform: rotate(225deg);
     position: absolute;
-    top: 50%;
-    right: 30%;
+    top: 36%;
+    right: 12%;
     margin-top: -7px;
 }
 
@@ -1145,8 +1133,8 @@ input[type="file"] {
 
 .open_right #menuToggle_right .sidebar_right {
     background: transparent;
-    right: 40%;
-    top: 50%;
+    right: 20%;
+    top: 36%;
     transform: rotate(45deg);
 }
 
@@ -1336,4 +1324,18 @@ li[class*="you"] {
     float: right;
     margin-top: 40px;
     margin-right: 40px;
+}
+
+.illustore {
+    position: absolute;
+    bottom: 4.3%;
+    right: 43%;
+    cursor: pointer;
+    margin-top: 1.5%;
+}
+
+.member_profile_icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
