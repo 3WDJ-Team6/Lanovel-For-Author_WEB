@@ -48,20 +48,20 @@
 
     {{-- 상단 메뉴 --}}
     <div class="nav" style="display:inline-block; float:right; ">
-    <div class="nav">
-        <div class="nav-bar">
-            <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
-                <ul>
-                @csrf
-                    <li class="nav-btn"><span id="chatting">채팅</span></li>
-                    <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></li>
-                    <li class="nav-btn" id="mem-btn">멤버리스트</li>
-                    <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
-                    <li class="nav-btn"><button type="submit" id='sub'>저장<button></li>
-                </ul>
-            </form>
+        <div class="nav">
+            <div class="nav-bar">
+                <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
+                    <ul>
+                        @csrf
+                        <li class="nav-btn"><span id="chatting">채팅</span></li>
+                        <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></li>
+                        <li class="nav-btn" id="mem-btn">멤버리스트</li>
+                        <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
+                        <li class="nav-btn"><button type="submit" id='sub'>저장<button></li>
+                    </ul>
+                </form>
+            </div>
         </div>
-    </div>
 </header>
 @endsection
 
@@ -160,7 +160,7 @@
         </div>
         <div id="member_list">
             @foreach($memberlist as $row)
-                <div class="member_list_li">&nbsp;{{$row['nickname']}}</div>
+            <div class="member_list_li">&nbsp;{{$row['nickname']}}</div>
             @endforeach
         </div>
         {{-- 글쓰기도구팝업 --}}
@@ -175,8 +175,19 @@
 
         {{--<div class="focus_user" style="display:none;">
             {{$user}}
+
         </div>--}}
     </div>
+    <p id="prof-Ol"
+    style="position: absolute;top: 0px;left: 0px;opacity: 0.5;height: 100%;width: 100%;z-index: 65555;background-color: rgb(102, 102, 102);display: none;margin: 0;">
+    </p>
+    <p id="prof-Bg" style="z-index: 65555;top: 100px;left: 35%;display: none;height: 240px;width: 644px;position: absolute;">
+        <img id="prof-misaki" class="prof" src="/image/prof_misaki.jpg" style="width: 630px; height: 480px; display: none;">
+        <img id="prof-mashiro" class="prof" src="/image/prof_mashiro.jpg" style="width: 630px; height: 480px; display: none;">
+        <img id="prof-nanami" class="prof" src="/image/prof_nanami.jpg" style="width: 630px; height: 480px; display: none;">
+        <img id="prof-sorata" class="prof" src="/image/prof_sorata.jpg" style="width: 630px; height: 480px; display: none;">
+    </p>
+
     <script>
 
         jQuery(document).ready(function() {
@@ -187,37 +198,48 @@
             });
             $('#sub').on("click", onSave);
 
-            function onSave(e) {
-                if ($(".textarea > .text_p > .focused").length) {
-                    $(".textarea > .text_p > .focused").remove();
-                }
-                if($("#caret").length){
-                    $("#caret").remove();
-                }
-                $.ajax({
-                    type: "POST",
-                    url: "/update/{!! json_encode($content_of_works['num']) !!}",
-                    data: {
-                        content: $('.textarea').html(),
-                    },
-                    dataType: "JSON",
-                    error: function(e) {
-                        throw new Error("실.패");
-                    },
-                    success: function(data) {
-                        console.log(data);
-                    }
-                });
+
+{{-- 채팅 --}}
+<div id='ccc'></div>
+<script>
+    jQuery(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        $('#sub').on("click", onSave);
 
-    </script>
+        function onSave(e) {
+            if ($(".textarea > .text_p > .focused").length) {
+                $(".textarea > .text_p > .focused").remove();
+            }
+            if ($("#caret").length) {
+                $("#caret").remove();
+            }
+            $.ajax({
+                type: "POST",
+                url: "/update/{!! json_encode($content_of_works['num']) !!}",
+                data: {
+                    content: $('.textarea').html(),
+                },
+                dataType: "JSON",
+                error: function(e) {
+                    throw new Error("실.패");
+                },
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+        }
+    });
+</script>
 
-    <script type="text/javascript">
-        $(window).on("load", function() {
-            new popTool("popup_result", "popbutton");
-        });
-    </script>
+<script type="text/javascript">
+    $(window).on("load", function() {
+        new popTool("popup_result", "popbutton");
+    });
+</script>
 </div>
 <div id="ccc"></div>
 @include('layouts/footer')

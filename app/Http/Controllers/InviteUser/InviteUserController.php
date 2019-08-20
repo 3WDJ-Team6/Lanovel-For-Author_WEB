@@ -122,15 +122,27 @@ class InviteUserController extends Controller
             'works.work_title',
             'works.num'
         )->join('work_lists', 'works.num', '=', 'work_lists.num_of_work')
-            ->whereIn('works.num', function ($query) {
-                $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']); // 최신순 정렬
-            })->orderBy('works.created_at', 'desc')
-            ->get();
+        ->whereIn('works.num', function ($query) {
+            $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']); // 최신순 정렬
+        })->orderBy('works.created_at', 'desc')
+        ->get();
+
+        $profile_photo = User::select(
+            'users.profile_photo'
+        )->where('users.nickname',$nickname)
+        ->first()->profile_photo;
+
+        $email = User::select(
+            'users.email'
+        )->where('users.nickname',$nickname)
+        ->first()->email;
+
         $text = "
         <form id='sample_form'>
             <label>user E-mail</label>
             <input type='text' name='userid' id='userid' class='form-control' value = " . $nickname . " readonly>
             <div style='width:100%; overflow:auto'>
+            <img src='" . $profile_photo . "' onError=javascript:this.src='" . asset('image/no_image.png') . "' style='width:80px;height:50%;float:center;'>
             <label>Work Title : </label>
             <select name = 'numofwork'>";
         foreach ($work_titles as $i => $row) {
@@ -141,6 +153,7 @@ class InviteUserController extends Controller
                 <label>message for invite</label><br>
                 <textarea name='message' id='message_for_invite' style='resize:none' cols ='85' rows='5'></textarea>
                 <br>
+                <input type='hidden' name='p_p' id='userp_p' value=".$profile_photo.">
             <input type='button' id='submitbtn' value='초대'>
         </form>";
 
@@ -182,9 +195,6 @@ class InviteUserController extends Controller
             $message->num_of_work = $work_num;
             $message->save();
         }
-        // event(new InviteEvent(Auth::user()['nickname'], $nickname, 'invite message', $nickname . "님이 " . $work_title . '작품에 초대하셧습니다.'));
-
-        // return redirect()->back()->withInput();
     }
 
     public function viewMessage(Request $request)

@@ -25,6 +25,7 @@ $(document).ready(function () {
         Str[0] = decodeURIComponent(Str[0].replace('userid=', ''));
         Str[1] = Str[1].replace('numofwork=', '');
         Str[2] = decodeURIComponent(Str[2].replace('message=', ''));
+        Str[3] = decodeURIComponent(Str[3].replace('p_p=', ''));
         $.ajax({
             url: '/sendInviteMessage',
             method: "post",
