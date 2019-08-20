@@ -191,6 +191,7 @@
                     </div>
                 </div>
                 @endif
+                @endif
                 <!-- ##### Right Side Cart End ##### -->
 
                 <div class="user-login-info">
@@ -205,71 +206,7 @@
                 </div>
             </div>
 
-            @elseif(Auth::user()['roles']==3)
 
-            <div class="user-login-info" id="alramimg" style="">
-                <a href="#" style="">
-                    <button onclick="document.getElementById('id01').style.display='block'" class="w3-button" style="background-color: transparent !important;
-                         outline: none;">
-                        <img src="{{asset('image/store/message.png')}}" style="display:inline-block">
-                        <span id="messagecount" class="list-group-item-danger" style="margin-top:1%; position:absolute; display:inline-block; z-index:100; background-color:white;"></span>
-                    </button>
-                </a>
-            </div>
-            <!-- 메시지 모달창 -->
-            <div id="id01" class="w3-modal">
-                <div class="w3-modal-content w3-card-4">
-                    <header class="w3-container" style="background-color:#FAEBFF;">
-                        <span onclick="document.getElementById('id01').style.display='none'" class="s w3-display-topright" style="cursor:pointer">&times;</span>
-                        <h2>New message</h2>
-                    </header>
-                    <div class="w3-container" id="w3-modal-content">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">TITLE</th>
-                                    <th scope="col">DATE</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($invite_messages as $invite)
-                                <tr>
-                                    <td>{{$invite->from_id}}</td>
-                                    <td><a id="viewMessage" class="{{$invite->message_num}}" href="#">{{$invite->message_title}}</a>
-                                    </td>
-                                    <td>{{$invite->created_at}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <footer class="w3-container" style="background-color:#FAEBFF; height:40px;">
-
-                    </footer>
-                </div>
-            </div>
-            @endif
-
-            <div class="user-login-info">
-                <a href="{{ url('/myPage') }}"><img src="{{ asset('image/store/user.svg') }}" alt="" /></a>
-            </div>
-            <div class="user-login-info">
-                <form method="post" action="{{ route('logout') }}" id="frm">
-                    @csrf
-                    <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
-                </form>
-            </div>
-
-
-</header>
-
-@else
-<div class="user-login-info">
-    <a href="{{ route('login') }}"><img src="{{ asset('image/store/login.png') }}" alt="" /></a>
-</div>
-
-@endif
 </div>
 </div>
 </header>

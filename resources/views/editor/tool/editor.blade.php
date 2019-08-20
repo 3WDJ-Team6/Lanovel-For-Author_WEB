@@ -2,7 +2,7 @@
 @section('header')
 <link href="https://fonts.googleapis.com/css?family=Kosugi+Maru&display=swap" rel="stylesheet">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<script src="{{ asset('js/app.js')}}"></script>
+{{-- <script src="{{ asset('js/app.js')}}"></script> --}}
 <script>
     <?php $num_of_work = json_encode($content_of_works['num_of_work']); ?>
     var num_of_work = <?= $num_of_work ?>
@@ -53,11 +53,11 @@
                 <form action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
                     <ul>
                         @csrf
-                        <li class="nav-btn"><span id="chatting">채팅</span></li>
-                        <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">초대</a></li>
-                        <li class="nav-btn" id="mem-btn">멤버리스트</li>
-                        <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;">미리보기</a></li>
-                        <li class="nav-btn"><button type="submit" id='sub'>저장<button></li>
+                        <li class="nav-btn"><span id="chatting">チャット</span></li>
+                        <li class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:black;">招待</a></li>
+                        <li class="nav-btn" id="mem-btn">メンバーリスト</li>
+                        <li class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;"></a>プレビュー</li>
+                        <li class="nav-btn"><button type="submit" id='sub'>保存<button></li>
                     </ul>
                 </form>
             </div>
@@ -78,8 +78,8 @@
         <div class="ep-tem-area">
             <nav class="nav_left">
                 <div class="ep-tem-par">
-                    <span id="ep" class="ep-tem">&nbsp;list&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                    <span id="tem" class="ep-tem">template</span>
+                    <span id="ep" class="ep-tem">リスト</span>
+                    <span id="tem" class="ep-tem">テンプレート</span>
                 </div>
                 <a id="menuToggle_left">
                     <span class="sidebar_left"></span>
@@ -101,41 +101,41 @@
                     </div>
                     <div class="ep-list">
                         {{-- 회차 리스트 띄워주기 --}} @foreach($content_lists as $row)
-                        <p style=" margin:2.5% margin-top:5%;"><a href="{{url('/editor')}}/{{$row['num']}}" style="color:black;">{{$row['subsubtitle']}}<br></a></p>
+                        <p class="ep-li" style=" margin:2.5% margin-top:5%;"><a href="{{url('/editor')}}/{{$row['num']}}" style="color:black;">{{$row['subsubtitle']}}<br></a></p>
                         @endforeach
                     </div>
                     <div class="ep-btns">
-                        <div class="btn ep-btn" onclick="javascript:popupInEditor({{$content_of_works['num_of_chapter']}})">추가</div>
-                        <div class="btn ep-btn" onclick="javascript:popupEdit({{$content_of_works['num']}})">수정</div>
-                        <div class="btn ep-btn" id="ep-del">삭제</div>
+                        <div class="btn ep-btn" onclick="javascript:popupInEditor({{$content_of_works['num_of_chapter']}})">追加</div>
+                        <div class="btn ep-btn" onclick="javascript:popupEdit({{$content_of_works['num']}})">修正</div>
+                        <div class="btn ep-btn" id="ep-del">削除</div>
                     </div>
                 </div>
                 {{-- 템플릿 에리어 --}}
                 <div class="tem">
                     <div class="tem-list">
-                        <div class="btn tem-li size_control" id="large">크게</div>
-                        <div class="btn tem-li size_control" id="small">작게</div>
-                        <div class="btn tem-li size_control" id="origin">원래사이즈</div>
+                        <div class="btn tem-li size_control" id="large">大きく</div>
+                        <div class="btn tem-li size_control" id="small">小さく</div>
+                        <div class="btn tem-li size_control" id="origin">元に</div>
                         <div class="btn tem-li css_eft_control" id="css_eft_cB1">
-                            <div class="css_eft_name">벚꽃</div>
+                            <div class="css_eft_name">桜1</div>
                         </div>
                         <div class="btn tem-li css_eft_control" id="css_eft_cB2">
-                            <div class="css_eft_name">벚꽃</div>
+                            <div class="css_eft_name">桜２</div>
                         </div>
                         <div class="btn tem-li css_eft_control" id="css_eft_rain">
-                            <div class="css_eft_name">비</div>
+                            <div class="css_eft_name">雨</div>
                         </div>
                         <div class="btn tem-li css_eft_control" id="css_eft_snow">
-                            <div class="css_eft_name">눈</div>
+                            <div class="css_eft_name">雪</div>
                         </div>
                         <div class="btn tem-li css_eft_control" id="css_eft_starlight">
-                            <div class="css_eft_name">반짝임</div>
+                            <div class="css_eft_name">きらきら</div>
                         </div>
                         <div class="btn tem-li css_eft_control" id="css_eft_yellowstar">
-                            <div class="css_eft_name">노란별</div>
+                            <div class="css_eft_name">星</div>
                         </div>
                         <div class="btn tem-li css_eft_control" id="css_eft_lightning">
-                            <div class="css_eft_name">번개</div>
+                            <div class="css_eft_name">稲妻</div>
                         </div>
                     </div>
                 </div>
@@ -176,6 +176,7 @@
         {{--<div class="focus_user" style="display:none;">
             {{$user}}
 
+
         </div>--}}
     </div>
     <p id="prof-Ol"
@@ -188,19 +189,9 @@
         <img id="prof-sorata" class="prof" src="/image/prof_sorata.jpg" style="width: 630px; height: 480px; display: none;">
     </p>
 
-    <script>
-
-        jQuery(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $('#sub').on("click", onSave);
-
-
 {{-- 채팅 --}}
 <div id='ccc'></div>
+
 <script>
     jQuery(document).ready(function() {
         $.ajaxSetup({

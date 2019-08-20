@@ -19232,7 +19232,7 @@ module.exports = function(obj, fn){
 if (false) {
   module.exports = require('./vue.common.prod.js')
 } else {
-  module.exports = __webpack_require__(91)
+  module.exports = __webpack_require__(90)
 }
 
 
@@ -19243,13 +19243,13 @@ if (false) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(95)
+  __webpack_require__(94)
 }
-var normalizeComponent = __webpack_require__(100)
+var normalizeComponent = __webpack_require__(99)
 /* script */
-var __vue_script__ = __webpack_require__(101)
+var __vue_script__ = __webpack_require__(100)
 /* template */
-var __vue_template__ = __webpack_require__(102)
+var __vue_template__ = __webpack_require__(101)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -19292,7 +19292,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(36);
-module.exports = __webpack_require__(103);
+module.exports = __webpack_require__(102);
 
 
 /***/ }),
@@ -19303,7 +19303,7 @@ module.exports = __webpack_require__(103);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll__ = __webpack_require__(94);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_chat_scroll__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Vuemessage_vue__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Vuemessage_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Vuemessage_vue__);
@@ -19469,7 +19469,10 @@ window.Echo.channel('share-event').listen('ShareEvent', function (data) {
 window.Echo.channel('chat').listen('ChatEvent', function (data) {
     console.log(data.nickName);
     console.log(data.message);
-    console.log('Listen...');
+    // $(document).on( "", ".list-group" )
+    $(".list-group").append("<div><small id='usernickname' font-size='10px' class='badge float-left'>" + data.nickName + "</small> <li id='chatContent' class='list-group-item list-group-item-success chat__message-body'>" + data.message + "</li> <mark id='time' class='badge float-right chat__message-time'>1 초 전</mark></div>");
+    console.warn(data);
+    console.log('Listen');
 });
 
 // window.Pusher = require('pusher-js');
@@ -47544,8 +47547,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 90 */,
-/* 91 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -59488,10 +59490,10 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(92).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(91).setImmediate))
 
 /***/ }),
-/* 92 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var scope = (typeof global !== "undefined" && global) ||
@@ -59547,7 +59549,7 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(93);
+__webpack_require__(92);
 // On some exotic environments, it's not clear which object `setimmediate` was
 // able to install onto.  Search each possibility in the same order as the
 // `setimmediate` library.
@@ -59561,7 +59563,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 93 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -59754,7 +59756,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1), __webpack_require__(4)))
 
 /***/ }),
-/* 94 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function (global, factory) {
@@ -59826,17 +59828,17 @@ return VueChatScroll;
 
 
 /***/ }),
-/* 95 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(96);
+var content = __webpack_require__(95);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(98)("3e8e67f3", content, false, {});
+var update = __webpack_require__(97)("3e8e67f3", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -59852,21 +59854,21 @@ if(false) {
 }
 
 /***/ }),
-/* 96 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(97)(false);
+exports = module.exports = __webpack_require__(96)(false);
 // imports
 
 
 // module
-exports.push([module.i, "\nmark {\n  background-color: #45b4e61a;\n}\n.list-group-item-success:not(.you) {\n  background-color: white;\n  padding-left: 5px;\n  margin-left: 5px;\n}\n.you {\n  background-color: #b3e8ca;\n  padding-left: 5px;\n  margin-left: 5px;\n}\n#time {\n  font-size: 10px;\n  color: rgba(0, 0, 0, 0.5);\n}\n#chatcontent2 {\n  background-color: #b3e8ca;\n  padding-left: 5px;\n  margin-left: 5px;\n}\n#usernickname {\n  left: 0px;\n}\n", ""]);
+exports.push([module.i, "\nmark {\r\n  background-color: #45b4e61a;\n}\n.list-group-item-success:not(.you) {\r\n  background-color: white;\r\n  padding-left: 5px;\r\n  margin-left: 5px;\n}\n.you {\r\n  background-color: #b3e8ca;\r\n  padding-left: 5px;\r\n  margin-left: 5px;\n}\n#time {\r\n  font-size: 10px;\r\n  color: rgba(0, 0, 0, 0.5);\n}\n#chatcontent2 {\r\n  background-color: #b3e8ca;\r\n  padding-left: 5px;\r\n  margin-left: 5px;\n}\n#usernickname {\r\n  left: 0px;\n}\r\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 97 */
+/* 96 */
 /***/ (function(module, exports) {
 
 /*
@@ -59948,7 +59950,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 98 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -59967,7 +59969,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(99)
+var listToStyles = __webpack_require__(98)
 
 /*
 type StyleObject = {
@@ -60176,7 +60178,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 99 */
+/* 98 */
 /***/ (function(module, exports) {
 
 /**
@@ -60209,7 +60211,7 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 100 */
+/* 99 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -60318,7 +60320,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 101 */
+/* 100 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -60393,7 +60395,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 102 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -60428,7 +60430,7 @@ if (false) {
 }
 
 /***/ }),
-/* 103 */
+/* 102 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

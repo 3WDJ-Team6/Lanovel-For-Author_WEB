@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <!-- <small class="badge float-left" id="usernickname">{{user}}</small> -->
+    <!-- <small class="badge float-left" id="usernickname">私</small> -->
     <li class="list-group-item list-group-item-success" :class="usernn" id="chatContent2">
       <slot></slot>
     </li>
