@@ -128,10 +128,21 @@ class InviteUserController extends Controller
             'works.work_title',
             'works.num'
         )->join('work_lists', 'works.num', '=', 'work_lists.num_of_work')
-            ->whereIn('works.num', function ($query) {
-                $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']); // 최신순 정렬
-            })->orderBy('works.created_at', 'desc')
-            ->get();
+        ->whereIn('works.num', function ($query) {
+            $query->select('work_lists.num_of_work')->where('work_lists.user_id', '=', Auth::user()['id']); // 최신순 정렬
+        })->orderBy('works.created_at', 'desc')
+        ->get();
+
+        $profile_photo = User::select(
+            'users.profile_photo'
+        )->where('users.nickname',$nickname)
+        ->first()->profile_photo;
+
+        $email = User::select(
+            'users.email'
+        )->where('users.nickname',$nickname)
+        ->first()->email;
+
         $text = "
         <div class='modal-content'>
             <div class='modal-header'>
@@ -155,6 +166,7 @@ class InviteUserController extends Controller
                         </div>
                         <textarea name='message' placeholder='送るメッセージを書いてください' id='message_for_invite' style='font-size:23px;background-color:#fcfcfc;height:300px;padding:10px;padding-left:30px;resize:none' cols ='85' rows='5'></textarea>
                     </div>
+                    <input type='hidden' name='p_p' id='userp_p' value=".$profile_photo.">
                     <input style='width:200px;height:50px;background-color:red;color:white;border:0;border-radius:5px;font-weight:800;margin-left:40%;margin-top:20px;' type='button' id='submitbtn' value='S E N D'>
                 </form>
             </div>
@@ -203,9 +215,6 @@ class InviteUserController extends Controller
             $message->num_of_work = $work_num;
             $message->save();
         }
-        // event(new InviteEvent(Auth::user()['nickname'], $nickname, 'invite message', $nickname . "님이 " . $work_title . '작품에 초대하셧습니다.'));
-
-        // return redirect()->back()->withInput();
     }
 
     public function viewMessage(Request $request)

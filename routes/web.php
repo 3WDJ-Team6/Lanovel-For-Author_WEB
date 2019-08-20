@@ -139,7 +139,6 @@ Route::get('/myPage', 'WorkOut\IllustController@myPage');
 Auth::routes(); //로그인에 관한 모든 기능 연결
 
 // 초대 메시지
-Route::post('/invite/{nickname}', 'InviteUser\InviteUserController@SendingInviteMessage');
 Route::get('/loadSearchModal', 'InviteUser\InviteUserController@loadSearchModal');
 Route::get('/loadUserInfoModal/{UserEmail}', 'InviteUser\InviteUserController@loadUserInfoModal');
 Route::get('/inviteUser/{userid}', 'InviteUser\InviteUserController@loadInviteUserModal');

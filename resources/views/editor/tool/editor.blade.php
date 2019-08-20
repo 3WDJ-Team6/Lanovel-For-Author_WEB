@@ -232,5 +232,6 @@
     });
 </script>
 </div>
+<div id="ccc"></div>
 @include('layouts/footer')
 @endsection
