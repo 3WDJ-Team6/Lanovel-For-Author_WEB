@@ -621,7 +621,7 @@ class PublicationController extends Controller
             var gifOn = false;
             $('.deai').click(function() {
                 if (gifOn == false) {
-                    $(this).attr('src', '../images/gifimages/gifimages/deai.gif');
+                    $(this).attr('src', '../images/gifimages/deai.gif');
                     gifOn = true;
                 } else {
                     $(this).attr('src', 'https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/images/1565068502deai.png');
@@ -642,7 +642,7 @@ class PublicationController extends Controller
                     audioPlay_num = e.target.nextElementSibling.id;
                 }
                 var audio = document.getElementById(audioPlay_num);
-                if (isPlaying) {
+                if (isPlaying == true) {
                     audio.pause();
                     isPlaying = false;
                 } else {

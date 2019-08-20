@@ -19469,7 +19469,10 @@ window.Echo.channel('share-event').listen('ShareEvent', function (data) {
 window.Echo.channel('chat').listen('ChatEvent', function (data) {
     console.log(data.nickName);
     console.log(data.message);
-    console.log('Listen...');
+    // $(document).on( "", ".list-group" )
+    $(".list-group").append("<div><small id='usernickname' font-size='10px' class='badge float-left'>" + data.nickName + "</small> <li id='chatContent' class='list-group-item list-group-item-success chat__message-body'>" + data.message + "</li> <mark id='time' class='badge float-right chat__message-time'>1 초 전</mark></div>");
+    console.warn(data);
+    console.log('Listen');
 });
 
 // window.Pusher = require('pusher-js');
@@ -59859,7 +59862,7 @@ exports = module.exports = __webpack_require__(96)(false);
 
 
 // module
-exports.push([module.i, "\nmark {\n  background-color: #45b4e61a;\n}\n.list-group-item-success:not(.you) {\n  background-color: white;\n  padding-left: 5px;\n  margin-left: 5px;\n}\n.you {\n  background-color: #b3e8ca;\n  padding-left: 5px;\n  margin-left: 5px;\n}\n#time {\n  font-size: 10px;\n  color: rgba(0, 0, 0, 0.5);\n}\n#chatcontent2 {\n  background-color: #b3e8ca;\n  padding-left: 5px;\n  margin-left: 5px;\n}\n#usernickname {\n  left: 0px;\n}\n", ""]);
+exports.push([module.i, "\nmark {\r\n  background-color: #45b4e61a;\n}\n.list-group-item-success:not(.you) {\r\n  background-color: white;\r\n  padding-left: 5px;\r\n  margin-left: 5px;\n}\n.you {\r\n  background-color: #b3e8ca;\r\n  padding-left: 5px;\r\n  margin-left: 5px;\n}\n#time {\r\n  font-size: 10px;\r\n  color: rgba(0, 0, 0, 0.5);\n}\n#chatcontent2 {\r\n  background-color: #b3e8ca;\r\n  padding-left: 5px;\r\n  margin-left: 5px;\n}\n#usernickname {\r\n  left: 0px;\n}\r\n", ""]);
 
 // exports
 
