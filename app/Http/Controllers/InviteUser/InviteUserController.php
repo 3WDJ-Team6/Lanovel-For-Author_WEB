@@ -133,16 +133,6 @@ class InviteUserController extends Controller
         })->orderBy('works.created_at', 'desc')
         ->get();
 
-        $profile_photo = User::select(
-            'users.profile_photo'
-        )->where('users.nickname',$nickname)
-        ->first()->profile_photo;
-
-        $email = User::select(
-            'users.email'
-        )->where('users.nickname',$nickname)
-        ->first()->email;
-
         $text = "
         <div class='modal-content'>
             <div class='modal-header'>
