@@ -232,7 +232,9 @@ class PublicationController extends Controller
             <rootfile full-path='OEBPS/" . $work_title . ".opf' media-type='application/oebps-package+xml'/>\n
         </rootfiles>\n
     </container>\n";
+
         Storage::disk('s3')->put($filePath . '/META-INF/container.xml', $container); // container 파일
+
         // return $coverName;
         $coverimage = str::after($coverName, 'images/');
 
@@ -244,7 +246,7 @@ class PublicationController extends Controller
         $isodate = date('Y-m-d\TH:i:s\Z');
         $opf =
             '<?xml version="1.0" encoding="UTF-8"?>
-        <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="rendition: http://www.idpf.org/vocab/rendition/#" unique-identifier="bookID" prefix="cc: http://creativecommons.org/ns#">
+        <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="cc: http://creativecommons.org/ns#" unique-identifier="bookID">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
                 <dc:title id="title">' . $work_title . '</dc:title>
                 <dc:identifier id="bookID">' . strtolower($work_title) . '</dc:identifier>
@@ -270,7 +272,7 @@ class PublicationController extends Controller
                 <item id="images-snow" href="images/gifimages/snow.gif" media-type="image/gif" />
                 <item id="images-starlight" href="images/gifimages/starlight.gif" media-type="image/gif" />
                 <item id="images-yellowstar" href="images/gifimages/yellowstar.gif" media-type="image/gif" />
-                <item id="js-jquery" href="js/jquery.js" media-type="text/js" />
+                <item id="js-jquery" href="js/jquery.min.js" media-type="text/js" />
                 <item id="js-viewer" href="js/viewer.js" media-type="text/js" />
  ';
         foreach ($onlyimglist as $i => $il) {
@@ -411,6 +413,10 @@ class PublicationController extends Controller
                     // echo "num : $i b<br>";
                     $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/' . Auth::user()['email'] . '/', '../', $text);
                     // return $text;
+                } elseif (str::contains($text, 'type="video/webm"')) {
+                    // echo "num : $i b<br>";
+                    $text = str::replaceFirst('type="video/webm"', ' ', $text);
+                    // return $text;
                 } elseif (preg_match('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//',$text)) {
                     // echo "num : $i b<br>";
                     $text = preg_replace('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//' , "", $text);
@@ -418,11 +424,15 @@ class PublicationController extends Controller
                 } elseif (preg_match('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', $text)) {
                     // echo "num : $i c<br>";
                     $text = preg_replace('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', "$1<ruby>$2<rt>$3</rt></ruby>", $text);
+                } elseif (str::contains($text,'alt="alt">')){
+                    $text = str::replaceFirst('alt="alt">','alt="alt" />',$text);
                 } elseif (str::contains($text,'onclick="audioPlay(event)" /></span>')){
                     $text = str::replaceFirst('onclick="audioPlay(event)" /></span>','onclick="audioPlay(event)"></span>',$text);
-                } elseif (str::contains($text,'<audio id="')){
-                    $text = str::replaceFirst('<audio id="','<audio id ="'.$int.'',$text);
-                } elseif (preg_match('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/', $text)) {
+                }
+                // elseif (str::contains($text,'<audio id="')){
+                //     $text = str::replaceFirst('<audio id="','<audio id ="'.$int,$text);
+                // }
+                elseif (preg_match('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/', $text)) {
                     $text = preg_replace('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/',"$1$2$3 >"  , $text);
                 } else{
                     $clist['content'] = $text;
@@ -439,15 +449,39 @@ class PublicationController extends Controller
                     <title>" . $clist['subsubtitle'] . "</title>
                     <link rel='stylesheet' href='../css/stylesheet.css' type='text/css' />
                     <link rel='stylesheet' href='../css/page_styles.css' type='text/css' />
-                    <script src='../js/jquery.js' type='text/javascript'></script>
-                    <script src='../js/viewer.js' type='text/javascript'></script>
+                    <script src='../js/jquery.min.js' type='text/javascript'>
+                    //<![CDATA[[
+                    //]]>
+                    </script>
+                    <script src='../js/viewer.js' type='text/javascript'>
+                    //<![CDATA[[
+                    //]]>
+                    </script>
                     </head>
                 <body>
                     <h1>" . $clist['subsubtitle'] . "</h1>
-                    " . $clist['content'] . "
-                </body>
-            </html>
-            ";
+                    " . $clist['content'];
+            if($i==0){
+                $contents = $contents.
+                "    <p id='prof-Ol'
+                style='position: absolute;top: 0px;left: 0px;opacity: 0.5;height: 100%; width: 100%; z-index: 65555;background-color: rgb(102, 102, 102);display: none;margin: 0;'>
+            </p>
+            <p id='prof-Bg'
+                style='z-index: 65555;top: 100px;left: 35px;display: none;height: 240px;width: 644px;position: absolute;'>
+                <img id='prof-misaki' class='prof' src='../images/prof_misaki.jpg' style='width: 350px;  display: none;'
+                    alt='alt' />
+                <img id='prof-mashiro' class='prof' src='../images/prof_mashiro.jpg' style='width: 350px; display: none;'
+                    alt='alt' />
+                <img id='prof-nanami' class='prof' src='../images/prof_nanami.jpg' style='width: 350px; display: none;'
+                    alt='alt' />
+                <img id='prof-sorata' class='prof' src='../images/prof_sorata.jpg' style='width: 350px; display: none;'
+                    alt='alt' />
+            </p>";
+            }
+            $contents = $contents. "
+            </body>
+        </html>
+        ";
             Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'text' . DIRECTORY_SEPARATOR . 'main' . $i . '.xhtml', $contents);
         }        // 각 목차 내용
 
@@ -607,49 +641,104 @@ class PublicationController extends Controller
 
         $jsNmae = 'viewer';
         $jsFile =
-            "
-            $(document).ready(function () {
-                $(function () {
-                    $('#Dedication1').each(function () {
-                        $(this).html(
-                            $(this).html()
-                            .replace(/([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g, '<ruby>$1<rt>$2</rt></ruby>')
-                        );
+            "//<![CDATA[
+                $(document).ready(function () {
+                    $(function () {
+                        $('#Dedication1').each(function () {
+                            $(this).html(
+                                $(this).html()
+                                .replace(/([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g, '<ruby>$1<rt>$2</rt></ruby>')
+                            );
+                        });
                     });
                 });
-            });
-            var gifOn = false;
-            $('.deai').click(function() {
-                if (gifOn == false) {
-                    $(this).attr('src', '../images/gifimages/deai.gif');
-                    gifOn = true;
-                } else {
-                    $(this).attr('src', 'https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/images/1565068502deai.png');
-                    gifOn = false;
-                }
-            });
+                var gifOn = false;
 
-            $('.nekowork').click(function() {
-                $(this).fadeToggle(2000);
-            });
+                let prof_audio_id = null;
+                let profId = null;
 
-            let isPlaying = false;
-            let audioPlay_num = null;
-            function audioPlay(e) {
-                if (e.target.classList.contains('css_eft')) {
-                    audioPlay_num = e.target.nextElementSibling.nextElementSibling.id;
-                } else {
-                    audioPlay_num = e.target.nextElementSibling.id;
+                $(document).on('click', '.profile', function () {
+                    profId = $(this).attr('id');
+                    prof_audio_id = $(this).next().attr('id');
+                    var prof_audio = document.getElementById(prof_audio_id);
+                    $('#prof-Ol').show();
+                    $('#prof-Bg').show();
+                    switch (profId) {
+                        case 'misaki':
+                            $('#prof-misaki').fadeIn(1000);
+                            break;
+
+                        case 'mashiro':
+                            $('#prof-mashiro').fadeIn(1000);
+                            break;
+
+                        case 'nanami':
+                            $('#prof-nanami').fadeIn(1000);
+                            break;
+
+                        case 'sorata':
+                            $('#prof-sorata').fadeIn(1000);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    prof_audio.play();
+                });
+
+                $(document).on('click', '#prof-Ol', function () {
+                    $('#prof-Ol').hide();
+                    $('#prof-Bg').hide();
+                    $('.prof').hide();
+                });
+
+                $(document).on('click', '.deai', function () {
+                    if (gifOn == false) {
+                        $(this).attr('src', '../images/gifimages/deai.gif');
+                        gifOn = true;
+                    } else {
+                        $(this).attr('src', '../images/1565068502deai.png');
+                        gifOn = false;
+                    }
+                });
+
+
+                $(document).on('click', '.nekowork', function () {
+                    $(this).next().fadeToggle(2000);
+                });
+
+                let isPlaying = false;
+                let audioPlay_num = null;
+
+                var tool_imgId = '';
+                $(document).on('click', '.resize, .css_eft', function (e) {
+                    // console.log(tool_imgId);
+                    tool_imgId = $(this).attr('id');
+                    if (e.target.classList.contains('css_eft')) {
+                        tool_imgId = $(this)
+                            .next()
+                            .attr('id');
+                        $('#' + tool_imgId).trigger(audioPlay(event));
+                    }
+                });
+
+                function audioPlay(e) {
+                    console.log('a');
+                    if (e.target.classList.contains('css_eft')) {
+                        audioPlay_num = e.target.nextElementSibling.nextElementSibling.id;
+                    } else {
+                        audioPlay_num = e.target.nextElementSibling.id;
+                    }
+                    var audio = document.getElementById(audioPlay_num);
+                    if (isPlaying) {
+                        audio.pause();
+                        isPlaying = false;
+                    } else {
+                        audio.play();
+                        isPlaying = true;
+                    }
                 }
-                var audio = document.getElementById(audioPlay_num);
-                if (isPlaying == true) {
-                    audio.pause();
-                    isPlaying = false;
-                } else {
-                    audio.play();
-                    isPlaying = true;
-                }
-            }
+                //]]>
             ";
 
 

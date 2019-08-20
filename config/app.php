@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'ko',
+    'locale' => 'ja',  // korean to japanese
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'ja',  // english to japanese
 
     /*
     |--------------------------------------------------------------------------
@@ -230,9 +230,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'AWS' => Aws\Laravel\AwsFacade::class, #Aws add
-        #Jwt service provider add
-        #'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
-        #'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
+        # Jwt service provider add
+        # 'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        # 'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
 
         #socialite kakaotalk
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,

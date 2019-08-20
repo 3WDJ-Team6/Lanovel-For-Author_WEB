@@ -232,7 +232,8 @@ class IllustController extends Controller
             'users.*'
         )->where('users.id', '=', Auth::user()['id'])
             ->first();
-
+            // return Auth::user()['id'];
+            // return $userInfo;
         // 내 작품 보기
         $myIllustInfo = IllustrationList::select(
             'illustration_lists.*',

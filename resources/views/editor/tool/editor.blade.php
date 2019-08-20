@@ -82,6 +82,7 @@
         {{--<div class="focus_user" style="display:none;">
             {{$user}}
 
+
         </div>--}}
         <a href="{{url('/store')}}"><img class="illustore" src="/image/illust_btn_sm.png"></a>
 
@@ -181,6 +182,7 @@
 
 {{-- 채팅 --}}
 <div id='ccc'></div>
+
 <script>
     jQuery(document).ready(function() {
         $.ajaxSetup({
@@ -221,4 +223,6 @@
     });
 </script>
 </div>
+
+<div id="ccc"></div>
 @endsection
