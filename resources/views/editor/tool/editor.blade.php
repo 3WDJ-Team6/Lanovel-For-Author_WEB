@@ -176,6 +176,7 @@
         {{--<div class="focus_user" style="display:none;">
             {{$user}}
 
+
         </div>--}}
     </div>
     <p id="prof-Ol"
@@ -190,6 +191,7 @@
 
 {{-- 채팅 --}}
 <div id='ccc'></div>
+
 <script>
     jQuery(document).ready(function() {
         $.ajaxSetup({
