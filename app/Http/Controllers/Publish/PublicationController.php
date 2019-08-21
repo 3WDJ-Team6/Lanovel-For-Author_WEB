@@ -158,6 +158,7 @@ class PublicationController extends Controller
                     $test2 = str::before($text2, '" ');
                     $onlyvideolist = Arr::add($onlyvideolist, 'namev' . $count, $test2);
                 } elseif (str::contains($text3, "/images/")) {
+                    // return $text3;
                     $text3 = str::after($text3, "/images/");
                     $test3 = str::before($text3, '" ');
                     $onlyimglist = Arr::add($onlyimglist, 'namei' . $count, $test3);
@@ -188,6 +189,7 @@ class PublicationController extends Controller
         foreach ($onlypurlist as $i => $vl2) {
             $text2 = str::start($vl2, "Author/" . Auth::user()['email'] . "/purchase/");
             $purlist2[$i] = $text2;
+            // return $purlist2[$i];
         }
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS') || !Storage::disk('s3')->exists($filePath . 'META-INF')) {
             Storage::disk('s3')->makeDirectory($filePath . 'OEBPS' .  DIRECTORY_SEPARATOR . 'text', 0777, true);
@@ -202,11 +204,13 @@ class PublicationController extends Controller
             Storage::disk('s3')->makeDirectory($filePath . 'META-INF', 0777, true);
         }
         foreach ($imglist2 as $i => $imglist) {
+            // return $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i];
             if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i])) {
                 Storage::disk('s3')->copy($imglist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . $onlyimglist[$i]);
             }
         }
         foreach ($purlist2 as $i => $purlist) {
+            // return $filePath. 'OEBPS' . DIRECTORY_SEPARATOR . 'purchase' . DIRECTORY_SEPARATOR . $onlypurlist[$i];
             if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'purchase' . DIRECTORY_SEPARATOR . $onlypurlist[$i])) {
                 Storage::disk('s3')->copy($purlist, $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'purchase' . DIRECTORY_SEPARATOR . $onlypurlist[$i]);
             }
@@ -228,9 +232,12 @@ class PublicationController extends Controller
             <rootfile full-path='OEBPS/" . $work_title . ".opf' media-type='application/oebps-package+xml'/>\n
         </rootfiles>\n
     </container>\n";
+
         Storage::disk('s3')->put($filePath . '/META-INF/container.xml', $container); // container 파일
+
         // return $coverName;
         $coverimage = str::after($coverName, 'images/');
+
         $covertype = str::after($coverimage, '.');
         if ($covertype == 'jpg') {
             $covertype = 'jpeg';
@@ -239,7 +246,7 @@ class PublicationController extends Controller
         $isodate = date('Y-m-d\TH:i:s\Z');
         $opf =
             '<?xml version="1.0" encoding="UTF-8"?>
-        <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="rendition: http://www.idpf.org/vocab/rendition/#" unique-identifier="bookID">
+        <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="cc: http://creativecommons.org/ns#" unique-identifier="bookID">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
                 <dc:title id="title">' . $work_title . '</dc:title>
                 <dc:identifier id="bookID">' . strtolower($work_title) . '</dc:identifier>
@@ -247,12 +254,10 @@ class PublicationController extends Controller
                 <dc:creator id="__dccreator1">' . $work_list . '</dc:creator>
                 <dc:contributor id="contrib1">' . 'Illustrator' . '</dc:contributor>
                 <dc:language>JP</dc:language>
-                <meta refines="#__dccreator1" property="role" scheme="marc:relators" id="role">aut</meta>
                 <dc:publisher>영진출판사</dc:publisher>
+                <meta refines="#title" property="title-type">main</meta>
+                <meta refines="#contrib1" property="role" scheme="marc:relators">mrk</meta>
                 <meta property="dcterms:modified">' . $isodate . '</meta>
-                <meta property="rendition:layout">pre-paginated</meta>
-                <meta property="rendition:orientation">landscape</meta>
-                <meta property="rendition:spread">auto</meta>
             </metadata>
             <manifest>
                 <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml" />
@@ -267,7 +272,7 @@ class PublicationController extends Controller
                 <item id="images-snow" href="images/gifimages/snow.gif" media-type="image/gif" />
                 <item id="images-starlight" href="images/gifimages/starlight.gif" media-type="image/gif" />
                 <item id="images-yellowstar" href="images/gifimages/yellowstar.gif" media-type="image/gif" />
-                <item id="js-jquery" href="js/jquery.js" media-type="text/js" />
+                <item id="js-jquery" href="js/jquery.min.js" media-type="text/js" />
                 <item id="js-viewer" href="js/viewer.js" media-type="text/js" />
  ';
         foreach ($onlyimglist as $i => $il) {
@@ -353,15 +358,16 @@ class PublicationController extends Controller
                     <nav epub:type="toc" id="toc">
                         <h1>Contents</h1>
                         <ol epub:type="list">
-                <li><a href="cover.xhtml" class="nav_li">' . 'cover' . $work_title . '</a></li>
-                <li><a href="nav.xhtml" class="nav_li">Contents</a></li>
-  ';
-        foreach ($chapter_list as $i => $clist) {
-            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li">' . $clist['subsubtitle'] . '</a>';
-            $a = 50 - strlen($clist['subsubtitle']);
-            for ($b = 0; $a >= $b; $b++) {
-                $nav = $nav . '-';
-            }
+                        <li><a href="cover.xhtml" class="nav_li"><span class="white_back">' . 'cover' . $work_title . '</span></a></li>
+                        <li><a href="nav.xhtml" class="nav_li"><span class="white_back">Contents</span></a></li>
+          ';
+                foreach ($chapter_list as $i => $clist) {
+                    $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li"><span class="white_back">' . $clist['subsubtitle'] . '</span></a>';
+
+            // $a = 50 - strlen($clist['subsubtitle']);
+            // for ($b = 0; $a >= $b; $b++) {
+            //     $nav = $nav . '-';
+            // }
             $nav = $nav . '</li>';
         }
         $nav = $nav . '
@@ -377,7 +383,7 @@ class PublicationController extends Controller
             <html xmlns='http://www.w3.org/1999/xhtml' xmlns:epub='http://www.idpf.org/2007/ops' xml:lang='jp' lang='jp'>
                 <head>
                     <meta http-equiv='default-style' content='text/html; charset=utf-8'/>
-                    <meta name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
+                    <meta name='viewport' content='width=1500, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
                     <title>" . $work_title . "</title>
                     <link rel='stylesheet' type='text/css' href='css/stylesheet.css' />
                     <link rel='stylesheet' type='text/css' href='css/page_styles.css' />
@@ -398,24 +404,41 @@ class PublicationController extends Controller
         $multimedialist = [];
         foreach ($chapter_list as $i => $clist) {
             $text = $clist['content'];
+            $int = 1;
             while (1) {
                 if (str::contains($text, '/sound/')) {
                     // echo "num : $i a<br>";
                     $text = str::replaceFirst('/sound/', '/audio/', $text);
-                } elseif (str::contains($text, 'https://s3.ap-northeast-2.amazonaws.com/')) {
+                } elseif (str::contains($text, 'https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/')) {
                     // echo "num : $i b<br>";
                     $text = str::replaceFirst('https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/' . Auth::user()['email'] . '/', '../', $text);
+                    // return $text;
+                } elseif (str::contains($text, 'type="video/webm"')) {
+                    // echo "num : $i b<br>";
+                    $text = str::replaceFirst('type="video/webm"', ' ', $text);
+                    // return $text;
+                } elseif (preg_match('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//',$text)) {
+                    // echo "num : $i b<br>";
+                    $text = preg_replace('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//' , "", $text);
                     // return $text;
                 } elseif (preg_match('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', $text)) {
                     // echo "num : $i c<br>";
                     $text = preg_replace('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', "$1<ruby>$2<rt>$3</rt></ruby>", $text);
-                    if ($i == 2) {
-                        // return $text;
-                    }
-                } else {
+                } elseif (str::contains($text,'alt="alt">')){
+                    $text = str::replaceFirst('alt="alt">','alt="alt" />',$text);
+                } elseif (str::contains($text,'onclick="audioPlay(event)" /></span>')){
+                    $text = str::replaceFirst('onclick="audioPlay(event)" /></span>','onclick="audioPlay(event)"></span>',$text);
+                }
+                // elseif (str::contains($text,'<audio id="')){
+                //     $text = str::replaceFirst('<audio id="','<audio id ="'.$int,$text);
+                // }
+                elseif (preg_match('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/', $text)) {
+                    $text = preg_replace('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/',"$1$2$3 >"  , $text);
+                } else{
                     $clist['content'] = $text;
                     break;
                 }
+                $int=$int+1;
             }
             $contents =
                 "<?xml version='1.0' encoding='UTF-8'?>
@@ -423,21 +446,42 @@ class PublicationController extends Controller
                     <head>
                     <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
                     <meta name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0' />
-                    <meta name='Adept.resource' value='urn:uuid:ad98550c-1f39-4200-91cd-f044b376b4f4' />
                     <title>" . $clist['subsubtitle'] . "</title>
                     <link rel='stylesheet' href='../css/stylesheet.css' type='text/css' />
                     <link rel='stylesheet' href='../css/page_styles.css' type='text/css' />
-                    <script src='../js/jquery.js' type='text/javascript'></script>
-                    <script src='../js/viewer.js' type='text/javascript'></script>
+                    <script src='../js/jquery.min.js' type='text/javascript'>
+                    //<![CDATA[[
+                    //]]>
+                    </script>
+                    <script src='../js/viewer.js' type='text/javascript'>
+                    //<![CDATA[[
+                    //]]>
+                    </script>
                     </head>
                 <body>
-                <span class='galley-rw'>
                     <h1>" . $clist['subsubtitle'] . "</h1>
-                    " . $clist['content'] . "
-                </span>
-                </body>
-            </html>
-            ";
+                    " . $clist['content'];
+            if($i==0){
+                $contents = $contents.
+                "    <p id='prof-Ol'
+                style='position: absolute;top: 0px;left: 0px;opacity: 0.5;height: 100%; width: 100%; z-index: 65555;background-color: rgb(102, 102, 102);display: none;margin: 0;'>
+            </p>
+            <p id='prof-Bg'
+                style='z-index: 65555;top: 100px;left: 35px;display: none;height: 240px;width: 644px;position: absolute;'>
+                <img id='prof-misaki' class='prof' src='../images/prof_misaki.jpg' style='width: 350px;  display: none;'
+                    alt='alt' />
+                <img id='prof-mashiro' class='prof' src='../images/prof_mashiro.jpg' style='width: 350px; display: none;'
+                    alt='alt' />
+                <img id='prof-nanami' class='prof' src='../images/prof_nanami.jpg' style='width: 350px; display: none;'
+                    alt='alt' />
+                <img id='prof-sorata' class='prof' src='../images/prof_sorata.jpg' style='width: 350px; display: none;'
+                    alt='alt' />
+            </p>";
+            }
+            $contents = $contents. "
+            </body>
+        </html>
+        ";
             Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'text' . DIRECTORY_SEPARATOR . 'main' . $i . '.xhtml', $contents);
         }        // 각 목차 내용
 
@@ -467,7 +511,7 @@ class PublicationController extends Controller
             "
             #sectionId{text-align:center; margin-top:5%; }
             #coverimgdiv{ background: url('../images/" . $coverimage . "') no-repeat; box-shadow: 2px 2px 30px -2px rgba(0,0,0,0.8); background-size:contain; display: inline-block; width: 398px; height: 554px; text-align:left;            }
-            #worktitlespan{ position: absolute; font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }
+            #worktitlespan{  font-size : 3em; background-color : #00000050; color: white; display: inline-block;            }
             #worklistspan{ position: relative; top: 15%; font-size : 2em; background-color : #00000050; color: white; display: inline-block;}
 
             .resize,
@@ -478,24 +522,51 @@ class PublicationController extends Controller
                 background-repeat: no-repeat;
                 /* position: relative; */
             }
+            h1{
+                text-align:center;
+            }
             ol{
                 list-style-type:none;
+                padding-inline-start: 0px;
+            }
+            li{
+                text-align:center;
+                position: relative;
+                z-index: 1;
             }
             .nav_li{
-                font-size:1.3em;
+                font-size:1.3em sans-serif;
+                text-decoration: none;
+                font-weight: 600;
+                color:black;
+            }
+            .nav_li:before{
+                border-top: 2px solid #dfdfdf;
+                content:'';
+                margin: 0 auto;
+                top: 50%; left: 0; right: 0; bottom: 0;
+                width: 100%;
+                z-index: -1;
+            }
+            li:hover{
+                opacity:0.5;
+            }
+            .white_back{
+                background: #fff;
+                padding: 0 15px;
             }
             .tem_effect {
                 display: inline-block;
             }
-            #cherryBlossom1,
-            #cherryBlossom2,
-            #rain,
-            #snow,
-            #starlight,
-            #yellowstar,
-            #lightning,
-            #fire1,
-            #fire2 {
+            .cherryBlossom1,
+            .cherryBlossom2,
+            .rain,
+            .snow,
+            .starlight,
+            .yellowstar,
+            .lightning,
+            .fire1,
+            .fire2 {
                 display: inline-block;
                 position: absolute;
             }
@@ -504,50 +575,38 @@ class PublicationController extends Controller
                 font-size: 0.77419em;
                 text-indent: 20pt;
                 margin: 0
-                }
-
-            #css_eft_cB1,
-            #css_eft_cB2,
-            #css_eft_rain,
-            #css_eft_snow,
-            #css_eft_starlight,
-            #css_eft_yellowstar,
-            #css_eft_lightning {
-                width: 120px;
-                height: 120px;
             }
-            #cherryBlossom1,
-            #css_eft_cB1 {
+
+            .deai, .nekowork:hover {
+                cursor: pointer;
+            }
+
+            .cherryBlossom1{
                 background: url('../images/gifimages/cherryBlossom1.gif');
             }
 
-            #cherryBlossom2,
-            #css_eft_cB2 {
+            .cherryBlossom2{
                 background: url('../images/gifimages/cherryBlossom2.gif');
             }
 
-            #rain,
-            #css_eft_rain {
+            .rain{
+
                 background: url('../images/gifimages/rain.gif');
             }
 
-            #snow,
-            #css_eft_snow {
+            .snow{
                 background: url('../images/gifimages/snow.gif');
             }
 
-            #starlight,
-            #css_eft_starlight {
+            .starlight{
                 background: url('../images/gifimages/starlight.gif');
             }
 
-            #yellowstar,
-            #css_eft_yellowstar {
+            .yellowstar{
                 background: url('../images/gifimages/yellowstar.gif');
             }
 
-            #lightning,
-            #css_eft_lightning {
+            .lightning {
                 background: url('../images/gifimages/lightning.gif');
             }
             body{
@@ -582,37 +641,108 @@ class PublicationController extends Controller
 
         $jsNmae = 'viewer';
         $jsFile =
-            "
-            $(document).ready(function () {
-                $(function () {
-                    $('#Dedication1').each(function () {
-                        $(this).html(
-                            $(this).html()
-                            .replace(/([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g, '<ruby>$1<rt>$2</rt></ruby>')
-                        );
+            "//<![CDATA[
+                $(document).ready(function () {
+                    $(function () {
+                        $('#Dedication1').each(function () {
+                            $(this).html(
+                                $(this).html()
+                                .replace(/([一-龠]+)（([ぁ-んァ-ヶ]+?)）/g, '<ruby>$1<rt>$2</rt></ruby>')
+                            );
+                        });
                     });
                 });
-            });
-            let isPlaying = false;
-            let audioPlay_num = null;
+                var gifOn = false;
 
-            function audioPlay(e) {
-                audioPlay_num = e.target.nextElementSibling.id;
-                // console.log(audioPlay_num);
-                var audio = document.getElementById(audioPlay_num);
-                if (isPlaying) {
-                    audio.pause();
-                    isPlaying = false;
-                } else {
-                    audio.play();
-                    isPlaying = true;
+                let prof_audio_id = null;
+                let profId = null;
+
+                $(document).on('click', '.profile', function () {
+                    profId = $(this).attr('id');
+                    prof_audio_id = $(this).next().attr('id');
+                    var prof_audio = document.getElementById(prof_audio_id);
+                    $('#prof-Ol').show();
+                    $('#prof-Bg').show();
+                    switch (profId) {
+                        case 'misaki':
+                            $('#prof-misaki').fadeIn(1000);
+                            break;
+
+                        case 'mashiro':
+                            $('#prof-mashiro').fadeIn(1000);
+                            break;
+
+                        case 'nanami':
+                            $('#prof-nanami').fadeIn(1000);
+                            break;
+
+                        case 'sorata':
+                            $('#prof-sorata').fadeIn(1000);
+                            break;
+
+                        default:
+                            break;
+                    }
+                    prof_audio.play();
+                });
+
+                $(document).on('click', '#prof-Ol', function () {
+                    $('#prof-Ol').hide();
+                    $('#prof-Bg').hide();
+                    $('.prof').hide();
+                });
+
+                $(document).on('click', '.deai', function () {
+                    if (gifOn == false) {
+                        $(this).attr('src', '../images/gifimages/deai.gif');
+                        gifOn = true;
+                    } else {
+                        $(this).attr('src', '../images/1565068502deai.png');
+                        gifOn = false;
+                    }
+                });
+
+
+                $(document).on('click', '.nekowork', function () {
+                    $(this).next().fadeToggle(2000);
+                });
+
+                let isPlaying = false;
+                let audioPlay_num = null;
+
+                var tool_imgId = '';
+                $(document).on('click', '.resize, .css_eft', function (e) {
+                    // console.log(tool_imgId);
+                    tool_imgId = $(this).attr('id');
+                    if (e.target.classList.contains('css_eft')) {
+                        tool_imgId = $(this)
+                            .next()
+                            .attr('id');
+                        $('#' + tool_imgId).trigger(audioPlay(event));
+                    }
+                });
+
+                function audioPlay(e) {
+                    console.log('a');
+                    if (e.target.classList.contains('css_eft')) {
+                        audioPlay_num = e.target.nextElementSibling.nextElementSibling.id;
+                    } else {
+                        audioPlay_num = e.target.nextElementSibling.id;
+                    }
+                    var audio = document.getElementById(audioPlay_num);
+                    if (isPlaying) {
+                        audio.pause();
+                        isPlaying = false;
+                    } else {
+                        audio.play();
+                        isPlaying = true;
+                    }
                 }
-}
+                //]]>
             ";
 
-        if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js')) {
-            Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsNmae);
-        } // js
+
+        Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . $jsNmae . '.js', $jsFile);
 
         if (!Storage::disk('s3')->exists($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js')) {
             Storage::disk('s3')->copy('resource' . DIRECTORY_SEPARATOR . 'jquery.js', $filePath . 'OEBPS' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'jquery.js');

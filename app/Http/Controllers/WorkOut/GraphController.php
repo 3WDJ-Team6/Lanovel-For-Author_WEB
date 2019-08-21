@@ -42,7 +42,7 @@ class GraphController extends Controller
             ->groupBy('all_count_view.num')->get();
 
 
-        // '작품별 수익' 데이터 값 (윤 영진씨가 보통은 이렇게 짠다고 했음. 근데 나도 앎)
+
         $date_arrays = DB::table('all_count_view')->select(
             'all_count_view.date',
             DB::raw('sum(all_count_view.price) sumPrice')

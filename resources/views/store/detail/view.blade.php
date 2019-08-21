@@ -15,7 +15,6 @@
     .mySlides {
         display: none
     }
-
 </style>
 
 
@@ -62,7 +61,6 @@
         <!-- 오른쪽 -->
         <div class="form-group" style="margin: 6%; display: inline-block; width: 400px; position:relative;">
             <div class="form-group" style="">
-
                 <div class="top_form">
                     <!-- 제목 -->
                     <div class="form-group" style="width:100%;     height: 200px">
@@ -73,8 +71,6 @@
                 <p>{{$product->nickname}}</p>
             </div>
                         <img src="{{asset('image/color_bar.png')}}" style="margin-bottom: 26%;">
-
-
                     </div>
                     <!-- 작품설명 -->
                     <div class="introduce" name="introduction_of_illustration" style="width:100%; height:50px; font-size: 130%;">
@@ -133,10 +129,6 @@
                 </div>
 
             </div>
-            
-
-
-
 
         </div>
         <div class="form-group" style=" text-align:right; height:50px;">
@@ -177,6 +169,7 @@
                                 onclick="currentDiv(1)" alt="Nature and sunrise" style="width:225px; height:150px;">
                         </div>
                         <!-- <div class="w3-col s4"> 
+
                                     <img class="demo w3-opacity w3-hover-opacity-off"
                                         src="{{asset('image/store/img_snow_wide.jpg')}}" style="width:100%"
                                         onclick="currentDiv(2)" alt="French Alps">
@@ -204,8 +197,8 @@
 
 
     <script>
-        $(document).ready(function () {
-            $("#alarm").click(function () {
+        $(document).ready(function() {
+            $("#alarm").click(function() {
                 console.log("ddd");
 
                 $("#alarmModal").modal();
@@ -214,7 +207,6 @@
 
             });
         });
-
     </script>
 
 </body>

@@ -11,4 +11,5 @@
             <p class="copyright text-muted" style="margin-top:10px;margin-bottom:5px;">Copyright &copy; Group 6 capstone project 2019</p>
         </div>
     </div>
+
 </div>

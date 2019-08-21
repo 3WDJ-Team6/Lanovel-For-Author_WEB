@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\RecommendOfWork;
 use App\Models\SubscribeOrInterest;
 use App\Models\User;
+use Auth;
 use Illuminate\Support\Carbon;
 
 class WorkListController extends Controller
@@ -109,6 +110,7 @@ class WorkListController extends Controller
         // 받아와야할 변수 작품번호(지금 18들어가있는곳), 챕터번호(23번), 현재 로그인중인 사용자(9번), type_of_work = 2 (단행본일 때)
         // 2) 작품 페이지 (단행본) + 3번 목차
         // 책 이미지, 책 제목, 작가명, 일러스트레이터명, 평점, 단행본|연재작 여부, 가격, 대여기간, 카테고리(해시태그), 줄거리, 업데이트 날짜
+        $userId = 22;
         $works = Work::select(
             'works.num',
             'works.work_title',
@@ -141,8 +143,8 @@ class WorkListController extends Controller
             ->groupBy('works.num')
             ->orderBy('works.num', 'desc')->get();
 
-        return response()->json($works, 200);
-        // return response()->json($works, 200, [], JSON_PRETTY_PRINT);
+        // return response()->json($works, 200);
+        return response()->json($works, 200, [], JSON_PRETTY_PRINT);
     }
 
     /**
@@ -216,7 +218,7 @@ class WorkListController extends Controller
         ];
         // return response()->json($tempArr, 200, [], JSON_PRETTY_PRINT);
 
-        $authorId == null ? 23 : $authorNum = User::select('id')->where('nickname', $authorId)->first()->id;
+        $authorNum = User::select('id')->where('nickname', $authorId)->first()->id;
 
         switch ($type) {
             case 'sub_selected':

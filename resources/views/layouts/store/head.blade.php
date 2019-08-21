@@ -7,7 +7,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Illustore</title>
+    <title>イラストア</title>
 
     <!-- <script src="{{asset('bower_components/jquery/dist/jquery.js')}}" -->
     <!-- Core Style CSS -->
@@ -21,8 +21,6 @@
 
     <link rel="stylesheet" href="{{asset('css/store/home.css')}}">
 
-   
-
     <link rel="stylesheet" href="{{asset('css/store/classy-nav.min.css')}}">
 
     <link rel="stylesheet" href="{{asset('css/store/owl.carousel.css')}}">
@@ -31,11 +29,11 @@
 
     <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
 
-        <script src="{{asset('js/store/jquery-2.2.4.min.js')}}"></script>
+    <script src="{{asset('js/store/jquery-2.2.4.min.js')}}"></script>
 
-        <script src="{{ asset('js/store/popper.min.js') }}"></script>
+    <script src="{{ asset('js/store/popper.min.js') }}"></script>
 
-        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
 
 </head>

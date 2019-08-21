@@ -60,14 +60,28 @@ window.Echo.channel('share-event')
         $(".textarea").html(window.data.content);
     });
 
-window.Pusher = require('pusher-js');
+// Event
+window.Echo.channel('chat')
+    .listen('ChatEvent', (data) => {
+        console.log(data.nickName);
+        console.log(data.message);
+        // $(document).on( "", ".list-group" )
+        $(".list-group").append(
+            "<div><small id='usernickname' font-size='10px' class='badge float-left'>" + data.nickName + "</small> <li id='chatContent' class='list-group-item list-group-item-success chat__message-body'>" + data.message +
+            "</li> <mark id='time' class='badge float-right chat__message-time'>今</mark></div>");
+        console.warn(data);
+        console.log('Listen');
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: "ebbebf6fd111ee412754",
-    cluster: "ap3",
-    encrypted: true
-});
+    });
+
+
+// window.Pusher = require('pusher-js');
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: "ebbebf6fd111ee412754",
+//     cluster: "ap3",
+//     encrypted: true
+// });
 
 
 // 접속정보

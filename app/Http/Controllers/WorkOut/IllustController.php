@@ -106,10 +106,15 @@ class IllustController extends Controller
         $uid = Auth::user()['id'];
         if (isset($uid)) {
             $check_message = Message::select(
+                'messages.num as message_num',
+                'u2.nickname as from_id',
                 'u1.id as to_id',
-                DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0 and message_title like 'invite%' and to_id = " . Auth::user()['id'] . ") count")
+                'messages.message_title',
+                'messages.created_at',
+                DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0 and to_id = " . Auth::user()['id'] . ") count")
             )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
-                ->where('message_title', 'like', 'invite%')
+            ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
+                // ->where('message_title', 'like', 'invite%')
                 ->where('to_id', '=', $uid)
                 ->get();
             // return $check_message;
@@ -229,7 +234,8 @@ class IllustController extends Controller
             'users.*'
         )->where('users.id', '=', Auth::user()['id'])
             ->first();
-
+            // return Auth::user()['id'];
+            // return $userInfo;
         // 내 작품 보기
         $myIllustInfo = IllustrationList::select(
             'illustration_lists.*',
@@ -333,12 +339,10 @@ class IllustController extends Controller
             'messages.message_title',
             'messages.message_content',
             'u2.nickname as from_id',
-            'messages.created_at',
-            DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0) count")
+            'messages.created_at'
         )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
             ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
-            ->where('message_title', 'like', 'invite%')
-            ->where('to_id', '=', Auth::user()['id'])
+            ->where('u1.to_id', '=', Auth::user()['id'])
             ->get();
         return $invite_messages;
     }
