@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>@yield('title')</title>
+    <title>ノベル述べる！</title>
 
     <!-- Custom fonts for this template -->
     <link href="{{asset('fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -31,13 +31,13 @@
     <!-- <script src="{{asset('js/clean-blog.min.js')}}"></script> -->
 
     <style>
-    body {
-    background-color:#fffffa;
-    }
+        body {
+            background-color: #fffffa;
+        }
 
-    .nav-link{
-        /* font-family: "M PLUS 1p"; */
-    }
+        .nav-link {
+            /* font-family: "M PLUS 1p"; */
+        }
     </style>
- 
-</head> 
+
+</head>
