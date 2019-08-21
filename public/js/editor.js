@@ -591,7 +591,7 @@ $(document).on("click", ".obj_kinds", function () {
                 $(".back").after("<div id='obj_feild'></div>");
             } else {
                 $(".back").after(
-                    "<div class='upload_loading'><label for='image' class='upload_label'>+</label><input type='file' name='" +
+                    "<div class='upload_loading'><label for='image' class='upload_label'></label><input type='file' name='" +
                     folder_input_name +
                     "' id='image' /></div><div id='obj_feild'></div>"
                 );
@@ -956,38 +956,42 @@ $(document).ready(function () {
     redis_ajax();
     //화면공유//
 
-    var profId = "";
+    let prof_audio_id = null;
+    let profId = null;
     $(".profile").click(function () {
         profId = $(this).attr("id");
+        prof_audio_id = $(this).next().attr("id");
+        var prof_audio = document.getElementById(prof_audio_id);
         console.log(profId);
-        $("#prof-Ol").show();
-        $("#prof-Bg").show();
+        console.log(prof_audio_id);
+        $("#prof-Ol2").show();
+        $("#prof-Bg2").show();
         switch (profId) {
             case "misaki":
-                $("#prof-misaki").fadeIn(1000);
+                $("#prof-misaki2").fadeIn(1000);
                 break;
-
             case "mashiro":
-                $("#prof-mashiro").fadeIn(1000);
+                $("#prof-mashiro2").fadeIn(1000);
                 break;
 
             case "nanami":
-                $("#prof-nanami").fadeIn(1000);
+                $("#prof-nanami2").fadeIn(1000);
                 break;
 
             case "sorata":
-                $("#prof-sorata").fadeIn(1000);
+                $("#prof-sorata2").fadeIn(1000);
                 break;
 
             default:
                 break;
         }
+        prof_audio.play();
     });
 
-    $("#prof-Ol").click(function () {
-        $("#prof-Ol").hide();
-        $("#prof-Bg").hide();
-        $(".prof").hide();
+    $("#prof-Ol2").click(function () {
+        $("#prof-Ol2").hide();
+        $("#prof-Bg2").hide();
+        $(".prof2").hide();
     });
 
     //툴 팝업 링크해제 뒤로 한칸내리는역할
@@ -1493,106 +1497,106 @@ $(document).ready(function () {
     //오른쪽 사이드바
     $("#menuToggle_right").click(function (e) {
         var parent = $(this).parent("nav");
-
         parent.toggleClass("open_right");
-
+        e.preventDefault();
         //세로가 최소 700px, 가로가 최소 700px 이면서 최대 899px 이거나 세로가 최소 900px, 가로가 최소700px 이면서 최대958px일때
-        if (
-            (window_height >= 700 &&
-                window_width >= 700 &&
-                window_width <= 899) ||
-            (window_height >= 900 && window_width >= 700 && window_width <= 958)
-        ) {
-            if ($(".open_left").length > 0 && $(".open_right").length == 0) {
-                $(".textarea").css("width", "70%");
-                $(".resource-area").css("width", "0");
-                $(".ep-tem-area").css("width", "25%");
-            } else if (
-                $(".open_right").length > 0 &&
-                $(".open_left").length > 0
-            ) {
-                $(".textarea").css("width", "49%");
-                $(".resource-area").css("width", "25%");
-            } else if ($(".open_right").length > 0) {
-                $(".textarea").css("width", "70%");
-                $(".resource-area").css("width", "20%");
-            } else if ($(".open_right").length == 0) {
-                $(".textarea").css("width", "92%");
-                $(".resource-area").css("width", "0");
-            }
-            e.preventDefault();
-            //세로가 최소 700px를 넘거나 최소900px를 넘을 때
-        } else if (window_height >= 700 || window_height >= 900) {
-            if ($(".open_left").length > 0 && $(".open_right").length == 0) {
-                $(".textarea").css("width", "75%");
-                $(".resource-area").css("width", "0");
-                $(".ep-tem-area").css("width", "20%");
-            } else if (
-                $(".open_right").length > 0 &&
-                $(".open_left").length > 0
-            ) {
-                $(".textarea").css("width", "58%");
-                $(".resource-area").css("width", "20%");
-            } else if ($(".open_right").length > 0) {
-                $(".textarea").css("width", "75%");
-                $(".resource-area").css("width", "20%");
-            } else if ($(".open_right").length == 0) {
-                $(".textarea").css("width", "95%");
-                $(".resource-area").css("width", "0");
-            }
-            e.preventDefault();
-        }
+        // if (
+        //     (window_height >= 700 &&
+        //         window_width >= 700 &&
+        //         window_width <= 899) ||
+        //     (window_height >= 900 && window_width >= 700 && window_width <= 958)
+        // ) {
+        //     if ($(".open_left").length > 0 && $(".open_right").length == 0) {
+        //         $(".textarea").css("width", "70%");
+        //         $(".resource-area").css("width", "0");
+        //         $(".ep-tem-area").css("width", "25%");
+        //     } else if (
+        //         $(".open_right").length > 0 &&
+        //         $(".open_left").length > 0
+        //     ) {
+        //         $(".textarea").css("width", "49%");
+        //         $(".resource-area").css("width", "25%");
+        //     } else if ($(".open_right").length > 0) {
+        //         $(".textarea").css("width", "70%");
+        //         $(".resource-area").css("width", "20%");
+        //     } else if ($(".open_right").length == 0) {
+        //         $(".textarea").css("width", "92%");
+        //         $(".resource-area").css("width", "0");
+        //     }
+        //     e.preventDefault();
+        //     //세로가 최소 700px를 넘거나 최소900px를 넘을 때
+        // } else if (window_height >= 700 || window_height >= 900) {
+        //     if ($(".open_left").length > 0 && $(".open_right").length == 0) {
+        //         $(".textarea").css("width", "75%");
+        //         $(".resource-area").css("width", "0");
+        //         $(".ep-tem-area").css("width", "20%");
+        //     } else if (
+        //         $(".open_right").length > 0 &&
+        //         $(".open_left").length > 0
+        //     ) {
+        //         $(".textarea").css("width", "58%");
+        //         $(".resource-area").css("width", "20%");
+        //     } else if ($(".open_right").length > 0) {
+        //         $(".textarea").css("width", "75%");
+        //         $(".resource-area").css("width", "20%");
+        //     } else if ($(".open_right").length == 0) {
+        //         $(".textarea").css("width", "95%");
+        //         $(".resource-area").css("width", "0");
+        //     }
+        //     e.preventDefault();
+        // }
     });
 
     //왼쪽사이드바
     $("#menuToggle_left").click(function (e) {
         var parent = $(this).parent("nav");
         parent.toggleClass("open_left");
+        e.preventDefault();
         //세로가 최소 700px, 가로가 최소 700px 이면서 최대 899px 이거나 세로가 최소 900px, 가로가 최소700px 이면서 최대958px일때
-        if (
-            (window_height >= 700 &&
-                window_width >= 700 &&
-                window_width <= 899) ||
-            (window_height >= 900 && window_width >= 700 && window_width <= 958)
-        ) {
-            if ($(".open_right").length > 0 && $(".open_left").length == 0) {
-                $(".textarea").css("width", "67%");
-                $(".ep-tem-area").css("width", "0");
-                $(".resource-area").css("width", "20%");
-            } else if (
-                $(".open_left").length > 0 &&
-                $(".open_right").length > 0
-            ) {
-                $(".textarea").css("width", "50%");
-                $(".ep-tem-area").css("width", "25%");
-            } else if ($(".open_left").length > 0) {
-                $(".textarea").css("width", "70%");
-                $(".ep-tem-area").css("width", "25%");
-            } else if ($(".open_left").length == 0) {
-                $(".textarea").css("width", "92%");
-                $(".ep-tem-area").css("width", "0");
-            }
-            e.preventDefault();
-            //세로가 최소 700px를 넘거나 최소900px 넘을 때
-        } else if (window_height >= 700 || window_height >= 900) {
-            if ($(".open_right").length > 0 && $(".open_left").length == 0) {
-                $(".textarea").css("width", "75%");
-                $(".ep-tem-area").css("width", "0");
-                $(".resource-area").css("width", "20%");
-            } else if (
-                $(".open_left").length > 0 &&
-                $(".open_right").length > 0
-            ) {
-                $(".textarea").css("width", "58%");
-                $(".ep-tem-area").css("width", "20%");
-            } else if ($(".open_left").length > 0) {
-                $(".textarea").css("width", "75%");
-                $(".ep-tem-area").css("width", "20%");
-            } else if ($(".open_left").length == 0) {
-                $(".textarea").css("width", "95%");
-                $(".ep-tem-area").css("width", "0");
-            }
-            e.preventDefault();
-        }
+        // if (
+        //     (window_height >= 700 &&
+        //         window_width >= 700 &&
+        //         window_width <= 899) ||
+        //     (window_height >= 900 && window_width >= 700 && window_width <= 958)
+        // ) {
+        //     if ($(".open_right").length > 0 && $(".open_left").length == 0) {
+        //         $(".textarea").css("width", "67%");
+        //         $(".ep-tem-area").css("width", "0");
+        //         $(".resource-area").css("width", "20%");
+        //     } else if (
+        //         $(".open_left").length > 0 &&
+        //         $(".open_right").length > 0
+        //     ) {
+        //         $(".textarea").css("width", "50%");
+        //         $(".ep-tem-area").css("width", "25%");
+        //     } else if ($(".open_left").length > 0) {
+        //         $(".textarea").css("width", "70%");
+        //         $(".ep-tem-area").css("width", "25%");
+        //     } else if ($(".open_left").length == 0) {
+        //         $(".textarea").css("width", "92%");
+        //         $(".ep-tem-area").css("width", "0");
+        //     }
+        //     e.preventDefault();
+        //     //세로가 최소 700px를 넘거나 최소900px 넘을 때
+        // } else if (window_height >= 700 || window_height >= 900) {
+        //     if ($(".open_right").length > 0 && $(".open_left").length == 0) {
+        //         $(".textarea").css("width", "75%");
+        //         $(".ep-tem-area").css("width", "0");
+        //         $(".resource-area").css("width", "20%");
+        //     } else if (
+        //         $(".open_left").length > 0 &&
+        //         $(".open_right").length > 0
+        //     ) {
+        //         $(".textarea").css("width", "58%");
+        //         $(".ep-tem-area").css("width", "20%");
+        //     } else if ($(".open_left").length > 0) {
+        //         $(".textarea").css("width", "75%");
+        //         $(".ep-tem-area").css("width", "20%");
+        //     } else if ($(".open_left").length == 0) {
+        //         $(".textarea").css("width", "95%");
+        //         $(".ep-tem-area").css("width", "0");
+        //     }
+        //     e.preventDefault();
+        // }
     });
 });
