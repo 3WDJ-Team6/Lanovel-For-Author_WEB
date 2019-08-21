@@ -1,5 +1,6 @@
 <div class="clearfix" style="text-align:center;">
-    <a style="display:inline-block; background-color:#ea4c4c; border:none;" class="btn btn-primary" href="{{url('/store')}}">Illustore store &rarr;</a>
+    <a style="display:inline-block; border:none;" href="{{url('/store')}}">
+    <img src ="{{asset('image/store/illustore_btn.png')}}"> &rarr;</a>
 </div>
 
 <!-- Footer -->

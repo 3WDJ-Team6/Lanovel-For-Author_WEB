@@ -183,8 +183,10 @@ class IllustController extends Controller
         $product = IllustrationList::select(
             'illustration_lists.*',
             'illust_files.*',
+            'users.nickname',
             DB::raw('(select count(illust_files.id) from illust_files where illust_files.num_of_illust = illustration_lists.num) count')
         )->join('illust_files', 'illust_files.num_of_illust', 'illustration_lists.num')
+            ->join('users', 'illustration_lists.user_id', 'users.id')
             ->where('illustration_lists.num', $num)
             ->first();
 

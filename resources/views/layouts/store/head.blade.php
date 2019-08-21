@@ -19,6 +19,8 @@
 
     <link rel="stylesheet" href="{{asset('css/store/animate.css')}}">
 
+    <link rel="stylesheet" href="{{asset('css/store/home.css')}}">
+
    
 
     <link rel="stylesheet" href="{{asset('css/store/classy-nav.min.css')}}">

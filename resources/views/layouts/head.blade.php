@@ -30,14 +30,5 @@
     <!-- Custom scripts for this template -->
     <!-- <script src="{{asset('js/clean-blog.min.js')}}"></script> -->
 
-    <style>
-    body {
-    background-color:#fffffa;
-    }
-
-    .nav-link{
-        /* font-family: "M PLUS 1p"; */
-    }
-    </style>
  
 </head> 

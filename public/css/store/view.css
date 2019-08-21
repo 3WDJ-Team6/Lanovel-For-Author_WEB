@@ -1,0 +1,13 @@
+body {
+    background: url("/image/background_pattern.png") fixed;
+    background-size: cover;
+    /* align-items: center; */
+    text-align: center;
+    /* margin: 0 auto; */
+}
+
+.container_box {
+    width: 1109px;
+    margin: 0 auto;
+
+}

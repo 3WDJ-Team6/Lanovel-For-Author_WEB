@@ -1,0 +1,22 @@
+body {
+    background: url("/image/background_pattern.png") fixed;
+    background-size: cover;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+}
+
+.container_box {
+    /* background: url("/image/main_box.png") no-repeat; */
+    max-width: 1109px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 75px;
+}
+
+.chapter {
+    background: url("/image/chapter_bar.png") no-repeat;
+    margin-left: auto;
+    margin-right: auto;
+}
