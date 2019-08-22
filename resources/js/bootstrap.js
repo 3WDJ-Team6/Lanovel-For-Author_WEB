@@ -68,7 +68,7 @@ window.Echo.channel('chat')
         // $(document).on( "", ".list-group" )
         $(".list-group").append(
             "<div><small id='usernickname' font-size='10px' class='badge float-left'>" + data.nickName + "</small> <li id='chatContent' class='list-group-item list-group-item-success chat__message-body'>" + data.message +
-            "</li> <mark id='time' class='badge float-right chat__message-time'>1 초 전</mark></div>");
+            "</li> <mark id='time' class='badge float-right chat__message-time'>今</mark></div>");
         console.warn(data);
         console.log('Listen');
 

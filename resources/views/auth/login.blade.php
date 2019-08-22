@@ -61,7 +61,7 @@
             </div>
         </form>
         <hr class="holine">
-        <a href="{{url('/store')}}"><img class="illustore animate-pop-in" src="/image/illust_btn_sm.png"></a>
+        <a href="{{url('/store')}}"><img class="illustore animate-pop-in" src="/image/illustore_btn.png"></a>
 
     <!-- </div> -->
 

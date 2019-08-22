@@ -6,8 +6,7 @@
     <link href="{{ asset('css/jquery.modal.min.1.css') }}" rel="stylesheet">
     <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
         <nav class="classy-navbar" id="essenceNav">
-            <a class="nav-brand" href="{{ asset('/store') }}"><img src="{{ asset('image/store/illustore.png') }}" alt="" style="width:200px;" /></a>
-
+            <a class="nav-brand" href="{{ asset('/store') }}"><img src="{{asset('image/logo_book.png')}}" style="margin-right:20px;"><img src="{{asset('image/store/illust_title_sm.png')}}"></a>
             <div class="classy-navbar-toggler">
                 <span class="navbarToggler"><span></span><span></span><span></span></span>
             </div>
@@ -19,10 +18,10 @@
                 </div>
                 <div class="classynav">
                     <ul style="margin-top:6%;">
-                        <li><a href="{{ url('menu/1') }}">배경</a></li>
-                        <li><a href="{{ url('menu/2') }}">캐릭터</a></li>
-                        <li><a href="{{ url('menu/3') }}">소품</a></li>
-                        <li><a href="{{ url('/illustCreate') }}">등록</a></li>
+                        <li><a href="{{ url('menu/1') }}">Background</a></li>
+                        <li><a href="{{ url('menu/2') }}">Character</a></li>
+                        <li><a href="{{ url('menu/3') }}">Stoke</a></li>
+                        <li><a href="{{ url('/illustCreate') }}">Upload</a></li>
                     </ul>
                 </div>
             </div>
@@ -39,8 +38,9 @@
             </div>
 
             <form action="{{ url('store/find/search') }}" method="post">
-                <button type="button submit" class="btn btn-light" style="margin:25px; width:100px; height:40px; font-size:15px;">
-                    <img src="{{asset('image/store/check-box.png')}}" style="width:18px;"> 필터링</i>
+                <button type="button submit" class="btn btn-light"
+                    style="margin:25px; width:100px; height:40px; font-size:15px;">
+                    <img src="{{asset('image/store/check-box.png')}}" style="width:18px;"> filter</i>
                 </button>
             </form>
 

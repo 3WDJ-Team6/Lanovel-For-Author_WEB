@@ -96,46 +96,35 @@
         </div>
     </div>
     <!-- ##### Right Side Cart End ##### -->
-    <!-- 새작품 -->
+    <div class="container_box">
+    <div class="background" style="position: absolute; z-index:-1; left:16%; top: 7.7%;">
+            <img src="{{asset('image/store/illust_background.png')}}" style="width:110%; margin-left: -4%; margin-top: 0%;">
+        </div>
+    <img src="{{asset('image/logo2.png')}}" style="    width: 710px; height:110px; margin-top: 19%; margin-left: 18%;">
+            <img src="{{asset('image/store/illust_title_bg.png')}}"
+                style="width:700px; height:20px; margin-top:2%; margin-left: 19%;">
 
-    <section class="welcome_area bg-img background-overlay"
-        style="height:500px; margin-top:70px; background-image:url('image/store/girl.jpg');">
-        <div class="container h-100">
-            <div class="row h-100 align-items-center">
-                <div class="col-12">
-                    <div class="hero-content">
-                        <br>
-                        <h2>New Collection</h2>
-                        <a href="{{url('/newCollection')}}" class="btn essence-btn">view collection</a>
+        <!-- 인기작품 -->
+        <section class="section-padding-80 clearfix">
+            <div class="container " style="align-items: center; display: flex; justify-content: center;">
+                <div class="row">
+                    <div class="section-heading text-center" style="margin:70px;">
+                    <img src="{{asset('image/store/illust_popular.png')}}">
+
+
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- 새작품 End -->
 
-    <!-- 인기작품 -->
-    <section class="new_arrivals_area section-padding-80 clearfix">
-        <div class="container " style="align-items: center; display: flex; justify-content: center;">
-            <div class="row" >
-                <div class="section-heading text-center" style="margin:70px;">
-                    <h2>Popular Products</h2>
-                </div>
-            </div>
-        </div>
-        </div>
 
-        <div class="fomr-group">
-            <div class="row">
-                <!-- <div class="col-14"> -->
-                    <div class="popular-products-slides owl-carousel">
-
+            <div class="fomr-group" style="display:innline-block;">
+                <div class="row">
                         @foreach ($products as $row)
                         <!-- Single Product -->
-                        <div class="single-product-wrapper" style="margin:15%;">
-                            <div class="single-product" style="width:250px;">
+                        <div class="product_box">
+                            <div class="single-product">
                                 <!-- Product Image -->
-                                <div class="product-img" style="width:250px; height: 150px; overflow: hidden;">
+                                <div class="product-img">
                                     <a href="{{url('/view')}}/{{$row['num']}}">
                                         <img src="{{$row->url_of_illustration}}" alt=""
                                             onerror="this.src='{{asset('image/no_image.png')}}'">
@@ -167,11 +156,13 @@
                             </div>
                         </div>
                         @endforeach
-                    </div>
-                <!-- </div> -->
+
+                    <!-- </div> -->
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
+
     <!-- 인기작품 End -->
 
 </body>
@@ -179,5 +170,5 @@
 @endsection
 
 @section('footer')
-@include('layouts.store.footer')
+<!-- @include('layouts.store.footer') -->
 @endsection

@@ -1,0 +1,108 @@
+body {
+    background: url("/image/background_pattern.png") fixed;
+    background-size: cover;
+    /* align-items: center; */
+    text-align: center;
+    /* margin: 0 auto; */
+}
+
+.form-group {
+    margin-top: 10%;
+    max-width: 1109px;
+}
+
+.container_box {
+    /* background: url("/image/main_box.png") no-repeat; */
+    width: 1109px;
+    margin: 0 auto;
+    left: 20%
+        /* display: inline; */
+        /* text-align: center; */
+}
+
+#alert {
+    border: none;
+    color: black;
+}
+
+label.with-square-checkbox {
+    cursor: pointer;
+}
+
+label.with-square-checkbox span {
+    line-height: 24px;
+}
+
+label.with-square-checkbox span::before {
+    margin-right: 4px;
+    padding-left: 1px;
+    width: 21px;
+    height: 21px;
+    border: 2px solid grey;
+    display: inline-block;
+    line-height: 15px;
+    content: '';
+    float: left;
+}
+
+label.with-square-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+label.with-square-checkbox input[type="checkbox"]:checked+span::before {
+    font-family: 'Glyphicons Halflings';
+    content: '\e013';
+    color: #89b814;
+}
+
+main {
+    width: 300px;
+    margin: 8px auto;
+}
+
+li {
+    list-style-type: none;
+}
+
+/* 검색 */
+
+input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+    background-color: rgb(235, 234, 234);
+}
+
+.search-container button {
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: rgb(235, 234, 234);
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background: #ccc;
+}
+
+@media screen and (max-width: 600px) {
+    .topnav .search-container {
+        float: none;
+    }
+
+    .search-container button {
+        float: none;
+        display: block;
+        text-align: left;
+        width: 100%;
+        margin: 0;
+        padding: 14px;
+    }
+
+    input[type=text] {
+        border: 1px solid #ccc;
+    }
+}
