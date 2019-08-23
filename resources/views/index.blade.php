@@ -27,7 +27,7 @@
     </div> -->
     <div class="container_box">
         <div class="background" style="position: absolute; z-index:-1; left:16%; top: 7.7%;">
-            <img src="{{asset('image/main_box.png')}}" style="width:110%;">
+            <img src="{{asset('image/main_box.png')}}" style="width:110%;height:2700px;">
         </div>
         <div class="form-group " style="display:block;">
 
@@ -219,8 +219,9 @@
                             </figure>
                         </div>
                     </div>
+                </li>
 
-                <li>
+                {{-- <li>
                     <figure class='book'>
                         <a href="{{url('editor/main/chapter')}}/{{$post['num']}}">
                             <!-- Front -->
@@ -324,7 +325,7 @@
                             </figcaption>
                         </a>
                     </figure>
-                </li>
+                </li> --}}
 
 
                     @endforeach
