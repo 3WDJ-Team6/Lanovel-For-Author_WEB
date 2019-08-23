@@ -108,9 +108,9 @@
             </div> -->
             <div style="height: 315px;">
                 @foreach($works as $row)
-                
+
                 @foreach($checkNum as $cn)
-                
+
                         <span class="one" style="width:250px; height:350px;display:inline-block; margin-top: 7%;">
                             <!-- 챕터 책 -->
                             <div class="post-preview " style="width:170px; height:270px;">
@@ -122,7 +122,7 @@
                             </div>
 
                             <span class ="bottom" style="width:300px;height:80px;">
-                            
+
                                 <h5 class="post-subtitle" >
                                     {{$row->subtitle}}
                                 </h5>
