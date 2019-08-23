@@ -88,6 +88,6 @@
             <!-- Pager -->
         </div>
     </div>
-    <a href="{{url('/store')}}"><img class="illustore" src="/image/illust_btn_sm.png" style="margin-left: -5%;margin-top: 2%;"></a>
+    <a href="{{url('/store')}}"><img class="illustore" src="/image/illust_btn_sm.png" style="margin-left: 40%;margin-top: 5%;"></a>
 </div>
 @endsection
