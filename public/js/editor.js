@@ -167,7 +167,7 @@ function getScrollTop() {
 //에디터내 목차 추가
 function popupInEditor(num) {
     var url = "/content_create_in_editor/" + num;
-    var option = "width=600, height=300, top=100";
+    var option = "width=600, height=250, top=300";
     window.open(url, "", option);
 }
 //에디터내 목차 추가//
@@ -175,7 +175,7 @@ function popupInEditor(num) {
 //에디터내 목차 수정
 function popupEdit(num) {
     var url = "/content_edit_in_editor/" + num;
-    var option = "width=600, height=300, top=100";
+    var option = "width=600, height=250, titlebar=no, location=no, menubar=no, status=no, top=300";
     window.open(url, "", option);
 }
 //에디터내 목차 수정//
@@ -354,13 +354,13 @@ function getResource() {
                     case "PUBLIC":
                         folder_name_ko = folder_name.replace(
                             "PUBLIC",
-                            "공용 폴더"
+                            "公共"
                         );
                         break;
                     case "PRIVATE":
                         folder_name_ko = folder_name.replace(
                             "PRIVATE",
-                            "개인 폴더"
+                            "個人"
                         );
                         break;
                     default:
@@ -371,7 +371,7 @@ function getResource() {
                 $("#resource-feild").append(
                     "<span id='obj_" +
                     i +
-                    "' class='obj' onclick='getFolders()'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
+                    "' class='obj' onclick='getFolders()'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/edit_folder.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
                     folder_name_ko +
                     "</span></span>"
                 );
@@ -400,10 +400,10 @@ function getFolders() {
             success: function (data) {
                 switch (folder) {
                     case "private":
-                        folder_name_ko = "개인 폴더";
+                        folder_name_ko = "個人";
                         break;
                     case "public":
-                        folder_name_ko = "공용 폴더";
+                        folder_name_ko = "公共";
                         break;
                     default:
                         break;
@@ -414,16 +414,12 @@ function getFolders() {
                 console.log("folder_name_ko : " + folder_name_ko);
                 $("#resource-feild").html("");
                 $("#resource-feild").prepend(
-                    "<span class='folder_name'>" +
+                    "<div class='back foldername'><" +
+                    "<img class='folder_icon' src='/image/tool_icon/edit_folder.png'>" +
+                    "<span class='folder_name'><b>" +
                     folder_name_ko +
-                    "</span>" +
-                    "<span class='back foldername'>" +
-                    "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' id='Layer_1' x='0px' y='0px' viewBox='0 0 512.001 512.001' style='enable-background:new 0 0 512.001 512.001;' xml:space='preserve' width='32px' height='32px' class=''><g><g>" +
-                    "<g>" +
-                    "<path d='M384.834,180.699c-0.698,0-348.733,0-348.733,0l73.326-82.187c4.755-5.33,4.289-13.505-1.041-18.26    c-5.328-4.754-13.505-4.29-18.26,1.041l-82.582,92.56c-10.059,11.278-10.058,28.282,0.001,39.557l82.582,92.561    c2.556,2.865,6.097,4.323,9.654,4.323c3.064,0,6.139-1.083,8.606-3.282c5.33-4.755,5.795-12.93,1.041-18.26l-73.326-82.188    c0,0,348.034,0,348.733,0c55.858,0,101.3,45.444,101.3,101.3s-45.443,101.3-101.3,101.3h-61.58    c-7.143,0-12.933,5.791-12.933,12.933c0,7.142,5.79,12.933,12.933,12.933h61.58c70.12,0,127.166-57.046,127.166-127.166    C512,237.745,454.954,180.699,384.834,180.699' data-original='#000000' class='active-path'" +
-                    "data-old_color='#B7CBFC' fill='#476ACD'/>" +
-                    "</g>" +
-                    "</span>"
+                    "</b></span>" +
+                    "</div>"
                 );
                 if (folder == "private") {
                     for (var i = 0; i < data.length - 1; i++) {
@@ -437,25 +433,25 @@ function getFolders() {
                             case "video":
                                 folder_name_kinds = folder_name.replace(
                                     "video",
-                                    "동영상"
+                                    "動画"
                                 );
                                 break;
                             case "sound":
                                 folder_name_kinds = folder_name.replace(
                                     "sound",
-                                    "효과음"
+                                    "効果音"
                                 );
                                 break;
                             case "purchase":
                                 folder_name_kinds = folder_name.replace(
                                     "purchase",
-                                    "구매"
+                                    "購入"
                                 );
                                 break;
                             case "images":
                                 folder_name_kinds = folder_name.replace(
                                     "images",
-                                    "이미지"
+                                    "画像"
                                 );
                                 break;
                             default:
@@ -464,7 +460,7 @@ function getFolders() {
                         $("#resource-feild").append(
                             "<span id='obj_" +
                             i +
-                            "' class='obj_kinds'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
+                            "' class='obj_kinds'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/edit_folder.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
                             folder_name_kinds +
                             "</span>" +
                             "</span>"
@@ -481,12 +477,12 @@ function getFolders() {
                         if (folder_name === "images") {
                             folder_name_kinds = folder_name.replace(
                                 "images",
-                                "이미지"
+                                "画像"
                             );
                             $("#resource-feild").append(
                                 "<span id='obj_" +
                                 i +
-                                "' class='obj_kinds'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/folder_icon.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
+                                "' class='obj_kinds'><span class='obj_folder' style='background-image: url(\"/image/tool_icon/edit_folder.png\");background-size: 120px 120px;'></span><span class='obj_name'>" +
                                 folder_name_kinds +
                                 "</span>" +
                                 "</span>"
@@ -508,27 +504,27 @@ $(document).on("click", ".obj_kinds", function () {
     if (folder == "private") {
         if (this.id == "obj_0") {
             folder_kinds = "images";
-            folder_name_kinds = "이미지";
+            folder_name_kinds = "画像";
         } else if (this.id == "obj_1") {
             folder_kinds = "purchase";
-            folder_name_kinds = "구매";
+            folder_name_kinds = "購入";
         } else if (this.id == "obj_2") {
             folder_kinds = "sound";
-            folder_name_kinds = "효과음";
+            folder_name_kinds = "効果音";
         } else if (this.id == "obj_3") {
             folder_kinds = "video";
-            folder_name_kinds = "동영상";
+            folder_name_kinds = "動画";
         }
     } else if (folder == "public") {
         if (this.id == "obj_0") {
             folder_kinds = "audio";
-            folder_name_kinds = "효과음";
+            folder_name_kinds = "効果音";
         } else if (this.id == "obj_3") {
             folder_kinds = "images";
-            folder_name_kinds = "이미지";
+            folder_name_kinds = "画像";
         } else if (this.id == "obj_6") {
             folder_kinds = "video";
-            folder_name_kinds = "동영상";
+            folder_name_kinds = "動画";
         }
     }
     console.log(folder);
@@ -574,11 +570,11 @@ $(document).on("click", ".obj_kinds", function () {
             console.log("folder : " + folder);
             $("#resource-feild").html("");
             $("#resource-feild").prepend(
-                "<span class='folder_name'>" +
+                "<span class='back folderkinds'><" +
+                "<img class='folder_icon' src='/image/tool_icon/edit_folder.png'>" +
+                "<span class='folder_name'><b>" +
                 folder_name_kinds +
-                "</span>" +
-                "<span class='back folderkinds'>" +
-                svgg +
+                "</b></span>" +
                 "</span>"
             );
             if (folder_kinds == "images") {
@@ -1064,6 +1060,7 @@ $(document).ready(function () {
         if ($(".ep-tem").prop("id") == "ep") {
             $(".tem").hide();
         }
+        $(".ep-tem-bar").attr("src", "/image/tool_icon/edit_click_list.png");
         $(".ep").show();
     });
     //에피소드관리//
@@ -1073,6 +1070,7 @@ $(document).ready(function () {
         if ($("div").hasClass("ep")) {
             $(".ep").hide();
         }
+        $(".ep-tem-bar").attr("src", "/image/tool_icon/edit_click_template.png");
         $(".tem").show();
     });
     //템플릿//
@@ -1154,10 +1152,11 @@ $(document).ready(function () {
     $("#mem-btn").click(function (event) {
         $("#member_list")
             .toggle()
-            .css({
-                top: event.pageY + -30 + "px",
-                left: event.pageX + -30 + "px"
-            });
+        // .css({
+        //     top: event.pageY + -30 + "px",
+        //     left: event.pageX + -30 + "px"
+        // })
+        ;
     });
     //멤버리스트//
 

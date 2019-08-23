@@ -20,7 +20,12 @@
     }
 
 </script>
+<style>
+    ::-webkit-scrollbar {
+        display: none;
+    }
 
+</style>
 <!-- Main Content -->
 
 <div class="container" style="margin-top:70px;">
@@ -30,33 +35,26 @@
 
     <div class="col-lg-12 col-md-10 mx-auto" style="margin-top:50px; margin-bottom:50px;" id="content_list_box">
         <!-- 목차 책 -->
-        <div class="post-preview " style="display:inline-block; width:200px; height:250px; margin-top:5%;margin-left: 5%;">
+        <div class="post-preview "
+            style="display:inline-block; width:200px; height:250px; margin-top:5%;margin-left: 5%;">
             <div class="coverDesign">
                 <img src="{{asset('image/note.png')}}" alt="표지1" style="width:100%; height:100%;">
             </div>
         </div>
         <div id="work_title_box" style="display:inline-block; width:400px; margin-left:3%;">
-                <a href="{{url('editor/main/chapter')}}/{{$nowChapter['num_of_work']}}"
-                    style="font-size:25px; color:black; text-decoration:none; ">{{$nowChapter->subtitle}}</a>
-            </div>
+            <a href="{{url('editor/main/chapter')}}/{{$nowChapter['num_of_work']}}"
+                style="font-size:25px; color:black; text-decoration:none; ">{{$nowChapter->subtitle}}</a>
+        </div>
 
-        <div class="content_box" style="display:block;margin-top:5%; height: 430px; overflow-y:scroll; overflow-x:hidden">
-            
-
-
-
-
+        <div class="content_box" style="display:block;margin-top:5%; height: 430px;overflow-x:hidden">
             <!-- {{-- 새 회차 추가  --}} -->
-            <!-- <div class="post-preview" style="width:100%; height:100px; align-items: center; display: flex; justify-content: center;"> -->
             <div class="post-subtitle" style="width:100%; margin-left:8%; text-align:left;">
                 <a href="javascript:popup({{$num}})" target="_blank" style="color:black; text-decoration:none;">
 
                     <img src="{{asset('image/add.png')}}"
                         style="width:40px; height:40px; margin-right:1%; display:inline-block;">
-
                     목차 추가</a>
             </div>
-            <!-- </div> -->
 
             <!-- {{-- 회차 출력 부분  --}} -->
             @foreach( $chapter_of_works as $row )
@@ -79,16 +77,10 @@
                             style="text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
                     </button>
                 </div>
-                <div class="dot" style="display:inline-block;">
-                    <!-- <hr style="border:0.5px dotted; width:100%;"> -->
-                </div>
                 <p class="post-meta" style="font-size:14px; margin-bottom:2%; display:block;  margin-left:7%;">
-                    Posted
-                    by {{Auth::user()['nickname']}} on {{Carbon::parse($row->created_at)->diffForHumans()}}</p>
-
-                <div class="button" style="width:80px; display:inline-block;">
-
-                </div>
+                    Posted by {{Auth::user()['nickname']}} on {{Carbon::parse($row->created_at)->diffForHumans()}}
+                </p>
+                <div class="button" style="width:80px; display:inline-block;"></div>
 
             </div>
             @endforeach
@@ -96,11 +88,6 @@
             <!-- Pager -->
         </div>
     </div>
+    <a href="{{url('/store')}}"><img class="illustore" src="/image/illust_btn_sm.png" style="margin-left: -5%;margin-top: 2%;"></a>
 </div>
-</div>
-</div>
-@endsection
-
-@section('footer')
-@include('layouts.footer')
 @endsection
