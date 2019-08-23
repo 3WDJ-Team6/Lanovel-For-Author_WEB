@@ -1152,10 +1152,11 @@ $(document).ready(function () {
     $("#mem-btn").click(function (event) {
         $("#member_list")
             .toggle()
-            .css({
-                top: event.pageY + -30 + "px",
-                left: event.pageX + -30 + "px"
-            });
+        // .css({
+        //     top: event.pageY + -30 + "px",
+        //     left: event.pageX + -30 + "px"
+        // })
+        ;
     });
     //멤버리스트//
 

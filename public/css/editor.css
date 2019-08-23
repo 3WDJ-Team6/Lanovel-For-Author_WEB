@@ -310,15 +310,15 @@ li>button {
     }
 
     .nav_right #menuToggle_right {
-        width: 260px;
+        width: 167px;
         height: 177px;
-        left: -224px;
+        left: -130px;
         top: 44%;
     }
 
     #ccc {
-        top: 49%;
-        left: 86.5%;
+        top: 67%;
+        left: 82.3%;
     }
 
     #preview {
@@ -472,7 +472,7 @@ li>button {
     display: none;
     z-index: 1;
     position: absolute;
-    background: #2d5866;
+    background: #e9ecef;
     top: 0px;
     left: 0px;
     border-radius: 10px;
@@ -852,12 +852,16 @@ pre {
     object-fit: fill;
     border-radius: 0.25em;
     border: 1.5px solid white;
+    transition: transform .15s ease 0s;
 }
 
 .obj_thum:hover,
 .mp4_icon:hover {
-    width: 130px;
-    height: 130px;
+    transform: translate(-10%, -10%) scale3d(1.1, 1.1, 1.1);
+}
+
+.ep_btn_icon:hover {
+    cursor: pointer;
 }
 
 .ep_btn_icon:hover {
@@ -1106,6 +1110,8 @@ input[type="file"] {
     /* padding-left: 15px; */
     position: absolute;
     display: none;
+    top: 15%;
+    right: 30.3%;
 }
 
 #member_list:hover {
@@ -1113,10 +1119,11 @@ input[type="file"] {
 }
 
 .member_list_li {
-    border-bottom: 1px solid #000000;
+    /* border-bottom: 1px solid #000000; */
     font-weight: 550;
     background-color: #f1c550;
     color: white;
+    border-radius: 3px;
 }
 
 .member_list_li:nth-child(2n) {
@@ -1201,7 +1208,7 @@ input[type="file"] {
 
 .nav_right #menuToggle_right {
     /* background: #f1c550; */
-    background: url("/image/tool_icon/edit_right.png") 102px -16px no-repeat;
+    background: url("/image/tool_icon/edit_right.png") 6px -16px no-repeat;
     display: block;
     position: relative;
     margin-bottom: -14%;
@@ -1219,7 +1226,7 @@ input[type="file"] {
     transform: rotate(225deg);
     position: absolute;
     top: 36%;
-    right: 12%;
+    right: 15%;
     margin-top: -7px;
 }
 
@@ -1229,7 +1236,7 @@ input[type="file"] {
 
 .open_right #menuToggle_right .sidebar_right {
     background: transparent;
-    right: 20%;
+    right: 28%;
     top: 36%;
     transform: rotate(45deg);
 }
@@ -1339,8 +1346,8 @@ input[type="file"] {
 #ccc {
     display: none;
     position: absolute;
-    width: 300px;
-    height: 335px;
+    width: 370px;
+    height: 305px;
     z-index: 1;
 }
 
@@ -1372,8 +1379,9 @@ li[class*="you"] {
 }
 
 #chatContent {
-    width: 90%;
-    float: left;
+    /* width: 50%; */
+    max-width: 65%;
+    margin-bottom: 5.5%
 }
 
 #usernickname {
