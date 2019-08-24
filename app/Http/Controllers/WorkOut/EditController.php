@@ -324,7 +324,8 @@ class EditController extends Controller
 
         $memberlist = WorkList::select(
             // 'work_lists.user_id'
-            'users.nickname'
+            'users.nickname',
+            'users.profile_photo'
         )->join('users', 'users.id', 'work_lists.user_id')
         ->where('work_lists.num_of_work','=',$num_of_now_work)->get();
 
