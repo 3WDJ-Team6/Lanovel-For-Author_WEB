@@ -50,10 +50,13 @@
                     <span class="nav-btn"><span id="chatting">チャット</span></span>
                     <span class="nav-btn"><a id="inv_btn" href="{{url('/loadSearchModal')}}" rel="modal1:open" style="color:white;">招待</a></span>
                     <span class="nav-btn" id="mem-btn">メンバーリスト</span>
-                    <span class="nav-btn" id="pre-btn"><a href="#preview" rel="modal:open" style="color:black;"></a>プレビュー</span>
+                    {{--<span class="nav-btn" id="pre-btn">--}}
+                        <a id="pre-btn" href="#preview" rel="modal:open" style="color:white;">プレビュー</a>
+                    {{--</span>--}}
                     <span class="nav-btn"><button type="submit" style="color:white;background:transparent;border:0;" id='sub'>保存</button></span>
             </form>
         </div>
+        <div><img src="/image/tool_icon/edit_color_bar.png" style="margin-left:5%;width:57.7%" alt="edit_color_bar"></div>
         <div id="preview" class="modal">
             <p id="result"></p>
         </div>
@@ -66,7 +69,7 @@
 
         <div id="member_list">
             @foreach($memberlist as $row)
-            <div class="member_list_li">&nbsp;{{$row['nickname']}}</div>
+            <div class="member_list_li"><img src="{{$row['profile_photo']}}" ></img>&nbsp;{{$row['nickname']}}</div>
             @endforeach
         </div>
         {{-- 글쓰기도구팝업 --}}
@@ -91,14 +94,15 @@
     <div class="ep-tem-area">
         <nav class="nav_left">
             <div class="ep-tem-par">
+                <img class="ep-tem-bar" src="/image/tool_icon/edit_click_list.png" alt="">
                 <span id="ep" class="ep-tem">リスト</span>
-                <span id="tem" class="ep-tem">テンプレート</span>
+                <span id="tem" class="ep-tem">テンプレ</span>
             </div>
             <a id="menuToggle_left">
                 <span class="sidebar_left"></span>
             </a>
             <div class="ep">
-                <div class="ep-title">
+                {{--<div class="ep-title">
                     <script>
                         var subsubtitle = "{!!$content_of_works['subsubtitle']!!}";
                         // 에피소드제목이 10 글자를 넘어갈경우 뒷부분...처리
@@ -111,45 +115,62 @@
                             document.write(subsubtitle);
                         }
                     </script>
-                </div>
+                </div>--}}
                 <div class="ep-list">
-                    {{-- 회차 리스트 띄워주기 --}} @foreach($content_lists as $row)
-                    <p class="ep-li" style=" margin:2.5% margin-top:5%;"><a href="{{url('/editor')}}/{{$row['num']}}" style="color:black;">{{$row['subsubtitle']}}<br></a></p>
+                    {{-- 회차 리스트 띄워주기 --}}
+                    <div><button onclick="javascript:popupInEditor({{$content_of_works['num_of_chapter']}})" class="ep_plus_btn"></button><b><span style="margin-left:5%;">追加</span></b></div>
+                    @foreach($content_lists as $row)
+                        <p class="ep-li"><b><span style="margin-left: 5%;margin-right:5%;">-</span><a href="{{url('/editor')}}/{{$row['num']}}" style="color:black;">{{$row['subsubtitle']}}<br></a></b></p>
                     @endforeach
                 </div>
                 <div class="ep-btns">
+                    <span onclick="javascript:popupEdit({{$content_of_works['num']}})"><img class="ep_btn_icon"  src="/image/tool_icon/edit_edit.png" alt="edit_edit"></span>
+                    <span><img class="ep_btn_icon"  src="/image/tool_icon/edit_delete.png" alt="edit_delete"></span>
+                </div>
+                {{--<div class="ep-btns">
                     <div class="btn ep-btn" onclick="javascript:popupInEditor({{$content_of_works['num_of_chapter']}})">追加</div>
                     <div class="btn ep-btn" onclick="javascript:popupEdit({{$content_of_works['num']}})">修正</div>
                     <div class="btn ep-btn" id="ep-del">削除</div>
-                </div>
+                </div>--}}
             </div>
             {{-- 템플릿 에리어 --}}
             <div class="tem">
                 <div class="tem-list">
-                    <div class="btn tem-li size_control" id="large">大きく</div>
+                    {{--<div class="btn tem-li size_control" id="large">大きく</div>
                     <div class="btn tem-li size_control" id="small">小さく</div>
-                    <div class="btn tem-li size_control" id="origin">元に</div>
-                    <div class="btn tem-li css_eft_control" id="css_eft_cB1">
-                        <div class="css_eft_name">桜1</div>
-                    </div>
-                    <div class="btn tem-li css_eft_control" id="css_eft_cB2">
-                        <div class="css_eft_name">桜２</div>
-                    </div>
-                    <div class="btn tem-li css_eft_control" id="css_eft_rain">
-                        <div class="css_eft_name">雨</div>
-                    </div>
-                    <div class="btn tem-li css_eft_control" id="css_eft_snow">
-                        <div class="css_eft_name">雪</div>
-                    </div>
-                    <div class="btn tem-li css_eft_control" id="css_eft_starlight">
-                        <div class="css_eft_name">きらきら</div>
-                    </div>
-                    <div class="btn tem-li css_eft_control" id="css_eft_yellowstar">
-                        <div class="css_eft_name">星</div>
-                    </div>
-                    <div class="btn tem-li css_eft_control" id="css_eft_lightning">
-                        <div class="css_eft_name">稲妻</div>
-                    </div>
+                    <div class="btn tem-li size_control" id="origin">元に</div>--}}
+                    <span class="tem-li">
+                        <div class="css_eft_control" id="css_eft_cB1"></div>
+                        <span class="css_eft_name">桜1</span>
+                    </span>
+                    <span class="tem-li">
+                        <div class="css_eft_control" id="css_eft_cB2"></div>
+                        <span class="css_eft_name">桜２</span>
+                    </span>
+                    <span class="tem-li">
+                        <div class="css_eft_control" id="css_eft_rain"></div>
+                        <span class="css_eft_name">雨</span>
+                    </span>
+                    <span class="tem-li">
+                        <div class="css_eft_control" id="css_eft_snow"></div>
+                        <span class="css_eft_name">雪</span>
+                    </span>
+                    <span class="tem-li">
+                        <div class="css_eft_control" id="css_eft_starlight"></div>
+                        <span class="css_eft_name">きらきら</span>
+                    </span>
+                    <span class="tem-li">
+                        <div class="css_eft_control" id="css_eft_yellowstar"></div>
+                        <span class="css_eft_name">星</span>
+                    </span>
+                    <span class="tem-li">
+                        <div class="css_eft_control" id="css_eft_lightning"></div>
+                        <span class="css_eft_name">稲妻</span>
+                    </span>
+                </div>
+                <div class="ep-btns">
+                    <span class="size_control" id="large"><img class="ep_btn_icon" src="/image/tool_icon/edit_plus_btn.png" alt="edit_plus"></span>
+                    <span class="size_control" id="small"><img class="ep_btn_icon" src="/image/tool_icon/edit_minus_btn.png" alt="edit_minus"></span>
                 </div>
             </div>
         </nav>
@@ -159,6 +180,7 @@
         <form action="{{url('/images')}}" id="file_form" method="POST" enctype="multipart/form-data">
             @csrf
             <nav class="nav_right">
+                <img class="resource-bar" src="/image/tool_icon/edit_folder_title.png" alt="">
                 <a href="" id="menuToggle_right">
                     <span class="sidebar_right"></span>
                 </a>
@@ -166,7 +188,7 @@
             </nav>
         </form>
     </div>
-    <p id="prof-Ol2"
+    {{--<p id="prof-Ol2"
     style="position: absolute;top: 0px;left: 0px;opacity: 0.5;height: 100%;width: 100%;z-index: 65555;background-color: rgb(102, 102, 102);display: none;margin: 0;">
     </p>
     <p id="prof-Bg2" style="z-index: 65555;top: 100px;left: 35%;display: none;height: 240px;width: 644px;position: absolute;">
@@ -178,7 +200,7 @@
         <audio id="audio_nanami2" src="https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/sound/1563273105Aoyama_yoroshiku.mp3"></audio>
         <img id="prof-sorata2" class="prof2" src="/image/prof_sorata.jpg" style="width: 630px; height: 480px; display: none;">
         <audio id="audio_sorata2" src="https://s3.ap-northeast-2.amazonaws.com/lanovebucket/Author/authorID@google.com/sound/1563273112Kanda_yoroshiku.mp3"></audio>
-    </p>
+    </p>--}}
 
 {{-- 채팅 --}}
 <div id='ccc'></div>

@@ -44,7 +44,14 @@
 
         .chat__message-from-me {
             justify-content: flex-end;
+            float: right;
             /* css end -> start*/
+        }
+        .chat__message-date-me {
+            padding-top: 15%
+        }
+        .chat__message-date {
+            padding-top: 11%
         }
 
         .chat__message--to-me .chat__message-avatar {
@@ -127,6 +134,10 @@
             padding: 10px;
             cursor: pointer;
         }
+        .friend{
+            display: block;
+            text-align: left;
+        }
     </style>
 </head>
 
@@ -145,14 +156,14 @@
                         @if($row['nickname'] == Auth::user()['nickname']) {{-- 내가 보낸 메세지 --}}
                         <li id="chatContent" class="list-group-item list-group-item-success chat__message-from-me">{{$row['content_of_chat']}}
                         </li>
+                        <mark class="badge float-right chat__message-time chat__message-date-me" id="time">{{$row['created_at']->diffForHumans()}}</mark>
                         @else
-                        <small id="usernickname" class="badge float-left" font-size="10px">{{$row['nickname']}}</small>
-                        <li id="chatContent" class="list-group-item list-group-item-success chat__message-body">{{$row['content_of_chat']}}
+                        <small id="usernickname" class="badge friend" font-size="10px">{{$row['nickname']}}</small>
+                        <li id="chatContent" class="list-group-item float-left list-group-item-success chat__message-body">{{$row['content_of_chat']}}
                         </li>
+                        <mark class="badge chat__message-time chat__message-date" id="time">{{$row['created_at']->diffForHumans()}}</mark>
                         @endif
 
-
-                        <mark class="badge float-right chat__message-time" id="time">{{$row['created_at']->diffForHumans()}}</mark>
                     </div>
                     @endforeach
                     <message v-for="(value,index) in chat.message" :key=value.index :color=chat.color[index] :user=chat.user[index] :time=chat.time[index]>

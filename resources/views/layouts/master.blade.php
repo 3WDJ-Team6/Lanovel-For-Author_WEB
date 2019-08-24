@@ -12,10 +12,10 @@
         @yield('content')
     </section>
 
-    <footer>
+    {{-- <footer>
         @yield('footer')
-    </footer>
+    </footer> --}}
 
 </body>
 
-</html> 
+</html>

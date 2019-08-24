@@ -27,7 +27,7 @@
     </div> -->
     <div class="container_box">
         <div class="background" style="position: absolute; z-index:-1; left:16%; top: 7.7%;">
-            <img src="{{asset('image/main_box.png')}}" style="width:110%;">
+            <img src="{{asset('image/main_box.png')}}" style="width:110%;height:2700px;">
         </div>
         <div class="form-group " style="display:block;">
 
@@ -155,23 +155,23 @@
                                             {{ $user->nickname }}
                                             @endif
                                             @endforeach</span>
-                                        <p>카테고리 : @foreach ($tagCount as $ta)
+                                        <p>カテゴリー : @foreach ($tagCount as $ta)
                                             @if($post->num == $ta->num)
                                             {{ $ta->tag }}
                                             @endif
                                             @endforeach <br>
-                                            연재 종류 : @switch( $post->type_of_work )
+                                            連載の種類 : @switch( $post->type_of_work )
                                             @case(1)
                                             단편
                                             @break
                                             @case(2)
-                                            단행본
+                                            単行本
                                             @break
                                             @case(3)
-                                            회차
+                                            各回
                                             @endswitch
                                             <br>
-                                            연재 주기 :
+                                            連載の周期 :
                                             @foreach ($periodCount as $pe)
                                             @if($post->num == $pe->num)
                                             @switch( $pe->cycle_of_publish )
@@ -182,7 +182,7 @@
                                             화요일
                                             @break
                                             @case('wed')
-                                            수요일
+                                            水曜日
                                             @break
                                             @case('thr')
                                             목요일
@@ -191,34 +191,143 @@
                                             금요일
                                             @break
                                             @case('sat')
-                                            토요일
+                                            土曜日
                                             @break
                                             @case('sun')
                                             일요일
                                             @break
                                             @default
-                                            매달 {{ $pe->cycle_of_publish }}일
+                                            毎月 {{ $pe->cycle_of_publish }}日
                                             @break
                                             @endswitch
                                             @endif
                                             @endforeach<br>
-                                            구매 : {{ $post->buy_price }}원<br>
-                                            대여 : {{ $post->rental_price }}원
+                                            購買 : {{ ($post->buy_price)/10 }}￥<br>
+                                            貸与 : {{ ($post->rental_price)/10 }}￥
                                             @if($post->rental_price == null)
                                             없음
                                             @endif
                                             <br>
-                                            최근 수정 시간 : @foreach ($modify_time as $time)
+                                            {{-- 修正時間 : @foreach ($modify_time as $time)
                                             @if($post->num == $time->num_of_work)
                                             {{ $time->updated_at->diffForHumans() }}
                                             @endif
-                                            @endforeach
+                                            @endforeach --}}
                                         </p>
                                     </figcaption>
                                 </a>
                             </figure>
                         </div>
                     </div>
+                </li>
+
+                {{-- <li>
+                    <figure class='book'>
+                        <a href="{{url('editor/main/chapter')}}/{{$post['num']}}">
+                            <!-- Front -->
+
+                            <ul class='hardcover_front'>
+                                <li>
+                                    <div class="coverDesign yellow">
+                                        <img src="{{$post['bookcover_of_work']}}" alt="표지1"
+                                            style="width:160px; height:auto;">
+                                    </div>
+                                </li>
+                                <li></li>
+                            </ul>
+
+                            <!-- Pages -->
+
+                            <ul class='page'>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
+
+                            <!-- Back -->
+
+                            <ul class='hardcover_back'>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                            <ul class='book_spine'>
+                                <li></li>
+                                <li></li>
+                            </ul>
+                            <figcaption>
+                                <h2 style="width:500px;">{{ $post->work_title }}</h2>
+                                <span style="color:#ea4c4c;">By @foreach ($user_lists as $user)
+                                    @if($post->num == $user->num)
+                                    {{ $user->nickname }}
+                                    @endif
+                                    @endforeach</span>
+                                <p>카테고리 : @foreach ($tagCount as $ta)
+                                    @if($post->num == $ta->num)
+                                    {{ $ta->tag }}
+                                    @endif
+                                    @endforeach <br>
+                                    연재 종류 : @switch( $post->type_of_work )
+                                    @case(1)
+                                    단편
+                                    @break
+                                    @case(2)
+                                    단행본
+                                    @break
+                                    @case(3)
+                                    회차
+                                    @endswitch
+                                    <br>
+                                    연재 주기 :
+                                    @foreach ($periodCount as $pe)
+                                    @if($post->num == $pe->num)
+                                    @switch( $pe->cycle_of_publish )
+                                    @case('mon')
+                                    월요일
+                                    @break
+                                    @case('tue')
+                                    화요일
+                                    @break
+                                    @case('wed')
+                                    수요일
+                                    @break
+                                    @case('thr')
+                                    목요일
+                                    @break
+                                    @case('fri')
+                                    금요일
+                                    @break
+                                    @case('sat')
+                                    토요일
+                                    @break
+                                    @case('sun')
+                                    일요일
+                                    @break
+                                    @default
+                                    매달 {{ $pe->cycle_of_publish }}일
+                                    @break
+                                    @endswitch
+                                    @endif
+                                    @endforeach<br>
+                                    구매 : {{ $post->buy_price }}원<br>
+                                    대여 : {{ $post->rental_price }}원
+                                    @if($post->rental_price == null)
+                                    없음
+                                    @endif
+                                    <br>
+                                    최근 수정 시간 : @foreach ($modify_time as $time)
+                                    @if($post->num == $time->num_of_work)
+                                    {{ $time->updated_at->diffForHumans() }}
+                                    @endif
+                                    @endforeach
+                                </p>
+                            </figcaption>
+                        </a>
+                    </figure>
+                </li> --}}
+
+
                     @endforeach
 
             </ul>
