@@ -50,10 +50,8 @@
             <!-- {{-- 새 회차 추가  --}} -->
             <div class="post-subtitle" style="width:100%; margin-left:8%; text-align:left;">
                 <a href="javascript:popup({{$num}})" target="_blank" style="color:black; text-decoration:none;">
-
-                    <img src="{{asset('image/add.png')}}"
-                        style="width:40px; height:40px; margin-right:1%; display:inline-block;">
-                    목차 추가</a>
+                    <img src="{{asset('image/add.png')}}" style="width:40px; height:40px; margin-right:1%; display:inline-block;">
+                </a>
             </div>
 
             <!-- {{-- 회차 출력 부분  --}} -->
@@ -68,13 +66,13 @@
 
                 <div class="button" style="display:inline-block; width:100px;">
                     <button type="button"
-                        style="cursor: pointer;border: none; background-color:white; height:30px; margin-left:1%; display:inline-block;">
+                        style="cursor: pointer;border: none; background-color:transparent; height:30px; margin-left:1%; display:inline-block;">
                         <img src="{{asset('image/edit.png')}}" title="수정"
-                            style="text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
+                            style="text-align:center; height:100%; font-size:15px; background-color:transparent; color:#6c757d;"></button>
                     <button type="button"
-                        style="cursor: pointer; border:none; background-color:white; height:30px; display:inline-block;">
+                        style="cursor: pointer; border:none; background-color:transparent; height:30px; display:inline-block;">
                         <img src="{{asset('image/trash.png')}}" title="삭제"
-                            style="text-align:center; height:100%; font-size:15px; background-color:white; color:#6c757d;"></button>
+                            style="text-align:center; height:100%; font-size:15px; background-color:transparent; color:#6c757d;"></button>
                     </button>
                 </div>
                 <p class="post-meta" style="font-size:14px; margin-bottom:2%; display:block;  margin-left:7%;">
@@ -88,6 +86,6 @@
             <!-- Pager -->
         </div>
     </div>
-    <a href="{{url('/store')}}"><img class="illustore" src="/image/illust_btn_sm.png" style="margin-left: -5%;margin-top: 2%;"></a>
+    <a href="{{url('/store')}}"><img class="illustore" src="/image/illust_btn_sm.png" style="margin-left: 40%;margin-top: 5%;"></a>
 </div>
 @endsection
