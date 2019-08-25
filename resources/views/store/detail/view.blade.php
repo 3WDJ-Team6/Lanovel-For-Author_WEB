@@ -226,7 +226,7 @@
                 </div>
 
                 <div class="date" name="crated_at" style="margin-top:0px;font-size: 130%;margin-bottom: 3%;">
-                    <span style="font-weight:bold;">アップロード</span> {{$product->updated_at}}
+                        <span style="font-weight:bold;">アップロード</span> {{$product->created_ata}}
                 </div>
 
                 <span style="width:200px;margin-left:76%;">
@@ -249,7 +249,7 @@
                             <h3 class='list_title'>
                                 <img src='../../../image/logo_book.png' class='logo'>
                                 <b class="logo_moji" style='position:absolute;'>&nbsp;購入</b>
-                                <img src='../image/close.png' class="closed">
+                                <img src='../svg/closed_icon.svg' class="closed">
                             </h3>
                             <hr class="holine">
                             <div class="bo">このイラストを<b>購入</b>しますか？</div>
