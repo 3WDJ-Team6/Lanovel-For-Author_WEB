@@ -39,7 +39,7 @@
         <div class="title-bar">
             @foreach ($titles as $title)
             @if(Auth::user()['roles'] == 2)
-            <a href="{{url('/')}}" id="title"><span id="work" style="font-size:2.2em;color:white;font-weight:800;margin-left:5%;">{{$title['work_title']}}</span></a>
+            <a href="{{url('editor/main/chapter')}}/{{$title['num']}}" id="title"><span id="work" style="font-size:2.2em;color:white;font-weight:800;margin-left:5%;">{{$title['work_title']}}</span></a>
             @else
             <button style="display:inline-block; font-size:25px; color:white; border:0; font-weight:800; background:transparent;">{{$title['work_title']}}</button>
             @endif
@@ -69,7 +69,7 @@
 
         <div id="member_list">
             @foreach($memberlist as $row)
-            <div class="member_list_li">&nbsp;{{$row['nickname']}}</div>
+        <div class="member_list_li"><img class='member_profile_icon' src={{$row['profile_photo']}}>&nbsp;{{$row['nickname']}}</div>
             @endforeach
         </div>
         {{-- 글쓰기도구팝업 --}}
