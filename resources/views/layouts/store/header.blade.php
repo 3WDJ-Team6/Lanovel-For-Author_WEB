@@ -179,8 +179,9 @@
                                         <td>{{$invite->from_id}}</td>
                                         <td><a id="viewMessage" class="{{$invite->message_num}}" href="{{url("/viewMessage/$invite->num")}}">{{$invite->message_title}}</a>
                                         </td>
-                                        <td>{{$invite->created_at}}</td>
+                                        <td>{{$invite->created_ata}}</td>
                                     </tr>
+                                    <script>console.log("{{$invite}}")</script>
                                     @endforeach
                                 </tbody>
                             </table>

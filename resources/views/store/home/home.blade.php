@@ -98,7 +98,7 @@
     <!-- ##### Right Side Cart End ##### -->
     <div class="container_box">
     <div class="background" style="position: absolute; z-index:-1; left:16%; top: 7.7%;">
-            <img src="{{asset('image/store/illust_background.png')}}" style="width:110%; margin-left: -4%; margin-top: 0%;">
+            <img src="{{asset('image/store/illust_background2.png')}}" style="width:1724px; hieght:auto; margin-left: -4%; margin-top: 0%;">
         </div>
     <img src="{{asset('image/logo2.png')}}" style="    width: 710px; height:110px; margin-top: 19%; margin-left: 18%;">
             <img src="{{asset('image/store/illust_title_bg.png')}}"

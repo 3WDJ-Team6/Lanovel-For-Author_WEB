@@ -74,7 +74,7 @@
                     </div>
                     <!-- 작품설명 -->
                     <div class="introduce" name="introduction_of_illustration" style="width:100%; height:50px; font-size: 130%;">
-                        <span style="font-weight:bold;">作品説明 </span> 
+                        <span style="font-weight:bold;">作品説明 </span>
                         {{$product->introduction_of_illustration}}
                     </div>
                     <!-- 태그/가격/시간 -->
@@ -89,9 +89,9 @@
                     <div class="price" name="price_of_illustration" style="width:260px; margin-left: -40%;margin:20px; text-align:right; display:inline-block; font-size: 130%;">
                     <span style="font-weight:bold; float: left; margin-left: -6%;">価格</span> <span style="float: left; margin-left:5%;">{{$product->price_of_illustration}}</span>
                     </div>
-                   
+
                     <span class="date" name="crated_at" style=" margin-top:0px; font-size: 130%; float:left;">
-                    <span style="font-weight:bold;">アップロード</span> {{$product->updated_at}}
+                    <span style="font-weight:bold;">アップロード</span> {{$product->created_ata}}
                     </span>
 
                     <span class="button">
@@ -112,15 +112,15 @@
                                     <h4 class="modal-title" id="myModalLabel"></h4>
                                 </div>
                                 <div class="modal-body" style="align-content:start;">
-                                    <h4 style="align-content:start;">해당 삽화를 구매하시겠습니까? &nbsp &nbsp &nbsp &nbsp
+                                    <h4 style="align-content:start;">このイラストを購入しますか。 &nbsp &nbsp &nbsp &nbsp
                                         &nbsp &nbsp &nbsp &nbsp
                                         &nbsp &nbsp </h4>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">キャンセル</button>
                                     <button type="button"
                                         onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'"
-                                        class="btn btn-primary">구매</button>
+                                        class="btn btn-primary">購入</button>
                                 </div>
                             </div>
 
@@ -168,7 +168,7 @@
                             <img class="demo w3-opacity w3-hover-opacity-off" src="{{$post->url_of_illustration}}"
                                 onclick="currentDiv(1)" alt="Nature and sunrise" style="width:225px; height:150px;">
                         </div>
-                        <!-- <div class="w3-col s4"> 
+                        <!-- <div class="w3-col s4">
 
                                     <img class="demo w3-opacity w3-hover-opacity-off"
                                         src="{{asset('image/store/img_snow_wide.jpg')}}" style="width:100%"

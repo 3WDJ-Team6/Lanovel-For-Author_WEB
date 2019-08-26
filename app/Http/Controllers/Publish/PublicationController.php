@@ -548,7 +548,6 @@ class PublicationController extends Controller
                 z-index: 1;
             }
             .nav_li{
-                font-size:1.3em sans-serif;
                 text-decoration: none;
                 font-weight: 600;
                 color:black;
