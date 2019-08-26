@@ -22,11 +22,11 @@
     <div class="right-side-cart-area">
 
         <!-- Cart Button -->
-        <div class="cart-button">
+        {{-- <div class="cart-button">
             <a href="#" id="rightSideCart"><img src="{{asset('image/store/bag.svg')}}" alt=""> <span>3</span></a>
-        </div>
+        </div> --}}
 
-        <div class="cart-content d-flex">
+        {{-- <div class="cart-content d-flex">
 
             <!-- Cart List Area -->
             <div class="cart-list">
@@ -93,13 +93,13 @@
                     <a href="checkout.html" class="btn essence-btn">check out</a>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
     <!-- ##### Right Side Cart End ##### -->
     <div class="container_box">
     <div class="background" style="position: absolute; z-index:-1; left:16%; top: 7.7%;">
-            <img src="{{asset('image/store/illust_background2.png')}}" style="width:1724px; hieght:auto; margin-left: -4%; margin-top: 0%;">
-        </div>
+            <img src="{{asset('image/store/illust_background.png')}}" style="width:110%; margin-left: -4%; margin-top: 0%;">
+    </div>
     <img src="{{asset('image/logo2.png')}}" style="    width: 710px; height:110px; margin-top: 19%; margin-left: 18%;">
             <img src="{{asset('image/store/illust_title_bg.png')}}"
                 style="width:700px; height:20px; margin-top:2%; margin-left: 19%;">
@@ -169,6 +169,6 @@
 
 @endsection
 
-@section('footer')
-<!-- @include('layouts.store.footer') -->
-@endsection
+{{-- @section('footer')
+@include('layouts.store.footer')
+@endsection --}}
