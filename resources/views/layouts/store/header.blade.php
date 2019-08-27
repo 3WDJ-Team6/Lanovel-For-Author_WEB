@@ -3,17 +3,26 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="{{ asset('js/jquery/jquery.modal.min.1.js') }}" defer></script>
     <script src="{{ asset('js/invite_user.js') }}" defer></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <link href="{{ asset('css/jquery.modal.min.1.css') }}" rel="stylesheet">
+    <script>
+        $(document).ready(function () {
+            $(".closed").click(function () {
+                $("#id01").hide();
+            });
+        });
+
+    </script>
     <style>
         .holine {
             width: 94%;
-    top: 32%;
-    left: 4%;
-    border: 1px solid #d8d8d8;
-    margin: 0;
-    margin-left: 3%;
-    margin-bottom: 3%;
-    }
+            top: 32%;
+            left: 4%;
+            border: 1px solid #d8d8d8;
+            margin: 0;
+            margin-left: 3%;
+            margin-bottom: 3%;
+        }
 
         .logo {
             padding-bottom: 10px;
@@ -37,6 +46,7 @@
             display: inline-block;
             float: right;
             margin-right: 3%;
+            cursor: pointer;
         }
 
         .modal-content {
@@ -67,7 +77,7 @@
             width: 30px;
             height: 30px;
             position: absolute;
-            top: 22%;
+            top: 24.5%;
             right: 5%;
         }
 
@@ -81,33 +91,40 @@
             font-size: 22px;
             font-weight: 800;
         }
-        .message_head{
+
+        .message_head {
             margin-left: 3%;
         }
-        .message_head_li{
+
+        .message_head_li {
             margin-right: 30%;
             font-weight: bold;
             font-size: 18px;
         }
-        .message_box{
+
+        .message_box {
             width: 100%;
             height: 250px;
             overflow: scroll;
         }
-        .message_box_ul{
+
+        .message_box_ul {
             margin-left: 3%;
             margin-bottom: 2%;
         }
-        .message_box_li{
+
+        .message_box_li {
             display: inline-block;
             margin-right: 7%;
 
         }
-        .message_box_li_delete{
-        float:right;
-        margin-right: 3%;
-    margin-top: -3%;
+
+        .message_box_li_delete {
+            float: right;
+            margin-right: 3%;
+            margin-top: -3%;
         }
+
     </style>
     <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
         <nav class="classy-navbar" id="essenceNav">
@@ -220,7 +237,6 @@
                             <ul class="summary-table">
                                 <li>
                                     <span>subtotal:</span>
-                                    {{-- <span>{{$cartNum->sumprice}} ₩</span> --}}
                                 </li>
                                 <li>
                                     <span>delivery:</span> <span>Free</span>
@@ -266,98 +282,57 @@
                         </button>
                     </a>
                 </div>
-                <!-- 메시지 모달창 -->
 
-
-                {{-- <div class="modal-content">
-                        <h3 class='list_title'>
+                <div id="id01" class="w3-modal">
+                    <div class="w3-modal-content w3-card-4" style="padding:1%;">
+                        <div class='list_title'>
                             <img src='../../../image/logo_book.png' class='logo'>
-                            <b class="logo_moji" style='position:absolute;'>&nbsp;メッセージ</b>
-                            <img src='../image/close.png' class="closed">
-                        </h3>
-
-                        <div class="bo">このイラストを<b>購入</b>しますか？</div>
-                        <div class="btn_list">
-                            <button type="button" class="btnSubmit" data-dismiss="modal">キャンセル</button>
-                            <button type="button" class="btnSubmit"
-                                　onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'">購入</button>
-            </div>
-        </div> --}}
-
-
-        <div id="id01" class="w3-modal">
-            <div class="w3-modal-content w3-card-4" style="padding:1%;">
-                <div class='list_title'>
-                    <img src='../../../image/logo_book.png' class='logo'>
-                    <b class="logo_moji">&nbsp;メッセージ</b>
-                    <img src='../svg/closed_icon.svg' class="closed">
-                </div>
-                <hr class="holine">
-                <div>
-                    <input type='text' placeholder='メッセージを検索' class='form-control' />
-                    <img class='search' src='../../../image/search.png'>
-                </div>
-                <div class="message_head">
-                    <span class="message_head_li">ニックネーム</span>
-                    <span class="message_head_li">メッセージ</span>
-                    <span class="message_head_li" style="margin-right: 0;margin-left: -3%;">DATE</span>
-                </div>
-                <div class="message_box">
-                    @foreach ($invite_messages as $invite)
-                    <div class="message_box_ul">
-                        <div style="font-size:20px"><b>-</b></div>
-                        <span class="message_box_li" style="width:100px;">{{$invite->from_id}}</span>
-                        <span class="message_box_li" style="width:430px;text-align:center;margin-left:1%;margin-right:4%;"><a id="viewMessage" class="{{$invite->message_num}}"
-                                href="{{url("/viewMessage/$invite->num")}}">{{$invite->message_title}}</a></span>
-                        <span class="message_box_li">{{$invite->created_ata}}</span>
-                        <span class="message_box_li_delete"><img src="/image/tool_icon/edit_delete.png" alt=""></span>
+                            <b class="logo_moji">&nbsp;メッセージ</b>
+                            <img src='../svg/closed_icon.svg' class="closed">
+                        </div>
+                        <hr class="holine">
+                        <div>
+                            <input type='text' placeholder='メッセージを検索' class='form-control' />
+                            <img class='search' src='../../../image/search.png'>
+                        </div>
+                        <div class="message_head">
+                            <span class="message_head_li">ニックネーム</span>
+                            <span class="message_head_li">メッセージ</span>
+                            <span class="message_head_li" style="margin-right: 0;margin-left: -3%;">DATE</span>
+                        </div>
+                        <div class="message_box">
+                            @foreach ($invite_messages as $invite)
+                            <div class="message_box_ul">
+                                <div style="font-size:20px"><b>-</b></div>
+                                <span class="message_box_li" style="width:100px;">{{$invite->from_id}}</span>
+                                <span class="message_box_li"
+                                    style="width:430px;text-align:center;margin-left:1%;margin-right:4%;"><a
+                                        id="viewMessage" class="{{$invite->message_num}}"
+                                        href="{{url("/viewMessage/$invite->num")}}">{{$invite->message_title}}</a></span>
+                                <span class="message_box_li">{{$invite->created_ata}}</span>
+                                <span class="message_box_li_delete"><img src="/image/tool_icon/edit_delete.png"
+                                        alt=""></span>
+                            </div>
+                            @endforeach
+                        </div>
+                        <hr class="holine">
                     </div>
-                    @endforeach
                 </div>
-                <hr class="holine">
-                {{-- <thead>
-                                    <tr>
-                                        <th scope="col">ニックネーム</th>
-                                        <th scope="col"></th>
-                                        <th scope="col">DATE</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                        @foreach($invite_messages as $invite)
-                                        <tr>
-                                            <td>{{$invite->from_id}}</td>
-                <td><a id="viewMessage" class="{{$invite->message_num}}"
-                        href="{{url("/viewMessage/$invite->num")}}">{{$invite->message_title}}</a>
-                </td>
-                <td>{{$invite->created_ata}}</td>
-                </tr>
-                <script>
-                    console.log("{{$invite}}")
+                @endif
+                @endif
 
-                </script>
-                @endforeach
-                </tbody>
-                </table> --}}
-                {{-- </div> --}}
-                {{-- <footer class="w3-container" style="background-color:#FAEBFF; height:40px;"></footer> --}}
+                <div class="user-login-info">
+                    <a href="{{ url('/myPage') }}"><img src="{{ asset('image/store/user.svg') }}" alt="" />
+                    </a>
+                </div>
+                <div class="user-login-info">
+                    <form method="post" action="{{ route('logout') }}" id="frm">
+                        @csrf
+                        <a href="#" onclick="document.getElementById('frm').submit();"><img
+                                src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
+                    </form>
+                </div>
             </div>
         </div>
-        @endif
-        @endif
-        <!-- ##### Right Side Cart End ##### -->
-
-        <div class="user-login-info">
-            <a href="{{ url('/myPage') }}"><img src="{{ asset('image/store/user.svg') }}" alt="" />
-            </a>
-        </div>
-        <div class="user-login-info">
-            <form method="post" action="{{ route('logout') }}" id="frm">
-                @csrf
-                <a href="#" onclick="document.getElementById('frm').submit();"><img
-                        src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
-            </form>
-        </div>
-    </div>
-    </div>
     </div>
 </header>
