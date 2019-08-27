@@ -248,16 +248,16 @@ class PublicationController extends Controller
             '<?xml version="1.0" encoding="UTF-8"?>
         <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="cc: http://creativecommons.org/ns#" unique-identifier="bookID">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-                <dc:title id="title">' . $work_title . '</dc:title>
-                <dc:identifier id="bookID">' . strtolower($work_title) . '</dc:identifier>
+                <dc:title id="title">Novelnoberu</dc:title>
+                <dc:identifier id="bookID">Novelnoberu</dc:identifier>
                 <dc:date>' . $isodate . '</dc:date>
-                <dc:creator id="__dccreator1">' . $work_list . '</dc:creator>
-                <dc:contributor id="contrib1">' . 'Illustrator' . '</dc:contributor>
+                <dc:creator id="__dccreator1">nicominmin</dc:creator>
+                <dc:contributor id="contrib1">Illustrator</dc:contributor>
                 <dc:language>JP</dc:language>
-                <dc:publisher>영진출판사</dc:publisher>
+                <dc:publisher>Youngjin Publishing House</dc:publisher>
+                <meta property="dcterms:modified">' . $isodate . '</meta>
                 <meta refines="#title" property="title-type">main</meta>
                 <meta refines="#contrib1" property="role" scheme="marc:relators">mrk</meta>
-                <meta property="dcterms:modified">' . $isodate . '</meta>
             </metadata>
             <manifest>
                 <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml" />
