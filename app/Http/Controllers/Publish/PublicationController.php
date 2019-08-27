@@ -259,6 +259,7 @@ class PublicationController extends Controller
                 <meta refines="#contrib1" property="role" scheme="marc:relators">mrk</meta>
                 <meta property="dcterms:modified">' . $isodate . '</meta>
             </metadata>
+
             <manifest>
                 <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml" />
                 <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml" />
@@ -361,8 +362,8 @@ class PublicationController extends Controller
                         <li><a href="cover.xhtml" class="nav_li"><span class="white_back">' . 'cover' . $work_title . '</span></a></li>
                         <li><a href="nav.xhtml" class="nav_li"><span class="white_back">Contents</span></a></li>
           ';
-                foreach ($chapter_list as $i => $clist) {
-                    $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li"><span class="white_back">' . $clist['subsubtitle'] . '</span></a>';
+        foreach ($chapter_list as $i => $clist) {
+            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li"><span class="white_back">' . $clist['subsubtitle'] . '</span></a>';
 
             // $a = 50 - strlen($clist['subsubtitle']);
             // for ($b = 0; $a >= $b; $b++) {
@@ -417,28 +418,28 @@ class PublicationController extends Controller
                     // echo "num : $i b<br>";
                     $text = str::replaceFirst('type="video/webm"', ' ', $text);
                     // return $text;
-                } elseif (preg_match('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//',$text)) {
+                } elseif (preg_match('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//', $text)) {
                     // echo "num : $i b<br>";
-                    $text = preg_replace('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//' , "", $text);
+                    $text = preg_replace('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//', "", $text);
                     // return $text;
                 } elseif (preg_match('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', $text)) {
                     // echo "num : $i c<br>";
                     $text = preg_replace('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', "$1<ruby>$2<rt>$3</rt></ruby>", $text);
-                } elseif (str::contains($text,'alt="alt">')){
-                    $text = str::replaceFirst('alt="alt">','alt="alt" />',$text);
-                } elseif (str::contains($text,'onclick="audioPlay(event)" /></span>')){
-                    $text = str::replaceFirst('onclick="audioPlay(event)" /></span>','onclick="audioPlay(event)"></span>',$text);
+                } elseif (str::contains($text, 'alt="alt">')) {
+                    $text = str::replaceFirst('alt="alt">', 'alt="alt" />', $text);
+                } elseif (str::contains($text, 'onclick="audioPlay(event)" /></span>')) {
+                    $text = str::replaceFirst('onclick="audioPlay(event)" /></span>', 'onclick="audioPlay(event)"></span>', $text);
                 }
                 // elseif (str::contains($text,'<audio id="')){
                 //     $text = str::replaceFirst('<audio id="','<audio id ="'.$int,$text);
                 // }
                 elseif (preg_match('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/', $text)) {
-                    $text = preg_replace('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/',"$1$2$3 >"  , $text);
-                } else{
+                    $text = preg_replace('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/', "$1$2$3 >", $text);
+                } else {
                     $clist['content'] = $text;
                     break;
                 }
-                $int=$int+1;
+                $int = $int + 1;
             }
             $contents =
                 "<?xml version='1.0' encoding='UTF-8'?>
@@ -461,9 +462,9 @@ class PublicationController extends Controller
                 <body>
                     <h1>" . $clist['subsubtitle'] . "</h1>
                     " . $clist['content'];
-            if($i==0){
-                $contents = $contents.
-                "    <p id='prof-Ol'
+            if ($i == 0) {
+                $contents = $contents .
+                    "    <p id='prof-Ol'
                 style='position: absolute;top: 0px;left: 0px;opacity: 0.5;height: 100%; width: 100%; z-index: 65555;background-color: rgb(102, 102, 102);display: none;margin: 0;'>
             </p>
             <p id='prof-Bg'
@@ -478,7 +479,7 @@ class PublicationController extends Controller
                     alt='alt' />
             </p>";
             }
-            $contents = $contents. "
+            $contents = $contents . "
             </body>
         </html>
         ";
@@ -756,34 +757,31 @@ class PublicationController extends Controller
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 책으로 발행했을 때도 epub으로 만들어서 작가에게 줘야함 publishcontroller에 추가할 코드(아래)
 
-
-        $work_title == '냥멍이' ? $work_title = '냥멍이' : $work_title = $work_title;
-        $authorFolder == 'Author@test' ? $authorFolder = 'Author@test' : $authorFolder = $authorFolder;
         shell_exec('mkdir /mnt/epubz');
         //shell_exec('cd /mnt/mountpoint/Author/Author@test/WorkSpace'); // shell_exec('zip /mnt/epubz/folder.zip -r 폴더구조테스트/*'); // 해당 폴더 압축 ->shell로 대체
         shell_exec('zipdir ' . $authorFolder . ' ' . $work_title); // zip 유저명 폴더명 $1 $2 shell폴더안에 있는 zipdir.sh (shell프로그램)
         # zip 으로 만드는건 끝
 
-        // $filepath = '/mnt/epubz/' . $work_title . '.zip';
-        // $filesize = filesize($filepath);
-        // $path_parts = pathinfo($filepath);
-        // $filename = $path_parts['basename'];
-        // $extension = $path_parts['extension'];
+        $filepath = '/mnt/epubz/' . $work_title . '.epub';      // file경로 epub으로 저장했음 .epub으로 찾아야함
+        $filesize = filesize($filepath);
+        $path_parts = pathinfo($filepath);
+        $filename = $path_parts['basename'];
+        $extension = $path_parts['extension'];
 
-        // header("Pragma: public");
-        // header("Expires: 0");
-        // header("Content-Type: application/octet-stream");
-        // header("Content-Disposition: attachment; filename=" . $work_title . '.zip');
-        // header("Content-Transfer-Encoding: binary");
-        // header("Content-Length: $filesize");
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Content-Type: application/epub+zip");
+        header("Content-Type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=" . $work_title . '.epub');
+        header("Content-Transfer-Encoding: binary");
+        header("Content-Length: $filesize");
 
-        // ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
-        // flush();                # 시스템 출력 버퍼를 비움
-        // readfile($filepath);    # file을 출력하는 php 함수
+        return back()->withSuccess($work_title . 'の ' . $chapter_title . ' が成功的に発行されました。');
+        
+        ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
+        flush();                # 시스템 출력 버퍼를 비움
+        readfile($filepath);    # file을 출력하는 php 함수
 
-
-
-        return back()->withSuccess($work_title . '의 ' . $chapter_title . ' 이(가) 정상적으로 발행 되었습니다.');
         /*
  위의 생성된 파일들을 바탕으로 epub 파일 생성됨.(
  image.png만 있으면
