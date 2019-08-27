@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Mobile;
 
 use DB;
@@ -49,11 +50,11 @@ class BookController extends Controller
         $work_title == '냥멍이' ? $work_title = '냥멍이' : $work_title = $work_title;
         $authorFolder == 'Author@test' ? $authorFolder = 'Author@test' : $authorFolder = $authorFolder;
         shell_exec('mkdir /mnt/epubz');
-        //shell_exec('cd /mnt/mountpoint/Author/Author@test/WorkSpace'); // shell_exec('zip /mnt/epubz/folder.zip -r 폴더구조테스트/*'); // 해당 폴더 압축 ->shell로 대체
+        //shell_exec('cd /mnt/mountpoint/Author/Author@test/WorkSpace'); // shell_exec('zip /mnt/epubz/folder.zip -r 폴더구조테스트/*'); // 해당 폴더 압축 ->shell programing로 대체
         shell_exec('zipdir ' . $authorFolder . ' ' . $work_title); // zip 유저명 폴더명 $1 $2 shell폴더안에 있는 zipdir.sh (shell프로그램)
         # zip 으로 만드는건 끝
 
-        $filepath = '/mnt/epubz/' . $work_title . '.zip';
+        $filepath = '/mnt/epubz/' . $work_title . '.epub';      // file경로 epub으로 저장했음 .epub으로 찾아야함
         $filesize = filesize($filepath);
         $path_parts = pathinfo($filepath);
         $filename = $path_parts['basename'];
@@ -61,6 +62,7 @@ class BookController extends Controller
 
         header("Pragma: public");
         header("Expires: 0");
+        header("Content-Type: application/epub+zip");
         header("Content-Type: application/octet-stream");
         header("Content-Disposition: attachment; filename=" . $work_title . '.epub');
         header("Content-Transfer-Encoding: binary");
@@ -69,6 +71,7 @@ class BookController extends Controller
         ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
         flush();                # 시스템 출력 버퍼를 비움
         readfile($filepath);    # file을 출력하는 php 함수
+
         /*
                 위의 생성된 파일들을 바탕으로 epub 파일 생성됨.(
                 image.png만 있으면
