@@ -40,7 +40,6 @@ return array(
     'App\\Http\\Controllers\\WorkOut\\GraphController' => $baseDir . '/app/Http/Controllers/WorkOut/GraphController.php',
     'App\\Http\\Controllers\\WorkOut\\IllustController' => $baseDir . '/app/Http/Controllers/WorkOut/IllustController.php',
     'App\\Http\\Controllers\\WorkOut\\IndexController' => $baseDir . '/app/Http/Controllers/WorkOut/IndexController.php',
-    'App\\Http\\Controllers\\tools' => $baseDir . '/app/Http/Controllers/tools.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
     'App\\Http\\Middleware\\CheckForMaintenanceMode' => $baseDir . '/app/Http/Middleware/CheckForMaintenanceMode.php',

@@ -220,8 +220,8 @@
                                             @endswitch
                                             @endif
                                             @endforeach<br>
-                                            購入 : {{ $post->buy_price }}円<br>
-                                            レンタル : {{ $post->rental_price }}円
+                                            購入 : {{ ($post->buy_price)/10 }}円<br>
+                                            レンタル : {{ ($post->rental_price)/10 }}円
                                             @if($post->rental_price == null)
                                             なし
                                             @endif

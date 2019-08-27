@@ -626,7 +626,6 @@ class ComposerStaticInit1742aec0ee8a96439cb0e0909600a7cb
         'App\\Http\\Controllers\\WorkOut\\GraphController' => __DIR__ . '/../..' . '/app/Http/Controllers/WorkOut/GraphController.php',
         'App\\Http\\Controllers\\WorkOut\\IllustController' => __DIR__ . '/../..' . '/app/Http/Controllers/WorkOut/IllustController.php',
         'App\\Http\\Controllers\\WorkOut\\IndexController' => __DIR__ . '/../..' . '/app/Http/Controllers/WorkOut/IndexController.php',
-        'App\\Http\\Controllers\\tools' => __DIR__ . '/../..' . '/app/Http/Controllers/tools.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',

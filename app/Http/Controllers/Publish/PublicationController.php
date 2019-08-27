@@ -248,16 +248,16 @@ class PublicationController extends Controller
             '<?xml version="1.0" encoding="UTF-8"?>
         <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="cc: http://creativecommons.org/ns#" unique-identifier="bookID">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-                <dc:title id="title">' . $work_title . '</dc:title>
-                <dc:identifier id="bookID">' . strtolower($work_title) . '</dc:identifier>
+                <dc:title id="title">Novelnoberu</dc:title>
+                <dc:identifier id="bookID">Novelnoberu</dc:identifier>
                 <dc:date>' . $isodate . '</dc:date>
-                <dc:creator id="__dccreator1">' . $work_list . '</dc:creator>
-                <dc:contributor id="contrib1">' . 'Illustrator' . '</dc:contributor>
+                <dc:creator id="__dccreator1">nicominmin</dc:creator>
+                <dc:contributor id="contrib1">Illustrator</dc:contributor>
                 <dc:language>JP</dc:language>
-                <dc:publisher>영진출판사</dc:publisher>
+                <dc:publisher>Youngjin Publishing House</dc:publisher>
+                <meta property="dcterms:modified">' . $isodate . '</meta>
                 <meta refines="#title" property="title-type">main</meta>
                 <meta refines="#contrib1" property="role" scheme="marc:relators">mrk</meta>
-                <meta property="dcterms:modified">' . $isodate . '</meta>
             </metadata>
 
             <manifest>
@@ -275,6 +275,11 @@ class PublicationController extends Controller
                 <item id="images-yellowstar" href="images/gifimages/yellowstar.gif" media-type="image/gif" />
                 <item id="js-jquery" href="js/jquery.min.js" media-type="text/js" />
                 <item id="js-viewer" href="js/viewer.js" media-type="text/js" />
+                <item id="images-nameia" href="images/prof_misaki.jpg" media-type="image/jpeg" />
+                <item id="images-nameib" href="images/prof_mashiro.jpg" media-type="image/jpeg" />
+                <item id="images-nameic" href="images/prof_nanami.jpg" media-type="image/jpeg" />
+                <item id="images-nameid" href="images/prof_sorata.jpg" media-type="image/jpeg" />
+                <item id="images-nameie" href="images/1565264465profile.png" media-type="image/png" />
  ';
         foreach ($onlyimglist as $i => $il) {
 
@@ -284,7 +289,8 @@ class PublicationController extends Controller
                     $filetype = 'jpeg';
                 }
                 $filetype = strtolower('image/' . $filetype);
-                $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il . '" media-type="' . $filetype . '" />
+                $opf = $opf . '
+                <item id="images-' . $i . '" href="images/' . $il . '" media-type="' . $filetype . '" />
         ';
             }
         }
@@ -295,7 +301,8 @@ class PublicationController extends Controller
                     $filetype = 'mpeg';
                 }
                 $filetype = strtolower('audio/' . $filetype);
-                $opf = $opf . '<item id="audio-' . $i . '" href="audio/' . $il . '" media-type="' . $filetype . '" />
+                $opf = $opf . '
+                <item id="audio-' . $i . '" href="audio/' . $il . '" media-type="' . $filetype . '" />
   ';
             }
         }
@@ -303,7 +310,8 @@ class PublicationController extends Controller
             if (!str::contains($opf, $il)) {
                 $filetype = str::after($il, '.');
                 $filetype = strtolower('video/' . $filetype);
-                $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il . '" media-type="' . $filetype . '" />
+                $opf = $opf . '
+                <item id="video-' . $i . '" href="video/' . $il . '" media-type="' . $filetype . '" />
                     ';
             }
         }
@@ -318,25 +326,30 @@ class PublicationController extends Controller
                     $filetype = strtolower('image/' . $filetype);
                     // return $filetype;
                 }
-                $opf = $opf . '<item id="purchase-' . $i . '" href="purchase/' . $il . '" media-type="' . $filetype . '" />
+                $opf = $opf . '
+                <item id="purchase-' . $i . '" href="purchase/' . $il . '" media-type="' . $filetype . '" />
         ';
             }
         }
         foreach ($chapter_list as $i => $clist) {
-            $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" properties="scripted" media-type="application/xhtml+xml" />
+            $opf = $opf . '
+                <item id="main' . $i . '" href="text/main' . $i . '.xhtml" properties="scripted" media-type="application/xhtml+xml" />
         ';
         }
 
-        $opf = $opf . '</manifest>
+        $opf = $opf . '
+            </manifest>
             <spine page-progression-direction="ltr">
-            <itemref idref="coverpage" linear="yes" />
-            <itemref idref="toc" linear="yes" />
+                <itemref idref="coverpage" linear="yes" />
+                <itemref idref="toc" linear="yes" />
             ';
         foreach ($chapter_list as $i => $clist) {
-            $opf = $opf . '<itemref idref="main' . $i . '" linear="yes" />
+            $opf = $opf . '
+                <itemref idref="main' . $i . '" linear="yes" />
  ';
         }
-        $opf = $opf . '</spine>
+        $opf = $opf . '
+            </spine>
         </package>
         ';
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . $work_title . '.opf', $opf, [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
@@ -536,7 +549,6 @@ class PublicationController extends Controller
                 z-index: 1;
             }
             .nav_li{
-                font-size:1.3em sans-serif;
                 text-decoration: none;
                 font-weight: 600;
                 color:black;

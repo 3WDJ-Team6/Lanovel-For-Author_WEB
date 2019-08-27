@@ -144,7 +144,7 @@ Route::get('/loadUserInfoModal/{UserEmail}', 'InviteUser\InviteUserController@lo
 Route::get('/inviteUser/{userid}', 'InviteUser\InviteUserController@loadInviteUserModal');
 Route::post('/sendInviteMessage', 'InviteUser\InviteUserController@SendingInviteMessage');
 Route::get('/viewMessages', 'InviteUser\InviteUserController@viewMessages');
-Route::post('/viewMessage/{messageNum}', 'InviteUser\InviteUserController@viewMessage');
+Route::get('/viewMessage/{messageNum}', 'InviteUser\InviteUserController@viewMessage');
 Route::get('/acceptInvite/{messageNum}/{workNum}', 'InviteUser\InviteUserController@acceptInvite');
 
 Route::post('/destroy', 'Auth\LoginController@destroy');
