@@ -55,7 +55,7 @@
             </div>
             <div class="header-subtitle animate-pop-in">
                 <ul style="margin-left:25%;">
-                    <li><a id="kakao-login-btn"></a></li>
+                    <li><button type="submit" class="line"><img class="line_logo" src="/image/line_logo.png" alt="">&nbsp;{{ __('LINEでログイン') }}</button></li>
                     <li><button type="submit" class="login-btn">{{ __('ログイン') }}</button></li>
                 </ul>
             </div>
@@ -67,7 +67,7 @@
 
 </div>
 
-<script>
+{{-- <script>
     Kakao.init('2c95436371fe2b214c00944d71b32514');
     // 카카오 로그인 버튼을 생성합니다.
     Kakao.Auth.createLoginButton({
@@ -80,6 +80,5 @@
             alert(JSON.stringify(err));
         }
     });
-
-</script>
+</script> --}}
 @endsection

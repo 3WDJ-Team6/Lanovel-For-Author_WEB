@@ -1060,7 +1060,7 @@ input[type="file"] {
 
 #obj_feild {
     margin-top: 10px;
-    display: inline-block;
+    /* display: inline-block; */
     position: relative;
     float: left;
 }
