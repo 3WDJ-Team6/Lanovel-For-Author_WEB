@@ -9,7 +9,6 @@
         padding: 10px;
         float: left;
     }
-
 </style>
 @endsection
 
@@ -22,21 +21,18 @@
     <img src="{{asset('/image/writing_room_bg.png')}}" alt="writing_room_bg.png">
     <img src="{{asset('/image/logo.png')}}" class="rocky-dashed animate-pop-in logo_bg" alt="logo">
     <img src="{{asset('/image/writing_room_bg.png')}}" class="rocky-dashed animate-pop-in writing_bg" alt="logo">
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-            <div class="header-title animate-pop-in">
-                <input placeholder=" example@gmail.com" id="email" type="email"
-                    class="login{{ $errors->has('id') ? ' is-invalid' : '' }}" name="email" value="{{ old('id') }}"
-                    required autofocus>
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
+        <div class="header-title animate-pop-in">
+            <input placeholder=" example@gmail.com" id="email" type="email" class="login{{ $errors->has('id') ? ' is-invalid' : '' }}" name="email" value="{{ old('id') }}" required autofocus>
 
-                @if ($errors->has('email'))
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('email') }}</strong>
-                </span>
-                @endif
+            @if ($errors->has('email'))
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('email') }}</strong>
+            </span>
+            @endif
 
-                <input placeholder=" password" id="password" type="password"
-                    class="login{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+            <input placeholder=" password" id="password" type="password" class="login{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 
                 @if ($errors->has('password'))
                 <span class="invalid-feedback" role="alert">
@@ -72,11 +68,11 @@
     // 카카오 로그인 버튼을 생성합니다.
     Kakao.Auth.createLoginButton({
         container: '#kakao-login-btn',
-        success: function (authObj) {
+        success: function(authObj) {
             location.href = "{{url('auth/loginForKakao')}}";
             //alert(JSON.stringify(authObj));
         },
-        fail: function (err) {
+        fail: function(err) {
             alert(JSON.stringify(err));
         }
     });

@@ -248,17 +248,18 @@ class PublicationController extends Controller
             '<?xml version="1.0" encoding="UTF-8"?>
         <package xmlns="http://www.idpf.org/2007/opf" version="3.0" xml:lang="JP" prefix="cc: http://creativecommons.org/ns#" unique-identifier="bookID">
             <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
-                <dc:title id="title">' . $work_title . '</dc:title>
-                <dc:identifier id="bookID">' . strtolower($work_title) . '</dc:identifier>
+                <dc:title id="title">Novelnoberu</dc:title>
+                <dc:identifier id="bookID">Novelnoberu</dc:identifier>
                 <dc:date>' . $isodate . '</dc:date>
-                <dc:creator id="__dccreator1">' . $work_list . '</dc:creator>
-                <dc:contributor id="contrib1">' . 'Illustrator' . '</dc:contributor>
+                <dc:creator id="__dccreator1">nicominmin</dc:creator>
+                <dc:contributor id="contrib1">Illustrator</dc:contributor>
                 <dc:language>JP</dc:language>
-                <dc:publisher>영진출판사</dc:publisher>
+                <dc:publisher>Youngjin Publishing House</dc:publisher>
+                <meta property="dcterms:modified">' . $isodate . '</meta>
                 <meta refines="#title" property="title-type">main</meta>
                 <meta refines="#contrib1" property="role" scheme="marc:relators">mrk</meta>
-                <meta property="dcterms:modified">' . $isodate . '</meta>
             </metadata>
+
             <manifest>
                 <item id="toc" properties="nav" href="nav.xhtml" media-type="application/xhtml+xml" />
                 <item id="coverpage" href="cover.xhtml" media-type="application/xhtml+xml" />
@@ -274,6 +275,11 @@ class PublicationController extends Controller
                 <item id="images-yellowstar" href="images/gifimages/yellowstar.gif" media-type="image/gif" />
                 <item id="js-jquery" href="js/jquery.min.js" media-type="text/js" />
                 <item id="js-viewer" href="js/viewer.js" media-type="text/js" />
+                <item id="images-nameia" href="images/prof_misaki.jpg" media-type="image/jpeg" />
+                <item id="images-nameib" href="images/prof_mashiro.jpg" media-type="image/jpeg" />
+                <item id="images-nameic" href="images/prof_nanami.jpg" media-type="image/jpeg" />
+                <item id="images-nameid" href="images/prof_sorata.jpg" media-type="image/jpeg" />
+                <item id="images-nameie" href="images/1565264465profile.png" media-type="image/png" />
  ';
         foreach ($onlyimglist as $i => $il) {
 
@@ -283,7 +289,8 @@ class PublicationController extends Controller
                     $filetype = 'jpeg';
                 }
                 $filetype = strtolower('image/' . $filetype);
-                $opf = $opf . '<item id="images-' . $i . '" href="images/' . $il . '" media-type="' . $filetype . '" />
+                $opf = $opf . '
+                <item id="images-' . $i . '" href="images/' . $il . '" media-type="' . $filetype . '" />
         ';
             }
         }
@@ -294,7 +301,8 @@ class PublicationController extends Controller
                     $filetype = 'mpeg';
                 }
                 $filetype = strtolower('audio/' . $filetype);
-                $opf = $opf . '<item id="audio-' . $i . '" href="audio/' . $il . '" media-type="' . $filetype . '" />
+                $opf = $opf . '
+                <item id="audio-' . $i . '" href="audio/' . $il . '" media-type="' . $filetype . '" />
   ';
             }
         }
@@ -302,7 +310,8 @@ class PublicationController extends Controller
             if (!str::contains($opf, $il)) {
                 $filetype = str::after($il, '.');
                 $filetype = strtolower('video/' . $filetype);
-                $opf = $opf . '<item id="video-' . $i . '" href="video/' . $il . '" media-type="' . $filetype . '" />
+                $opf = $opf . '
+                <item id="video-' . $i . '" href="video/' . $il . '" media-type="' . $filetype . '" />
                     ';
             }
         }
@@ -317,25 +326,30 @@ class PublicationController extends Controller
                     $filetype = strtolower('image/' . $filetype);
                     // return $filetype;
                 }
-                $opf = $opf . '<item id="purchase-' . $i . '" href="purchase/' . $il . '" media-type="' . $filetype . '" />
+                $opf = $opf . '
+                <item id="purchase-' . $i . '" href="purchase/' . $il . '" media-type="' . $filetype . '" />
         ';
             }
         }
         foreach ($chapter_list as $i => $clist) {
-            $opf = $opf . '<item id="main' . $i . '" href="text/main' . $i . '.xhtml" properties="scripted" media-type="application/xhtml+xml" />
+            $opf = $opf . '
+                <item id="main' . $i . '" href="text/main' . $i . '.xhtml" properties="scripted" media-type="application/xhtml+xml" />
         ';
         }
 
-        $opf = $opf . '</manifest>
+        $opf = $opf . '
+            </manifest>
             <spine page-progression-direction="ltr">
-            <itemref idref="coverpage" linear="yes" />
-            <itemref idref="toc" linear="yes" />
+                <itemref idref="coverpage" linear="yes" />
+                <itemref idref="toc" linear="yes" />
             ';
         foreach ($chapter_list as $i => $clist) {
-            $opf = $opf . '<itemref idref="main' . $i . '" linear="yes" />
+            $opf = $opf . '
+                <itemref idref="main' . $i . '" linear="yes" />
  ';
         }
-        $opf = $opf . '</spine>
+        $opf = $opf . '
+            </spine>
         </package>
         ';
         Storage::disk('s3')->put($filePath . 'OEBPS' . DIRECTORY_SEPARATOR . $work_title . '.opf', $opf, [ #7 설정한 경로로 파일 저장 + 전체파일을 문자열로 읽어들이는 PHP 함수
@@ -361,8 +375,8 @@ class PublicationController extends Controller
                         <li><a href="cover.xhtml" class="nav_li"><span class="white_back">' . 'cover' . $work_title . '</span></a></li>
                         <li><a href="nav.xhtml" class="nav_li"><span class="white_back">Contents</span></a></li>
           ';
-                foreach ($chapter_list as $i => $clist) {
-                    $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li"><span class="white_back">' . $clist['subsubtitle'] . '</span></a>';
+        foreach ($chapter_list as $i => $clist) {
+            $nav = $nav . '<li> <a href="text/main' . $i . '.xhtml" class="nav_li"><span class="white_back">' . $clist['subsubtitle'] . '</span></a>';
 
             // $a = 50 - strlen($clist['subsubtitle']);
             // for ($b = 0; $a >= $b; $b++) {
@@ -417,28 +431,28 @@ class PublicationController extends Controller
                     // echo "num : $i b<br>";
                     $text = str::replaceFirst('type="video/webm"', ' ', $text);
                     // return $text;
-                } elseif (preg_match('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//',$text)) {
+                } elseif (preg_match('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//', $text)) {
                     // echo "num : $i b<br>";
-                    $text = preg_replace('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//' , "", $text);
+                    $text = preg_replace('/WorkSpace\/[A-Za-z0-9%]*\/OEBPS\//', "", $text);
                     // return $text;
                 } elseif (preg_match('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', $text)) {
                     // echo "num : $i c<br>";
                     $text = preg_replace('/([、-んァ-ん\ー]*)([一-龠]*)（([、-んァ-ヶ\ー]*)）/', "$1<ruby>$2<rt>$3</rt></ruby>", $text);
-                } elseif (str::contains($text,'alt="alt">')){
-                    $text = str::replaceFirst('alt="alt">','alt="alt" />',$text);
-                } elseif (str::contains($text,'onclick="audioPlay(event)" /></span>')){
-                    $text = str::replaceFirst('onclick="audioPlay(event)" /></span>','onclick="audioPlay(event)"></span>',$text);
+                } elseif (str::contains($text, 'alt="alt">')) {
+                    $text = str::replaceFirst('alt="alt">', 'alt="alt" />', $text);
+                } elseif (str::contains($text, 'onclick="audioPlay(event)" /></span>')) {
+                    $text = str::replaceFirst('onclick="audioPlay(event)" /></span>', 'onclick="audioPlay(event)"></span>', $text);
                 }
                 // elseif (str::contains($text,'<audio id="')){
                 //     $text = str::replaceFirst('<audio id="','<audio id ="'.$int,$text);
                 // }
                 elseif (preg_match('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/', $text)) {
-                    $text = preg_replace('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/',"$1$2$3 >"  , $text);
-                } else{
+                    $text = preg_replace('/(\<span\ )([A-Za-z0-9\=\%\"\(\)\.\ \_\:\;]*)( onclick\=\"audioPlay\(event\)\") ([\/\>]{2})/', "$1$2$3 >", $text);
+                } else {
                     $clist['content'] = $text;
                     break;
                 }
-                $int=$int+1;
+                $int = $int + 1;
             }
             $contents =
                 "<?xml version='1.0' encoding='UTF-8'?>
@@ -461,9 +475,9 @@ class PublicationController extends Controller
                 <body>
                     <h1>" . $clist['subsubtitle'] . "</h1>
                     " . $clist['content'];
-            if($i==0){
-                $contents = $contents.
-                "    <p id='prof-Ol'
+            if ($i == 0) {
+                $contents = $contents .
+                    "    <p id='prof-Ol'
                 style='position: absolute;top: 0px;left: 0px;opacity: 0.5;height: 100%; width: 100%; z-index: 65555;background-color: rgb(102, 102, 102);display: none;margin: 0;'>
             </p>
             <p id='prof-Bg'
@@ -478,7 +492,7 @@ class PublicationController extends Controller
                     alt='alt' />
             </p>";
             }
-            $contents = $contents. "
+            $contents = $contents . "
             </body>
         </html>
         ";
@@ -535,7 +549,6 @@ class PublicationController extends Controller
                 z-index: 1;
             }
             .nav_li{
-                font-size:1.3em sans-serif;
                 text-decoration: none;
                 font-weight: 600;
                 color:black;
@@ -756,34 +769,31 @@ class PublicationController extends Controller
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 책으로 발행했을 때도 epub으로 만들어서 작가에게 줘야함 publishcontroller에 추가할 코드(아래)
 
-
-        $work_title == '냥멍이' ? $work_title = '냥멍이' : $work_title = $work_title;
-        $authorFolder == 'Author@test' ? $authorFolder = 'Author@test' : $authorFolder = $authorFolder;
         shell_exec('mkdir /mnt/epubz');
         //shell_exec('cd /mnt/mountpoint/Author/Author@test/WorkSpace'); // shell_exec('zip /mnt/epubz/folder.zip -r 폴더구조테스트/*'); // 해당 폴더 압축 ->shell로 대체
         shell_exec('zipdir ' . $authorFolder . ' ' . $work_title); // zip 유저명 폴더명 $1 $2 shell폴더안에 있는 zipdir.sh (shell프로그램)
         # zip 으로 만드는건 끝
 
-        // $filepath = '/mnt/epubz/' . $work_title . '.zip';
-        // $filesize = filesize($filepath);
-        // $path_parts = pathinfo($filepath);
-        // $filename = $path_parts['basename'];
-        // $extension = $path_parts['extension'];
+        $filepath = '/mnt/epubz/' . $work_title . '.epub';      // file경로 epub으로 저장했음 .epub으로 찾아야함
+        $filesize = filesize($filepath);
+        $path_parts = pathinfo($filepath);
+        $filename = $path_parts['basename'];
+        $extension = $path_parts['extension'];
 
-        // header("Pragma: public");
-        // header("Expires: 0");
-        // header("Content-Type: application/octet-stream");
-        // header("Content-Disposition: attachment; filename=" . $work_title . '.zip');
-        // header("Content-Transfer-Encoding: binary");
-        // header("Content-Length: $filesize");
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Content-Type: application/epub+zip");
+        header("Content-Type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=" . $work_title . '.epub');
+        header("Content-Transfer-Encoding: binary");
+        header("Content-Length: $filesize");
 
-        // ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
-        // flush();                # 시스템 출력 버퍼를 비움
-        // readfile($filepath);    # file을 출력하는 php 함수
+        return back()->withSuccess($work_title . 'の ' . $chapter_title . ' が成功的に発行されました。');
+        
+        ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
+        flush();                # 시스템 출력 버퍼를 비움
+        readfile($filepath);    # file을 출력하는 php 함수
 
-
-
-        return back()->withSuccess($work_title . '의 ' . $chapter_title . ' 이(가) 정상적으로 발행 되었습니다.');
         /*
  위의 생성된 파일들을 바탕으로 epub 파일 생성됨.(
  image.png만 있으면

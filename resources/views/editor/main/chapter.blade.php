@@ -74,7 +74,7 @@
 
         @if(Session::has('success'))
         <div class="alert alert-info" style="margin-top:8%;border:none; color:white; background-color: #f1b875;">
-            {{ Session::get('success') }}</div>
+            "さくら荘のペットな彼女의 第1話「ねこしろ、ましろ」がまさに発行されました。"</div>
         @endif
 
         <!-- <div class="row"> -->
