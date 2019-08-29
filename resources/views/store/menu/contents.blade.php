@@ -12,7 +12,7 @@
 
 <body>
 
-    <div class="form-check form-check-inline"
+    {{-- <div class="form-check form-check-inline"
         style="width:100%; align-items: center; display: flex; justify-content: center;">
         <input type="checkbox" class="form-check-input" id="materialInline1" style="margin:20px;">
         <label class="form-check-label" for="materialInline1">업데이트</label>
@@ -22,12 +22,19 @@
         <label class="form-check-label" for="materialInline3">좋아요</label>
         <input type="checkbox" class="form-check-input" id="materialInline4" style="margin:20px;">
         <label class="form-check-label" for="materialInline4">가격</label>
-    </div>
+    </div> --}}
 
 
     <section class="new_arrivals_area section-padding-80 clearfix">
         <div class="container">
-            <div class="row">
+                <div class="background" style="position: absolute; z-index:-1; left:16%; top: 7.7%;">
+                        <img src="{{asset('image/store/illust_background25.png')}}" style="width:110%; margin-left: -4%; margin-top: 0%;">
+                </div>
+                <img src="{{asset('image/logo2.png')}}" style="    width: 710px; height:110px; margin-top: 12%; margin-left: 18%;">
+            <img src="{{asset('image/store/illust_title_bg.png')}}"
+                style="width:700px; height:20px; margin-top:2%; margin-left: 19%;">
+
+            {{-- <div class="row">
                 <div class="col-12">
                     <div class="section-heading text-center">
                         <h2>Products</h2>
@@ -35,20 +42,25 @@
                     <!-- @if(Session::has('message'))
                     <div class="alert alert-info">{{ Session::get('message') }}</div>
                     @endif -->
-                </div>
+                </div> --}}
 
             </div>
         </div>
         <!-- <div class="container"> -->
 
         <div class="row"
-            style="margin-left:5%; margin-right:5%; align-items: center; display: flex; justify-content: center;">
+            style="    margin-left: 7%;
+            margin-right: 5%;
+            align-items: center;
+            margin-top: 8%;
+            display: flex;
+            justify-content: center;">
             <!-- <div class="col-12" > -->
             @foreach($products as $row)
             <!-- 작품 -->
 
             <a href="{{url('/view')}}/{{$row['num']}}">
-                <div class="single-product-wrapper" style="display:inline-block; margin:3%;">
+                <div style="display:inline-block; margin:3%;">
                     <!-- 작품이미지 -->
                     <div class="product-img" style="width: 200px; height: 150px;">
                         <img src="{{$row['url_of_illustration']}}" alt="작품1"

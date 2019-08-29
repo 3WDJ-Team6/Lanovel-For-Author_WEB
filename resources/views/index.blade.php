@@ -28,7 +28,7 @@
     </div> -->
     <div class="container_box">
         <div class="background" style="position: absolute; z-index:-1; left:16%; top: 7.7%;">
-            <img src="{{asset('image/main_box.png')}}" style="width:110%;height:2700px;">
+            <img src="{{asset('image/main_box.png')}}" style="width:110%;">
         </div>
         <div class="form-group " style="display:block;">
 
@@ -54,7 +54,12 @@
                 style="width:700px; height:20px; margin-top:3%; margin-left: 3%; ">
             @if(Session::has('success'))
             <div class="alert alert-info"
-                style="border: none; color: black; background: none; margin:10%; font-size: 30px">
+                style=" border: none;
+                        color: black;
+                        background: none;
+                        margin: 6%;
+                        margin-left: 14%;
+                        font-size: 45px;">
                 {{ Session::get('success') }}<br>{{Session::get('success2')}}
             </div>
             @endif
@@ -117,37 +122,28 @@
             </script>
             <ul class="align">
                 @foreach ($posts as $post)
-
                 <li style="margin-top: 7%;">
                     <div class="background_book" style="width:110%; height:340px; margin-left:-4.1%;">
-                        {{-- <img src="/image/book_bga.png" style="width:100%; height:300px; "> --}}
                         <script>
+                            if(a>4){
+                                a = 0;
+                            }
                             a++;
                             var img_book = "";
                             img_book = "<img src='/image/book_bg" + a + ".png' style='width:100%;height:300px;'>"
                             console.log(a);
                             document.write(img_book);
-
                         </script>
                         <div class="information_book" style="width:1000px; margin-top: -21%; margin-left: 14%;">
                             <figure class='book'>
                                 <a href="{{url('editor/main/chapter')}}/{{$post['num']}}">
                                     <!-- Front -->
 
-                                    <ul class='hardcover_front' style="    left: -14%;
-                                    top: -30%;
-                                    width: 107%;
-                                    height: 107%;">
-                                        <li style="    width: 100%;
-                                        height: 100%;">
-                                            <!-- <div class="coverDesign yellow" style="z-index:1 ;width:200px; height:250px;"> -->
-                                            <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="width: 140%;
-                                                height: 140%;
-                                                left: 1%;">
-                                            <!-- </div> -->
+                                    <ul class='hardcover_front' style="left: -14%;top: -30%;width: 107%;height: 107%;">
+                                        <li style="width: 100%;height: 100%;">
+                                            <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="width: 140%;height: 140%;left: 1%;">
                                         </li>
-                                        <li style="    width: 115%;
-                                        height: 130%;"></li>
+                                        <li style="width: 115%;height: 130%;"></li>
                                     </ul>
 
                                     <!-- Pages -->
@@ -167,26 +163,17 @@
                                         <li></li>
                                     </ul>
                                     <ul class='book_spine'>
-                                        <li style="    height: 0px;
-                                        width: 257px;"></li>
+                                        <li style="height: 0px;width: 257px;"></li>
                                         <li></li>
                                     </ul>
                                     <figcaption>
-                                        <h1 style="    width: 500px;
-                                        position: fixed;
-                                        top: -40%;">{{ $post->work_title }}</h1>
-                                        <span style="    color: #ea4c4c;
-                                        margin-bottom: 5%;
-                                        position: fixed;
-                                        top: -20%;
-                                        width: 350px;
-                                        left: 130%;">By @foreach ($user_lists as $user)
+                                        <h1 style="width: 500px;position: fixed;top: -40%;">{{ $post->work_title }}</h1>
+                                        <span style="color: #ea4c4c;margin-bottom: 5%;position: fixed;top: -20%;width: 350px;left: 130%;">By @foreach ($user_lists as $user)
                                             @if($post->num == $user->num)
                                             {{ $user->nickname }}
                                             @endif
                                             @endforeach</span>
-                                        <p style="    width: 330px;
-                                        padding-top: 20%;">カテゴリー : @foreach ($tagCount as $ta)
+                                        <p style="width: 330px;padding-top: 20%;">カテゴリー : @foreach ($tagCount as $ta)
                                             @if($post->num == $ta->num)
                                             {{ $ta->tag }}
                                             @endif
@@ -251,133 +238,19 @@
                         </div>
                     </div>
                 </li>
-
-                {{-- <li>
-                    <figure class='book'>
-                        <a href="{{url('editor/main/chapter')}}/{{$post['num']}}">
-                <!-- Front -->
-
-                <ul class='hardcover_front'>
-                    <li>
-                        <div class="coverDesign yellow">
-                            <img src="{{$post['bookcover_of_work']}}" alt="표지1" style="width:160px; height:auto;">
-                        </div>
-                    </li>
-                    <li></li>
-                </ul>
-
-                <!-- Pages -->
-
-                <ul class='page'>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-
-                <!-- Back -->
-
-                <ul class='hardcover_back'>
-                    <li></li>
-                    <li></li>
-                </ul>
-                <ul class='book_spine'>
-                    <li></li>
-                    <li></li>
-                </ul>
-                <figcaption>
-                    <h2 style="width:500px;">{{ $post->work_title }}</h2>
-                    <span style="color:#ea4c4c;">By @foreach ($user_lists as $user)
-                        @if($post->num == $user->num)
-                        {{ $user->nickname }}
-                        @endif
-                        @endforeach</span>
-                    <p>카테고리 : @foreach ($tagCount as $ta)
-                        @if($post->num == $ta->num)
-                        {{ $ta->tag }}
-                        @endif
-                        @endforeach <br>
-                        연재 종류 : @switch( $post->type_of_work )
-                        @case(1)
-                        단편
-                        @break
-                        @case(2)
-                        단행본
-                        @break
-                        @case(3)
-                        회차
-                        @endswitch
-                        <br>
-                        연재 주기 :
-                        @foreach ($periodCount as $pe)
-                        @if($post->num == $pe->num)
-                        @switch( $pe->cycle_of_publish )
-                        @case('mon')
-                        월요일
-                        @break
-                        @case('tue')
-                        화요일
-                        @break
-                        @case('wed')
-                        수요일
-                        @break
-                        @case('thr')
-                        목요일
-                        @break
-                        @case('fri')
-                        금요일
-                        @break
-                        @case('sat')
-                        토요일
-                        @break
-                        @case('sun')
-                        일요일
-                        @break
-                        @default
-                        매달 {{ $pe->cycle_of_publish }}일
-                        @break
-                        @endswitch
-                        @endif
-                        @endforeach<br>
-                        구매 : {{ $post->buy_price }}원<br>
-                        대여 : {{ $post->rental_price }}원
-                        @if($post->rental_price == null)
-                        없음
-                        @endif
-                        <br>
-                        최근 수정 시간 : @foreach ($modify_time as $time)
-                        @if($post->num == $time->num_of_work)
-                        {{ $time->updated_at->diffForHumans() }}
-                        @endif
-                        @endforeach
-                    </p>
-                </figcaption>
-                </a>
-                </figure>
-                </li> --}}
-
-
                 @endforeach
-
             </ul>
         </div>
-    </div> <!-- container -->
+    </div>
 
     </div>
+    <a href="{{url('/store')}}"><img class="illustore" src="/image/illust_btn_sm.png"></a>
     @else
     <script type="text/javascript">
         alert('おい、その前は作．家．の．縄．張．り．だ');
         // window.history.back();
         window.location = "{{ url('/store') }}";
-
     </script>
     @endif
 </body>
-
-
-@endsection
-
-@section('footer')
-@include('layouts.footer')
 @endsection

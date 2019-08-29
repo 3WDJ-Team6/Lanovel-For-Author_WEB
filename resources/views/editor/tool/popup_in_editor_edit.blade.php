@@ -64,7 +64,7 @@
                     <h3 class='list_title'>
                         <img src='../../../image/logo_book.png' class='logo'>
                         <b style='position:absolute;'>&nbsp;List</b>
-                        <img src='../image/close.png' class="closed">
+                        <img src='../svg/closed_icon.svg' class="closed">
                     </h3>
                     <hr class="holine">
                     <input type="text" class="form-control" value="{{$content_data['subsubtitle']}}"

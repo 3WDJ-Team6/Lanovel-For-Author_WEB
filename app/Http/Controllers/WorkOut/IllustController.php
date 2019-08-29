@@ -189,6 +189,7 @@ class IllustController extends Controller
             'illustration_lists.*',
             'illust_files.*',
             'users.nickname',
+            DB::raw("DATE_FORMAT(illustration_lists.created_at, '%y-%m-%d') as created_ata"),
             DB::raw('(select count(illust_files.id) from illust_files where illust_files.num_of_illust = illustration_lists.num) count')
         )->join('illust_files', 'illust_files.num_of_illust', 'illustration_lists.num')
             ->join('users', 'illustration_lists.user_id', 'users.id')
