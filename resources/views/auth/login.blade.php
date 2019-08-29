@@ -34,36 +34,36 @@
 
             <input placeholder=" password" id="password" type="password" class="login{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 
-            @if ($errors->has('password'))
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $errors->first('password') }}</strong>
-            </span>
-            @endif
-        </div>
-        <div class="header-button animate-pop-in">
-            <a class="invis-btn" style="margin-left:20px" href=""><b>{{ __('新規登録') }}</b></a>
-            <b class="invis-btn">/</b>
-            @if (Route::has('password.request'))
-            <a class="invis-btn" href="{{ route('password.request') }}">
-                <b>{{ __('ログインできない場合') }}</b>
-            </a>
-            @endif
-        </div>
-        <div class="header-subtitle animate-pop-in">
-            <ul style="margin-left:25%;">
-                <li><a id="kakao-login-btn"></a></li>
-                <li><button type="submit" class="login-btn">{{ __('ログイン') }}</button></li>
-            </ul>
-        </div>
-    </form>
-    <hr class="holine">
-    <a href="{{url('/store')}}"><img class="illustore animate-pop-in" src="/image/illustore_btn.png"></a>
+                @if ($errors->has('password'))
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->first('password') }}</strong>
+                </span>
+                @endif
+            </div>
+            <div class="header-button animate-pop-in">
+                <a class="invis-btn" style="margin-left:20px" href=""><b>{{ __('新規登録') }}</b></a>
+                <b class="invis-btn">/</b>
+                @if (Route::has('password.request'))
+                <a class="invis-btn" href="{{ route('password.request') }}">
+                    <b>{{ __('ログインできない場合') }}</b>
+                </a>
+                @endif
+            </div>
+            <div class="header-subtitle animate-pop-in">
+                <ul style="margin-left:25%;">
+                    <li><button type="submit" class="line"><img class="line_logo" src="/image/line_logo.png" alt="">&nbsp;{{ __('LINEでログイン') }}</button></li>
+                    <li><button type="submit" class="login-btn">{{ __('ログイン') }}</button></li>
+                </ul>
+            </div>
+        </form>
+        <hr class="holine">
+        <a href="{{url('/store')}}"><img class="illustore animate-pop-in" src="/image/illustore_btn.png"></a>
 
     <!-- </div> -->
 
 </div>
 
-<script>
+{{-- <script>
     Kakao.init('2c95436371fe2b214c00944d71b32514');
     // 카카오 로그인 버튼을 생성합니다.
     Kakao.Auth.createLoginButton({
@@ -76,5 +76,5 @@
             alert(JSON.stringify(err));
         }
     });
-</script>
+</script> --}}
 @endsection

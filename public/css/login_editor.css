@@ -71,6 +71,27 @@ body {
     font-size: 30px;
 }
 
+.line_logo {
+    width: 44px;
+    margin-left: -30%;
+    margin-top: -1%;
+}
+
+.line {
+    padding-left: 20%;
+    color: white;
+    font-size: 20px;
+    font-weight: 800;
+    width: 222px;
+    height: 49px;
+    background-color: #3ace01;
+    border-radius: 5px;
+    border: 0;
+    margin-bottom: 20px;
+    padding-top: 2%;
+}
+
+
 .login-btn {
     font-size: 20px;
     font-weight: 800;
