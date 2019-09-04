@@ -40,11 +40,11 @@ class cartComposer
                 'messages.message_title',
                 'messages.message_content',
                 'u2.nickname as from_id',
+                'messages.num_of_work',
                 DB::raw("DATE_FORMAT(messages.created_at, '%y-%m-%d %h:%i') as created_ata"),
                 DB::raw("(SELECT COUNT(*) FROM messages WHERE condition_message = 0) count")
             )->leftjoin('users as u1', 'u1.id', 'messages.to_id')
             ->leftjoin('users as u2', 'u2.id', 'messages.from_id')
-            ->where('message_title', 'like', '%作品に招待しました。')
             ->where('to_id', '=', Auth::user()['id'])
             ->get();
 

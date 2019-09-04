@@ -307,8 +307,8 @@
                                 <span class="message_box_li" style="width:100px;">{{$invite->from_id}}</span>
                                 <span class="message_box_li"
                                     style="width:430px;text-align:center;margin-left:1%;margin-right:4%;"><a
-                                        id="viewMessage" class="{{$invite->message_num}}"
-                                        href="{{url("/viewMessage/$invite->num")}}">{{$invite->message_title}}</a></span>
+                                        id="viewMessage" class="{{$invite->num}}"
+                                        href="{{url('/editor/245')}}">{{$invite->message_title}}</a></span>
                                 <span class="message_box_li">{{$invite->created_ata}}</span>
                                 <span class="message_box_li_delete"><img src="/image/tool_icon/edit_delete.png"
                                         alt=""></span>

@@ -789,7 +789,7 @@ class PublicationController extends Controller
         header("Content-Length: $filesize");
 
         return back()->withSuccess($work_title . 'の ' . $chapter_title . ' が成功的に発行されました。');
-        
+
         ob_clean();             # 출력 버퍼의 내용을 삭제 (ob_end_clean은 파괴)
         flush();                # 시스템 출력 버퍼를 비움
         readfile($filepath);    # file을 출력하는 php 함수
