@@ -38,11 +38,7 @@
             {{-- 타이틀과 목차 --}}
         <div class="title-bar">
             @foreach ($titles as $title)
-            @if(Auth::user()['roles'] == 2)
             <a href="{{url('editor/main/chapter')}}/{{$title['num']}}" id="title"><span id="work" style="font-size:2.2em;color:white;font-weight:800;margin-left:5%;">{{$title['work_title']}}</span></a>
-            @else
-            <button style="display:inline-block; font-size:25px; color:white; border:0; font-weight:800; background:transparent;">{{$title['work_title']}}</button>
-            @endif
 
             @endforeach
             <form style="display: inline;margin-left:5%;" action="{{url('editor/main/list')}}/{{$content_of_works['num_of_chapter']}}">
