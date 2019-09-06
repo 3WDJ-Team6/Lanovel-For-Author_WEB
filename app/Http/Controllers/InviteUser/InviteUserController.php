@@ -200,7 +200,7 @@ class InviteUserController extends Controller
             $message = new Message();
             $message->from_id = Auth::user()['id'];
             $message->to_id = $user_id;
-            $message->message_title = Auth::user()['nickname']."様が $work_title 作品に招待しました。";
+            $message->message_title ="一緒に本を作りましょう";
             $message->message_content = $invite_message;
             $message->num_of_work = $work_num;
             $message->save();
