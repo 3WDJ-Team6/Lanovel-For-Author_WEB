@@ -814,7 +814,7 @@ pre {
 }
 
 #resource-feild {
-    height: 72%;
+    height: 70%;
     overflow-y: scroll;
 }
 
@@ -884,6 +884,8 @@ span.obj_name {
     margin-left: 30%;
     margin-bottom: 10px;
     user-select: none;
+    font-weight: bold;
+    font-size: 1.1rem;
 }
 
 .obj_file>.obj_name {

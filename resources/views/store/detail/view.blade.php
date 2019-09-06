@@ -255,11 +255,9 @@
                             <div class="bo">このイラストを<b>購入</b>しますか？</div>
                             <div class="btn_list">
                                 <button type="button" class="btnSubmit" data-dismiss="modal">キャンセル</button>
-                                <button type="button" class="btnSubmit"
-                                    　onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'">購入</button>
+                                <button type="button" class="btnSubmit"　onclick="location.href='{{url('/buyIllust')}}/{{$product->num}}'">購入</button>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -354,7 +354,7 @@ function getResource() {
                     case "PUBLIC":
                         folder_name_ko = folder_name.replace(
                             "PUBLIC",
-                            "公共"
+                            "共有"
                         );
                         break;
                     case "PRIVATE":
@@ -403,7 +403,7 @@ function getFolders() {
                         folder_name_ko = "個人";
                         break;
                     case "public":
-                        folder_name_ko = "公共";
+                        folder_name_ko = "共有";
                         break;
                     default:
                         break;
@@ -811,7 +811,7 @@ $(document).on("contextmenu", ".obj_file", function () {
         $("div.custom-menu").remove();
     }
     $("div.custom-menu").remove();
-    $("<div id='file-delete' class='custom-menu'>삭제</div>")
+    $("<div id='file-delete' class='custom-menu'>削除</div>")
         .appendTo(".resource-area")
         .css({
             top: event.pageY + "px",
@@ -1126,7 +1126,7 @@ $(document).ready(function () {
             $("div.custom-menu").remove();
         }
         $("div.custom-menu").remove();
-        $("<div id='file-delete' class='custom-menu'>삭제</div>")
+        $("<div id='file-delete' class='custom-menu'>削除</div>")
             .appendTo(".area")
             .css({
                 top: event.pageY + "px",
