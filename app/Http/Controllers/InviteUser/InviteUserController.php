@@ -207,11 +207,12 @@ class InviteUserController extends Controller
         }
     }
 
-    public function viewMessage(Request $request)
+    public function viewMessage($num)
     {
-        $messageNum = $request->num;
+        $messageNum = $num;
         $inviteRoomNum = Message::select('num_of_work')->where('num', $messageNum)->get()[0]->num_of_work;
-
+        // $inviteRoomNum = $num_of_work;
+        // $messageNum=$num_of_work;
         $inviteEditor = ContentOfWork::select('num')
         ->where('num_of_work',$inviteRoomNum)
         ->orderBy('created_at','asc')->limit(1)->get()[0]->num;
@@ -234,11 +235,13 @@ class InviteUserController extends Controller
         // return $invite_message;
         foreach ($invite_message as $i => $im) {
             $text = "
-            <div>送ったID : " . $im['from_id'] . "</div>
-            <div>時間 : " . $im['created_at'] . "</div>
-            <div>メッセージのタイトル :  " . $im['message_title'] . "</div>
-            <div>" . $im['message_content'] . "</div>
-            <div> <a href='/acceptInvite/" . $messageNum . '/' . $inviteEditor . "'>Writing Roomに移動</a></div>
+            <div class='w3-modal-content w3-card-4'>
+                <div>送ったID : " . $im['from_id'] . "</div>
+                <div>時間 : " . $im['created_at'] . "</div>
+                <div>メッセージのタイトル :  " . $im['message_title'] . "</div>
+                <div>" . $im['message_content'] . "</div>
+                <div><a href='/acceptInvite/" . $messageNum . '/' . $inviteEditor . "'>Writing Roomに移動</a></div>
+            </div>
             ";
         }
         return $text;

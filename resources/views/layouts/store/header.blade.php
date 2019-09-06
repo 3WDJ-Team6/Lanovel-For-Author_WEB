@@ -305,8 +305,10 @@
                             <div class="message_box_ul">
                                 <div style="font-size:20px"><b>-</b></div>
                                 <span class="message_box_li" style="width:100px;">{{$invite->from_id}}</span>
+                                <!-- num으로 받던걸 message_num으로 받음, 245 고친부분. --># 
                                 <span class="message_box_li" style="width:430px;text-align:center;margin-left:1%;margin-right:4%;">
                                     <a id="viewMessage" class="{{$invite->message_num}}" href="{{url("/viewMessage/$invite->num")}}">{{$invite->message_title}}</a></span>
+
                                 <span class="message_box_li">{{$invite->created_ata}}</span>
                                 <span class="message_box_li_delete"><img src="/image/tool_icon/edit_delete.png" alt=""></span>
                             </div>

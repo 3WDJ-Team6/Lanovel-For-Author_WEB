@@ -60,20 +60,4 @@ $(document).ready(function () {
             }
         })
     });
-    $(document).on('click', '#viewMessage', function () {
-        num = document.getElementById('viewMessage').className;
-        $.ajax({
-            url: '/viewMessage/' + num,
-            method: "post",
-            data: {
-                num: num
-            },
-            success: function (result) {
-                jQuery("#w3-modal-content").html(result);
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        })
-    });
 });
