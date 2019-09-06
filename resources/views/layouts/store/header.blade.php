@@ -305,13 +305,10 @@
                             <div class="message_box_ul">
                                 <div style="font-size:20px"><b>-</b></div>
                                 <span class="message_box_li" style="width:100px;">{{$invite->from_id}}</span>
-                                <span class="message_box_li"
-                                    style="width:430px;text-align:center;margin-left:1%;margin-right:4%;"><a
-                                        id="viewMessage" class="{{$invite->message_num}}"
-                                        href="{{url("/viewMessage/$invite->num")}}">{{$invite->message_title}}</a></span>
+                                <span class="message_box_li" style="width:430px;text-align:center;margin-left:1%;margin-right:4%;">
+                                    <a id="viewMessage" class="{{$invite->message_num}}" href="{{url("/viewMessage/$invite->num")}}">{{$invite->message_title}}</a></span>
                                 <span class="message_box_li">{{$invite->created_ata}}</span>
-                                <span class="message_box_li_delete"><img src="/image/tool_icon/edit_delete.png"
-                                        alt=""></span>
+                                <span class="message_box_li_delete"><img src="/image/tool_icon/edit_delete.png" alt=""></span>
                             </div>
                             @endforeach
                         </div>
@@ -320,7 +317,6 @@
                 </div>
                 @endif
                 @endif
-
                 <div class="user-login-info">
                     <a href="{{ url('/myPage') }}"><img src="{{ asset('image/store/user.svg') }}" alt="" />
                     </a>
@@ -328,8 +324,7 @@
                 <div class="user-login-info">
                     <form method="post" action="{{ route('logout') }}" id="frm">
                         @csrf
-                        <a href="#" onclick="document.getElementById('frm').submit();"><img
-                                src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
+                        <a href="#" onclick="document.getElementById('frm').submit();"><img src="{{ asset('image/store/logout.png') }}" style="width:80px;" /></a>
                     </form>
                 </div>
             </div>

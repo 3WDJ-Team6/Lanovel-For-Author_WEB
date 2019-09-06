@@ -133,17 +133,17 @@
                         <div class="button" style="margin-left:-6%">
                             <button type="button"
                                 style="cursor: pointer;border: none; background-color:transparent; height:25px; ">
-                                <img src="{{asset('image/chapter_edit.png')}}" title="수정"
+                                <img src="{{asset('image/chapter_edit.png')}}" title="修正"
                                     style="text-align:center; height:100%; font-size:15px; background-color:transparent; color:#6c757d;"></button>
                             <button type="button"
                                 style="cursor: pointer;border: none; background-color:transparent; height:25px;">
-                                <img src="{{asset('image/chapter_delete.png')}}" title="삭제"
+                                <img src="{{asset('image/chapter_delete.png')}}" title="削除"
                                     style="text-align:center; height:100%; font-size:15px; background-color:transparent; color:#6c757d;"></button>
                             @if($cn->subsubtitle)
                             <button type="button" style="border: none; background-color:transparent;  height:25px;"
                                 id="push_alarm">
                                 <a href="{{url('publication')}}/{{$row['num_of_work']}}/{{$row['num']}}">
-                                    <img src="{{asset('image/archive.png')}}" title="발행"
+                                    <img src="{{asset('image/archive.png')}}" title="発行"
                                         style="text-align:center;width:30px; height:100%; font-size:15px; background-color:transparent; color:#6c757d;">
                                 </a>
                             </button>
